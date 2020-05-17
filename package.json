@@ -1,0 +1,50 @@
+{
+  "name": "daily-targum-website",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/daily-targum/daily-targum-website",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "postinstall": "yarn --cwd src/shared/ install --pure-lockfile --ignore-scripts",
+    "start": "next",
+    "test": "jest --watchAll=true",
+    "typescript": "tsc --noEmit",
+    "lint": "yarn eslint src/**/*.{ts,tsx}",
+    "coverage": "jest --watchAll=false --coverage"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/enzyme": "^3.10.5",
+    "@types/jest": "^25.2.2",
+    "@types/next": "^9.0.0",
+    "@types/node": "^14.0.1",
+    "@types/react": "^16.9.35",
+    "@types/sanitize-html": "^1.23.0",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "babel-jest": "^26.0.1",
+    "commitlint": "^8.3.5",
+    "dotenv": "^8.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "eslint": "^7.0.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.2",
+    "jest": "^26.0.1",
+    "typescript": "^3.9.2"
+  },
+  "dependencies": {
+    "husky": "^4.2.5",
+    "next": "^9.4.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "sanitize-html": "^1.23.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "yarn lint && yarn typescript && yarn coverage"
+    }
+  }
+}
