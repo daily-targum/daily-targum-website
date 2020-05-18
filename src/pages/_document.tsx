@@ -17,18 +17,14 @@ export default class MyDocument extends Document {
   // }
   
   render() {
-    let seo;
-    try {
-      seo = this.props.__NEXT_DATA__.props.pageProps.seo;
-    } catch(e) {}
-
+    const seo = this.props.__NEXT_DATA__.props?.pageProps?.seo || {};
     return (
       <html>
         <Head>
           {/* {this.props.styleTags} */}
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
           <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
-          <meta name="apple-itunes-app" content="app-id=486306039"></meta>
+          {/* <meta name="apple-itunes-app" content=""></meta> */}
           <SEO {...seo} />
         </Head>
         <body>
