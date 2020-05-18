@@ -39,7 +39,7 @@ function Home({
       <React.Fragment key={category.id}>
         <h1>{category.title}</h1>
         {category.items.map(item => (
-          <Link key={item.id} href={`/article/${item.id}`}>
+          <Link key={item.id} href={`/${item.slug}`}>
             <p>{item.title}</p>
           </Link>
         ))}

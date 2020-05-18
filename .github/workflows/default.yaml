@@ -99,7 +99,4 @@ jobs:
           AWS_APPSYNC_URL: ${{ secrets.AWS_APPSYNC_URL }}
           AWS_APPSYNC_REGION: ${{ secrets.AWS_APPSYNC_REGION }}
           AWS_APPSYNC_API_KEY: ${{ secrets.AWS_APPSYNC_API_KEY }}
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: codecov/codecov-action@v1

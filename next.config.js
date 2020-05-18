@@ -1,16 +1,16 @@
 module.exports = {
   env: {
-    SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
-    SENTRY_DSN: process.env.SENTRY_DSN,
-
-    AMPLITUDE_KEY: process.env.AMPLITUDE_KEY,
-
     AWS_APPSYNC_URL: process.env.AWS_APPSYNC_URL,
     AWS_APPSYNC_REGION: process.env.AWS_APPSYNC_REGION,
     AWS_APPSYNC_API_KEY: process.env.AWS_APPSYNC_API_KEY,
 
-    CONTENTFUL_SPACE: process.env.CONTENTFUL_SPACE,
-    CONTENTFUL_ACCESS_TOKEN: process.env.CONTENTFUL_ACCESS_TOKEN,
-    CONTENTFUL_ACCESS_TOKEN_DRAFTS: process.env.CONTENTFUL_ACCESS_TOKEN_DRAFTS,
-  }
+    GOOGLE_ANALYTICS_TRACKING_CODE: process.env.GOOGLE_ANALYTICS_TRACKING_CODE
+  },
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // Note: we provide webpack above so you should not `require` it
+    // Perform customizations to webpack config
+    // Important: return the modified config
+    config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//))
+    return config
+  },
 }

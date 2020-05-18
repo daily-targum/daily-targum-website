@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "scope": "dailytargum",
+  "scope": "daily-targum",
   "public": false,
   "github": {
     "enabled": false
