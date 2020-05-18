@@ -10,15 +10,16 @@ function Article({
 }: {
   article: GetArticle
 }) {
+  const wasUpdated = article.updatedAt > article.publishDate;
   return (
     <>
       <h1>{article.title}</h1>
-      <p>By {article.author}</p>
-      <p>{formatDate(article.date)}</p>
+      <p>By {article.authors.join(', ')}</p>
+      <p>{wasUpdated ? ('Updated '+formatDate(article.updatedAt)) : formatDate(article.publishDate)}</p>
       <hr/>
       <div 
         dangerouslySetInnerHTML={{
-          __html: sanitizeHtml(article.content)
+          __html: sanitizeHtml(article.body)
         }}
       />
     </>
@@ -33,6 +34,7 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
     pathname: `/article/${ctx.query.id}`,
     title: article.title,
     type: 'article',
+    description: article.abstract ? article.abstract : undefined
   };
   return { 
     article,

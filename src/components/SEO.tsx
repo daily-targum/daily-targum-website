@@ -37,7 +37,7 @@ export function SEO({
       <meta name="twitter:creator" content={twitterHandle} />
       <meta name="twitter:image" content={imageSrc} />
 
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={title || siteName} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={host+pathname} />
       <meta property="og:image" content={imageSrc} />
