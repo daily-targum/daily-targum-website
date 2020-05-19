@@ -1,9 +1,9 @@
 import React from 'react';
 import { NextPageContext } from 'next';
-import { actions, GetArticle } from '../../shared/src/client';
-import { formatDate } from '../../shared/src/utils';
+import { actions, GetArticle } from '../../../../shared/src/client';
+import { formatDate } from '../../../../shared/src/utils';
 import sanitizeHtml from 'sanitize-html';
-import { SEOProps } from '../../components';
+import { SEOProps } from '../../../../components';
 
 function Article({
   article 
@@ -14,6 +14,7 @@ function Article({
   return (
     <>
       <h1>{article.title}</h1>
+      <img src={article.media[0]}/>
       <p>By {article.authors.join(', ')}</p>
       <p>{wasUpdated ? ('Updated '+formatDate(article.updatedAt)) : formatDate(article.publishDate)}</p>
       <hr/>
@@ -28,10 +29,10 @@ function Article({
 
 Article.getInitialProps = async (ctx: NextPageContext) => {
   const article = await actions.getArticle({
-    id: ctx.query.id as string
+    slug: ctx.asPath?.replace(/(^\/|\/$)/g, '') as string
   });
   const seo: SEOProps = {
-    pathname: `/article/${ctx.query.id}`,
+    pathname: `/${ctx.query.slug}`,
     title: article.title,
     type: 'article',
     description: article.abstract ? article.abstract : undefined
