@@ -5,10 +5,9 @@
     <img src='https://github.com/daily-targum/daily-targum-website/workflows/Deploy/badge.svg'>
   </a>
 
-  <a href='https://coveralls.io/github/daily-targum/daily-targum-website?branch=master'>
-    <img src='https://coveralls.io/repos/github/daily-targum/daily-targum-website/badge.svg?branch=master&amp;t=diavNw' alt='Coverage Status' />
+  <a href="https://codecov.io/gh/daily-targum/daily-targum-website">
+    <img src="https://codecov.io/gh/daily-targum/daily-targum-website/branch/master/graph/badge.svg" />
   </a>
-
 
   <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/daily-targum/daily-targum-website">
 
