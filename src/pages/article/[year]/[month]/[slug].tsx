@@ -4,12 +4,14 @@ import { actions, GetArticle } from '../../../../shared/src/client';
 import { formatDate } from '../../../../shared/src/utils';
 import sanitizeHtml from 'sanitize-html';
 import { SEOProps } from '../../../../components';
+import NotFound from '../../../404';
 
 function Article({
   article 
 }: {
   article: GetArticle
 }) {
+  if(!article) return <NotFound/>;
   const wasUpdated = article.updatedAt > article.publishDate;
   return (
     <>
@@ -33,9 +35,9 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
   });
   const seo: SEOProps = {
     pathname: `/${ctx.query.slug}`,
-    title: article.title,
+    title: article?.title,
     type: 'article',
-    description: article.abstract ? article.abstract : undefined
+    description: article?.abstract ? article?.abstract : undefined
   };
   return { 
     article,
