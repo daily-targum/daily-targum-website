@@ -40,7 +40,9 @@ function Home({
         <h1>{category.title}</h1>
         {category.items.map(item => (
           <Link key={item.id} href={`/${item.slug}`}>
-            <p>{item.title}</p>
+            <a>
+              <p>{item.title}</p>
+            </a>
           </Link>
         ))}
       </React.Fragment>
