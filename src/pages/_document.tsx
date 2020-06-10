@@ -1,30 +1,51 @@
 import React from 'react';
+import { ServerStyleSheet } from 'styled-components';
 import Document, { Head, Main, NextScript } from 'next/document';
-// import { ServerStyleSheet } from 'styled-components';
 import { SEO } from '../components';
+import { ReactChildren } from '../types';
+import { StyleSheet } from 'react-context-theming/lib/web';
+import { dom } from "@fortawesome/fontawesome-svg-core";
 
-export default class MyDocument extends Document {
-  // static async getInitialProps(ctx) {
-  //   const sheet = new ServerStyleSheet();
-  //   const page = ctx.renderPage(App => props => sheet.collectStyles(<App {...props} />));
-  //   const styleTags = sheet.getStyleElement();
-  //   const initialProps = await Document.getInitialProps(ctx);
-  //   return { 
-  //     ...initialProps, 
-  //     ...page, 
-  //     styleTags 
-  //   };
-  // }
-  
+export default class MyDocument extends Document<{
+  styleTags: ReactChildren
+}> {
+  static async getInitialProps(ctx: any) {
+    const sheet = new ServerStyleSheet()
+    const originalRenderPage = ctx.renderPage
+
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App: any) => (props: any) =>
+            sheet.collectStyles(<App {...props} />),
+        })
+
+      const initialProps = await Document.getInitialProps(ctx)
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      }
+    } finally {
+      sheet.seal()
+    }
+  }
+
   render() {
     const seo = this.props.__NEXT_DATA__.props?.pageProps?.seo || {};
     return (
       <html>
         <Head>
-          {/* {this.props.styleTags} */}
+          <StyleSheet/>
+          {this.props.styleTags}
+          <style type="text/css">{dom.css()}</style>
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
           <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
-          {/* <meta name="apple-itunes-app" content=""></meta> */}
+          <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"></link>
           <SEO {...seo} />
         </Head>
         <body>

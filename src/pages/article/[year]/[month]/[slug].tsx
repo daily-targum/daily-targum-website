@@ -3,7 +3,7 @@ import { NextPageContext } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { formatDate } from '../../../../shared/src/utils';
 import sanitizeHtml from 'sanitize-html';
-import { SEOProps } from '../../../../components';
+import { SEOProps, Section, Theme } from '../../../../components';
 import NotFound from '../../../404';
 
 function Article({
@@ -11,12 +11,17 @@ function Article({
 }: {
   article: GetArticle
 }) {
+  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+
   if(!article) return <NotFound/>;
   const wasUpdated = article.updatedAt > article.publishDate;
   return (
-    <>
+    <Section>
       <h1>{article.title}</h1>
-      <img src={article.media[0]}/>
+      <img 
+        src={article.media[0]}
+        className={classes.image}
+      />
       <p>By {article.authors.join(', ')}</p>
       <p>{wasUpdated ? ('Updated '+formatDate(article.updatedAt)) : formatDate(article.publishDate)}</p>
       <hr/>
@@ -25,7 +30,7 @@ function Article({
           __html: sanitizeHtml(article.body)
         }}
       />
-    </>
+    </Section>
   );
 }
 
@@ -44,5 +49,12 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
     seo
   };
 };
+
+const styleCreator = Theme.makeStyleCreator(() => ({
+  image: {
+    width: '100%',
+    height: 'auto'
+  }
+}));
 
 export default Article;

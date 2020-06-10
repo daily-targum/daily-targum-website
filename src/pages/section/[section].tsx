@@ -3,6 +3,7 @@ import { NextPageContext } from 'next';
 import Link from 'next/link';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
+import { Section } from '../../components';
 
 interface Section {
   id: string;
@@ -37,16 +38,18 @@ function Category({
 }) {
   if(!section) return <NotFound/>;
   return (
-    <>
-      <h1>{section.title}</h1>
-      {section.items.map(item => (
-        <Link key={item.id} href={`/${item.slug}`}>
-          <a>
-            <p>{item.title}</p>
-          </a>
-        </Link>
-      ))}
-    </>
+    <Section>
+      <>
+        <h1>{section.title}</h1>
+        {section.items.map(item => (
+          <Link key={item.id} href={`/${item.slug}`}>
+            <a>
+              <p>{item.title}</p>
+            </a>
+          </Link>
+        ))}
+      </>
+    </Section>
   );
 }
 

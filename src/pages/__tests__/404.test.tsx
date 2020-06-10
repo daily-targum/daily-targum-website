@@ -1,7 +1,8 @@
+jest.mock('../../components/Theme');
+
 import React from 'react';
 import renderer from 'react-test-renderer';
 import NotFound from '../404';
-
 
 describe("<404 />", () => {
 
