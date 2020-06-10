@@ -40,17 +40,19 @@ export function Text({
 
 const styleCreator = Theme.makeStyleCreator(() => ({
   h1: {
-    fontWeight: '700' as any
+    fontWeight: 700,
+    fontSize: '3rem'
   },
   h2: {
-    fontWeight: '700' as any
+    fontWeight: 700,
+    fontSize: '2rem'
   },
   h3: {
-    fontWeight: '700' as any,
+    fontWeight: 700,
     fontSize: '1.2rem'
   },
   h4: {
-    fontWeight: '700' as any,
+    fontWeight: 700,
     fontSize: '1rem'
   },
   h5: {

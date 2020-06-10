@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetArticles } from '../shared/src/client';
-import { Section, NewsCard, Grid, Theme, Divider, Text } from '../components';
+import { Section, NewsCard, Grid, Theme, Divider, Text, NewsSlider, Newsletter } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -43,7 +43,10 @@ function NewsRow({
     <div className={classes.section}>
       <div className={classes.sectionHeader}>
         <Text variant='h3'>News</Text>
-        <Link href='/'>
+        <Link 
+          href='/section/[section]'
+          as={`/section/${category.id}`}
+        >
           <a className={classes.moreInLink}>
             <Text variant='h4' className={classes.moreInLinkText}>
               More in {category.title}
@@ -98,23 +101,23 @@ function Home({
 }) {
   return (
     <>
-      <Section style={{backgroundColor: '#000'}}>
-        <div style={{backgroundColor: '#000', height: 400, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{color: '#fff'}}>Slider</Text>
-        </div>
-      </Section>
+      <NewsSlider
+        articles={feed.map(f => f.items[0]) as any[]}
+      />
       <Section>
-        {feed.map(category => (
+        {feed.map((category, i) => (
           <React.Fragment
             key={category.id}
           >
+            {i > 0 ? <Divider/> : null}
             <NewsRow
               category={category}
             />
-            <Divider/>
           </React.Fragment>
         ))}
       </Section>
+      <Divider/>
+      <Newsletter.Section/>
     </>
   );
 }
@@ -163,6 +166,18 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   aspectRadio: {
     paddingTop: '56.25%'
+  },
+  slider: {
+    height: 400,
+    position: 'relative'
+  },
+  slide: {
+    height: 400,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
   }
 }));
 

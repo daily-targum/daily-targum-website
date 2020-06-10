@@ -2,9 +2,50 @@ import React, { CSSProperties } from 'react';
 import Theme from './Theme';
 import Grid from './Grid';
 import Text from './Text';
+import Section from './Section';
 import { GetArticle } from '../shared/src/client';
 import { formatDateAbriviated } from '../shared/src/utils';
 import Link from 'next/link';
+
+function Slide({
+  article,
+  className,
+  style
+}: {
+  article: GetArticle,
+  className?: string,
+  style?: CSSProperties
+}) {
+  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  return (
+    <Link
+      href='/article/[year]/[month]/[slug]'
+      as={article.slug}
+    >
+      <a
+        className={[className, classes.link, classes.image, classes.largeCardImage].join(' ')}
+        style={{
+          ...style,
+          backgroundImage: `url(${article.media[0]})`
+        }}
+      >
+        <div className={classes.slideCardImageOverlay}/>
+        <Grid.Row className={classes.row}>
+          <Grid.Col className={classes.sliderCardLeftGraident}/>
+          <Grid.Col xs={24} xl='1100px' xxl='1300px'>
+          </Grid.Col>
+          <Grid.Col className={classes.sliderCardRightGraident}/>
+        </Grid.Row>
+        <Section>
+          <div className={classes.slideCardTitleWrap}>
+            <Text variant='p' className={classes.largeCardSubtitle}>{formatDateAbriviated(article.publishDate)}</Text>
+            <Text variant='h2' numberOfLines={2} className={classes.largeCardTitle}>{article.title}</Text>
+          </div>
+        </Section>
+      </a>
+    </Link>
+  );
+}
 
 function Large({
   article,
@@ -71,7 +112,8 @@ function Medium({
           </Grid.Col>
           <Grid.Col xs={12}>
             <div className={classes.textWrap}>
-              <Text numberOfLines={3}>{article.title}</Text>
+              <Text variant='p' className={classes.mediumCardSubtitle}>{formatDateAbriviated(article.publishDate)}</Text>
+              <Text variant='h4' numberOfLines={3}>{article.title}</Text>
             </div>
           </Grid.Col>
         </Grid.Row>
@@ -81,6 +123,13 @@ function Medium({
 }
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
+  row: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  },
   link: {
     textDecoration: 'none',
     color: theme.colors.text
@@ -107,6 +156,11 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   smallCardImage: {
     paddingTop: '56.25%',
   },
+  // Medium
+  mediumCardSubtitle: {
+    color: theme.colors.textMuted,
+    marginBottom: theme.spacing(1)
+  },
   // Large,
   largeCardImage: {
     height: '100%',
@@ -126,6 +180,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   largeCardSubtitle: {
     color: 'rgba(255,255,255,0.7)',
+    marginBottom: theme.spacing(1)
   },
   largeCardTitleWrap: {
     position: 'absolute',
@@ -135,11 +190,37 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     borderLeftColor: theme.colors.accent,
     borderLeftWidth: 3,
     borderLeftStyle: 'solid'
+  },
+  // Slider
+  slideCardImageOverlay: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.9), transparent)'
+  },
+  slideCardTitleWrap: {
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    borderLeftColor: theme.colors.accent,
+    borderLeftWidth: 5,
+    borderLeftStyle: 'solid',
+    maxWidth: 800
+  },
+  sliderCardLeftGraident: {
+    background: 'linear-gradient(90deg, rgba(0, 0, 0, 0.8), transparent);'
+  },
+  sliderCardRightGraident: {
+    background: 'linear-gradient(270deg, rgba(0, 0, 0, 0.8), transparent);'
   }
 }));
 
 export const NewsCard = {
   Medium,
-  Large
+  Large,
+  Slide
 }
 export default NewsCard;

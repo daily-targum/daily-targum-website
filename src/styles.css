@@ -6,7 +6,8 @@ body {
 
 * {
   box-sizing: border-box;
-  font-family: 'Open Sans', sans-serif;
+  /* font-family: 'Open Sans', sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,4 +20,12 @@ h5,
 h6 { 
   padding: 0;
   margin: 0;
+}
+
+.animate-opacity {
+  transition: opacity 3s;
+}
+
+.animate-color {
+  transition: color 0.2s;
 }

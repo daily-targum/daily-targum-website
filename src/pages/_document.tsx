@@ -45,7 +45,8 @@ export default class MyDocument extends Document<{
           <style type="text/css">{dom.css()}</style>
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
           <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
-          <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"></link>
+          {/* <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"></link> */}
+          <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet"></link>
           <SEO {...seo} />
         </Head>
         <body>

@@ -6,13 +6,16 @@ import Logo from './Logo'
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+// @ts-ignore
+import NextNprogress from 'nextjs-progressbar';
+import { useRouter } from 'next/router';
 
 const navbarLinks = [
-  {
-    title: 'Home',
-    href: '/',
-    as: '/'
-  },
+  // {
+  //   title: 'Home',
+  //   href: '/',
+  //   as: '/'
+  // },
   {
     title: 'News',
     href: '/section/[section]',
@@ -52,39 +55,52 @@ const navbarLinks = [
 
 export function Navbar() {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
-
+  const {colors} = Theme.useTheme();
+  const router = useRouter();
   return (
-    <Section className={classes.navbar}>
-      <div className={classes.inner}>
-        <Link href='/'>
-          <a>
-            <Logo className={classes.logo} />
-          </a>
-        </Link>
-        <Grid.Row>
-          <Grid.Col xs={0} lg={24}>
-            <div className={classes.links}>
-              {navbarLinks.map(link => (
-                <Link 
-                  key={link.as}
-                  href={link.href} 
-                  as={link.as}
-                >
-                  <a className={classes.link}>
-                    {link.title}
-                  </a>
-                </Link>
-              ))}
-            </div>
-          </Grid.Col>
-          <Grid.Col lg={0}>
-            <div className={[classes.links, classes.menuIconWrap].join(' ')}>
-              <FontAwesomeIcon size='1x' icon={faBars}/>
-            </div>
-          </Grid.Col>
-        </Grid.Row>
-      </div>
-    </Section>
+    <>
+      <NextNprogress
+        color={colors.accent}
+        height="2"
+        options={{showSpinner: false}}
+      />
+      <Section className={classes.navbar}>
+        <div className={classes.inner}>
+          <Link href='/'>
+            <a>
+              <Logo className={classes.logo} />
+            </a>
+          </Link>
+          <Grid.Row>
+            <Grid.Col xs={0} lg={24}>
+              <div className={classes.links}>
+                {navbarLinks.map(link => (
+                  <Link 
+                    key={link.as}
+                    href={link.href} 
+                    as={link.as}
+                  >
+                    <a className={[
+                      classes['link:hover'],
+                      classes.link,
+                      'animate-color',
+                      (link.as === router.asPath) ? classes.linkActive : null,
+                    ].join(' ')}>
+                      {link.title}
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            </Grid.Col>
+            <Grid.Col lg={0}>
+              <div className={[classes.links, classes.menuIconWrap].join(' ')}>
+                <FontAwesomeIcon size='1x' icon={faBars}/>
+              </div>
+            </Grid.Col>
+          </Grid.Row>
+        </div>
+      </Section>
+    </>
   );
 }
 
@@ -97,8 +113,10 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     borderBottomColor: theme.colors.divider,
     borderBottomStyle: 'solid',
     backgroundColor: theme.colors.background,
-    // TODO: fix this
-    zIndex: '1000' as any
+    zIndex: 1000
+  },
+  navbarShadow: {
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
   },
   inner: {
     display: 'flex',
@@ -115,10 +133,16 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     height: 'auto',
     marginTop: 8
   },
+  'link:hover': {
+    color: theme.colors.accent
+  },
+  linkActive: {
+    color: theme.colors.accent
+  },
   link: {
     textDecoration: 'none',
     color: theme.colors.textMuted,
-    marginLeft: theme.spacing(3.5)
+    marginLeft: theme.spacing(4)
   },
   links: {
     display: 'flex',

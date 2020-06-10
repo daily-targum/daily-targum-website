@@ -6,4 +6,7 @@ export * from './Footer';
 export * from './NewsCard';
 export * from './Divider';
 export * from './Text';
+export * from './NewsSlider';
+export * from './Newsletter';
+export * from './Button';
 export { default as Grid } from './Grid';

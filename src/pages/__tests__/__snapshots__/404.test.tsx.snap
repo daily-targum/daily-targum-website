@@ -2,10 +2,10 @@
 
 exports[`<404 /> renders correctly 1`] = `
 <div
-  className=" fSOeLy"
+  className=" dAzuLR"
 >
   <div
-    className="gUhdNc"
+    className="fIMQtV"
     style={
       Object {
         "display": "flex",

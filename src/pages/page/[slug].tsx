@@ -1,20 +1,34 @@
-import React from 'react';
+// import React from 'react';
 import { NextPageContext } from 'next';
+// import { Section } from '../../components';
+import { getPage, GetPage } from '../../shared/src/client';
+// import sanitizeHtml from 'sanitize-html';
+// import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 
 function Page({
-  slug 
+  page 
 }: {
-  slug: string
+  page: GetPage
 }) {
-  return (
-    <h1>{slug}</h1>
-  );
+  console.log(page);
+  return null;
+  // return (
+  //   <Section>
+  //     <div 
+  //       dangerouslySetInnerHTML={{
+  //         __html: sanitizeHtml(documentToHtmlString(page.content))
+  //       }}
+  //     />
+  //   </Section>
+  // );
 }
 
 Page.getInitialProps = async (ctx: NextPageContext) => {
-  // TODO: fetch page from AWS
+  const page = await getPage({slug: (
+    typeof ctx.query.slug === 'object' ? ctx.query.slug[0] : (ctx.query.slug||'')
+  )});
   return { 
-    slug: ctx.query.slug
+    page
   };
 };
 

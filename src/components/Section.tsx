@@ -15,7 +15,7 @@ export function Section({
   const classes = useStyleCreatorClassNames(styleCreator);
   return (
     <div style={style} className={[className, classes.section].join(' ')}>
-      <Grid.Row className={classes.inner}>
+      <Grid.Row className={classes.row}>
         <Grid.Col xs={24} xl='1100px' xxl='1300px'>
           {children}
         </Grid.Col>
@@ -26,6 +26,7 @@ export function Section({
 
 const styleCreator = makeStyleCreator(theme => ({
   section: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
@@ -33,9 +34,9 @@ const styleCreator = makeStyleCreator(theme => ({
     paddingRight: theme.spacing(2),
     paddingLeft: theme.spacing(2),
   },
-  inner: {
-    maxWidth: 1200,
-    width: '100%'
+  row: {
+    width: '100%',
+    justifyContent: 'center'
   }
 }));
 

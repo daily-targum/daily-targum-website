@@ -1772,6 +1772,19 @@
   dependencies:
     find-up "^4.0.0"
 
+"@contentful/rich-text-html-renderer@^13.4.0":
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/@contentful/rich-text-html-renderer/-/rich-text-html-renderer-13.4.0.tgz#03c08f4196a9eb9bae9af993b5644624fe256fa9"
+  integrity sha512-g5maEnoGlhMOA/FcF8UTE6V3BHDx8ygfjF5AZKEFcpi+cDL5SfCKvV9FkaasNashrttECy9ncjRsIHPlAmKONg==
+  dependencies:
+    "@contentful/rich-text-types" "^13.4.0"
+    escape-html "^1.0.3"
+
+"@contentful/rich-text-types@^13.4.0":
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/@contentful/rich-text-types/-/rich-text-types-13.4.0.tgz#a59c311ebd1b801ee00edbc08663c8d78da26171"
+  integrity sha512-YPdYqGmWiGAood7ri2BUXfPQKNthkQYV1rmQdaq4UAxWK5NLB5NXckaUYLbohqhHKtrq4tnfzVn+ePWID7Dzbg==
+
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz#db28b1c4368a259b60a97311d6a952d4fd01ac1a"
@@ -1803,6 +1816,13 @@
   version "1.2.28"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.28.tgz#e5b8c8814ef375f01f5d7c132d3c3a2f83a3abf9"
   integrity sha512-4LeaNHWvrneoU0i8b5RTOJHKx7E+y7jYejplR7uSVB34+mp3Veg7cbKk7NBCLiI4TyoWS1wh9ZdoyLJR8wSAdg==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.28"
+
+"@fortawesome/free-brands-svg-icons@^5.13.0":
+  version "5.13.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-brands-svg-icons/-/free-brands-svg-icons-5.13.0.tgz#e79de73ba6555055204828dca9c0691e7ce5242b"
+  integrity sha512-/6xXiJFCMEQxqxXbL0FPJpwq5Cv6MRrjsbJEmH/t5vOvB4dILDpnY0f7zZSlA8+TG7jwlt12miF/yZpZkykucA==
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.28"
 
@@ -5081,7 +5101,7 @@ es6-symbol@^3.1.1, es6-symbol@~3.1.3:
     d "^1.0.1"
     ext "^1.1.2"
 
-escape-html@~1.0.3:
+escape-html@^1.0.3, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
@@ -8271,6 +8291,13 @@ next-ga@^2.3.4:
     debug "^4.0.0"
     react-ga "^2.5.3"
 
+next-nprogress-emotion@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/next-nprogress-emotion/-/next-nprogress-emotion-1.0.1.tgz#ceff405cfd7ab29b0a4de99bc9a7f1eceb5c873a"
+  integrity sha512-0DtAaIpW9QpZLd7fkv2EEnNCMgyFaxFVEjXc9sGORtyaaaB+iZFu53WubLxnVEV9Th+Hh/OUfaSNy2O2keIeNQ==
+  dependencies:
+    nprogress "^0.2.0"
+
 next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
@@ -8388,6 +8415,13 @@ next@9.4.4:
     web-vitals "0.2.1"
     webpack "4.43.0"
     webpack-sources "1.4.3"
+
+nextjs-progressbar@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/nextjs-progressbar/-/nextjs-progressbar-0.0.5.tgz#0116731b77838d05e9be520c3a894975fe4bf01c"
+  integrity sha512-TH2Xx84+/mJz3TQDrfobL3vwDFxHXnmHjsn3D1214ZpclBHDiZBfVbyWLnbaGNuTgJ9ww7T0ejWJj+jl0B2oLg==
+  dependencies:
+    nprogress "^0.2.0"
 
 nice-try@^1.0.4:
   version "1.0.5"
@@ -8529,6 +8563,11 @@ npm-run-path@^4.0.0:
   integrity sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==
   dependencies:
     path-key "^3.0.0"
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha1-y480xTIT2JVyP8urkH6UIq28r7E=
 
 nth-check@^1.0.2, nth-check@~1.0.1:
   version "1.0.2"
@@ -9689,10 +9728,10 @@ range-parser@~1.2.1:
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
 
-react-context-theming@^1.0.0-alpha.75:
-  version "1.0.0-alpha.75"
-  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.75.tgz#f54d3c581561ad21f49f449e9ed4dda9ad5bfe8c"
-  integrity sha512-9evVL92Qi89QWO2pOieyvnmZXIJaPpw9zM5DHOMz9zhC15YOhuicUgTQPhF7fkXsVK8rPTBIQvyKUeBVb0BSyA==
+react-context-theming@^1.0.0-alpha.79:
+  version "1.0.0-alpha.79"
+  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.79.tgz#afc167aadf4e6b24210e4f37a9cbde3c0dbfc6c2"
+  integrity sha512-FEMCtPMz1IQxHYFDGTj4Df3Ok3xtglkoRNUIVxnhZe6aKQlliLvD+HQxBrLUoDPM86QqmYLqKiGztQaSm+uIVg==
   dependencies:
     css-vendor "^2.0.8"
     react-native "^0.61.5"

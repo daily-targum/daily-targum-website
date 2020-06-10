@@ -20,7 +20,7 @@ const light: Theme = {
     bold: ''
   },
   dark: false,
-  roundness: (multiplier: number = 1) => 10 * multiplier,
+  roundness: (multiplier: number = 1) => 5 * multiplier,
   spacing: (multiplier: number = 1) => 5 * multiplier
 }
 
