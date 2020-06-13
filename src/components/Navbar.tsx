@@ -53,7 +53,7 @@ const navbarLinks = [
   }
 ]
 
-export function Navbar() {
+function Normal() {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const {colors} = Theme.useTheme();
   const router = useRouter();
@@ -68,11 +68,65 @@ export function Navbar() {
         <div className={classes.inner}>
           <Link href='/'>
             <a>
-              <Logo className={classes.logo} />
+              <Logo.DT className={classes.logoDT} />
             </a>
           </Link>
           <Grid.Row>
             <Grid.Col xs={0} lg={24}>
+              <div className={classes.links}>
+                {navbarLinks.map(link => (
+                  <Link 
+                    key={link.as}
+                    href={link.href} 
+                    as={link.as}
+                  >
+                    <a className={[
+                      classes['link:hover'],
+                      classes.link,
+                      'animate-color',
+                      (link.as === router.asPath) ? classes.linkActive : null,
+                    ].join(' ')}>
+                      {link.title}
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            </Grid.Col>
+            <Grid.Col lg={0}>
+              <div className={[classes.links, classes.menuIconWrap].join(' ')}>
+                <FontAwesomeIcon size='1x' icon={faBars}/>
+              </div>
+            </Grid.Col>
+          </Grid.Row>
+        </div>
+      </Section>
+    </>
+  );
+}
+
+function Stacked() {
+  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const {colors} = Theme.useTheme();
+  const router = useRouter();
+  return (
+    <>
+      <NextNprogress
+        color={colors.accent}
+        height="2"
+        options={{showSpinner: false}}
+      />
+      <Section className={classes.navbar}>
+        <div className={classes.inner} style={{paddingTop: 40, paddingBottom: 50}}>
+          <Grid.Row>
+            <Grid.Col xs={24} style={{alignItems: 'center'}}>
+              <Link href='/'>
+                <a>
+                  <Logo className={classes.logo} />
+                </a>
+              </Link>
+              <div style={{height: 10}}/>
+            </Grid.Col>
+            <Grid.Col xs={0} lg={24} style={{alignItems: 'center'}}>
               <div className={classes.links}>
                 {navbarLinks.map(link => (
                   <Link 
@@ -133,6 +187,11 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     height: 'auto',
     marginTop: 8
   },
+  logoDT: {
+    width: 40,
+    height: 'auto',
+    marginTop: 8
+  },
   'link:hover': {
     color: theme.colors.accent
   },
@@ -153,3 +212,12 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     fontSize: '1.6em'
   }
 }));
+
+export const Navbar = () => {
+  const router = useRouter();
+  return router.pathname === '/' ? (
+    <Stacked/>
+  ) : (
+    <Normal/>
+  );
+};
