@@ -9,4 +9,5 @@ export * from './Text';
 export * from './NewsSlider';
 export * from './Newsletter';
 export * from './Button';
+export * from './HTML';
 export { default as Grid } from './Grid';

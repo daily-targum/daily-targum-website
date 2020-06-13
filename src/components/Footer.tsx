@@ -16,7 +16,7 @@ const links = {
     {
       title: 'Advertise',
       href: '/page/[section]',
-      as: '/page/adertise'
+      as: '/page/advertise'
     },
     {
       title: 'Donate',

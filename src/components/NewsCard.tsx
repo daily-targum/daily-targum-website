@@ -71,8 +71,8 @@ function Large({
       >
         <div className={classes.largeCardImageOverlay}/>
         <div className={classes.largeCardTitleWrap}>
-          <Text variant='p' className={classes.largeCardSubtitle}>{formatDateAbriviated(article.publishDate)}</Text>
-          <Text variant='h3' numberOfLines={2} className={classes.largeCardTitle}>{article.title}</Text>
+          <Text variant='p' className={classes.largeCardSubtitle} noPadding>{formatDateAbriviated(article.publishDate)}</Text>
+          <Text variant='h3' numberOfLines={2} className={classes.largeCardTitle} noPadding>{article.title}</Text>
         </div>
       </a>
     </Link>

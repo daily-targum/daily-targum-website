@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { actions, GetArticles } from '../shared/src/client';
 import { Section, NewsCard, Grid, Theme, Divider, Text, NewsSlider, Newsletter } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 interface Section {
   id: string,
@@ -42,7 +42,7 @@ function NewsRow({
   return (
     <div className={classes.section}>
       <div className={classes.sectionHeader}>
-        <Text variant='h3'>News</Text>
+        <Text variant='h3'>{category.title}</Text>
         <Link 
           href='/section/[section]'
           as={`/section/${category.id}`}
@@ -51,7 +51,7 @@ function NewsRow({
             <Text variant='h4' className={classes.moreInLinkText}>
               More in {category.title}
             </Text>
-            <FontAwesomeIcon icon={faPlusCircle}/>
+            <FontAwesomeIcon icon={faArrowRight}/>
           </a>
         </Link>
       </div>

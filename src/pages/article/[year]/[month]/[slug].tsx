@@ -2,8 +2,7 @@ import React from 'react';
 import { NextPageContext } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { formatDate } from '../../../../shared/src/utils';
-import sanitizeHtml from 'sanitize-html';
-import { SEOProps, Section, Theme } from '../../../../components';
+import { SEOProps, Section, Theme, HTML } from '../../../../components';
 import NotFound from '../../../404';
 
 function Article({
@@ -25,11 +24,7 @@ function Article({
       <p>By {article.authors.join(', ')}</p>
       <p>{wasUpdated ? ('Updated '+formatDate(article.updatedAt)) : formatDate(article.publishDate)}</p>
       <hr/>
-      <div 
-        dangerouslySetInnerHTML={{
-          __html: sanitizeHtml(article.body)
-        }}
-      />
+      <HTML html={article.body}/>
     </Section>
   );
 }

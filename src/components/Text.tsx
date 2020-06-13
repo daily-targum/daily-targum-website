@@ -13,23 +13,32 @@ const Truncate = styled.span<{
   overflow: hidden;
 `;
 
+export type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
+export const variants: Variant[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span'];
+
 export function Text({
   children,
   numberOfLines,
   className,
   variant = 'span',
-  style
+  style,
+  noPadding = false
 }: {
-  children: (string | ReactChild)[] | string | ReactChild,
-  numberOfLines?: number,
-  className?: string,
-  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span',
-  style?: CSSProperties
+  children: (string | ReactChild)[] | string | ReactChild;
+  numberOfLines?: number;
+  className?: string;
+  variant?: Variant;
+  style?: CSSProperties;
+  noPadding?: boolean;
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return (
     <Truncate
-      className={[className, classes[variant]].join(' ')}
+      className={[
+        noPadding ? classes.noPadding : null,
+        className, 
+        classes[variant]].join(' ')
+      }
       style={style}
       numberOfLines={numberOfLines}
     >
@@ -38,34 +47,41 @@ export function Text({
   );
 }
 
-const styleCreator = Theme.makeStyleCreator(() => ({
+const styleCreator = Theme.makeStyleCreator(theme => ({
+  noPadding: {
+    paddingBottom: 0
+  },
   h1: {
     fontWeight: 700,
-    fontSize: '3rem'
+    fontSize: '3rem',
+    paddingBottom: theme.spacing(2)
   },
   h2: {
     fontWeight: 700,
-    fontSize: '2rem'
+    fontSize: '2rem',
+    paddingBottom: theme.spacing(2)
   },
   h3: {
     fontWeight: 700,
-    fontSize: '1.2rem'
+    fontSize: '1.2rem',
+    paddingBottom: theme.spacing(2)
   },
   h4: {
     fontWeight: 700,
     fontSize: '1rem'
   },
   h5: {
-
+    paddingBottom: theme.spacing(2),
   },
   h6: {
-
+    paddingBottom: theme.spacing(2),
   },
   p: {
-
+    paddingBottom: theme.spacing(2),
+    lineHeight: '1.8rem',
+    fontSide: '1rem'
   },
   span: {
-
   }
 }));
 

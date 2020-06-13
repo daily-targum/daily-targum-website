@@ -1,8 +1,8 @@
 import React from 'react';
 import { NextPageContext } from 'next';
-import { Section, Theme, HTML } from '../../components';
-import { getPage, GetPage } from '../../shared/src/client';
-import NotFound from '../404';
+import { Section, Theme, HTML } from '../../../components';
+import { getPage, GetPage } from '../../../shared/src/client';
+import NotFound from '../../404';
 
 function Page({
   page 
