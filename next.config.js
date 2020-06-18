@@ -4,6 +4,9 @@ module.exports = {
     AWS_APPSYNC_REGION: process.env.AWS_APPSYNC_REGION,
     AWS_APPSYNC_API_KEY: process.env.AWS_APPSYNC_API_KEY,
 
+    CONTENTFUL_SPACE: process.env.CONTENTFUL_SPACE,
+    CONTENTFUL_ACCESS_TOKEN_DRAFTS: process.env.CONTENTFUL_ACCESS_TOKEN_DRAFTS,
+
     GOOGLE_ANALYTICS_TRACKING_CODE: process.env.GOOGLE_ANALYTICS_TRACKING_CODE
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

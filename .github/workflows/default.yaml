@@ -96,7 +96,13 @@ jobs:
       - name: Test
         run: yarn coverage
         env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          AMPLITUDE_KEY: ${{ secrets.AMPLITUDE_KEY }}
           AWS_APPSYNC_URL: ${{ secrets.AWS_APPSYNC_URL }}
           AWS_APPSYNC_REGION: ${{ secrets.AWS_APPSYNC_REGION }}
           AWS_APPSYNC_API_KEY: ${{ secrets.AWS_APPSYNC_API_KEY }}
+          CONTENTFUL_SPACE: ${{ secrets.CONTENTFUL_SPACE }}
+          CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
+          CONTENTFUL_ACCESS_TOKEN_DRAFTS: ${{ secrets.CONTENTFUL_ACCESS_TOKEN_DRAFTS }}
       - uses: codecov/codecov-action@v1

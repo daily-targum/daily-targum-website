@@ -1,5 +1,5 @@
 import React from 'react';
-import { GetArticle } from '../shared/src/client';
+import { Article } from '../shared/src/client';
 import { Theme, Section, Text } from '../components';
 import Link from 'next/link';
 
@@ -9,7 +9,7 @@ function Slide({
   hide,
   style
 }: {
-  article: GetArticle,
+  article: Article,
   className?: string,
   hide: boolean,
   style?: React.CSSProperties
@@ -56,7 +56,7 @@ function Slide({
 export function NewsSlider({
   articles
 }: {
-  articles: GetArticle[]
+  articles: Article[]
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const [index, setIndex] = React.useState(0);

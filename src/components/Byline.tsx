@@ -26,6 +26,7 @@ function Authors({
           <Text>{author}</Text>
         </div>
       )}
+      keyExtractor={author => author}
       ItemSeparatorComponent={<Divider.Vertical className={classes.divider}/>}
       horizontal={true}
     />

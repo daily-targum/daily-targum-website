@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { actions, GetArticles } from '../shared/src/client';
+import { actions, GetHomepage, Article } from '../shared/src/client';
 import { Section, NewsCard, Grid, Theme, Divider, Text, NewsSlider, Newsletter, Navbar } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -10,46 +10,28 @@ interface Section {
   title: string
 }
 
-interface FeedItem extends GetArticles, Section {}
-
-const sections: Section[] = [
-  {
-    id: 'News',
-    title: 'News'
-  },
-  {
-    id: 'Sports',
-    title: 'Sports'
-  },
-  {
-    id: 'Opinions',
-    title: 'Opinions'
-  },
-  {
-    id: 'inside-beat',
-    title: 'Inside Beat'
-  }
-];
-
-
 function NewsRow({
+  id,
+  title,
   category
 }: {
-  category: FeedItem
+  id: string,
+  title: string,
+  category: Article[]
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const {spacing} = Theme.useTheme();
   return (
     <div className={classes.section}>
       <div className={classes.sectionHeader}>
-        <Text variant='h3'>{category.title}</Text>
+        <Text variant='h3'>{title}</Text>
         <Link 
           href='/section/[section]'
-          as={`/section/${category.id}`}
+          as={`/section/${id}`}
         >
           <a className={classes.moreInLink}>
             <Text variant='h4' style={{fontWeight: 400}} className={classes.moreInLinkText}>
-              More in {category.title}
+              More in {title}
             </Text>
             <FontAwesomeIcon icon={faArrowRight}/>
           </a>
@@ -58,33 +40,33 @@ function NewsRow({
       <Grid.Row spacing={spacing(2)}>
         <Grid.Col xs={24} md={0}>
           <NewsCard.Large
-            article={category.items[0] as any} 
+            article={category[0] as any} 
             className={[classes.aspectRadio, classes.card].join(' ')}
           />
         </Grid.Col>
         <Grid.Col xs={0} md={12} lg={8}>
           <NewsCard.Large
-            article={category.items[0] as any} 
+            article={category[0] as any} 
             className={[classes.card].join(' ')}
           />
         </Grid.Col>
         <Grid.Col xs={24} md={12} lg={8}>
           <NewsCard.Medium
-            article={category.items[1] as any} 
+            article={category[1] as any} 
             className={classes.card}
           />
           <NewsCard.Medium
-            article={category.items[2] as any} 
+            article={category[2] as any} 
             className={classes.card}
           />
         </Grid.Col>
         <Grid.Col xs={24} md={0} lg={8}>
           <NewsCard.Medium
-            article={category.items[3] as any} 
+            article={category[3] as any} 
             className={classes.card}
           />
           <NewsCard.Medium
-            article={category.items[4] as any} 
+            article={category[4] as any} 
             className={classes.card}
           />
         </Grid.Col>
@@ -93,24 +75,38 @@ function NewsRow({
   );
 }
 
+function literalArray<T extends string>(array: T[]): T[] {
+  return array
+}
+
+function capitalizeWords(str: string){
+ return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+function camelCaseToCapitalized(str: string) {
+  return capitalizeWords(str.replace(/([A-Z])/, ' $1'));
+}
+
 
 function Home({ 
-  feed 
+  homepage 
 }: { 
-  feed: FeedItem[]
+  homepage: GetHomepage
 }) {
   Navbar.useDynamicHeader();
   return (
     <>
-      <NewsSlider articles={feed.map(f => f.items[0]) as any[]}/>
+      <NewsSlider articles={homepage.high}/>
       <Section>
-        {feed.map((category, i) => (
+        {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category, i) => (
           <React.Fragment
-            key={category.id}
+            key={category}
           >
             {i > 0 ? <Divider/> : null}
             <NewsRow
-              category={category}
+              category={homepage[category]}
+              id={category}
+              title={camelCaseToCapitalized(category)}
             />
           </React.Fragment>
         ))}
@@ -122,17 +118,9 @@ function Home({
 }
 
 Home.getInitialProps = async () => {
-  const feed = await Promise.all(sections.map(section => (
-    actions.getArticles({
-      category: section.id,
-      limit: 20
-    })
-  )));
+  const homepage = await actions.getHomepage();
   return { 
-    feed: feed.map((category, i) => ({
-      ...category,
-      ...sections[i]
-    }))
+    homepage
   };
 };
 
