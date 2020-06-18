@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { Theme } from './';
+import Theme from './Theme';
 // import Truncate from 'react-truncate';
 import styled from 'styled-components';
 import { ReactChild } from '../types';
@@ -47,42 +47,55 @@ export function Text({
   );
 }
 
+export function Br() {
+  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  return (
+    <div className={classes.br}/>
+  );
+}
+
 const styleCreator = Theme.makeStyleCreator(theme => ({
   noPadding: {
-    paddingBottom: 0
+    marginBottom: 0
   },
   h1: {
     fontWeight: 700,
     fontSize: '3rem',
-    paddingBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2)
   },
   h2: {
     fontWeight: 700,
     fontSize: '2rem',
-    paddingBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2)
   },
   h3: {
     fontWeight: 700,
-    fontSize: '1.2rem',
-    paddingBottom: theme.spacing(2)
+    fontSize: '1.4rem',
+    marginBottom: theme.spacing(2)
   },
   h4: {
     fontWeight: 700,
-    fontSize: '1rem'
+    fontSize: '1.2rem'
   },
   h5: {
-    paddingBottom: theme.spacing(2),
+    fontWeight: 700,
+    marginBottom: theme.spacing(2),
+    fontSize: '1rem'
   },
   h6: {
-    paddingBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   p: {
-    paddingBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     lineHeight: '1.8rem',
     fontSide: '1rem'
   },
   span: {
+  },
+  br: {
+    height: theme.spacing(2),
   }
 }));
 
+Text.Br = Br;
 export default Text;

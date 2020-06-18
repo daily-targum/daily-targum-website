@@ -2,7 +2,7 @@
 
 exports[`<404 /> renders correctly 1`] = `
 <div
-  className=" dAzuLR"
+  className="dBXbQe dAzuLR"
 >
   <div
     className="fIMQtV"
@@ -18,13 +18,20 @@ exports[`<404 /> renders correctly 1`] = `
     }
   >
     <div
-      className="styles__Col-sc-2ttx60-0 fGfkfk"
+      className="styles__Col-sc-2ttx60-0 bHLExc"
       spacing={0}
       style={Object {}}
     >
-      <h1>
+      <span
+        className="Text__Truncate-sc-12nqtmo-0 doSSkk   kizoXJ"
+      >
         404. Not found.
-      </h1>
+      </span>
+      <span
+        className="Text__Truncate-sc-12nqtmo-0 doSSkk   gwxNcl"
+      >
+        Sorry, but the page you were trying to view does not exist.
+      </span>
     </div>
   </div>
 </div>

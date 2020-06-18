@@ -18,8 +18,9 @@ function NewsletterSection() {
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   section: {
-    paddingTop: theme.spacing(10),
-    paddingBottom: theme.spacing(10)
+    paddingTop: theme.spacing(12),
+    paddingBottom: theme.spacing(12),
+    backgroundColor: theme.colors.surface
   },
   inner: {
     display: 'flex',

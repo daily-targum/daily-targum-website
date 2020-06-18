@@ -9,9 +9,9 @@ import Link from 'next/link';
 const links = {
   company: [
     {
-      title: 'Get Involved',
+      title: 'Donate',
       href: '/page/[section]',
-      as: '/page/get-involved'
+      as: '/page/donate'
     },
     {
       title: 'Advertise',
@@ -19,9 +19,9 @@ const links = {
       as: '/page/advertise'
     },
     {
-      title: 'Donate',
+      title: 'Get Involved',
       href: '/page/[section]',
-      as: '/page/donate'
+      as: '/page/get-involved'
     },
     {
       title: 'Privacy Policy',
@@ -31,12 +31,12 @@ const links = {
   ],
   socialMedia: [
     {
-      title: 'Facebook',
-      href: 'https://www.facebook.com/thedailytargum/'
-    },
-    {
       title: 'Twitter',
       href: 'https://twitter.com/Daily_Targum'
+    },
+    {
+      title: 'Facebook',
+      href: 'https://www.facebook.com/thedailytargum/'
     },
     {
       title: 'Instagram',
@@ -55,16 +55,20 @@ export function Footer() {
     <Section className={classes.footer}>
       <Grid.Row>
         <Grid.Col xs={0} md={8}>
-          <Logo 
-            color='rgba(0,0,0,0.2)'
-            className={classes.logo}
-          />
-          <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
-            <img src="/powered-by-contentful.svg" alt="Powered by Contentful" className={classes.logo}/>
-          </a>
+          <div className={classes.centerHorizontally}>
+            <Text.Br/>
+            <Text.Br/>
+            <Logo 
+              color='#fff'
+              className={classes.logo}
+            />
+            <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
+              <img src="/powered-by-contentful.svg" alt="Powered by Contentful" className={classes.sublogo}/>
+            </a>
+          </div>
         </Grid.Col>
         <Grid.Col xs={0} md={8}>
-          <Text variant='h4'>Social Media</Text>
+          <Text variant='h4' className={classes.title}>Social Media</Text>
           {links.socialMedia.map(l => (
             <a 
               key={l.href} 
@@ -74,7 +78,7 @@ export function Footer() {
           ))}
         </Grid.Col>
         <Grid.Col xs={0} md={8}>
-          <Text variant='h4'>Company</Text>
+          <Text variant='h4' className={classes.title}>Company</Text>
           {links.company.map(l => (
             <Link
               key={l.as}
@@ -89,37 +93,39 @@ export function Footer() {
 
         {/* Mobile */}
         <Grid.Col xs={24} md={0}>
-          <Text variant='h4' className={classes.centerVertically}>Social Media</Text>
+          <Text variant='h4' className={classes.title}>Social Media</Text>
           {links.socialMedia.map(l => (
             <a 
               key={l.href} 
-              className={[classes.link, classes.centerVertically].join(' ')}
+              className={classes.link}
               href={l.href}
             >{l.title}</a>
           ))}
         </Grid.Col>
         <Grid.Col xs={24} md={0}>
           <div className={classes.spacer}/>
-          <Text variant='h4' className={classes.centerVertically}>Company</Text>
+          <Text variant='h4' className={classes.title}>Company</Text>
           {links.company.map(l => (
             <Link
               key={l.as}
               href={l.href}
               as={l.as}
             >
-              <a className={[classes.link, classes.centerVertically].join(' ')}>{l.title}</a>
+              <a className={classes.link}>{l.title}</a>
             </Link>
           ))}
         </Grid.Col>
-        <Grid.Col xs={24} md={0} className={classes.centerVertically}>
-          <div className={classes.spacer}/>
-          <Logo 
-            color='rgba(0,0,0,0.2)'
-            className={classes.logo}
-          />
-          <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
-            <img src="/powered-by-contentful.svg" alt="Powered by Contentful" className={classes.logo}/>
-          </a>
+        <Grid.Col xs={24} md={0}>
+          <div className={classes.centerHorizontally}>
+            <div className={classes.spacer}/>
+            <Logo 
+              color='rgba(0,0,0,0.2)'
+              className={classes.logo}
+            />
+            <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
+              <img src="/powered-by-contentful.svg" alt="Powered by Contentful" className={classes.logo}/>
+            </a>
+          </div>
         </Grid.Col>
       </Grid.Row>
       <Text className={classes.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
@@ -129,39 +135,42 @@ export function Footer() {
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   logo: {
-    width: 200,
+    width: 180,
+    height: 'auto',
+    marginBottom: theme.spacing(3)
+  },
+  sublogo: {
+    width: 140,
     height: 'auto',
     marginBottom: theme.spacing(3)
   },
   footer: {
-    padding: theme.spacing(10),
-    backgroundColor: '#fafafa',
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.divider,
-    borderTopStyle: 'solid'
-  },
-  socialIcons: {
-    marginTop: theme.spacing(2),
-  },
-  socialIcon: {
-    marginRight: theme.spacing(1),
-    color: 'rgba(0,0,0,0.2)'
-    // fontSize: '1.5rem'
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(4),
+    backgroundColor: theme.colors.primary
   },
   copyright: {
     color: theme.colors.textMuted,
     textAlign: 'center',
     fontSize: '0.8rem',
-    marginTop: theme.spacing(10)
+    marginTop: theme.spacing(10),
+    fontWeight: 300
+  },
+  title: {
+    color: '#fff',
+    textAlign: 'center'
   },
   link: {
     marginTop: theme.spacing(2),
     textDecoration: 'none',
-    color: theme.colors.textMuted
+    color: theme.colors.textMuted,
+    textAlign: 'center'
   },
-  centerVertically: {
+  centerHorizontally: {
     textAlign: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column'
   },
   spacer: {
     height: theme.spacing(10)

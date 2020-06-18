@@ -7,6 +7,7 @@ body {
 * {
   box-sizing: border-box;
   /* font-family: 'Open Sans', sans-serif; */
+  /* font-family: 'Merriweather', serif; */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -17,7 +18,8 @@ h2,
 h3,
 h4,
 h5,
-h6 { 
+h6,
+span { 
   padding: 0;
   margin: 0;
 }
@@ -26,6 +28,18 @@ h6 {
   transition: opacity 3s;
 }
 
+.animate-opacity-fast {
+  transition: opacity 0.2s;
+}
+
 .animate-color {
   transition: color 0.2s;
+}
+
+.animate-all-fast {
+  transition: all 0.2s;
+}
+
+.animate-all-normal {
+  transition: all 0.4s;
 }

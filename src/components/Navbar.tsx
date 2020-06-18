@@ -9,6 +9,10 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 // @ts-ignore
 import NextNprogress from 'nextjs-progressbar';
 import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from '../store';
+import { navigationActions } from '../store/ducks/navigation';
+
+export const NAVBAR_HEIGHT = 60;
 
 const navbarLinks = [
   // {
@@ -53,7 +57,11 @@ const navbarLinks = [
   }
 ]
 
-function Normal() {
+function Nav({
+  dark
+}: {
+  dark: boolean
+}) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const {colors} = Theme.useTheme();
   const router = useRouter();
@@ -64,11 +72,14 @@ function Normal() {
         height="2"
         options={{showSpinner: false}}
       />
-      <Section className={classes.navbar}>
+      <Section 
+        className={[classes.navbar, 'animate-all-normal'].join(' ')} 
+        style={{backgroundColor: !dark ? '#fff' : colors.primary}}
+      >
         <div className={classes.inner}>
           <Link href='/'>
             <a>
-              <Logo.DT className={classes.logoDT} />
+              <Logo className={classes.logo} color={dark ? '#fff' : '#000'} />
             </a>
           </Link>
           <Grid.Row>
@@ -80,13 +91,16 @@ function Normal() {
                     href={link.href} 
                     as={link.as}
                   >
-                    <a className={[
-                      classes['link:hover'],
-                      classes.link,
-                      'animate-color',
-                      (link.as === router.asPath) ? classes.linkActive : null,
-                    ].join(' ')}>
-                      {link.title}
+                    <a
+                      style={{color: dark ? '#fff' : '#000'}}
+                      className={[
+                        classes['link:hover'],
+                        classes.link,
+                        'animate-all-normal',
+                        (link.as === router.asPath) ? classes.linkActive : null,
+                      ].join(' ')}
+                    >
+                      <span>{link.title}</span>
                     </a>
                   </Link>
                 ))}
@@ -94,7 +108,7 @@ function Normal() {
             </Grid.Col>
             <Grid.Col lg={0}>
               <div className={[classes.links, classes.menuIconWrap].join(' ')}>
-                <FontAwesomeIcon size='1x' icon={faBars}/>
+                <FontAwesomeIcon size='1x' color={dark ? '#fff' : '#000'} icon={faBars}/>
               </div>
             </Grid.Col>
           </Grid.Row>
@@ -104,57 +118,23 @@ function Normal() {
   );
 }
 
-function Stacked() {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const {colors} = Theme.useTheme();
-  const router = useRouter();
+export function Navbar() {
+  const dynamicHeaderEnabled = useSelector(s => s.navigation.dynamicHeaderEnabled);
+  const [dark, setDark] = React.useState(true);
+
+  function onScroll() {
+    let offsetTop = window.pageYOffset || document.documentElement.scrollTop;
+    setDark(offsetTop < 200);
+  }
+
+  React.useEffect(() => {
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <>
-      <NextNprogress
-        color={colors.accent}
-        height="2"
-        options={{showSpinner: false}}
-      />
-      <Section className={classes.navbar}>
-        <div className={classes.inner} style={{paddingTop: 40, paddingBottom: 50}}>
-          <Grid.Row>
-            <Grid.Col xs={24} style={{alignItems: 'center'}}>
-              <Link href='/'>
-                <a>
-                  <Logo className={classes.logo} />
-                </a>
-              </Link>
-              <div style={{height: 10}}/>
-            </Grid.Col>
-            <Grid.Col xs={0} lg={24} style={{alignItems: 'center'}}>
-              <div className={classes.links}>
-                {navbarLinks.map(link => (
-                  <Link 
-                    key={link.as}
-                    href={link.href} 
-                    as={link.as}
-                  >
-                    <a className={[
-                      classes['link:hover'],
-                      classes.link,
-                      'animate-color',
-                      (link.as === router.asPath) ? classes.linkActive : null,
-                    ].join(' ')}>
-                      {link.title}
-                    </a>
-                  </Link>
-                ))}
-              </div>
-            </Grid.Col>
-            <Grid.Col lg={0}>
-              <div className={[classes.links, classes.menuIconWrap].join(' ')}>
-                <FontAwesomeIcon size='1x' icon={faBars}/>
-              </div>
-            </Grid.Col>
-          </Grid.Row>
-        </div>
-      </Section>
-    </>
+    <Nav dark={dynamicHeaderEnabled && dark}/>
   );
 }
 
@@ -163,18 +143,16 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     position: 'sticky',
     width: '100%',
     top: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.divider,
-    borderBottomStyle: 'solid',
-    backgroundColor: theme.colors.background,
-    zIndex: 1000
+    // backgroundColor: '#fff', // theme.colors.primary,
+    zIndex: 1000,
+    boxShadow: '0 4px 12px 0 rgba(0,0,0,.05)'
   },
   navbarShadow: {
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
   },
   inner: {
     display: 'flex',
-    height: 60,
+    height: NAVBAR_HEIGHT,
     alignItems: 'center',
     justifyContent: 'space-between'
   },
@@ -183,7 +161,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     margin: 0
   },
   logo: {
-    width: 180,
+    width: 170,
     height: 'auto',
     marginTop: 8
   },
@@ -193,15 +171,25 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     marginTop: 8
   },
   'link:hover': {
-    color: theme.colors.accent
+    color: theme.colors.accent,
+    borderBottomColor: theme.colors.accent
   },
   linkActive: {
-    color: theme.colors.accent
+    color: theme.colors.accent,
+    borderBottomColor: theme.colors.accent
   },
   link: {
     textDecoration: 'none',
-    color: theme.colors.textMuted,
-    marginLeft: theme.spacing(4)
+    color: '#000', // '#555',
+    marginLeft: theme.spacing(4),
+    height: NAVBAR_HEIGHT,
+    alignItems: 'center',
+    display: 'flex',
+    borderWidth: 0,
+    borderBottomWidth: 2,
+    borderTopWidth: 2,
+    borderColor: 'transparent',
+    borderStyle: 'solid'
   },
   links: {
     display: 'flex',
@@ -213,11 +201,15 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
-export const Navbar = () => {
-  const router = useRouter();
-  return router.pathname === '/' ? (
-    <Stacked/>
-  ) : (
-    <Normal/>
-  );
-};
+export function useDynamicHeader() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(navigationActions.enableDynamicHeader());
+    return () => {
+      dispatch(navigationActions.disablewDynamicHeader());
+    };
+  });
+}
+
+Navbar.useDynamicHeader = useDynamicHeader;
+export default Navbar;

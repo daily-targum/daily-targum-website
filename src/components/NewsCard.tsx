@@ -26,20 +26,13 @@ function Slide({
         className={[className, classes.link, classes.image, classes.largeCardImage].join(' ')}
         style={{
           ...style,
-          backgroundImage: `url(${article.media[0]})`
+          backgroundImage: `url(${article.media[0]}?ar=16:9&fit=crop&crop=faces,center)`
         }}
       >
         <div className={classes.slideCardImageOverlay}/>
-        <Grid.Row className={classes.row}>
-          <Grid.Col className={classes.sliderCardLeftGraident}/>
-          <Grid.Col xs={24} xl='1100px' xxl='1300px'>
-          </Grid.Col>
-          <Grid.Col className={classes.sliderCardRightGraident}/>
-        </Grid.Row>
         <Section>
           <div className={classes.slideCardTitleWrap}>
-            <Text variant='p' className={classes.largeCardSubtitle}>{formatDateAbriviated(article.publishDate)}</Text>
-            <Text variant='h2' numberOfLines={2} className={classes.largeCardTitle}>{article.title}</Text>
+            <Text variant='h2' numberOfLines={2} className={classes.sliderCardTitle}>{article.title}</Text>
           </div>
         </Section>
       </a>
@@ -113,7 +106,7 @@ function Medium({
           <Grid.Col xs={12}>
             <div className={classes.textWrap}>
               <Text variant='p' className={classes.mediumCardSubtitle}>{formatDateAbriviated(article.publishDate)}</Text>
-              <Text variant='h4' numberOfLines={3}>{article.title}</Text>
+              <Text variant='h5' numberOfLines={3}>{article.title}</Text>
             </div>
           </Grid.Col>
         </Grid.Row>
@@ -201,20 +194,17 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.9), transparent)'
   },
   slideCardTitleWrap: {
-    position: 'absolute',
-    bottom: 0,
+    position: 'relative',
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
-    borderLeftColor: theme.colors.accent,
-    borderLeftWidth: 5,
-    borderLeftStyle: 'solid',
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%'
+  },
+  sliderCardTitle: {
+    color: '#fff',
+    textAlign: 'center',
     maxWidth: 800
-  },
-  sliderCardLeftGraident: {
-    background: 'linear-gradient(90deg, rgba(0, 0, 0, 0.8), transparent);'
-  },
-  sliderCardRightGraident: {
-    background: 'linear-gradient(270deg, rgba(0, 0, 0, 0.8), transparent);'
   }
 }));
 

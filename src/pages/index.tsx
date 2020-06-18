@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetArticles } from '../shared/src/client';
-import { Section, NewsCard, Grid, Theme, Divider, Text, NewsSlider, Newsletter } from '../components';
+import { Section, NewsCard, Grid, Theme, Divider, Text, NewsSlider, Newsletter, Navbar } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -48,7 +48,7 @@ function NewsRow({
           as={`/section/${category.id}`}
         >
           <a className={classes.moreInLink}>
-            <Text variant='h4' className={classes.moreInLinkText}>
+            <Text variant='h4' style={{fontWeight: 400}} className={classes.moreInLinkText}>
               More in {category.title}
             </Text>
             <FontAwesomeIcon icon={faArrowRight}/>
@@ -99,11 +99,10 @@ function Home({
 }: { 
   feed: FeedItem[]
 }) {
+  Navbar.useDynamicHeader();
   return (
     <>
-      <NewsSlider
-        articles={feed.map(f => f.items[0]) as any[]}
-      />
+      <NewsSlider articles={feed.map(f => f.items[0]) as any[]}/>
       <Section>
         {feed.map((category, i) => (
           <React.Fragment
@@ -143,8 +142,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     marginBottom: theme.spacing(1)
   },
   section: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3)
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(8)
   },
   sectionHeader: {
     display: 'flex',

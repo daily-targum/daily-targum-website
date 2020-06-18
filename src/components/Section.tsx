@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyleCreator, useStyleCreatorClassNames } from './Theme'
-import { ReactChildren } from '../types';
+import { ReactChildren, Theme } from '../types';
 import Grid from './Grid';
 
 export function Section({
@@ -16,7 +16,7 @@ export function Section({
   return (
     <div style={style} className={[className, classes.section].join(' ')}>
       <Grid.Row className={classes.row}>
-        <Grid.Col xs={24} xl='1100px' xxl='1300px'>
+        <Grid.Col xs={24} xl='1150px' xxl='1350px'>
           {children}
         </Grid.Col>
       </Grid.Row>
@@ -40,4 +40,12 @@ const styleCreator = makeStyleCreator(theme => ({
   }
 }));
 
+export const sectionStyle = {
+  page: (theme: Theme) => ({
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(6)
+  })
+}
+
+Section.style = sectionStyle;
 export default Section;

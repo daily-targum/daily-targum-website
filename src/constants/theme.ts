@@ -2,14 +2,14 @@ import { Theme } from '../types';
 
 const light: Theme = {
   colors: {
-    primary: '#1b1b1b',
+    primary: '#050505',
     accent: '#cc0033',
     text: '#000',
     textMuted: '#999',
     spinner: '#bbb',
     background: '#fff',
-    surface: '#555',
-    divider: 'rgba(0,0,0,0.1)',
+    surface: '#fafafa',
+    divider: 'rgba(0,0,0,0.06)',
     touchableHighlight: '#eee',
     button: '#eee'
   },

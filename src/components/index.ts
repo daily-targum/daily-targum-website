@@ -10,4 +10,6 @@ export * from './NewsSlider';
 export * from './Newsletter';
 export * from './Button';
 export * from './HTML';
+export * from './Byline';
+export * from './FlatList';
 export { default as Grid } from './Grid';
