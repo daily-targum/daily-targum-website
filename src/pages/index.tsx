@@ -1,13 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetHomepage, Article } from '../shared/src/client';
-import { Section, NewsCard, Grid, Theme, Divider, Text, NewsSlider, Newsletter } from '../components';
+import { Section, NewsCard, Theme, Divider, Text, NewsSlider, Newsletter, CardRow } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 interface Section {
   id: string,
   title: string
+}
+
+function chopArray<I>(arr: I[]) {
+  return [[arr[0]], [arr[1], arr[2]], [arr[3], arr[4]]];
 }
 
 function NewsRow({
@@ -20,7 +24,6 @@ function NewsRow({
   category: Article[]
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const {spacing} = Theme.useTheme();
   return (
     <div className={classes.section}>
       <div className={classes.sectionHeader}>
@@ -37,40 +40,26 @@ function NewsRow({
           </a>
         </Link>
       </div>
-      <Grid.Row spacing={spacing(2)}>
-        <Grid.Col xs={24} md={0}>
-          <NewsCard.Large
-            article={category[0] as any} 
+
+      <CardRow items={chopArray(category)}>
+        {(item, i) => i === 0 ? (
+          <NewsCard.Large 
+            article={item[0]}
             className={[classes.aspectRadio, classes.card].join(' ')}
           />
-        </Grid.Col>
-        <Grid.Col xs={0} md={12} lg={8}>
-          <NewsCard.Large
-            article={category[0] as any} 
-            className={[classes.card].join(' ')}
-          />
-        </Grid.Col>
-        <Grid.Col xs={24} md={12} lg={8}>
-          <NewsCard.Medium
-            article={category[1] as any} 
-            className={classes.card}
-          />
-          <NewsCard.Medium
-            article={category[2] as any} 
-            className={classes.card}
-          />
-        </Grid.Col>
-        <Grid.Col xs={24} md={0} lg={8}>
-          <NewsCard.Medium
-            article={category[3] as any} 
-            className={classes.card}
-          />
-          <NewsCard.Medium
-            article={category[4] as any} 
-            className={classes.card}
-          />
-        </Grid.Col>
-      </Grid.Row>
+        ) : (
+          <>
+            <NewsCard.Medium 
+              article={item[0]}
+              className={classes.card}
+            />
+            <NewsCard.Medium 
+              article={item[1]}
+              className={classes.card}
+            />
+          </>
+        )}
+      </CardRow>
     </div>
   );
 }

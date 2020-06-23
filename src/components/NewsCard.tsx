@@ -3,7 +3,7 @@ import Theme from './Theme';
 import Grid from './Grid';
 import Text from './Text';
 import Section from './Section';
-import { GetArticle } from '../shared/src/client';
+import { Article } from '../shared/src/client';
 import { formatDateAbriviated } from '../shared/src/utils';
 import Link from 'next/link';
 
@@ -12,7 +12,7 @@ function Slide({
   className,
   style
 }: {
-  article: GetArticle,
+  article: Article,
   className?: string,
   style?: CSSProperties
 }) {
@@ -45,7 +45,7 @@ function Large({
   className,
   style
 }: {
-  article: GetArticle,
+  article: Article,
   className?: string,
   style?: CSSProperties
 }) {
@@ -77,7 +77,7 @@ function Medium({
   className,
   style
 }: {
-  article: GetArticle,
+  article: Article,
   className?: string,
   style?: CSSProperties
 }) {

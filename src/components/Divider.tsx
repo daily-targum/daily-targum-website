@@ -1,10 +1,14 @@
 import React from 'react';
 import Theme from './Theme';
 
-export function Divider() {
+export function Divider({
+  className
+}: {
+  className?: string
+}) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return (
-    <div className={classes.divider}/>
+    <div className={[className, classes.divider].join(' ')}/>
   );
 }
 

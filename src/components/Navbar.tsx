@@ -35,7 +35,7 @@ const navbarLinks: {
   },
   {
     title: 'Opinions',
-    href: '/section/[section]',
+    href: '/section/opinions',
     as: '/section/opinions'
   },
   {
@@ -75,7 +75,10 @@ function Nav({
         height="2"
         options={{showSpinner: false}}
       />
-      <Section className={[classes.navbar, 'animate-all-normal'].join(' ')}>
+      <Section className={[
+        classes.navbar, 
+        'animate-all-normal'
+      ].join(' ')}>
         <div className={classes.inner}>
           <Link href='/'>
             <a>
@@ -121,13 +124,13 @@ export function Navbar() {
   const dynamicHeaderEnabled = useSelector(s => s.navigation.dynamicHeaderEnabled);
   const [dark, setDark] = React.useState(true);
 
-  function onScroll() {
-    let offsetTop = window.pageYOffset || document.documentElement.scrollTop;
-    setDark(offsetTop < 200);
-  }
+  
 
   React.useEffect(() => {
-    onScroll();
+    function onScroll() {
+      let offsetTop = window.pageYOffset || document.documentElement.scrollTop;
+      setDark(offsetTop < 200);
+    }
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -143,11 +146,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     width: '100%',
     top: 0,
     zIndex: 1000,
+    backgroundColor: '#fff',
     boxShadow: '0 4px 12px 0 rgba(0,0,0,.05)',
-    backgroundColor: '#fff'
-  },
-  navbarShadow: {
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
   },
   inner: {
     display: 'flex',

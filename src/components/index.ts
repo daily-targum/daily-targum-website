@@ -13,4 +13,6 @@ export * from './HTML';
 export * from './Byline';
 export * from './FlatList';
 export * from './ActivityIndicator';
+export * from './CardRow';
+export * from './AspectRatioView';
 export { default as Grid } from './Grid';

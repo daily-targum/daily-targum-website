@@ -1,3 +1,5 @@
+import { Theme } from '../types';
+
 function lockWidth<N extends number>(width: N): {
   minWidth: N
   width: N
@@ -44,10 +46,42 @@ function aspectRatioFullWidth(x: number, y: number) {
   } as const;
 }
 
+function page(theme: Theme) {
+  return {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(6)
+  };
+}
+
+type Flex<D> = {
+  display: 'flex'
+  flexDirection: D
+}
+
+function flex(direction: 'row'): Flex<'row'>
+function flex(direction?: 'column'): Flex<'column'>
+function flex(direction: string = 'column'): Flex<string>
+{
+  return {
+    display: 'flex',
+    flexDirection: direction
+  };
+}
+
+function textCenter() {
+  return {
+    textAlign: 'center',
+    justifyContent: 'center'
+  } as const;
+}
+
 export const styles = {
   lockWidth,
   lockHeight,
   hideLink,
   centerBackgroundImage,
-  aspectRatioFullWidth
+  aspectRatioFullWidth,
+  page,
+  flex,
+  textCenter
 }

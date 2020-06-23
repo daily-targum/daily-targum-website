@@ -47,7 +47,6 @@ function ActivityIndicatorProgressiveLoader({
   React.useEffect(() => {
     if (isVisible) onVisible();
   }, [onVisible, isVisible]);
-  // console.log(isVisible);
   return (
     <div 
       ref={ref}

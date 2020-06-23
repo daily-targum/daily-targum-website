@@ -5,6 +5,7 @@ import Section from './Section';
 import Logo from './Logo';
 import Text from './Text';
 import Link from 'next/link';
+import { styles } from '../utils';
 
 const links = {
   company: [
@@ -145,13 +146,13 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     marginBottom: theme.spacing(3)
   },
   footer: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(4),
+    padding: theme.spacing(8, 0, 4),
     backgroundColor: theme.colors.primary
   },
   copyright: {
+    ...styles.flex(),
+    ...styles.textCenter(),
     color: theme.colors.textMuted,
-    textAlign: 'center',
     fontSize: '0.8rem',
     marginTop: theme.spacing(10),
     fontWeight: 300
@@ -167,10 +168,9 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     textAlign: 'center'
   },
   centerHorizontally: {
+    ...styles.flex(),
     textAlign: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'column'
+    alignItems: 'center'
   },
   spacer: {
     height: theme.spacing(10)
