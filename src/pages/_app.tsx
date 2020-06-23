@@ -6,6 +6,7 @@ import withGA from "next-ga";
 import { Navbar, Theme, Footer, Grid } from '../components';
 import { Provider as ReduxProvider } from '../store';
 import '../styles.css';
+import 'react-activity/dist/react-activity.css';
 
 class App extends NextApp {
   render() {

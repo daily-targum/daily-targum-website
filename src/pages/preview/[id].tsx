@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../shared/src/client';
-import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, Navbar } from '../../components';
+import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br } from '../../components';
 import NotFound from '../404';
 
 function HighlightedImage({
@@ -59,7 +59,6 @@ function Article({
   article: GetArticle | null,
   articleId: string
 }) {
-  Navbar.useDynamicHeader();
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const {spacing} = Theme.useTheme();
 

@@ -1,3 +1,5 @@
+import { spacing, roundness } from '../constants/theme';
+
 export interface Theme {
   colors: {
     primary: string,
@@ -21,8 +23,8 @@ export interface Theme {
    * Insets set by safe area view context
    */
   dark: boolean,
-  roundness: (multiplier?: number) => number,
-  spacing: (multiplier?: number) => number,
+  roundness: typeof roundness,
+  spacing: typeof spacing
 }
 
 export interface ComputedTheme extends Theme {}

@@ -12,4 +12,5 @@ export * from './Button';
 export * from './HTML';
 export * from './Byline';
 export * from './FlatList';
+export * from './ActivityIndicator';
 export { default as Grid } from './Grid';

@@ -2,7 +2,7 @@
 
 exports[`<404 /> renders correctly 1`] = `
 <div
-  className="dBXbQe dAzuLR"
+  className="dBXbQe bGyBgh"
 >
   <div
     className="fIMQtV"
@@ -28,7 +28,7 @@ exports[`<404 /> renders correctly 1`] = `
         404. Not found.
       </span>
       <span
-        className="Text__Truncate-sc-12nqtmo-0 doSSkk   gwxNcl"
+        className="Text__Truncate-sc-12nqtmo-0 doSSkk   hLqeDz"
       >
         Sorry, but the page you were trying to view does not exist.
       </span>

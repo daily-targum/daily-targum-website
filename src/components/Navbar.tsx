@@ -9,12 +9,15 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 // @ts-ignore
 import NextNprogress from 'nextjs-progressbar';
 import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from '../store';
-import { navigationActions } from '../store/ducks/navigation';
+import { useSelector } from '../store';
 
 export const NAVBAR_HEIGHT = 60;
 
-const navbarLinks = [
+const navbarLinks: {
+  title: string
+  href: string
+  as: string
+}[] = [
   // {
   //   title: 'Home',
   //   href: '/',
@@ -37,7 +40,7 @@ const navbarLinks = [
   },
   {
     title: 'Inside Beat',
-    href: '/section/[section]',
+    href: '/section/inside-beat',
     as: '/section/inside-beat'
   },
   {
@@ -72,14 +75,11 @@ function Nav({
         height="2"
         options={{showSpinner: false}}
       />
-      <Section 
-        className={[classes.navbar, 'animate-all-normal'].join(' ')} 
-        style={{backgroundColor: !dark ? '#fff' : colors.primary}}
-      >
+      <Section className={[classes.navbar, 'animate-all-normal'].join(' ')}>
         <div className={classes.inner}>
           <Link href='/'>
             <a>
-              <Logo className={classes.logo} color={dark ? '#fff' : '#000'} />
+              <Logo className={classes.logo}/>
             </a>
           </Link>
           <Grid.Row>
@@ -92,7 +92,6 @@ function Nav({
                     as={link.as}
                   >
                     <a
-                      style={{color: dark ? '#fff' : '#000'}}
                       className={[
                         classes['link:hover'],
                         classes.link,
@@ -143,9 +142,9 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     position: 'sticky',
     width: '100%',
     top: 0,
-    // backgroundColor: '#fff', // theme.colors.primary,
     zIndex: 1000,
-    boxShadow: '0 4px 12px 0 rgba(0,0,0,.05)'
+    boxShadow: '0 4px 12px 0 rgba(0,0,0,.05)',
+    backgroundColor: '#fff'
   },
   navbarShadow: {
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
@@ -170,13 +169,10 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     height: 'auto',
     marginTop: 8
   },
-  'link:hover': {
-    color: theme.colors.accent,
-    borderBottomColor: theme.colors.accent
-  },
-  linkActive: {
-    color: theme.colors.accent,
-    borderBottomColor: theme.colors.accent
+  links: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   },
   link: {
     textDecoration: 'none',
@@ -191,25 +187,28 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     borderColor: 'transparent',
     borderStyle: 'solid'
   },
-  links: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
+  'link:hover': {
+    color: theme.colors.accent,
+    borderBottomColor: theme.colors.accent
+  },
+  linkActive: {
+    color: theme.colors.accent,
+    borderBottomColor: theme.colors.accent
   },
   menuIconWrap: {
     fontSize: '1.6em'
   }
 }));
 
-export function useDynamicHeader() {
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    dispatch(navigationActions.enableDynamicHeader());
-    return () => {
-      dispatch(navigationActions.disablewDynamicHeader());
-    };
-  });
-}
+// export function useDynamicHeader() {
+//   const dispatch = useDispatch();
+//   React.useEffect(() => {
+//     dispatch(navigationActions.enableDynamicHeader());
+//     return () => {
+//       dispatch(navigationActions.disablewDynamicHeader());
+//     };
+//   });
+// }
 
-Navbar.useDynamicHeader = useDynamicHeader;
+// Navbar.useDynamicHeader = useDynamicHeader;
 export default Navbar;

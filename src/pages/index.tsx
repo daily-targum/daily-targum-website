@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetHomepage, Article } from '../shared/src/client';
-import { Section, NewsCard, Grid, Theme, Divider, Text, NewsSlider, Newsletter, Navbar } from '../components';
+import { Section, NewsCard, Grid, Theme, Divider, Text, NewsSlider, Newsletter } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -93,7 +93,6 @@ function Home({
 }: { 
   homepage: GetHomepage
 }) {
-  Navbar.useDynamicHeader();
   return (
     <>
       <NewsSlider articles={homepage.high}/>
@@ -149,7 +148,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   moreInLinkText: {
     marginRight: theme.spacing(1),
-    fontWeight: '600' as any
+    fontWeight: 600
   },
   aspectRadio: {
     paddingTop: '56.25%'
