@@ -9,34 +9,41 @@
  */
 
 import * as React from 'react';
+import { ReactChildren } from '../types';
 
 export function FlatList<T>({
   data, 
   renderItem, 
   keyExtractor,
   inverted = false,
-  ItemSeparatorComponent = null,
-  ListEmptyComponent = null,
-  ListHeaderComponent = null,
-  ListFooterComponent = null,
+  ItemSeparatorComponent,
+  ListEmptyComponent,
+  ListHeaderComponent,
+  ListFooterComponent,
   horizontal = false,
   className,
   style
 }: {
   data: T[],
-  renderItem: (item: T, index: number) => any,
-  keyExtractor?: (item: T, index: number) => string | number,
-  inverted?: boolean,
-  ItemSeparatorComponent?: React.ReactNode,
-  ListEmptyComponent?: React.ReactNode,
-  ListHeaderComponent?: React.ReactNode,
-  ListFooterComponent?: React.ReactNode,
-  horizontal?: boolean,
-  className?: string,
+  renderItem: (item: T, index: number) => ReactChildren
+  keyExtractor?: (item: T, index: number) => string | number
+  inverted?: boolean
+  ItemSeparatorComponent?: ReactChildren
+  ListEmptyComponent?: ReactChildren
+  ListHeaderComponent?: ReactChildren
+  ListFooterComponent?: ReactChildren
+  horizontal?: boolean
+  className?: string
   style?: React.CSSProperties
-}): any {
+}) {
 
-  if(data.length === 0) return ListEmptyComponent;
+  if(data.length === 0) {
+    return ListEmptyComponent ? (
+      <>
+        {ListEmptyComponent}
+      </>
+    ) : null;
+  }
 
   function renderItemWithExtras(item: any, i: number) {
     return <>
@@ -51,6 +58,7 @@ export function FlatList<T>({
       style={{
         display: 'flex',
         flexDirection: horizontal ? 'row' : 'column',
+        overflow: 'auto',
         ...style
       }}
     >

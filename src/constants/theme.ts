@@ -20,16 +20,16 @@ export function roundness(multiplier: number = 1) {
 
 const light: Theme = {
   colors: {
-    primary: '#050505',
-    accent: '#cc0033',
-    text: '#000',
-    textMuted: '#999',
-    spinner: '#bbb',
-    background: '#fafafa',
-    surface: '#fff',
-    divider: 'rgba(0,0,0,0.06)',
-    touchableHighlight: '#eee',
-    button: '#eee'
+    primary: 'var(--primary-color)',
+    accent: 'var(--accent-color)',
+    text: 'var(--text-color)',
+    textMuted: 'var(--text-muted-color)',
+    spinner: 'var(--spinner-color)',
+    background: 'var(--background-color)',
+    surface: 'var(--surface-color)',
+    divider: 'var(--divider-color)',
+    touchableHighlight: 'var(--touchable-highlight-color)',
+    button: 'var(--button-color)'
   },
   font: {
     light: '',

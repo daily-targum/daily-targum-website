@@ -1,3 +1,22 @@
+:root {
+  --primary-color: #050505;
+  --accent-color: #cc0033;
+  --text-color: #000;
+  --text-muted-color: #999;
+  --spinner-color: #bbb;
+  --background-color: #fafafa;
+  --surface-color: #fff;
+  --divider-color: rgba(0,0,0,0.06);
+  --touchable-highlight-color: #eee;
+  --button-color: #eee;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode */
+  }
+}
+
 html,
 body {
   padding: 0;
@@ -43,4 +62,8 @@ span {
 
 .animate-all-normal {
   transition: all 0.4s;
+}
+
+.hide-scrollbars::-webkit-scrollbar {
+  display: none;
 }

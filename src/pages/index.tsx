@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetHomepage, Article } from '../shared/src/client';
-import { Section, NewsCard, Theme, Divider, Text, NewsSlider, Newsletter, CardRow } from '../components';
+import { Section, NewsCard, Theme, Divider, Text, NewsSlider, Newsletter, Card, CardRow } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -49,13 +49,19 @@ function NewsRow({
           />
         ) : (
           <>
-            <NewsCard.Medium 
-              article={item[0]}
-              className={classes.card}
+            <Card.Compact
+              title={item[0].title}
+              image={item[0].media[0]}
+              href='/article/[year]/[month]/[slug]'
+              as={item[0].slug}
+              aspectRatio={[3,2]}
             />
-            <NewsCard.Medium 
-              article={item[1]}
-              className={classes.card}
+            <Card.Compact
+              title={item[1].title}
+              image={item[1].media[0]}
+              href='/article/[year]/[month]/[slug]'
+              as={item[1].slug}
+              aspectRatio={[3,2]}
             />
           </>
         )}
@@ -82,8 +88,9 @@ function Home({
 }: { 
   homepage: GetHomepage
 }) {
+  const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return (
-    <>
+    <div className={classes.page}>
       <NewsSlider articles={homepage.high}/>
       <Section>
         {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category, i) => (
@@ -101,7 +108,7 @@ function Home({
       </Section>
       <Divider/>
       <Newsletter.Section/>
-    </>
+    </div>
   );
 }
 
@@ -113,9 +120,11 @@ Home.getInitialProps = async () => {
 };
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
+  page: {
+    backgroundColor: theme.colors.background
+  },
   card: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(2)
   },
   section: {
     marginTop: theme.spacing(4),

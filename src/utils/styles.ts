@@ -1,6 +1,6 @@
 import { Theme } from '../types';
 
-function lockWidth<N extends number>(width: N): {
+function lockWidth<N extends number | string>(width: N): {
   minWidth: N
   width: N
   maxWith: N
@@ -12,7 +12,7 @@ function lockWidth<N extends number>(width: N): {
   }
 }
 
-function lockHeight<N extends number>(height: N): {
+function lockHeight<N extends number | string>(height: N): {
   minHeight: N
   height: N
   maxHeight: N

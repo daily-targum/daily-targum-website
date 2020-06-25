@@ -15,4 +15,6 @@ export * from './FlatList';
 export * from './ActivityIndicator';
 export * from './CardRow';
 export * from './AspectRatioView';
+export * from './Card';
+export * from './Carousel';
 export { default as Grid } from './Grid';
