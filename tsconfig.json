@@ -28,6 +28,6 @@
   ],
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx", "src/pages/section/[section].tsx.disabled"
   ]
 }

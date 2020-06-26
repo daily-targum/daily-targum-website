@@ -3,7 +3,7 @@
     "apps": [],
     "details": [{
       "appID": "EMY9LY754V.com.targum.daily",
-      "paths": ["/preview/*"]
+      "paths": ["*"]
     }]
   }
 }

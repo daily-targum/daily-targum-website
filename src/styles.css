@@ -1,0 +1,69 @@
+:root {
+  --primary-color: #050505;
+  --accent-color: #cc0033;
+  --text-color: #000;
+  --text-muted-color: #999;
+  --spinner-color: #bbb;
+  --background-color: #fafafa;
+  --surface-color: #fff;
+  --divider-color: rgba(0,0,0,0.06);
+  --touchable-highlight-color: #eee;
+  --button-color: #eee;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode */
+  }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  /* font-family: 'Open Sans', sans-serif; */
+  /* font-family: 'Merriweather', serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span { 
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+}
+
+.animate-opacity {
+  transition: opacity 3s;
+}
+
+.animate-opacity-fast {
+  transition: opacity 0.2s;
+}
+
+.animate-color {
+  transition: color 0.2s;
+}
+
+.animate-all-fast {
+  transition: all 0.2s;
+}
+
+.animate-all-normal {
+  transition: all 0.4s;
+}
+
+.hide-scrollbars::-webkit-scrollbar {
+  display: none;
+}

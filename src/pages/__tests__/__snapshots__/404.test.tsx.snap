@@ -1,7 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<404 /> renders correctly 1`] = `
-<h1>
-  404. Not found.
-</h1>
+<div
+  className="dBXbQe eNvtcx"
+>
+  <div
+    className="fIMQtV"
+    style={
+      Object {
+        "display": "flex",
+        "flex": 1,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "marginLeft": "0px",
+        "marginRight": "0px",
+      }
+    }
+  >
+    <div
+      className="styles__Col-sc-2ttx60-0 bHLExc"
+      spacing={0}
+      style={Object {}}
+    >
+      <span
+        className="Text__Truncate-sc-12nqtmo-0 doSSkk   kizoXJ"
+      >
+        404. Not found.
+      </span>
+      <span
+        className="Text__Truncate-sc-12nqtmo-0 doSSkk   hLqeDz"
+      >
+        Sorry, but the page you were trying to view does not exist.
+      </span>
+    </div>
+  </div>
+</div>
 `;
