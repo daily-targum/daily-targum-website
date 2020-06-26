@@ -1,71 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
-import { actions, GetArticles, Article } from '../../shared/src/client';
+import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
-import { Section, Theme, Text, Grid, ActivityIndicator } from '../../components';
+import { Section, Theme, Text, Grid, ActivityIndicator, Card } from '../../components';
 import { styles } from '../../utils';
-
-function LargeCard({
-  article
-}: {
-  article: Article
-}) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  return (
-    <Link
-      href='/article/[year]/[month]/[slug]'
-      as={`/${article.slug}`}
-    >
-      <a className={classes.cardMedium}>
-        <div 
-          className={classes.cardMediumImage}
-          style={{
-            backgroundImage: `url(${article.media})`
-          }}
-        />
-        <div className={classes.cardBody}>
-          <Text className={classes.tag}>News</Text>
-          <Text variant='h4' numberOfLines={3}>{article.title}</Text>
-          <div className={classes.grow}/>
-          <Text variant='p' numberOfLines={3} noPadding>
-            by {article.authors[0]}
-          </Text>
-        </div>
-      </a>
-    </Link>
-  )
-}
-
-function SmallCard({
-  article
-}: {
-  article: Article
-}) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  return (
-    <Link
-      href='/article/[year]/[month]/[slug]'
-      as={`/${article.slug}`}
-    >
-      <a className={classes.cardSmall}>
-        <div 
-          className={classes.cardSmallImage}
-          style={{
-            backgroundImage: `url(${article.media})`
-          }}
-        />
-        <div className={classes.cardBody}>
-          <Text className={classes.tag}>News</Text>
-          <Text variant='h4' numberOfLines={3}>{article.title}</Text>
-          <div className={classes.grow}/>
-          <Text variant='p' numberOfLines={3} noPadding>
-            by {article.authors[0]}
-          </Text>
-        </div>
-      </a>
-    </Link>
-  )
-}
 
 function Category({ 
   initSection
@@ -101,20 +38,35 @@ function Category({
       </div>
       <Grid.Row spacing={spacing(2)}>
         <Grid.Col xs={24}>
-          <LargeCard
-            article={section.items[0]}
+          <Card
+            tag='News'
+            image={section.items[0].media[0]}
+            title={section.items[0].title}
+            href='/article/[year]/[month]/[slug]'
+            as={'/'+section.items[0].slug}
+            aspectRatioStacked={[7,2]}
           />
         </Grid.Col>
 
         <Grid.Col xs={24} md={12}>
-          <LargeCard
-            article={section.items[1]}
+          <Card
+            tag='News'
+            image={section.items[1].media[0]}
+            title={section.items[1].title}
+            href='/article/[year]/[month]/[slug]'
+            as={'/'+section.items[1].slug}
+            aspectRatioStacked={[2,1]}
           />
         </Grid.Col>
 
         <Grid.Col xs={24} md={12}>
-          <LargeCard
-            article={section.items[2]}
+          <Card
+            tag='News'
+            image={section.items[2].media[0]}
+            title={section.items[2].title}
+            href='/article/[year]/[month]/[slug]'
+            as={'/'+section.items[2].slug}
+            aspectRatioStacked={[2,1]}
           />
         </Grid.Col>
 
@@ -125,7 +77,13 @@ function Category({
             md={12}
             lg={8}
           >
-            <SmallCard article={item}/>
+            <Card.Compact
+              tag='News'
+              image={item.media[0]}
+              title={item.title}
+              href='/article/[year]/[month]/[slug]'
+              as={'/'+item.slug}
+            />
           </Grid.Col>
         ))}
       </Grid.Row>

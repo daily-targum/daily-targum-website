@@ -39,7 +39,7 @@ function CardCompact({
             src={image}
           />
           <div className={classes.cardBody}>
-            {date ? <Text variant='p' className={classes.date}>{date}</Text> : null}
+            {date ? <Text variant='p' className={classes.date} noPadding>{date}</Text> : null}
             {tag ? <Text className={classes.tag}>{tag}</Text> : null}
             {title ? <Text variant='h4' numberOfLines={3}>{title}</Text> : null}
             {subtitle ? <Text variant='p' numberOfLines={3} noPadding>{subtitle}</Text> : null}
@@ -57,6 +57,7 @@ function CardStacked({
   image,
   href,
   as,
+  aspectRatio = [3, 2],
   date
 }: {
   title?: string
@@ -65,6 +66,7 @@ function CardStacked({
   image: string
   href: string
   as?: string
+  aspectRatio?: [number, number]
   date?: string
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
@@ -76,7 +78,7 @@ function CardStacked({
       <a className={classes.cardLink}>
         <div className={classes.cardStacked}>
           <AspectRatioImage
-            aspectRatio={[3,2]}
+            aspectRatio={aspectRatio}
             src={image}
           />
           <div className={classes.cardBody}>
@@ -98,7 +100,9 @@ export function Card({
   href,
   as,
   image,
-  date
+  date,
+  aspectRatioCompact,
+  aspectRatioStacked
 }: {
   title?: string
   subtitle?: string
@@ -107,6 +111,8 @@ export function Card({
   as?: string
   image: string
   date?: string
+  aspectRatioCompact?: [number, number]
+  aspectRatioStacked?: [number, number]
 }) {
   return (
     <Grid.Row>
@@ -123,6 +129,7 @@ export function Card({
           as={as}
           image={image}
           date={date}
+          aspectRatio={aspectRatioStacked}
         />
       </Grid.Col>
       {/* Mobile */}
@@ -138,6 +145,7 @@ export function Card({
           as={as}
           image={image}
           date={date}
+          aspectRatio={aspectRatioCompact}
         />
       </Grid.Col>
     </Grid.Row>
@@ -147,10 +155,12 @@ export function Card({
 const styleCreator =  Theme.makeStyleCreator(theme => ({  
   cardStacked: {
     ...styles.flex(),
-    flex: 1
+    flex: 1,
+    marginBottom: theme.spacing(2)
   },
   cardCompact: {
     ...styles.flex('row'),
+    flex: 1,
     marginBottom: theme.spacing(2)
   },
   cardCompactImage: {

@@ -24,15 +24,15 @@ export function Section({
   );
 }
 
-const styleCreator = makeStyleCreator(() => ({
+const styleCreator = makeStyleCreator(theme => ({
   section: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
     alignItems: 'center',
-    paddingRight: 'calc(5px + 0.5vw)',
-    paddingLeft: 'calc(5px + 0.5vw)',
+    paddingRight: theme.spacing(2.5),
+    paddingLeft: theme.spacing(2.5),
   },
   row: {
     width: '100%',

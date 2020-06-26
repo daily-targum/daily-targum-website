@@ -4,6 +4,7 @@ import { actions, GetHomepage, Article } from '../shared/src/client';
 import { Section, NewsCard, Theme, Divider, Text, NewsSlider, Newsletter, Card, CardRow } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { formatDateAbriviated } from '../shared/src/utils';
 
 interface Section {
   id: string,
@@ -55,6 +56,7 @@ function NewsRow({
               href='/article/[year]/[month]/[slug]'
               as={item[0].slug}
               aspectRatio={[3,2]}
+              date={formatDateAbriviated(item[1].publishDate)}
             />
             <Card.Compact
               title={item[1].title}
@@ -62,6 +64,7 @@ function NewsRow({
               href='/article/[year]/[month]/[slug]'
               as={item[1].slug}
               aspectRatio={[3,2]}
+              date={formatDateAbriviated(item[1].publishDate)}
             />
           </>
         )}

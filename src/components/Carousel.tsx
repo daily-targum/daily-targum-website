@@ -194,7 +194,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   button: {
     padding: theme.spacing(3, 1.5),
-    backgroundColor: '#000'
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    backdropFilter: 'blur(20px)'
   },
   item: {
     scrollSnapAlign: 'start'

@@ -3,12 +3,12 @@ import { Theme } from '../types';
 function lockWidth<N extends number | string>(width: N): {
   minWidth: N
   width: N
-  maxWith: N
+  maxWidth: N
 } {
   return {
     minWidth: width,
     width,
-    maxWith: width
+    maxWidth: width
   }
 }
 
@@ -75,6 +75,16 @@ function textCenter() {
   } as const;
 }
 
+function absoluteFill() {
+  return {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  } as const;
+}
+
 export const styles = {
   lockWidth,
   lockHeight,
@@ -83,5 +93,6 @@ export const styles = {
   aspectRatioFullWidth,
   page,
   flex,
-  textCenter
+  textCenter,
+  absoluteFill
 }

@@ -42,7 +42,7 @@ function Column({
             subtitle='Subheading...'
             image={article.media[0]}
             href='/article/[year]/[month]/[slug]'
-            as={article.slug}
+            as={'/'+article.slug}
           />
         )}
       </CardRow>
@@ -70,7 +70,7 @@ function Category({
             title={article.title}
             image={article.media[0]}
             href='/article/[year]/[month]/[slug]'
-            as={article.slug}
+            as={'/'+article.slug}
           />
         )}
       </CardRow>

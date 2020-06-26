@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // @ts-ignore
-import { Dots } from 'react-activity';
+import { Spinner } from 'react-activity';
 import { Grid, Theme } from '.';
 import { useVisibility } from '../utils';
  
@@ -14,7 +14,7 @@ export function ActivityIndicator() {
     return () => clearTimeout(id);
   });
 
-  return !visible ? null : <Dots />;
+  return !visible ? null : <Spinner />;
 }
 
 function ActivityIndicatorScreen() {
@@ -56,7 +56,7 @@ function ActivityIndicatorProgressiveLoader({
         justifyContent: 'center'
       }}
     >
-      <Dots />
+      <Spinner />
     </div>
   );
 }

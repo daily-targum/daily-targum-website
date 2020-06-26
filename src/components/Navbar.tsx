@@ -4,12 +4,14 @@ import Grid from './Grid';
 import Section from './Section';
 import Logo from './Logo'
 import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 // @ts-ignore
 import NextNprogress from 'nextjs-progressbar';
 import { useRouter } from 'next/router';
-import { useSelector } from '../store';
+import { useSelector, useDispatch } from '../store';
+import { navigationActions } from '../store/ducks/navigation';
+import { styles } from '../utils';
+import { MdClose } from 'react-icons/md';
+import { FiMenu } from 'react-icons/fi';
 
 export const NAVBAR_HEIGHT = 60;
 
@@ -18,11 +20,6 @@ const navbarLinks: {
   href: string
   as: string
 }[] = [
-  // {
-  //   title: 'Home',
-  //   href: '/',
-  //   as: '/'
-  // },
   {
     title: 'News',
     href: '/section/[section]',
@@ -60,14 +57,56 @@ const navbarLinks: {
   }
 ]
 
-function Nav({
-  dark
-}: {
-  dark: boolean
-}) {
+function MobileMenu() {
+  const isVisible = useSelector(s => s.navigation.mobileMenuVisible);
+  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(navigationActions.closeMobileMenu());
+  }, [router.pathname]);
+
+  return (
+    <Grid.Row>
+      <Grid.Col xs={24} md={0}>
+        <div
+          className={[
+            classes.mobileMenu,
+            'animate-all-fast'
+          ].join(' ')}
+          style={{
+            opacity: +isVisible,
+            pointerEvents: isVisible ? undefined : 'none'
+          }}
+        >
+          {navbarLinks.map(link => (
+            <Link 
+              key={link.as}
+              href={link.href} 
+              as={link.as}
+            >
+              <a className={[
+                classes.mobileLink,
+                classes["link:hover"],
+                (link.as === router.asPath) ? classes.linkActive : null,
+              ].join(' ')}>
+                <span>{link.title}</span>
+              </a>
+            </Link>
+          ))}
+        </div>
+      </Grid.Col>
+    </Grid.Row>
+  );
+}
+
+function DesktopNavbar() {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const {colors} = Theme.useTheme();
   const router = useRouter();
+  const dispatch = useDispatch();
+  const mobileMenuVisible = useSelector(s => s.navigation.mobileMenuVisible);
   return (
     <>
       <NextNprogress
@@ -75,17 +114,22 @@ function Nav({
         height="2"
         options={{showSpinner: false}}
       />
-      <Section className={[
-        classes.navbar, 
-        'animate-all-normal'
-      ].join(' ')}>
+      <Section 
+        className={[
+          classes.navbar, 
+          mobileMenuVisible ? classes.navbarBorder : classes.navbarShadow
+        ].join(' ')}
+        style={{
+          position: mobileMenuVisible ? 'fixed' : 'sticky'
+        }}
+      >
         <div className={classes.inner}>
           <Link href='/'>
             <a>
               <Logo className={classes.logo}/>
             </a>
           </Link>
-          <Grid.Row>
+          <Grid.Row style={{flex: 'unset'}}>
             <Grid.Col xs={0} lg={24}>
               <div className={classes.links}>
                 {navbarLinks.map(link => (
@@ -98,7 +142,7 @@ function Nav({
                       className={[
                         classes['link:hover'],
                         classes.link,
-                        'animate-all-normal',
+                        'animate-all-fast',
                         (link.as === router.asPath) ? classes.linkActive : null,
                       ].join(' ')}
                     >
@@ -109,34 +153,35 @@ function Nav({
               </div>
             </Grid.Col>
             <Grid.Col lg={0}>
-              <div className={[classes.links, classes.menuIconWrap].join(' ')}>
-                <FontAwesomeIcon size='1x' color={dark ? '#fff' : '#000'} icon={faBars}/>
+              <div 
+                className={[classes.links, classes.menuIconWrap].join(' ')}
+                onClick={() => dispatch(navigationActions.toggleMobileMenu())}
+              >
+                {mobileMenuVisible ? (
+                  <MdClose
+                    size={34}
+                  />
+                ) : (
+                  <FiMenu
+                    size={30}
+                  />
+                )}
               </div>
             </Grid.Col>
           </Grid.Row>
         </div>
       </Section>
+      <div className={mobileMenuVisible ? classes.navbarSpacer : undefined}/>
     </>
   );
 }
 
 export function Navbar() {
-  const dynamicHeaderEnabled = useSelector(s => s.navigation.dynamicHeaderEnabled);
-  const [dark, setDark] = React.useState(true);
-
-  
-
-  React.useEffect(() => {
-    function onScroll() {
-      let offsetTop = window.pageYOffset || document.documentElement.scrollTop;
-      setDark(offsetTop < 200);
-    }
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
-    <Nav dark={dynamicHeaderEnabled && dark}/>
+    <>
+      <MobileMenu/>
+      <DesktopNavbar/>
+    </>
   );
 }
 
@@ -147,7 +192,18 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     top: 0,
     zIndex: 1000,
     backgroundColor: '#fff',
+    borderColor: 'transparent',
+    borderWidth: '1px 0',
+    borderStyle: 'solid'
+  },
+  navbarSpacer: {
+    height: NAVBAR_HEIGHT + 2,
+  },
+  navbarShadow: {
     boxShadow: '0 4px 12px 0 rgba(0,0,0,.05)',
+  },
+  navbarBorder: {
+    borderBottomColor: theme.colors.divider,
   },
   inner: {
     display: 'flex',
@@ -187,6 +243,11 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     borderColor: 'transparent',
     borderStyle: 'solid'
   },
+  mobileLink: {
+    ...styles.hideLink(),
+    fontSize: '9vw',
+    marginBottom: theme.spacing(3)
+  },
   'link:hover': {
     color: theme.colors.accent,
     borderBottomColor: theme.colors.accent
@@ -196,19 +257,20 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     borderBottomColor: theme.colors.accent
   },
   menuIconWrap: {
-    fontSize: '1.6em'
+    fontSize: '1.6em',
+    cursor: 'pointer',
+    // make icon easier to click
+    paddingLeft: 20
+  },
+  mobileMenu: {
+    ...styles.flex(),
+    ...styles.absoluteFill(),
+    position: 'fixed',
+    backgroundColor: theme.colors.surface,
+    paddingLeft: theme.spacing(2.5),
+    zIndex: 999,
+    justifyContent: 'center'
   }
 }));
 
-// export function useDynamicHeader() {
-//   const dispatch = useDispatch();
-//   React.useEffect(() => {
-//     dispatch(navigationActions.enableDynamicHeader());
-//     return () => {
-//       dispatch(navigationActions.disablewDynamicHeader());
-//     };
-//   });
-// }
-
-// Navbar.useDynamicHeader = useDynamicHeader;
 export default Navbar;
