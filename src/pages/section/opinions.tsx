@@ -36,7 +36,7 @@ function Column({
       </div>
 
       <CardRow items={articles}>
-        {article => (
+        {article => article ? (
           <Card 
             title={article.title}
             subtitle='Subheading...'
@@ -44,7 +44,7 @@ function Column({
             href='/article/[year]/[month]/[slug]'
             as={'/'+article.slug}
           />
-        )}
+        ) : null}
       </CardRow>
     </div>
   );
@@ -64,7 +64,7 @@ function Category({
       <Text variant='h2'>Opinions</Text>
 
       <CardRow items={section.items.slice(0,3)}>
-        {article => (
+        {article => article ? (
           <Card 
             tag='News'
             title={article.title}
@@ -72,7 +72,7 @@ function Category({
             href='/article/[year]/[month]/[slug]'
             as={'/'+article.slug}
           />
-        )}
+        ) : null}
       </CardRow>
 
       <Divider className={classes.divider}/>
@@ -86,6 +86,7 @@ function Category({
           </div>
         )}
         keyExtractor={author => author}
+        itemWidth={175}
       />
 
       <Divider className={classes.divider}/>
@@ -142,13 +143,13 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   },
   columnistTitle: {
     ...styles.textCenter(),
-    ...styles.lockWidth(150)
+    ...styles.lockWidth(175)
   }
 }));
 
 Category.getInitialProps = async () => {
   const section = await actions.getArticles({
-    category: 'inside-beat',
+    category: 'Opinions',
     limit: 20
   });
   let authors: any = {};

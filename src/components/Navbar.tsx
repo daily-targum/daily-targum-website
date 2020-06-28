@@ -115,10 +115,7 @@ function DesktopNavbar() {
         options={{showSpinner: false}}
       />
       <Section 
-        className={[
-          classes.navbar, 
-          mobileMenuVisible ? classes.navbarBorder : classes.navbarShadow
-        ].join(' ')}
+        className={classes.navbar}
         style={{
           position: mobileMenuVisible ? 'fixed' : 'sticky'
         }}
@@ -192,24 +189,21 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     top: 0,
     zIndex: 1000,
     backgroundColor: '#fff',
-    borderColor: 'transparent',
-    borderWidth: '1px 0',
-    borderStyle: 'solid'
+    borderBottomStyle: 'solid',
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.divider,
+    height: NAVBAR_HEIGHT,
+    overflow: 'visible'
   },
   navbarSpacer: {
-    height: NAVBAR_HEIGHT + 2,
-  },
-  navbarShadow: {
-    boxShadow: '0 4px 12px 0 rgba(0,0,0,.05)',
-  },
-  navbarBorder: {
-    borderBottomColor: theme.colors.divider,
+    height: NAVBAR_HEIGHT,
   },
   inner: {
     display: 'flex',
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    overflow: 'visible'
   },
   noPadding: {
     padding: 0,

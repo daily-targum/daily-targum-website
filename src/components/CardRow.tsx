@@ -6,8 +6,8 @@ export function CardRow<I>({
   items,
   children
 }: {
-  items: I[],
-  children: (item: I, index?: number) => ReactChild
+  items: (I | null)[],
+  children: (item: I | null, index?: number) => ReactChild
 }) {
   const theme = Theme.useTheme();
   const isLarge = items.length > 3;

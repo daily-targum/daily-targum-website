@@ -159,7 +159,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   title: {
     color: '#fff',
-    textAlign: 'center'
+    ...styles.textCenter()
   },
   link: {
     marginTop: theme.spacing(2),

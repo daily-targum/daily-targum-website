@@ -1,56 +1,9 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br } from '../../../../components';
+import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage } from '../../../../components';
 import NotFound from '../../../404';
 
-function HighlightedImage({
-  src,
-  title
-}: {
-  src: string,
-  title: string
-}) {
-  return (
-    <div 
-      style={{
-        maxHeight: '75vh',
-        backgroundImage: `url(${src})`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        position: 'relative',
-      }}
-    >
-      <div style={{
-        paddingTop: '50%'
-      }}/>
-      <div style={{
-        background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.7), transparent)',
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-      }}/>
-      <div style={{
-        position: 'absolute',
-        bottom: 30,
-        display: 'flex',
-        justifyContent: 'center',
-        width: '100%'
-      }}>
-        <Text variant='h1' style={{
-          color: '#fff',
-          textAlign: 'center',
-          width: '80%',
-          maxWidth: 750,
-          fontSize: 'calc(1rem + 2vw)'
-        }}>{title}</Text>
-      </div>
-    </div>
-  );
-}
 
 function Article({
   article 
@@ -58,28 +11,27 @@ function Article({
   article: GetArticle
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const {spacing} = Theme.useTheme();
+  const { spacing } = Theme.useTheme();
 
   if(!article) return <NotFound/>;
   
   return (
     <>
-      <HighlightedImage 
-        src={article.media[0]+'?ar=16:9&fit=crop&crop=faces,center'}
-        title={article.title}
-      />
       <Section className={classes.page}>
-        <Grid.Row spacing={spacing(6)}>
+        <Grid.Row spacing={spacing(4)} wrap={false}>
           <Grid.Col xs={24} md={0} lg='250px'>
           </Grid.Col>
           <Grid.Col>
-            {/* <Text variant='h1'>{article.title}</Text> */}
-            <Byline.Authors authors={article.authors}/>
-            <Byline.Date 
+            <Text variant='h2'>{article.title}</Text>
+            <Byline.Authors 
+              authors={article.authors}
               updatedAt={article.updatedAt} 
               publishDate={article.publishDate}
             />
-            <Divider/>
+            <AspectRatioImage
+              aspectRatio={[16,9]}
+              src={article.media[0]+'?ar=16:9&fit=crop&crop=faces,center'}
+            />
             <Br/>
             <HTML html={article.body}/>
           </Grid.Col>
@@ -94,7 +46,7 @@ function Article({
 
       <Divider/>
       <Section className={classes.page}>
-        <Grid.Row spacing={spacing(6)}>
+        <Grid.Row spacing={spacing(4)}>
           <Grid.Col xs={24} md={0} lg='250px'></Grid.Col>
           <Grid.Col>
             <Text variant='h2'>Comments</Text>

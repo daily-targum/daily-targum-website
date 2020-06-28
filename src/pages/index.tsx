@@ -43,31 +43,34 @@ function NewsRow({
       </div>
 
       <CardRow items={chopArray(category)}>
-        {(item, i) => i === 0 ? (
-          <NewsCard.Large 
-            article={item[0]}
-            className={[classes.aspectRadio, classes.card].join(' ')}
-          />
-        ) : (
-          <>
-            <Card.Compact
-              title={item[0].title}
-              image={item[0].media[0]}
-              href='/article/[year]/[month]/[slug]'
-              as={item[0].slug}
-              aspectRatio={[3,2]}
-              date={formatDateAbriviated(item[1].publishDate)}
+        {(item, i) => {
+          if(!item) return null;
+          return i === 0 ? (
+            <NewsCard.Large 
+              article={item[0]}
+              className={[classes.aspectRadio, classes.card].join(' ')}
             />
-            <Card.Compact
-              title={item[1].title}
-              image={item[1].media[0]}
-              href='/article/[year]/[month]/[slug]'
-              as={item[1].slug}
-              aspectRatio={[3,2]}
-              date={formatDateAbriviated(item[1].publishDate)}
-            />
-          </>
-        )}
+          ) : (
+            <>
+              <Card.Compact
+                title={item[0].title}
+                image={item[0].media[0]}
+                href='/article/[year]/[month]/[slug]'
+                as={item[0].slug}
+                aspectRatio={[3,2]}
+                date={formatDateAbriviated(item[1].publishDate)}
+              />
+              <Card.Compact
+                title={item[1].title}
+                image={item[1].media[0]}
+                href='/article/[year]/[month]/[slug]'
+                as={item[1].slug}
+                aspectRatio={[3,2]}
+                date={formatDateAbriviated(item[1].publishDate)}
+              />
+            </>
+          );
+        }}
       </CardRow>
     </div>
   );
