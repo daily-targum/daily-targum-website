@@ -2,6 +2,7 @@ import React from 'react';
 import { Article } from '../shared/src/client';
 import { Theme, Section, Text } from '../components';
 import Link from 'next/link';
+import { styles } from '../utils';
 
 function Slide({
   article,
@@ -83,7 +84,7 @@ export function NewsSlider({
             article={a}
             hide={i !== index}
             className={[
-              // i !== index ? classes.hide : null,
+              i !== index ? classes.hide : null,
               classes.slide
             ].join(' ')}
           />
@@ -108,20 +109,6 @@ export function NewsSlider({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   section: {
     backgroundColor: theme.colors.primary
-  },
-  sider: {
-    // maxHeight: 400,
-    height: 'calc(25vw + 180px)',
-    backgroundColor: '#000',
-    position: 'relative',
-    overflow: 'hidden'
-  },
-  slide: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
   },
   hide: {
     opacity: 0,
@@ -153,12 +140,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     color: theme.colors.text
   },
   slideImage: {
-    width: '100%',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    position: 'relative',
-    height: '100%',
+    ...styles.centerBackgroundImage(),
     display: 'flex',
     alignItems: 'flex-end'
   },
@@ -182,7 +164,17 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     color: '#fff',
     textAlign: 'center',
     maxWidth: 800
-  }
+  },
+  sider: {
+    // maxHeight: 400,
+    height: 'calc(25vw + 180px)',
+    backgroundColor: '#000',
+    position: 'relative',
+    overflow: 'hidden'
+  },
+  slide: {
+    ...styles.absoluteFill()
+  },
 }));
 
 export default NewsSlider;
