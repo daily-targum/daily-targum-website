@@ -3,6 +3,7 @@ import { NextPageContext } from 'next';
 import { Section, Theme, HTML } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404';
+import { styles } from '../../utils';
 
 function Page({
   page 
@@ -21,8 +22,7 @@ function Page({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   section: {
-    paddingTop: theme.spacing(6),
-    paddingBottom: theme.spacing(6),
+    ...styles.page(theme)
   }
 }));
 

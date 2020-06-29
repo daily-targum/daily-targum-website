@@ -13,18 +13,18 @@ function getColSizes(numOfCols: number): {
   if (numOfCols === 1) {
     return ([
       { xs, sm: 12 },
-      { xs, sm: 0 },
-      { xs, sm: 0 },
-      { xs, sm: 0 }
+      { xs: 0 },
+      { xs: 0 },
+      { xs: 0 }
     ]);
   } 
 
   else if(numOfCols === 2) {
     return ([
-      { xs, sm: 12 },
-      { xs, sm: 12 },
-      { xs, sm: 0 },
-      { xs, sm: 0 }
+      { xs, md: 12 },
+      { xs, md: 12 },
+      { xs: 0 },
+      { xs: 0 }
     ]);
   }
 
@@ -33,15 +33,15 @@ function getColSizes(numOfCols: number): {
       { xs, sm: 12, lg: 8 },
       { xs, sm: 12, lg: 8 },
       { xs, sm: 0, lg: 8 },
-      { xs, sm: 0, lg: 0 }
+      { xs: 0 }
     ]);
   }
 
   return ([
-    { xs: 0, sm: 12, md: 8, lg: 6 },
-    { xs: 0, sm: 12, md: 8,  lg: 6 },
-    { xs: 0, sm: 0, md: 8, lg: 6 },
-    { xs: 0, sm: 0, md: 0, lg: 6 }
+    { xs, sm: 12, md: 8, lg: 6 },
+    { xs, sm: 12, md: 8,  lg: 6 },
+    { xs, sm: 0, md: 8, lg: 6 },
+    { xs, sm: 0, md: 0, lg: 6 }
   ]);
 }
 

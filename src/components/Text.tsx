@@ -46,12 +46,12 @@ export function Br() {
 }
 
 const styleCreator = Theme.makeStyleCreator((theme, numberOfLines) => ({
-  trunkcate: {
+  trunkcate: numberOfLines ? {
     display: '-webkit-box',
-    '-webkit-line-clamp': numberOfLines || 'initial',
+    '-webkit-line-clamp': numberOfLines,
     '-webkit-box-orient': 'vertical',
     overflow: 'hidden'
-  },
+  } : {},
   h1: {
     fontWeight: 700,
     fontSize: '3rem',

@@ -37,12 +37,13 @@ function Column({
 
       <CardRow items={articles}>
         {article => article ? (
-          <Card 
+          <Card.StackedResponsive 
             title={article.title}
             subtitle='Subheading...'
             image={article.media[0]}
             href='/article/[year]/[month]/[slug]'
             as={'/'+article.slug}
+            aspectRatioStacked={[16, 9]}
           />
         ) : null}
       </CardRow>
@@ -65,12 +66,13 @@ function Category({
 
       <CardRow items={section.items.slice(0,3)}>
         {article => article ? (
-          <Card 
-            tag='News'
+          <Card.StackedResponsive
+            tag='Column'
             title={article.title}
             image={article.media[0]}
             href='/article/[year]/[month]/[slug]'
             as={'/'+article.slug}
+            aspectRatioStacked={[16, 9]}
           />
         ) : null}
       </CardRow>

@@ -22,12 +22,12 @@ const navbarLinks: {
 }[] = [
   {
     title: 'News',
-    href: '/section/[section]',
+    href: '/section/news',
     as: '/section/news'
   },
   {
     title: 'Sports',
-    href: '/section/[section]',
+    href: '/section/sports',
     as: '/section/sports'
   },
   {

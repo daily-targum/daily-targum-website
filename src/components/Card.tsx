@@ -50,16 +50,7 @@ function CardCompact({
   );
 }
 
-function CardStacked({
-  title,
-  subtitle,
-  tag,
-  image,
-  href,
-  as,
-  aspectRatio = [3, 2],
-  date
-}: {
+type CardStackedProps = {
   title?: string
   subtitle?: string
   tag?: string
@@ -68,7 +59,18 @@ function CardStacked({
   as?: string
   aspectRatio?: [number, number]
   date?: string
-}) {
+}
+
+function CardStacked({
+  title,
+  subtitle,
+  tag,
+  image,
+  href,
+  as,
+  aspectRatio,
+  date
+}: CardStackedProps) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return (
     <Link
@@ -77,20 +79,70 @@ function CardStacked({
     >
       <a className={classes.cardLink}>
         <div className={classes.stackedCard}>
-          <AspectRatioImage
+          <div
+            className={classes.backgroundImgae}
+            style={{
+              backgroundImage: `url(${image}?h=260&w=400&fit=crop&crop=faces,center)`
+            }}
+          >
+            {aspectRatio ? (
+            <AspectRatioView 
+              aspectRatio={aspectRatio}
+              style={{width: '100%'}}
+            /> 
+          ) : <div style={{flex: 1}}/>}
+          </div>
+          {/* <AspectRatioImage
             aspectRatio={aspectRatio}
             src={image}
-          />
+          /> */}
           <div className={classes.cardBody}>
             {date ? <Text variant='p' className={classes.date}>{date}</Text> : null}
             {tag ? <Text className={classes.tag}>{tag}</Text> : null}
-            {title ? <Text variant='h4' numberOfLines={3}>{title}</Text> : null}
-            {subtitle ? <Text variant='p' numberOfLines={3} noPadding>{subtitle}</Text> : null}
+            {title ? <Text variant='h4' numberOfLines={2}>{title}</Text> : null}
+            {subtitle ? <Text variant='p' numberOfLines={2} noPadding>{subtitle}</Text> : null}
           </div>
         </div>
       </a>
     </Link>
   );
+}
+
+interface CardStackedResponsiveProps extends CardStackedProps {
+  aspectRatioCompact?: [number, number]
+  aspectRatioStacked?: [number, number]
+  tag?: string
+}
+
+export function CardStackedResponsive({
+  aspectRatioCompact,
+  aspectRatioStacked,
+  ...rest
+}: CardStackedResponsiveProps) {
+  return (
+    <Grid.Row>
+      {/* Desktop */}
+      <Grid.Col 
+        xs={0}
+        md={24}
+      >
+        <CardStacked
+          {...rest}
+          aspectRatio={aspectRatioStacked || rest.aspectRatio}
+        />
+      </Grid.Col>
+      {/* Mobile */}
+      <Grid.Col 
+        xs={24}
+        md={0}
+      >
+        <CardCompact
+          {...rest}
+          aspectRatio={aspectRatioCompact || rest.aspectRatio}
+        />
+      </Grid.Col>
+    </Grid.Row>
+  )
 }
 
 type CardImageProps = {
@@ -138,96 +190,37 @@ function CardImage({
   );
 }
 
-interface CardImageResponziveProps extends CardImageProps {
+interface CardImageResponsiveProps extends CardImageProps {
   aspectRatioCompact?: [number, number]
   aspectRatioImage?: [number, number]
   tag?: string
 }
 
-export function CardImageResponzive({
+export function CardImageResponsive({
   aspectRatioCompact,
   aspectRatioImage,
   ...rest
-}: CardImageResponziveProps) {
+}: CardImageResponsiveProps) {
   return (
     <Grid.Row>
       {/* Desktop */}
       <Grid.Col 
         xs={0}
-        sm={24}
+        md={24}
       >
         <CardImage
           {...rest}
-          aspectRatio={aspectRatioImage}
+          aspectRatio={aspectRatioImage || rest.aspectRatio}
         />
       </Grid.Col>
       {/* Mobile */}
       <Grid.Col 
         xs={24}
-        sm={0}
+        md={0}
       >
         <CardCompact
           {...rest}
-          aspectRatio={aspectRatioCompact}
-        />
-      </Grid.Col>
-    </Grid.Row>
-  )
-}
-
-export function Card({
-  title,
-  subtitle,
-  tag,
-  href,
-  as,
-  image,
-  date,
-  aspectRatioCompact,
-  aspectRatioStacked
-}: {
-  title?: string
-  subtitle?: string
-  tag?: string
-  href: string
-  as?: string
-  image: string
-  date?: string
-  aspectRatioCompact?: [number, number]
-  aspectRatioStacked?: [number, number]
-}) {
-  return (
-    <Grid.Row>
-      {/* Desktop */}
-      <Grid.Col 
-        xs={0}
-        sm={24}
-      >
-        <CardStacked
-          title={title}
-          subtitle={subtitle}
-          tag={tag}
-          href={href}
-          as={as}
-          image={image}
-          date={date}
-          aspectRatio={aspectRatioStacked}
-        />
-      </Grid.Col>
-      {/* Mobile */}
-      <Grid.Col 
-        xs={24}
-        sm={0}
-      >
-        <CardCompact
-          title={title}
-          subtitle={subtitle}
-          tag={tag}
-          href={href}
-          as={as}
-          image={image}
-          date={date}
-          aspectRatio={aspectRatioCompact}
+          aspectRatio={aspectRatioCompact || rest.aspectRatio}
         />
       </Grid.Col>
     </Grid.Row>
@@ -249,9 +242,11 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     ...styles.lockWidth('40%')
   },
   cardBody: {
+    ...styles.flex('column'),
     padding: theme.spacing(2),
     backgroundColor: theme.colors.surface,
-    flex: 1
+    flex: 1,
+    alignItems: 'flex-start'
   },
   imageCard: {
     height: '100%',
@@ -260,6 +255,11 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     position: 'relative',
     ...styles.centerBackgroundImage(),
     marginBottom: theme.spacing(2)
+  },
+  backgroundImgae: {
+    height: '100%',
+    display: 'flex',
+    ...styles.centerBackgroundImage()
   },
   imageCardOverlay: {
     position: 'absolute',
@@ -286,6 +286,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     borderLeftStyle: 'solid'
   },
   tag: {
+    display: 'flex',
     color: '#fff',
     backgroundColor: theme.colors.accent,
     padding: theme.spacing(0.5, 1),
@@ -301,8 +302,12 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   }
 }));
 
-Card.Compact = CardCompact;
-Card.Stacked = CardStacked;
-Card.Image = CardImage;
-Card.ImageResponsive = CardImageResponzive;
+export const Card = {
+  Compact: CardCompact,
+  Stacked: CardStacked,
+  StackedResponsive: CardStackedResponsive,
+  Image: CardImage,
+  ImageResponsive: CardImageResponsive,
+}
+
 export default Card;

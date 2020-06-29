@@ -1,16 +1,16 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
-import { Section, Theme, Text, Grid, ActivityIndicator, Card, CardRow } from '../../components';
+import { Section, Theme, Text, Grid, ActivityIndicator, Card, CardRow, Divider } from '../../components';
 import { styles } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 
 
-function chopArray<I>(arr: I[]) {
-  return [[arr[0]], [arr[1], arr[2]]];
-}
+// function chopArray<I>(arr: I[]) {
+//   return [[arr[0]], [arr[1], arr[2]]];
+// }
 
-function Category({ 
+function News({ 
   initSection
 }: { 
   initSection: GetArticles
@@ -25,7 +25,7 @@ function Category({
     if(!section.nextToken || isLoading) return;
     setIsLoading(true);
     const res = await actions.getArticles({
-      category: 'Sports',
+      category: 'News',
       limit: 20,
       nextToken: section.nextToken
     });
@@ -39,47 +39,67 @@ function Category({
   if(!section) return <NotFound/>;
   return (
     <Section className={classes.page}>
-      <Text variant='h2'>Sports</Text>
+      <Text variant='h2'>News</Text>
 
-      <CardRow items={chopArray(section.items)}>
+      <CardRow items={section.items.slice(0,2)}>
         {(article, i) => {
           if (!article) {
             return null;
           }
 
           return i === 0 ? (
-            <Card.ImageResponsive 
-              title={article[0].title}
-              image={article[0].media[0]}
+            <Card.ImageResponsive
+              title={article.title}
+              image={article.media[0]}
               href='/article/[year]/[month]/[slug]'
-              as={'/'+article[0].slug}
-              date={formatDateAbriviated(article[0].publishDate)}
+              as={'/'+article.slug}
+              date={formatDateAbriviated(article.publishDate)}
+              aspectRatioImage={[16, 9]}
             />
           ) : (
-            <>
-              <Card.ImageResponsive
-                title={article[0].title}
-                image={article[0].media[0]}
-                href='/article/[year]/[month]/[slug]'
-                as={'/'+article[0].slug}
-                aspectRatioImage={[16, 7]}
-                date={formatDateAbriviated(article[0].publishDate)}
-              />
-              <Card.ImageResponsive
-                title={article[1].title}
-                image={article[1].media[0]}
-                href='/article/[year]/[month]/[slug]'
-                as={'/'+article[1].slug}
-                aspectRatioImage={[16, 7]}
-                date={formatDateAbriviated(article[1].publishDate)}
-              />
-            </>
+            <Card.StackedResponsive
+              title={article.title}
+              image={article.media[0]}
+              href='/article/[year]/[month]/[slug]'
+              as={'/'+article.slug}
+              date={formatDateAbriviated(article.publishDate)}
+            />
           );
         }}
       </CardRow>
 
+      <CardRow items={section.items.slice(2,4)}>
+        {(article, i) => {
+          if (!article) {
+            return null;
+          }
+
+          return i === 0 ? (
+            <Card.ImageResponsive
+              title={article.title}
+              image={article.media[0]}
+              href='/article/[year]/[month]/[slug]'
+              as={'/'+article.slug}
+              date={formatDateAbriviated(article.publishDate)}
+              aspectRatioImage={[16, 9]}
+            />
+          ) : (
+            <Card.ImageResponsive
+              title={article.title}
+              image={article.media[0]}
+              href='/article/[year]/[month]/[slug]'
+              as={'/'+article.slug}
+              date={formatDateAbriviated(article.publishDate)}
+              aspectRatioImage={[16, 9]}
+            />
+          );
+        }}
+      </CardRow>
+
+      <Divider className={classes.divier}/>
+
       <Grid.Row spacing={spacing(2)}>
-        {section.items.slice(3).map(item => (
+        {section.items.slice(4).map(item => (
           <Grid.Col 
             key={item.id}
             xs={24}
@@ -112,12 +132,15 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   grow: {
     display: 'flex',
     flex: 1,
+  },
+  divier: {
+    margin: theme.spacing(2, 0, 4)
   }
 }));
 
-Category.getInitialProps = async () => {
+News.getInitialProps = async () => {
   const section = await actions.getArticles({
-    category: 'Sports',
+    category: 'News',
     limit: 20
   });
   return { 
@@ -125,4 +148,4 @@ Category.getInitialProps = async () => {
   };
 };
 
-export default Category;
+export default News;
