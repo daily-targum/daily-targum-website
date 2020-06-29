@@ -20,7 +20,7 @@ function Column({
     <div className={classes.section}>
       <div className={classes.sectionHeader}>
         <div>
-        <Text variant='h3'>{title}</Text>
+          <Text variant='h3'>{title}</Text>
         </div>
         <Link 
           href='/section/opinions/[column]'
