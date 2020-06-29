@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Theme from './Theme';
 import Text from './Text';
 import Grid from './Grid';
-import { AspectRatioImage } from './AspectRatioView';
+import { AspectRatioImage, AspectRatioView } from './AspectRatioView';
 import { styles } from '../utils';
 
 function CardCompact({
@@ -32,9 +32,9 @@ function CardCompact({
       as={as}
     >
       <a className={classes.cardLink}>
-        <div className={classes.cardCompact}>
+        <div className={classes.compactCard}>
           <AspectRatioImage
-            className={classes.cardCompactImage}
+            className={classes.compactCardImage}
             aspectRatio={aspectRatio}
             src={image}
           />
@@ -76,7 +76,7 @@ function CardStacked({
       as={as}
     >
       <a className={classes.cardLink}>
-        <div className={classes.cardStacked}>
+        <div className={classes.stackedCard}>
           <AspectRatioImage
             aspectRatio={aspectRatio}
             src={image}
@@ -91,6 +91,88 @@ function CardStacked({
       </a>
     </Link>
   );
+}
+
+type CardImageProps = {
+  title?: string
+  image: string
+  href: string
+  as?: string
+  aspectRatio?: [number, number]
+  date?: string
+}
+
+function CardImage({
+  title,
+  image,
+  href,
+  as,
+  aspectRatio,
+  date
+}: CardImageProps) {
+  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  return (
+    <Link
+      href={href}
+      as={as}
+    >
+      <a
+        className={classes.imageCard}
+        style={{
+          backgroundImage: `url(${image}?h=260&w=400&fit=crop&crop=faces,center)`
+        }}
+      >
+        {aspectRatio ? (
+          <AspectRatioView 
+            aspectRatio={aspectRatio}
+            style={{width: '100%'}}
+          /> 
+        ) : <div style={{flex: 1}}/>}
+        <div className={classes.imageCardOverlay}/>
+        <div className={classes.imageCardTitleWrap}>
+          {date ? <Text variant='p' className={classes.imageCardSubtitle} noPadding>{date}</Text> : null}
+          {title ? <Text variant='h3' numberOfLines={2} className={classes.imageCardTitle} noPadding>{title}</Text> : null}
+        </div>
+      </a>
+    </Link>
+  );
+}
+
+interface CardImageResponziveProps extends CardImageProps {
+  aspectRatioCompact?: [number, number]
+  aspectRatioImage?: [number, number]
+  tag?: string
+}
+
+export function CardImageResponzive({
+  aspectRatioCompact,
+  aspectRatioImage,
+  ...rest
+}: CardImageResponziveProps) {
+  return (
+    <Grid.Row>
+      {/* Desktop */}
+      <Grid.Col 
+        xs={0}
+        sm={24}
+      >
+        <CardImage
+          {...rest}
+          aspectRatio={aspectRatioImage}
+        />
+      </Grid.Col>
+      {/* Mobile */}
+      <Grid.Col 
+        xs={24}
+        sm={0}
+      >
+        <CardCompact
+          {...rest}
+          aspectRatio={aspectRatioCompact}
+        />
+      </Grid.Col>
+    </Grid.Row>
+  )
 }
 
 export function Card({
@@ -153,23 +235,55 @@ export function Card({
 }
 
 const styleCreator =  Theme.makeStyleCreator(theme => ({  
-  cardStacked: {
+  stackedCard: {
     ...styles.flex(),
     flex: 1,
     marginBottom: theme.spacing(2)
   },
-  cardCompact: {
+  compactCard: {
     ...styles.flex('row'),
     flex: 1,
     marginBottom: theme.spacing(2)
   },
-  cardCompactImage: {
+  compactCardImage: {
     ...styles.lockWidth('40%')
   },
   cardBody: {
     padding: theme.spacing(2),
     backgroundColor: theme.colors.surface,
     flex: 1
+  },
+  imageCard: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'flex-end',
+    position: 'relative',
+    ...styles.centerBackgroundImage(),
+    marginBottom: theme.spacing(2)
+  },
+  imageCardOverlay: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.7), transparent)'
+  },
+  imageCardTitle: {
+    color: '#fff'
+  },
+  imageCardSubtitle: {
+    color: 'rgba(255,255,255,0.7)',
+    marginBottom: theme.spacing(1)
+  },
+  imageCardTitleWrap: {
+    position: 'absolute',
+    bottom: 0,
+    margin: theme.spacing(2),
+    padding: theme.spacing(1.5),
+    borderLeftColor: theme.colors.accent,
+    borderLeftWidth: 3,
+    borderLeftStyle: 'solid'
   },
   tag: {
     color: '#fff',
@@ -189,4 +303,6 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
 
 Card.Compact = CardCompact;
 Card.Stacked = CardStacked;
+Card.Image = CardImage;
+Card.ImageResponsive = CardImageResponzive;
 export default Card;

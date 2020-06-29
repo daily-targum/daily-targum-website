@@ -80,7 +80,19 @@ function MobileMenu() {
             pointerEvents: isVisible ? undefined : 'none'
           }}
         >
-          {navbarLinks.map(link => (
+          {navbarLinks.map(link => (link.as === router.asPath) ? (
+            <span 
+              key={link.as}
+              className={[
+                classes.mobileLink,
+                classes["link:hover"],
+                classes.linkActive
+              ].join(' ')}
+              onClick={() => dispatch(navigationActions.closeMobileMenu())}
+            >
+              <span>{link.title}</span>
+            </span>
+          ) : (
             <Link 
               key={link.as}
               href={link.href} 
@@ -88,8 +100,7 @@ function MobileMenu() {
             >
               <a className={[
                 classes.mobileLink,
-                classes["link:hover"],
-                (link.as === router.asPath) ? classes.linkActive : null,
+                classes["link:hover"]
               ].join(' ')}>
                 <span>{link.title}</span>
               </a>
@@ -240,7 +251,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   mobileLink: {
     ...styles.hideLink(),
     fontSize: '9vw',
-    marginBottom: theme.spacing(3)
+    marginBottom: theme.spacing(3),
+    cursor: 'pointer'
   },
   'link:hover': {
     color: theme.colors.accent,
