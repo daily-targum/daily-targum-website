@@ -41,7 +41,7 @@ h6,
 span { 
   padding: 0;
   margin: 0;
-  display: inline-flex;
+  /* display: block; */
 }
 
 .animate-opacity {
@@ -65,5 +65,5 @@ span {
 }
 
 .hide-scrollbars::-webkit-scrollbar {
-  display: none;
+  display: inline-block;
 }

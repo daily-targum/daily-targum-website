@@ -20,7 +20,7 @@ function Column({
     <div className={classes.section}>
       <div className={classes.sectionHeader}>
         <div>
-        <Text variant='h3'>{title}</Text>
+          <Text variant='h3'>{title}</Text>
         </div>
         <Link 
           href='/section/opinions/[column]'
@@ -36,15 +36,16 @@ function Column({
       </div>
 
       <CardRow items={articles}>
-        {article => (
-          <Card 
+        {article => article ? (
+          <Card.StackedResponsive 
             title={article.title}
             subtitle='Subheading...'
             image={article.media[0]}
             href='/article/[year]/[month]/[slug]'
             as={'/'+article.slug}
+            aspectRatioStacked={[16, 9]}
           />
-        )}
+        ) : null}
       </CardRow>
     </div>
   );
@@ -64,15 +65,16 @@ function Category({
       <Text variant='h2'>Opinions</Text>
 
       <CardRow items={section.items.slice(0,3)}>
-        {article => (
-          <Card 
-            tag='News'
+        {article => article ? (
+          <Card.StackedResponsive
+            tag='Column'
             title={article.title}
             image={article.media[0]}
             href='/article/[year]/[month]/[slug]'
             as={'/'+article.slug}
+            aspectRatioStacked={[16, 9]}
           />
-        )}
+        ) : null}
       </CardRow>
 
       <Divider className={classes.divider}/>
@@ -86,6 +88,7 @@ function Category({
           </div>
         )}
         keyExtractor={author => author}
+        itemWidth={175}
       />
 
       <Divider className={classes.divider}/>
@@ -142,13 +145,13 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   },
   columnistTitle: {
     ...styles.textCenter(),
-    ...styles.lockWidth(150)
+    ...styles.lockWidth(175)
   }
 }));
 
 Category.getInitialProps = async () => {
   const section = await actions.getArticles({
-    category: 'inside-beat',
+    category: 'Opinions',
     limit: 20
   });
   let authors: any = {};

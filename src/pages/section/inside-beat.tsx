@@ -38,8 +38,8 @@ function Category({
       </div>
       <Grid.Row spacing={spacing(2)}>
         <Grid.Col xs={24}>
-          <Card
-            tag='News'
+          <Card.StackedResponsive
+            tag='Category'
             image={section.items[0].media[0]}
             title={section.items[0].title}
             href='/article/[year]/[month]/[slug]'
@@ -49,8 +49,8 @@ function Category({
         </Grid.Col>
 
         <Grid.Col xs={24} md={12}>
-          <Card
-            tag='News'
+          <Card.StackedResponsive
+            tag='Category'
             image={section.items[1].media[0]}
             title={section.items[1].title}
             href='/article/[year]/[month]/[slug]'
@@ -60,8 +60,8 @@ function Category({
         </Grid.Col>
 
         <Grid.Col xs={24} md={12}>
-          <Card
-            tag='News'
+          <Card.StackedResponsive
+            tag='Category'
             image={section.items[2].media[0]}
             title={section.items[2].title}
             href='/article/[year]/[month]/[slug]'
@@ -78,7 +78,7 @@ function Category({
             lg={8}
           >
             <Card.Compact
-              tag='News'
+              tag='Category'
               image={item.media[0]}
               title={item.title}
               href='/article/[year]/[month]/[slug]'

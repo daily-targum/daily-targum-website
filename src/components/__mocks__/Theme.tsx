@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider as ContextThemeProvider } from 'react-context-theming/lib/index';
 import * as WebTheming from 'react-context-theming/lib/web';
-import { StyleCreatorFunction, GenerateStylesFunction, NamedStyles, generateCSS } from 'react-context-theming/lib/web';
+import { StyleCreatorFunction, GenerateStylesFunction, NamedStyles } from 'react-context-theming/lib/web';
 import { themes } from '../../constants';
 import { ComputedTheme } from '../../types';
 
@@ -45,7 +45,12 @@ export function withStyleCreator<
 export function useStyleCreatorClassNames(
   styleFn: GenerateStylesFunction<ComputedTheme, never>
 ) {
-  return generateCSS(useStyleCreator(styleFn));;
+  let styles: any = {};
+  const computedStyles = useStyleCreator(styleFn);
+  Object.keys(computedStyles).forEach(key => {
+    styles[key] = key;
+  });
+  return styles;
 }
 
 export function withTheme(Component: any): any {

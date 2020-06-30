@@ -29,7 +29,7 @@ const styleCreator = makeStyleCreator(theme => ({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    overflow: 'hidden',
+    // overflow: 'hidden',
     alignItems: 'center',
     paddingRight: theme.spacing(2.5),
     paddingLeft: theme.spacing(2.5),

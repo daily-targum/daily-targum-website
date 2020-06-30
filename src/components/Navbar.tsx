@@ -22,12 +22,12 @@ const navbarLinks: {
 }[] = [
   {
     title: 'News',
-    href: '/section/[section]',
+    href: '/section/news',
     as: '/section/news'
   },
   {
     title: 'Sports',
-    href: '/section/[section]',
+    href: '/section/sports',
     as: '/section/sports'
   },
   {
@@ -80,7 +80,19 @@ function MobileMenu() {
             pointerEvents: isVisible ? undefined : 'none'
           }}
         >
-          {navbarLinks.map(link => (
+          {navbarLinks.map(link => (link.as === router.asPath) ? (
+            <span 
+              key={link.as}
+              className={[
+                classes.mobileLink,
+                classes["link:hover"],
+                classes.linkActive
+              ].join(' ')}
+              onClick={() => dispatch(navigationActions.closeMobileMenu())}
+            >
+              <span>{link.title}</span>
+            </span>
+          ) : (
             <Link 
               key={link.as}
               href={link.href} 
@@ -88,8 +100,7 @@ function MobileMenu() {
             >
               <a className={[
                 classes.mobileLink,
-                classes["link:hover"],
-                (link.as === router.asPath) ? classes.linkActive : null,
+                classes["link:hover"]
               ].join(' ')}>
                 <span>{link.title}</span>
               </a>
@@ -115,10 +126,7 @@ function DesktopNavbar() {
         options={{showSpinner: false}}
       />
       <Section 
-        className={[
-          classes.navbar, 
-          mobileMenuVisible ? classes.navbarBorder : classes.navbarShadow
-        ].join(' ')}
+        className={classes.navbar}
         style={{
           position: mobileMenuVisible ? 'fixed' : 'sticky'
         }}
@@ -192,24 +200,21 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     top: 0,
     zIndex: 1000,
     backgroundColor: '#fff',
-    borderColor: 'transparent',
-    borderWidth: '1px 0',
-    borderStyle: 'solid'
+    borderBottomStyle: 'solid',
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.divider,
+    height: NAVBAR_HEIGHT,
+    overflow: 'visible'
   },
   navbarSpacer: {
-    height: NAVBAR_HEIGHT + 2,
-  },
-  navbarShadow: {
-    boxShadow: '0 4px 12px 0 rgba(0,0,0,.05)',
-  },
-  navbarBorder: {
-    borderBottomColor: theme.colors.divider,
+    height: NAVBAR_HEIGHT,
   },
   inner: {
     display: 'flex',
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    overflow: 'visible'
   },
   noPadding: {
     padding: 0,
@@ -246,7 +251,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   mobileLink: {
     ...styles.hideLink(),
     fontSize: '9vw',
-    marginBottom: theme.spacing(3)
+    marginBottom: theme.spacing(3),
+    cursor: 'pointer'
   },
   'link:hover': {
     color: theme.colors.accent,

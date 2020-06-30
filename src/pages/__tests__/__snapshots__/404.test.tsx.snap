@@ -2,10 +2,10 @@
 
 exports[`<404 /> renders correctly 1`] = `
 <div
-  className="dBXbQe eNvtcx"
+  className="section section"
 >
   <div
-    className="fIMQtV"
+    className="row"
     style={
       Object {
         "display": "flex",
@@ -23,12 +23,12 @@ exports[`<404 /> renders correctly 1`] = `
       style={Object {}}
     >
       <span
-        className="Text__Truncate-sc-12nqtmo-0 doSSkk   kizoXJ"
+        className="  h1 "
       >
         404. Not found.
       </span>
       <span
-        className="Text__Truncate-sc-12nqtmo-0 doSSkk   hLqeDz"
+        className="  p "
       >
         Sorry, but the page you were trying to view does not exist.
       </span>

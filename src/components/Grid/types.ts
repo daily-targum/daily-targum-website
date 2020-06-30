@@ -49,7 +49,8 @@ export interface RowProps extends React.CSSProperties, BreakPoints {
   style?: React.CSSProperties,
   children?: React.ReactNode,
   spacing?: number,
-  className?: string
+  className?: string,
+  wrap?: boolean
 }
 
 export interface ConsumerProps {

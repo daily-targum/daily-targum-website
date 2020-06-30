@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetHomepage, Article } from '../shared/src/client';
-import { Section, NewsCard, Theme, Divider, Text, NewsSlider, Newsletter, Card, CardRow } from '../components';
+import { Section, Theme, Divider, Text, NewsSlider, Newsletter, Card, CardRow } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { formatDateAbriviated } from '../shared/src/utils';
@@ -30,8 +30,7 @@ function NewsRow({
       <div className={classes.sectionHeader}>
         <Text variant='h3'>{title}</Text>
         <Link 
-          href='/section/[section]'
-          as={`/section/${id}`}
+          href={`/section/${id}`}
         >
           <a className={classes.moreInLink}>
             <Text variant='h4' style={{fontWeight: 400}} className={classes.moreInLinkText}>
@@ -43,31 +42,37 @@ function NewsRow({
       </div>
 
       <CardRow items={chopArray(category)}>
-        {(item, i) => i === 0 ? (
-          <NewsCard.Large 
-            article={item[0]}
-            className={[classes.aspectRadio, classes.card].join(' ')}
-          />
-        ) : (
-          <>
-            <Card.Compact
+        {(item, i) => {
+          if(!item) return null;
+          return i === 0 ? (
+            <Card.ImageResponsive 
               title={item[0].title}
               image={item[0].media[0]}
               href='/article/[year]/[month]/[slug]'
               as={item[0].slug}
-              aspectRatio={[3,2]}
-              date={formatDateAbriviated(item[1].publishDate)}
+              date={formatDateAbriviated(item[0].publishDate)}
             />
-            <Card.Compact
-              title={item[1].title}
-              image={item[1].media[0]}
-              href='/article/[year]/[month]/[slug]'
-              as={item[1].slug}
-              aspectRatio={[3,2]}
-              date={formatDateAbriviated(item[1].publishDate)}
-            />
-          </>
-        )}
+          ) : (
+            <>
+              <Card.Compact
+                title={item[0].title}
+                image={item[0].media[0]}
+                href='/article/[year]/[month]/[slug]'
+                as={item[0].slug}
+                aspectRatio={[3,2]}
+                date={formatDateAbriviated(item[0].publishDate)}
+              />
+              <Card.Compact
+                title={item[1].title}
+                image={item[1].media[0]}
+                href='/article/[year]/[month]/[slug]'
+                as={item[1].slug}
+                aspectRatio={[3,2]}
+                date={formatDateAbriviated(item[1].publishDate)}
+              />
+            </>
+          );
+        }}
       </CardRow>
     </div>
   );

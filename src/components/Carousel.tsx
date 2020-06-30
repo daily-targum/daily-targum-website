@@ -9,7 +9,7 @@ import { styles } from '../utils';
 function animateScroll(div: HTMLDivElement, x: number, callback?: () => any) {
   const diff = x - div.scrollLeft;
   const positiveDiff = diff >= 0;
-  const step = 3 * (positiveDiff ? 1 : -1);
+  const step = 2 * (positiveDiff ? 1 : -1);
   let prev: number | null = null;
   let cancled = false;
 
@@ -80,7 +80,8 @@ export function Carousel<T>({
   ListHeaderComponent,
   ListFooterComponent,
   className,
-  style
+  style,
+  itemWidth
 }: {
   data: T[]
   renderItem: (item: T, index: number) => ReactChildren
@@ -92,6 +93,7 @@ export function Carousel<T>({
   ListFooterComponent?: ReactChildren
   className?: string
   style?: React.CSSProperties
+  itemWidth: number
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
@@ -115,8 +117,8 @@ export function Carousel<T>({
     if(!scrollLeft.current) {
       scrollLeft.current = ref.current.scrollLeft;
     }
-    const requestedPosition = scrollLeft.current + (150 * offset);
-    scrollLeft.current = Math.round(requestedPosition / 150) * 150;
+    const requestedPosition = scrollLeft.current + (itemWidth * offset);
+    scrollLeft.current = Math.round(requestedPosition / itemWidth) * itemWidth;
     animation.current = animateScroll(ref.current, scrollLeft.current, () => {
       setControlled(false);
     });

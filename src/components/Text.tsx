@@ -1,52 +1,40 @@
 import React, { CSSProperties } from 'react';
 import Theme from './Theme';
-// import Truncate from 'react-truncate';
-import styled from 'styled-components';
 import { ReactChild } from '../types';
 
-const Truncate = styled.span<{
-  numberOfLines?: number
-}>`
-  display: -webkit-box;
-  -webkit-line-clamp: ${(props) => props.numberOfLines || 'initial'};
-  -webkit-box-orient: vertical; 
-  overflow: hidden;
-`;
-
-const Span = (props: any) => <span {...props}/>;
+// const Span = (props: any) => <span {...props}/>;
 
 export type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
 export const variants: Variant[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span'];
 
 export function Text({
   children,
-  numberOfLines,
+  numberOfLines = null,
   className,
   variant = 'span',
   style,
   noPadding = false
 }: {
   children: (string | ReactChild)[] | string | ReactChild
-  numberOfLines?: number
+  numberOfLines?: number | null
   className?: string
   variant?: Variant
   style?: CSSProperties
   noPadding?: boolean
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const Component = variant === 'span' ? Span : Truncate;
+  const classes = Theme.useStyleCreatorClassNames(styleCreator, numberOfLines);
   return (
-    <Component
+    <span
       className={[
         noPadding ? classes.noPadding : null,
         className, 
-        classes[variant]].join(' ')
-      }
+        classes[variant],
+        numberOfLines ? classes.trunkcate : null
+      ].join(' ')}
       style={style}
-      numberOfLines={numberOfLines}
     >
       {children}
-    </Component>
+    </span>
   );
 }
 
@@ -57,7 +45,13 @@ export function Br() {
   );
 }
 
-const styleCreator = Theme.makeStyleCreator(theme => ({
+const styleCreator = Theme.makeStyleCreator((theme, numberOfLines) => ({
+  trunkcate: numberOfLines ? {
+    display: '-webkit-box',
+    '-webkit-line-clamp': numberOfLines,
+    '-webkit-box-orient': 'vertical',
+    overflow: 'hidden'
+  } : {},
   h1: {
     fontWeight: 700,
     fontSize: '3rem',

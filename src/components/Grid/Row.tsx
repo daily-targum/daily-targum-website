@@ -7,6 +7,7 @@ function Row({
   children, 
   style, 
   className,
+  wrap = true,
   ...cssProperties
 }: types.RowProps) {
   const context = useContext(Context);
@@ -15,7 +16,7 @@ function Row({
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: wrap ? 'wrap' : undefined,
     marginLeft: -spacing / 2 + 'px',
     marginRight: -spacing / 2 + 'px'
   }, cssProperties, style);
