@@ -30,8 +30,7 @@ function NewsRow({
       <div className={classes.sectionHeader}>
         <Text variant='h3'>{title}</Text>
         <Link 
-          href='/section/[section]'
-          as={`/section/${id}`}
+          href={`/section/${id}`}
         >
           <a className={classes.moreInLink}>
             <Text variant='h4' style={{fontWeight: 400}} className={classes.moreInLinkText}>
