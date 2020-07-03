@@ -1,14 +1,9 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
-import { Section, Theme, Text, Grid, ActivityIndicator, Card, CardRow, Divider } from '../../components';
+import { Section, Theme, Grid, ActivityIndicator, Card, CardRow, Divider } from '../../components';
 import { styles } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
-
-
-// function chopArray<I>(arr: I[]) {
-//   return [[arr[0]], [arr[1], arr[2]]];
-// }
 
 function News({ 
   initSection
@@ -39,8 +34,6 @@ function News({
   if(!section) return <NotFound/>;
   return (
     <Section className={classes.page}>
-      <Text variant='h2'>News</Text>
-
       <CardRow items={section.items.slice(0,2)}>
         {(article, i) => {
           if (!article) {
@@ -126,7 +119,7 @@ function News({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
-    ...styles.page(theme),
+    ...styles.page(theme, 'compact'),
     backgroundColor: theme.colors.background
   },
   grow: {

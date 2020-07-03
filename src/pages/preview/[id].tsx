@@ -3,6 +3,7 @@ import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../shared/src/client';
 import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage } from '../../components';
 import NotFound from '../404';
+import { processNextQueryStringParam } from '../../utils';
 
 function Article({
   article,
@@ -79,14 +80,6 @@ function Article({
       <Newsletter.Section/>
     </>
   );
-}
-
-function processNextQueryStringParam(str: string | string[] | undefined) {
-  if(typeof str === 'object') {
-    return str[0]
-  } else {
-    return str || '';
-  }
 }
 
 Article.getInitialProps = async (ctx: NextPageContext) => {

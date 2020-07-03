@@ -103,6 +103,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     flex: 1,
   },
   logoWrap: {
+    ...styles.card(theme),
     backgroundColor: theme.colors.primary,
     padding: theme.spacing(2),
     margin: theme.spacing(2, 0),

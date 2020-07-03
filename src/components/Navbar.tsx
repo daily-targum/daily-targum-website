@@ -10,13 +10,15 @@ import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from '../store';
 import { navigationActions } from '../store/ducks/navigation';
 import { styles } from '../utils';
-import { MdClose } from 'react-icons/md';
+import { MdClose, MdSearch } from 'react-icons/md';
 import { FiMenu } from 'react-icons/fi';
 
 export const NAVBAR_HEIGHT = 60;
 
+
 const navbarLinks: {
   title: string
+  Icon?: React.ReactChild
   href: string
   as: string
 }[] = [
@@ -54,6 +56,16 @@ const navbarLinks: {
     title: 'Humans of RU',
     href: '/section/[section]',
     as: '/section/humans-of-rutgers'
+  },
+  {
+    title: 'Search',
+    Icon: (
+      <MdSearch
+        size={22}
+      />
+    ),
+    href: '/search',
+    as: '/search'
   }
 ]
 
@@ -69,7 +81,7 @@ function MobileMenu() {
 
   return (
     <Grid.Row>
-      <Grid.Col xs={24} md={0}>
+      <Grid.Col xs={24} lg={0}>
         <div
           className={[
             classes.mobileMenu,
@@ -114,14 +126,14 @@ function MobileMenu() {
 
 function DesktopNavbar() {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const {colors} = Theme.useTheme();
+  const theme = Theme.useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
   const mobileMenuVisible = useSelector(s => s.navigation.mobileMenuVisible);
   return (
     <>
       <NextNprogress
-        color={colors.accent}
+        color={theme.colors.accent}
         height="2"
         options={{showSpinner: false}}
       />
@@ -154,7 +166,9 @@ function DesktopNavbar() {
                         (link.as === router.asPath) ? classes.linkActive : null,
                       ].join(' ')}
                     >
-                      <span>{link.title}</span>
+                      {link.Icon ? link.Icon : (
+                        <span>{link.title}</span>
+                      )}
                     </a>
                   </Link>
                 ))}
@@ -238,7 +252,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   link: {
     textDecoration: 'none',
     color: '#000', // '#555',
-    marginLeft: theme.spacing(4),
+    marginLeft: theme.spacing(2),
+    padding: theme.spacing(0, 1),
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
     display: 'flex',
@@ -250,7 +265,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   mobileLink: {
     ...styles.hideLink(),
-    fontSize: '9vw',
+    fontSize: 'calc(18px + 2vw)',
     marginBottom: theme.spacing(3),
     cursor: 'pointer'
   },

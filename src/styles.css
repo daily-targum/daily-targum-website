@@ -4,7 +4,7 @@
   --text-color: #000;
   --text-muted-color: #999;
   --spinner-color: #bbb;
-  --background-color: #fafafa;
+  --background-color: #f7f7f7;
   --surface-color: #fff;
   --divider-color: rgba(0,0,0,0.06);
   --touchable-highlight-color: #eee;
@@ -41,7 +41,7 @@ h6,
 span { 
   padding: 0;
   margin: 0;
-  /* display: block; */
+  display: inline-block;
 }
 
 .animate-opacity {

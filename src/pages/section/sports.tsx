@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
-import { Section, Theme, Text, Grid, ActivityIndicator, Card, CardRow } from '../../components';
+import { Section, Theme, Grid, ActivityIndicator, Card, CardRow } from '../../components';
 import { styles } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 
@@ -39,8 +39,6 @@ function Category({
   if(!section) return <NotFound/>;
   return (
     <Section className={classes.page}>
-      <Text variant='h2'>Sports</Text>
-
       <CardRow items={chopArray(section.items)}>
         {(article, i) => {
           if (!article) {
@@ -106,7 +104,7 @@ function Category({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
-    ...styles.page(theme),
+    ...styles.page(theme, 'compact'),
     backgroundColor: theme.colors.background
   },
   grow: {

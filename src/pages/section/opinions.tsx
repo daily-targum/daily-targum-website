@@ -52,11 +52,9 @@ function Column({
 }
 
 function Category({ 
-  section,
-  authors
+  section
 }: { 
-  section: GetArticles,
-  authors: string[]
+  section: GetArticles
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
 
@@ -80,7 +78,7 @@ function Category({
       <Divider className={classes.divider}/>
       <Text variant='h2'>Our Columnists</Text>
       <Carousel
-        data={authors}
+        data={section.columnists}
         renderItem={(author) => (
           <div className={classes.columnist}>
             <div className={classes.columnistPicture}/>
@@ -105,7 +103,6 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     ...styles.page(theme),
     backgroundColor: theme.colors.background
   },
-
   divider: {
     margin: theme.spacing(6, 0, 4)
   },
@@ -130,7 +127,6 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   hideLink: {
     ...styles.hideLink(),
   },
-
   columnist: {
     ...styles.flex(),
     alignItems: 'center'
@@ -154,15 +150,8 @@ Category.getInitialProps = async () => {
     category: 'Opinions',
     limit: 20
   });
-  let authors: any = {};
-  section.items.forEach(article => {
-    article.authors.forEach(author => {
-      authors[author] = true;
-    });
-  })
   return { 
-    section,
-    authors: Object.keys(authors).sort()
+    section
   };
 };
 

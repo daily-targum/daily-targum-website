@@ -46,7 +46,14 @@ function aspectRatioFullWidth(x: number, y: number) {
   } as const;
 }
 
-function page(theme: Theme) {
+function page(theme: Theme, mode: 'compact' | 'normal' = 'normal') {
+  if(mode == 'compact') {
+    return {
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2)
+    }
+  }
+  
   return {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(6)
@@ -85,6 +92,17 @@ function absoluteFill() {
   } as const;
 }
 
+function card(theme: Theme) {
+  return {
+    backgroundColor: theme.colors.surface,
+    borderColor: theme.colors.divider,
+    borderRadius: theme.roundness(1),
+    borderStyle: 'solid',
+    borderWidth: 1,
+    overflow: 'hidden'
+  } as const;
+}
+
 export const styles = {
   lockWidth,
   lockHeight,
@@ -94,5 +112,6 @@ export const styles = {
   page,
   flex,
   textCenter,
-  absoluteFill
+  absoluteFill,
+  card
 }

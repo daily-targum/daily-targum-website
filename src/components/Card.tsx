@@ -14,25 +14,27 @@ function CardCompact({
   href,
   as,
   aspectRatio = [1,1],
-  date
+  date,
+  className
 }: {
   title?: string
   subtitle?: string
   tag?: string
   image: string
-  href: string
+  href?: string
   as?: string
   aspectRatio?: [number, number]
-  date?: string
+  date?: string,
+  className?: string
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return (
     <Link
-      href={href}
+      href={href||''}
       as={as}
     >
       <a className={classes.cardLink}>
-        <div className={classes.compactCard}>
+        <div className={[classes.compactCard, className].join(' ')}>
           <AspectRatioImage
             className={classes.compactCardImage}
             aspectRatio={aspectRatio}
@@ -92,12 +94,8 @@ function CardStacked({
             /> 
           ) : <div style={{flex: 1}}/>}
           </div>
-          {/* <AspectRatioImage
-            aspectRatio={aspectRatio}
-            src={image}
-          /> */}
           <div className={classes.cardBody}>
-            {date ? <Text variant='p' className={classes.date}>{date}</Text> : null}
+            {date ? <Text variant='p' className={classes.date} noPadding>{date}</Text> : null}
             {tag ? <Text className={classes.tag}>{tag}</Text> : null}
             {title ? <Text variant='h4' numberOfLines={2}>{title}</Text> : null}
             {subtitle ? <Text variant='p' numberOfLines={2} noPadding>{subtitle}</Text> : null}
@@ -230,11 +228,13 @@ export function CardImageResponsive({
 const styleCreator =  Theme.makeStyleCreator(theme => ({  
   stackedCard: {
     ...styles.flex(),
+    ...styles.card(theme),
     flex: 1,
     marginBottom: theme.spacing(2)
   },
   compactCard: {
     ...styles.flex('row'),
+    ...styles.card(theme),
     flex: 1,
     marginBottom: theme.spacing(2)
   },
@@ -249,6 +249,8 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     alignItems: 'flex-start'
   },
   imageCard: {
+    ...styles.card(theme),
+    border: 'none',
     height: '100%',
     display: 'flex',
     alignItems: 'flex-end',
