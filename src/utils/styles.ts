@@ -103,7 +103,17 @@ function card(theme: Theme) {
   } as const;
 }
 
-export const styles = {
+function unstyle() {
+  return {
+    border: 'none',
+    outline: 'none',
+    margin: 0,
+    padding: 0,
+    backgroundColor: 'transparent'
+  } as const;
+}
+
+export const styleHelpers = {
   lockWidth,
   lockHeight,
   hideLink,
@@ -113,5 +123,6 @@ export const styles = {
   flex,
   textCenter,
   absoluteFill,
-  card
+  card,
+  unstyle
 }

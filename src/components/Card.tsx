@@ -4,7 +4,7 @@ import Theme from './Theme';
 import Text from './Text';
 import Grid from './Grid';
 import { AspectRatioImage, AspectRatioView } from './AspectRatioView';
-import { styles } from '../utils';
+import { styleHelpers } from '../utils';
 
 function CardCompact({
   title,
@@ -227,41 +227,41 @@ export function CardImageResponsive({
 
 const styleCreator =  Theme.makeStyleCreator(theme => ({  
   stackedCard: {
-    ...styles.flex(),
-    ...styles.card(theme),
+    ...styleHelpers.flex(),
+    ...styleHelpers.card(theme),
     flex: 1,
     marginBottom: theme.spacing(2)
   },
   compactCard: {
-    ...styles.flex('row'),
-    ...styles.card(theme),
+    ...styleHelpers.flex('row'),
+    ...styleHelpers.card(theme),
     flex: 1,
     marginBottom: theme.spacing(2)
   },
   compactCardImage: {
-    ...styles.lockWidth('40%')
+    ...styleHelpers.lockWidth('40%')
   },
   cardBody: {
-    ...styles.flex('column'),
+    ...styleHelpers.flex('column'),
     padding: theme.spacing(2),
     backgroundColor: theme.colors.surface,
     flex: 1,
     alignItems: 'flex-start'
   },
   imageCard: {
-    ...styles.card(theme),
+    ...styleHelpers.card(theme),
     border: 'none',
     height: '100%',
     display: 'flex',
     alignItems: 'flex-end',
     position: 'relative',
-    ...styles.centerBackgroundImage(),
+    ...styleHelpers.centerBackgroundImage(),
     marginBottom: theme.spacing(2)
   },
   backgroundImgae: {
     height: '100%',
     display: 'flex',
-    ...styles.centerBackgroundImage()
+    ...styleHelpers.centerBackgroundImage()
   },
   imageCardOverlay: {
     position: 'absolute',
@@ -295,7 +295,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     marginBottom: theme.spacing(1),
   },
   cardLink: {
-    ...styles.hideLink(),
+    ...styleHelpers.hideLink(),
     display: 'flex',
     flex: 1
   },

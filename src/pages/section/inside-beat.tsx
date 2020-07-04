@@ -2,7 +2,7 @@ import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
 import { Section, Theme, Text, Grid, ActivityIndicator, Card } from '../../components';
-import { styles } from '../../utils';
+import { styleHelpers } from '../../utils';
 
 function Category({ 
   initSection
@@ -36,15 +36,16 @@ function Category({
       <div className={classes.logoWrap}>
         <Text className={classes.logo}>Inside <Text className={classes.logoAccent}>Beat</Text></Text>
       </div>
+      
       <Grid.Row spacing={spacing(2)}>
-        <Grid.Col xs={24}>
+        <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
             tag='Category'
             image={section.items[0].media[0]}
             title={section.items[0].title}
             href='/article/[year]/[month]/[slug]'
             as={'/'+section.items[0].slug}
-            aspectRatioStacked={[7,2]}
+            aspectRatioStacked={[2,1]}
           />
         </Grid.Col>
 
@@ -59,18 +60,7 @@ function Category({
           />
         </Grid.Col>
 
-        <Grid.Col xs={24} md={12}>
-          <Card.StackedResponsive
-            tag='Category'
-            image={section.items[2].media[0]}
-            title={section.items[2].title}
-            href='/article/[year]/[month]/[slug]'
-            as={'/'+section.items[2].slug}
-            aspectRatioStacked={[2,1]}
-          />
-        </Grid.Col>
-
-        {section.items.slice(3).map(item => (
+        {section.items.slice(2).map(item => (
           <Grid.Col 
             key={item.id}
             xs={24}
@@ -103,7 +93,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     flex: 1,
   },
   logoWrap: {
-    ...styles.card(theme),
+    ...styleHelpers.card(theme),
     backgroundColor: theme.colors.primary,
     padding: theme.spacing(2),
     margin: theme.spacing(2, 0),
@@ -137,27 +127,27 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   // cmall cards
   cardSmall: {
-    ...styles.hideLink(),
+    ...styleHelpers.hideLink(),
     display: 'flex',
     flexDirection: 'row',
     marginBottom: theme.spacing(2),
   },
   cardSmallImage: {
     height: 170,
-    ...styles.lockWidth(170),
-    ...styles.centerBackgroundImage(),
+    ...styleHelpers.lockWidth(170),
+    ...styleHelpers.centerBackgroundImage(),
   },
   // medium cards
   cardMedium: {
-    ...styles.hideLink(),
+    ...styleHelpers.hideLink(),
     display: 'flex',
     flexDirection: 'column',
     marginBottom: theme.spacing(2),
   },
   cardMediumImage: {
     height: 250,
-    ...styles.aspectRatioFullWidth(4, 1),
-    ...styles.centerBackgroundImage(),
+    ...styleHelpers.aspectRatioFullWidth(4, 1),
+    ...styleHelpers.centerBackgroundImage(),
   }
 }));
 

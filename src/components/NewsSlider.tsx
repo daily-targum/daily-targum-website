@@ -2,7 +2,7 @@ import React from 'react';
 import { Article } from '../shared/src/client';
 import { Theme, Section, Text } from '../components';
 import Link from 'next/link';
-import { styles } from '../utils';
+import { styleHelpers } from '../utils';
 
 function Slide({
   article,
@@ -140,7 +140,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     color: theme.colors.text
   },
   slideImage: {
-    ...styles.centerBackgroundImage(),
+    ...styleHelpers.centerBackgroundImage(),
     display: 'flex',
     alignItems: 'flex-end'
   },
@@ -173,7 +173,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     overflow: 'hidden'
   },
   slide: {
-    ...styles.absoluteFill()
+    ...styleHelpers.absoluteFill()
   },
 }));
 

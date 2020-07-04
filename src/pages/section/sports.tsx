@@ -1,8 +1,8 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
-import { Section, Theme, Grid, ActivityIndicator, Card, CardRow } from '../../components';
-import { styles } from '../../utils';
+import { Section, Theme, Text, Grid, ActivityIndicator, Card, CardRow } from '../../components';
+import { styleHelpers } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 
 
@@ -39,6 +39,10 @@ function Category({
   if(!section) return <NotFound/>;
   return (
     <Section className={classes.page}>
+      <div className={classes.logoWrap}>
+        <Text className={classes.logo}>Sports</Text>
+      </div>
+
       <CardRow items={chopArray(section.items)}>
         {(article, i) => {
           if (!article) {
@@ -104,8 +108,23 @@ function Category({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
-    ...styles.page(theme, 'compact'),
+    ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background
+  },
+  logoWrap: {
+    ...styleHelpers.card(theme),
+    backgroundColor: theme.colors.accent,
+    padding: theme.spacing(2),
+    margin: theme.spacing(0, 0, 2),
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  logo: {
+    textTransform: 'uppercase',
+    fontWeight: 900,
+    fontSize: 'calc(38px + 2vw)',
+    textAlign: 'center',
+    color: '#fff'
   },
   grow: {
     display: 'flex',

@@ -3,7 +3,7 @@ import { NextPageContext } from 'next';
 import { Section, Text, Grid, Theme, AspectRatioImage, Card, ActivityIndicator, Divider } from '../../components';
 import { getAuthorPage, GetAuthorPage } from '../../shared/src/client';
 import { hyphenatedToCapitalized, formatDateAbriviated } from '../../shared/src/utils';
-import { processNextQueryStringParam, styles } from '../../utils';
+import { processNextQueryStringParam, styleHelpers } from '../../utils';
 import NotFound from '../404';
 
 const img = 'https://www.w3schools.com/howto/img_avatar.png';
@@ -54,7 +54,7 @@ function Author({
               className={classes.articleCard}
               key={article.id}
               title={article.title}
-              image={article.media[0]}
+              image={article.media[0]+'?h=260&w=400&fit=crop&crop=faces,center'}
               href='/article/[year]/[month]/[slug]'
               as={'/'+article.slug}
               aspectRatio={[3,2]}
@@ -74,37 +74,38 @@ function Author({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
-    ...styles.page(theme, 'compact'),
+    ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background
   },
   authorCard: {
-    ...styles.flex('column'),
+    ...styleHelpers.flex('column'),
     alignItems: 'center',
-    ...styles.card(theme),
-    ...styles.lockWidth(250 - theme.spacing(2)),
-    position: 'fixed'
+    ...styleHelpers.card(theme),
+    ...styleHelpers.lockWidth(250 - theme.spacing(2)),
+    position: 'fixed',
+    padding: theme.spacing(1)
   },
   authorCardMobile: {
-    ...styles.flex('row'),
+    ...styleHelpers.flex('row'),
     alignItems: 'center',
-    ...styles.card(theme),
+    ...styleHelpers.card(theme),
     marginBottom: theme.spacing(2)
   },
   avatar: {
-    ...styles.lockWidth('50%'),
+    ...styleHelpers.lockWidth('50%'),
     marginBottom: theme.spacing(2),
     borderRadius: '100%'
   },
   avatarMobile: {
-    ...styles.lockWidth('30%'),
+    ...styleHelpers.lockWidth('30%'),
     marginBottom: theme.spacing(2)
   },
   articleCard: {
-    ...styles.card(theme),
+    ...styleHelpers.card(theme),
     padding: 0
   },
   authorCardMobileBody: {
-    ...styles.flex('column'),
+    ...styleHelpers.flex('column'),
     flex: 1,
     alignItems: 'center'
   },

@@ -2,15 +2,16 @@ import React from 'react';
 import Theme from './Theme';
 import Grid from './Grid';
 import Section from './Section';
-import Logo from './Logo'
+import Logo from './Logo';
+import Search from './Search';
 import Link from 'next/link';
 // @ts-ignore
 import NextNprogress from 'nextjs-progressbar';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from '../store';
 import { navigationActions } from '../store/ducks/navigation';
-import { styles } from '../utils';
-import { MdClose, MdSearch } from 'react-icons/md';
+import { styleHelpers } from '../utils';
+import { MdClose } from 'react-icons/md';
 import { FiMenu } from 'react-icons/fi';
 
 export const NAVBAR_HEIGHT = 60;
@@ -18,9 +19,9 @@ export const NAVBAR_HEIGHT = 60;
 
 const navbarLinks: {
   title: string
-  Icon?: React.ReactChild
   href: string
-  as: string
+  as: string,
+  mobileOnly?: boolean
 }[] = [
   {
     title: 'News',
@@ -59,13 +60,9 @@ const navbarLinks: {
   },
   {
     title: 'Search',
-    Icon: (
-      <MdSearch
-        size={22}
-      />
-    ),
     href: '/search',
-    as: '/search'
+    as: '/search',
+    mobileOnly: true
   }
 ]
 
@@ -152,7 +149,7 @@ function DesktopNavbar() {
           <Grid.Row style={{flex: 'unset'}}>
             <Grid.Col xs={0} lg={24}>
               <div className={classes.links}>
-                {navbarLinks.map(link => (
+                {navbarLinks.filter(l => !l.mobileOnly).map(link => (
                   <Link 
                     key={link.as}
                     href={link.href} 
@@ -166,12 +163,11 @@ function DesktopNavbar() {
                         (link.as === router.asPath) ? classes.linkActive : null,
                       ].join(' ')}
                     >
-                      {link.Icon ? link.Icon : (
-                        <span>{link.title}</span>
-                      )}
+                      <span>{link.title}</span>
                     </a>
                   </Link>
                 ))}
+                <Search.Input/>
               </div>
             </Grid.Col>
             <Grid.Col lg={0}>
@@ -247,13 +243,14 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   links: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   },
   link: {
     textDecoration: 'none',
-    color: '#000', // '#555',
+    color: '#999',
     marginLeft: theme.spacing(2),
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 1), 
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
     display: 'flex',
@@ -264,7 +261,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     borderStyle: 'solid'
   },
   mobileLink: {
-    ...styles.hideLink(),
+    ...styleHelpers.hideLink(),
     fontSize: 'calc(18px + 2vw)',
     marginBottom: theme.spacing(3),
     cursor: 'pointer'
@@ -284,8 +281,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     paddingLeft: 20
   },
   mobileMenu: {
-    ...styles.flex(),
-    ...styles.absoluteFill(),
+    ...styleHelpers.flex(),
+    ...styleHelpers.absoluteFill(),
     position: 'fixed',
     backgroundColor: theme.colors.surface,
     paddingLeft: theme.spacing(2.5),

@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetArticles, Article } from '../../shared/src/client';
+import { capitalizedToHypenated } from '../../shared/src/utils';
 import { Section, Theme, Text, Divider, CardRow, Card, Carousel } from '../../components';
-import { styles } from '../../utils';
+import { styleHelpers } from '../../utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -60,7 +61,9 @@ function Category({
 
   return (
     <Section className={classes.page}>
-      <Text variant='h2'>Opinions</Text>
+      <div className={classes.logoWrap}>
+        <Text className={classes.logo}>Opinions</Text>
+      </div>
 
       <CardRow items={section.items.slice(0,3)}>
         {article => article ? (
@@ -80,10 +83,15 @@ function Category({
       <Carousel
         data={section.columnists}
         renderItem={(author) => (
-          <div className={classes.columnist}>
-            <div className={classes.columnistPicture}/>
-            <Text className={classes.columnistTitle}>{author}</Text>
-          </div>
+          <Link
+            href='/author/[slug]'
+            as={`/author/${capitalizedToHypenated(author)}`}
+          >
+            <a className={classes.columnist}>
+              <div className={classes.columnistPicture}/>
+              <Text className={classes.columnistTitle}>{author}</Text>
+            </a>
+          </Link>
         )}
         keyExtractor={author => author}
         itemWidth={175}
@@ -100,8 +108,23 @@ function Category({
 
 const styleCreator =  Theme.makeStyleCreator(theme => ({
   page: {
-    ...styles.page(theme),
+    ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background
+  },
+  logoWrap: {
+    ...styleHelpers.card(theme),
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing(2),
+    margin: theme.spacing(0, 0, 2),
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  logo: {
+    textTransform: 'uppercase',
+    fontWeight: 900,
+    fontSize: 'calc(38px + 2vw)',
+    textAlign: 'center',
+    color: '#fff'
   },
   divider: {
     margin: theme.spacing(6, 0, 4)
@@ -111,11 +134,11 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     // marginBottom: theme.spacing(8)
   },
   sectionHeader: {
-    ...styles.flex('row'),
+    ...styleHelpers.flex('row'),
     justifyContent: 'space-between'
   },
   moreInLink: {
-    ...styles.flex('row'),
+    ...styleHelpers.flex('row'),
     textDecoration: 'none',
     color: theme.colors.accent,
     alignItems: 'center',
@@ -125,23 +148,24 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     fontWeight: 600
   },
   hideLink: {
-    ...styles.hideLink(),
+    ...styleHelpers.hideLink(),
   },
   columnist: {
-    ...styles.flex(),
-    alignItems: 'center'
+    ...styleHelpers.flex(),
+    alignItems: 'center',
+    ...styleHelpers.hideLink()
   },
   columnistPicture: {
-    ...styles.lockHeight(120),
-    ...styles.lockWidth(120),
+    ...styleHelpers.lockHeight(120),
+    ...styleHelpers.lockWidth(120),
     background: `url(${img})`,
-    ...styles.centerBackgroundImage(),
+    ...styleHelpers.centerBackgroundImage(),
     borderRadius: '100%',
     marginBottom: theme.spacing(1)
   },
   columnistTitle: {
-    ...styles.textCenter(),
-    ...styles.lockWidth(175)
+    ...styleHelpers.textCenter(),
+    ...styleHelpers.lockWidth(175)
   }
 }));
 

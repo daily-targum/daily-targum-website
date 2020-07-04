@@ -4,7 +4,7 @@ import Grid from './Grid';
 import { ReactChildren } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-import { styles } from '../utils';
+import { styleHelpers } from '../utils';
 
 function animateScroll(div: HTMLDivElement, x: number, callback?: () => any) {
   const diff = x - div.scrollLeft;
@@ -180,7 +180,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     position: 'relative'
   },
   scroll: {
-    ...styles.flex('row'),
+    ...styleHelpers.flex('row'),
     overflow: 'auto'
   },
   snap: {

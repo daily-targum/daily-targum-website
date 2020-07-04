@@ -3,7 +3,7 @@ import { NextPageContext } from 'next';
 import { Section, Theme, HTML } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404';
-import { styles } from '../../utils';
+import { styleHelpers } from '../../utils';
 
 function Page({
   page 
@@ -22,7 +22,7 @@ function Page({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   section: {
-    ...styles.page(theme)
+    ...styleHelpers.page(theme)
   }
 }));
 

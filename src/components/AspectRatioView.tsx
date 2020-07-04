@@ -1,5 +1,5 @@
 import React from 'react';
-import { styles } from '../utils';
+import { styleHelpers } from '../utils';
 import { ReactChildren } from '../types';
 
 export function AspectRatioView({
@@ -25,7 +25,7 @@ export function AspectRatioView({
       <div 
         className={classNameInside}
         style={{
-          ...styles.aspectRatioFullWidth(...aspectRatio),
+          ...styleHelpers.aspectRatioFullWidth(...aspectRatio),
           ...styleInside
         }}
       >
@@ -52,7 +52,7 @@ export function AspectRatioImage({
       className={className}
       style={{
         background: `url(${src})`,
-        ...styles.centerBackgroundImage(),
+        ...styleHelpers.centerBackgroundImage(),
         ...style
       }}
     />

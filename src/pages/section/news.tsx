@@ -1,8 +1,8 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
-import { Section, Theme, Grid, ActivityIndicator, Card, CardRow, Divider } from '../../components';
-import { styles } from '../../utils';
+import { Section, Theme, Grid, Text, ActivityIndicator, Card, CardRow } from '../../components';
+import { styleHelpers } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 
 function News({ 
@@ -34,6 +34,10 @@ function News({
   if(!section) return <NotFound/>;
   return (
     <Section className={classes.page}>
+      <div className={classes.logoWrap}>
+        <Text className={classes.logo}>News</Text>
+      </div>
+
       <CardRow items={section.items.slice(0,2)}>
         {(article, i) => {
           if (!article) {
@@ -50,33 +54,6 @@ function News({
               aspectRatioImage={[16, 9]}
             />
           ) : (
-            <Card.StackedResponsive
-              title={article.title}
-              image={article.media[0]}
-              href='/article/[year]/[month]/[slug]'
-              as={'/'+article.slug}
-              date={formatDateAbriviated(article.publishDate)}
-            />
-          );
-        }}
-      </CardRow>
-
-      <CardRow items={section.items.slice(2,4)}>
-        {(article, i) => {
-          if (!article) {
-            return null;
-          }
-
-          return i === 0 ? (
-            <Card.ImageResponsive
-              title={article.title}
-              image={article.media[0]}
-              href='/article/[year]/[month]/[slug]'
-              as={'/'+article.slug}
-              date={formatDateAbriviated(article.publishDate)}
-              aspectRatioImage={[16, 9]}
-            />
-          ) : (
             <Card.ImageResponsive
               title={article.title}
               image={article.media[0]}
@@ -88,11 +65,9 @@ function News({
           );
         }}
       </CardRow>
-
-      <Divider className={classes.divier}/>
 
       <Grid.Row spacing={spacing(2)}>
-        {section.items.slice(4).map(item => (
+        {section.items.slice(2).map(item => (
           <Grid.Col 
             key={item.id}
             xs={24}
@@ -119,15 +94,27 @@ function News({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
-    ...styles.page(theme, 'compact'),
+    ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background
+  },
+  logoWrap: {
+    ...styleHelpers.card(theme),
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing(2),
+    margin: theme.spacing(0, 0, 2),
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  logo: {
+    textTransform: 'uppercase',
+    fontWeight: 900,
+    fontSize: 'calc(38px + 2vw)',
+    textAlign: 'center',
+    color: '#fff'
   },
   grow: {
     display: 'flex',
     flex: 1,
-  },
-  divier: {
-    margin: theme.spacing(2, 0, 4)
   }
 }));
 

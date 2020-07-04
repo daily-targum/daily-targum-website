@@ -5,7 +5,7 @@ import Section from './Section';
 import Logo from './Logo';
 import Text from './Text';
 import Link from 'next/link';
-import { styles } from '../utils';
+import { styleHelpers } from '../utils';
 
 const links = {
   company: [
@@ -150,8 +150,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     backgroundColor: theme.colors.primary
   },
   copyright: {
-    ...styles.flex(),
-    ...styles.textCenter(),
+    ...styleHelpers.flex(),
+    ...styleHelpers.textCenter(),
     color: theme.colors.textMuted,
     fontSize: '0.8rem',
     marginTop: theme.spacing(10),
@@ -159,7 +159,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   title: {
     color: '#fff',
-    ...styles.textCenter()
+    ...styleHelpers.textCenter()
   },
   link: {
     marginTop: theme.spacing(2),
@@ -168,7 +168,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     textAlign: 'center'
   },
   centerHorizontally: {
-    ...styles.flex(),
+    ...styleHelpers.flex(),
     textAlign: 'center',
     alignItems: 'center'
   },
