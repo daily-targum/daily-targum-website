@@ -5,34 +5,20 @@ exports[`<404 /> renders correctly 1`] = `
   className="section section"
 >
   <div
-    className="row"
-    style={
-      Object {
-        "display": "flex",
-        "flex": 1,
-        "flexDirection": "row",
-        "flexWrap": "wrap",
-        "marginLeft": "0px",
-        "marginRight": "0px",
-      }
-    }
+    className="inside"
   >
-    <div
-      className="styles__Col-sc-2ttx60-0 bHLExc"
-      spacing={0}
+    <span
+      className=" h1  "
       style={Object {}}
     >
-      <span
-        className="  h1 "
-      >
-        404. Not found.
-      </span>
-      <span
-        className="  p "
-      >
-        Sorry, but the page you were trying to view does not exist.
-      </span>
-    </div>
+      404. Not found.
+    </span>
+    <span
+      className=" p  "
+      style={Object {}}
+    >
+      Sorry, but the page you were trying to view does not exist.
+    </span>
   </div>
 </div>
 `;
