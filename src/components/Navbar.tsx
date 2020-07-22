@@ -1,6 +1,6 @@
 import React from 'react';
 import Theme from './Theme';
-import Grid from './Grid';
+import Grid from './Grid/web';
 import Section from './Section';
 import Logo from './Logo';
 import Search from './Search';
@@ -54,9 +54,14 @@ const navbarLinks: {
     as: '/multimedia/photos'
   },
   {
-    title: 'Humans of RU',
+    title: 'HoRU',
     href: '/section/[section]',
     as: '/section/humans-of-rutgers'
+  },
+  {
+    title: 'Podcasts',
+    href: '',
+    as: ''
   },
   {
     title: 'Search',
@@ -77,47 +82,48 @@ function MobileMenu() {
   }, [router.pathname]);
 
   return (
-    <Grid.Row>
-      <Grid.Col xs={24} lg={0}>
-        <div
-          className={[
-            classes.mobileMenu,
-            'animate-all-fast'
-          ].join(' ')}
-          style={{
-            opacity: +isVisible,
-            pointerEvents: isVisible ? undefined : 'none'
-          }}
-        >
-          {navbarLinks.map(link => (link.as === router.asPath) ? (
-            <span 
-              key={link.as}
-              className={[
-                classes.mobileLink,
-                classes["link:hover"],
-                classes.linkActive
-              ].join(' ')}
-              onClick={() => dispatch(navigationActions.closeMobileMenu())}
-            >
+    <Grid.Display
+      xs={true} 
+      lg={false}
+    >
+      <div
+        className={[
+          classes.mobileMenu,
+          'animate-all-fast'
+        ].join(' ')}
+        style={{
+          opacity: +isVisible,
+          pointerEvents: isVisible ? undefined : 'none'
+        }}
+      >
+        {navbarLinks.map(link => (link.as === router.asPath) ? (
+          <span 
+            key={link.as}
+            className={[
+              classes.mobileLink,
+              classes["link:hover"],
+              classes.linkActive
+            ].join(' ')}
+            onClick={() => dispatch(navigationActions.closeMobileMenu())}
+          >
+            <span>{link.title}</span>
+          </span>
+        ) : (
+          <Link 
+            key={link.as}
+            href={link.href} 
+            as={link.as}
+          >
+            <a className={[
+              classes.mobileLink,
+              classes["link:hover"]
+            ].join(' ')}>
               <span>{link.title}</span>
-            </span>
-          ) : (
-            <Link 
-              key={link.as}
-              href={link.href} 
-              as={link.as}
-            >
-              <a className={[
-                classes.mobileLink,
-                classes["link:hover"]
-              ].join(' ')}>
-                <span>{link.title}</span>
-              </a>
-            </Link>
-          ))}
-        </div>
-      </Grid.Col>
-    </Grid.Row>
+            </a>
+          </Link>
+        ))}
+      </div>
+    </Grid.Display>
   );
 }
 
@@ -140,54 +146,71 @@ function DesktopNavbar() {
           position: mobileMenuVisible ? 'fixed' : 'sticky'
         }}
       >
-        <div className={classes.inner}>
-          <Link href='/'>
-            <a>
-              <Logo className={classes.logo}/>
-            </a>
-          </Link>
-          <Grid.Row style={{flex: 'unset'}}>
-            <Grid.Col xs={0} lg={24}>
-              <div className={classes.links}>
-                {navbarLinks.filter(l => !l.mobileOnly).map(link => (
-                  <Link 
-                    key={link.as}
-                    href={link.href} 
-                    as={link.as}
+        <Grid.Display
+          xs={false}
+          lg={true} 
+          style={{ flex: 1 }}
+        >
+          <div className={classes.inner}>
+            <Link href='/'>
+              <a>
+                <Logo className={classes.logo}/>
+              </a>
+            </Link>
+            
+            <div className={classes.links}>
+              {navbarLinks.filter(l => !l.mobileOnly).map(link => (
+                <Link 
+                  key={link.as}
+                  href={link.href} 
+                  as={link.as}
+                >
+                  <a
+                    className={[
+                      classes['link:hover'],
+                      classes.link,
+                      'animate-all-fast',
+                      (link.as === router.asPath) ? classes.linkActive : null,
+                    ].join(' ')}
                   >
-                    <a
-                      className={[
-                        classes['link:hover'],
-                        classes.link,
-                        'animate-all-fast',
-                        (link.as === router.asPath) ? classes.linkActive : null,
-                      ].join(' ')}
-                    >
-                      <span>{link.title}</span>
-                    </a>
-                  </Link>
-                ))}
-                <Search.Input/>
-              </div>
-            </Grid.Col>
-            <Grid.Col lg={0}>
-              <div 
-                className={[classes.links, classes.menuIconWrap].join(' ')}
-                onClick={() => dispatch(navigationActions.toggleMobileMenu())}
-              >
-                {mobileMenuVisible ? (
-                  <MdClose
-                    size={34}
-                  />
-                ) : (
-                  <FiMenu
-                    size={30}
-                  />
-                )}
-              </div>
-            </Grid.Col>
-          </Grid.Row>
-        </div>
+                    <span>{link.title}</span>
+                  </a>
+                </Link>
+              ))}
+            </div>
+
+            <Search.Input/>
+          </div>
+        </Grid.Display>
+
+        <Grid.Display
+          xs={true}
+          lg={false}
+        >
+          <div className={classes.inner}>
+            <Link href='/'>
+              <a>
+                <Logo className={classes.logo}/>
+              </a>
+            </Link>
+
+            <div 
+              className={[classes.links, classes.menuIconWrap].join(' ')}
+              onClick={() => dispatch(navigationActions.toggleMobileMenu())}
+            >
+              {mobileMenuVisible ? (
+                <MdClose
+                  size={34}
+                />
+              ) : (
+                <FiMenu
+                  size={30}
+                />
+              )}
+            </div>
+          </div>
+        </Grid.Display>
+
       </Section>
       <div className={mobileMenuVisible ? classes.navbarSpacer : undefined}/>
     </>
@@ -209,7 +232,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     width: '100%',
     top: 0,
     zIndex: 1000,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.92)',
+    backdropFilter: 'saturate(180%) blur(10px)',
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.divider,
@@ -221,17 +245,18 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   inner: {
     display: 'flex',
-    height: NAVBAR_HEIGHT,
-    alignItems: 'center',
+    flex: 1,
     justifyContent: 'space-between',
-    overflow: 'visible'
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: NAVBAR_HEIGHT
   },
   noPadding: {
     padding: 0,
     margin: 0
   },
   logo: {
-    width: 170,
+    width: 175,
     height: 'auto',
     marginTop: 8
   },
@@ -248,9 +273,9 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   link: {
     textDecoration: 'none',
-    color: '#999',
-    marginLeft: theme.spacing(2),
-    padding: theme.spacing(0, 1), 
+    color: '#000',
+    margin: theme.spacing(0, 1),
+    padding: theme.spacing(0, 1.5), 
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
     display: 'flex',

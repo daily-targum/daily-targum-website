@@ -1,45 +1,11 @@
 import React from 'react';
 import Theme from './Theme';
-import Grid from './Grid';
+import Grid from './Grid/web';
 import { ReactChildren } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { styleHelpers } from '../utils';
-
-function animateScroll(div: HTMLDivElement, x: number, callback?: () => any) {
-  const diff = x - div.scrollLeft;
-  const positiveDiff = diff >= 0;
-  const step = 2 * (positiveDiff ? 1 : -1);
-  let prev: number | null = null;
-  let cancled = false;
-
-  async function start() {
-    while(!cancled && positiveDiff ? div.scrollLeft <= x : div.scrollLeft >= x) {
-      let crnt = await animate(() => {
-        div.scrollLeft += step;
-        return div.scrollLeft;
-      }, 1);
-      if(prev !== null && crnt === prev) break;
-      prev = crnt;
-    }
-    if(!cancled && callback) {
-      callback();
-    }
-  }
-  start();
-
-  return () => {
-    cancled = true;
-  }
-}
-
-function animate<R>(fn: () => R, delay: number) {
-  return new Promise<R>((resolve) => {
-    setTimeout(() => {
-      resolve(fn());
-    }, delay);
-  });
-}
+import { clamp } from '../shared/src/utils';
 
 function Button({
   onClick,
@@ -50,23 +16,24 @@ function Button({
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return (
-    <Grid.Row>
-      <Grid.Col xs={0} sm={24}>
-        <div
-          onClick={onClick}
-          className={classes.buttonWrap}
-          style={{[direction]: 0}}
-        >
-          <div className={classes.button}>
-            <FontAwesomeIcon 
-              icon={direction === 'left' ? faChevronLeft : faChevronRight}
-              size='2x'
-              color='#fff'
-            />
-          </div>
+    <Grid.Display
+      xs={false}
+      md={true}
+    >
+      <div
+        onClick={onClick}
+        className={classes.buttonWrap}
+        style={{[direction]: 0}}
+      >
+        <div className={classes.button}>
+          <FontAwesomeIcon 
+            icon={direction === 'left' ? faChevronLeft : faChevronRight}
+            size='2x'
+            color='#fff'
+          />
         </div>
-      </Grid.Col>
-    </Grid.Row>
+      </div>
+    </Grid.Display>
   )
 }
 
@@ -80,8 +47,7 @@ export function Carousel<T>({
   ListHeaderComponent,
   ListFooterComponent,
   className,
-  style,
-  itemWidth
+  style
 }: {
   data: T[]
   renderItem: (item: T, index: number) => ReactChildren
@@ -93,35 +59,35 @@ export function Carousel<T>({
   ListFooterComponent?: ReactChildren
   className?: string
   style?: React.CSSProperties
-  itemWidth: number
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const animation = React.useRef<() => any>();
-  const [controlled, setControlled] = React.useState(false);
+  const [width, setWidth] = React.useState(0);
+
+  React.useEffect(() => {
+    function handleResize() {
+      setWidth(ref.current?.offsetWidth ?? 0);
+    }
+    handleResize();
+    if(process.browser) {
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      }
+    }
+  }, [ref.current]);
 
   const scrollLeft = React.useRef<number | null>(null);
 
-  React.useEffect(() => {
-    if(!controlled) {
-      scrollLeft.current = null;
-    }
-  }, [controlled]);
-
   function updateScroll(offset: number) {
-    setControlled(true)
-    if(animation.current) {
-      animation.current();
-    }
     if(!ref.current) return;
     if(!scrollLeft.current) {
       scrollLeft.current = ref.current.scrollLeft;
     }
-    const requestedPosition = scrollLeft.current + (itemWidth * offset);
-    scrollLeft.current = Math.round(requestedPosition / itemWidth) * itemWidth;
-    animation.current = animateScroll(ref.current, scrollLeft.current, () => {
-      setControlled(false);
-    });
+    const requestedPosition = scrollLeft.current + (width * offset);
+    const snapPosition = Math.round(requestedPosition / width) * width;
+    scrollLeft.current = clamp(0, snapPosition, ref.current.scrollWidth - width);
+    ref.current.scrollLeft = scrollLeft.current;
   }
 
   if(data.length === 0) {
@@ -140,13 +106,12 @@ export function Carousel<T>({
   }
 
   return (
-    <div className={classes.carousel}>
+    <div className={[classes.carousel, className].join(' ')}>
       <div
         className={[
-          className,
           classes.scroll,
           'hide-scrollbars',
-          controlled ? null : classes.snap
+          classes.snap
         ].join(' ')}
         style={style}
         ref={ref}
@@ -155,7 +120,14 @@ export function Carousel<T>({
         {(inverted ? data.reverse() : data)
         .map((item: any, i: number) => (
           <React.Fragment key={keyExtractor(item, i)}>
-            <div className={classes.item}>
+            <div 
+              className={classes.item}
+              style={{
+                width,
+                minWidth: width,
+                maxWidth: width
+              }}
+            >
               {renderItemWithExtras(item, i)}
             </div>
           </React.Fragment>
@@ -181,10 +153,13 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   scroll: {
     ...styleHelpers.flex('row'),
-    overflow: 'auto'
+    overflow: 'auto',
+    flex: 1,
+    ...styleHelpers.lockHeight('100%')
   },
   snap: {
     scrollSnapType: 'x mandatory',
+    scrollBehavior: 'smooth'
   },
   buttonWrap: {
     cursor: 'pointer',
@@ -204,4 +179,5 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
+Carousel.Button = Button;
 export default Carousel;

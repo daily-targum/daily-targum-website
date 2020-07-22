@@ -87,7 +87,8 @@ function Authors({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   row: {
     ...styleHelpers.flex('row'),
-    alignItems: 'center'
+    alignItems: 'center',
+    margin: theme.spacing(2, 0)
   },
   column: {
     ...styleHelpers.flex('column')

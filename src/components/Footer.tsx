@@ -1,6 +1,6 @@
 import React from 'react';
 import Theme from './Theme';
-import Grid from './Grid';
+import Grid from './Grid/web';
 import Section from './Section';
 import Logo from './Logo';
 import Text from './Text';
@@ -168,7 +168,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     textAlign: 'center'
   },
   centerHorizontally: {
-    ...styleHelpers.flex(),
+    ...styleHelpers.flex('column'),
     textAlign: 'center',
     alignItems: 'center'
   },

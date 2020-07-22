@@ -1,10 +1,12 @@
 import React from 'react';
 import { NextPageContext } from 'next';
-import { Section, Text, Grid, Theme, AspectRatioImage, Card, ActivityIndicator, Divider } from '../../components';
+import { Section, Text, Grid, Theme, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList } from '../../components';
 import { getAuthorPage, GetAuthorPage } from '../../shared/src/client';
 import { hyphenatedToCapitalized, formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, styleHelpers } from '../../utils';
 import NotFound from '../404';
+
+const SIDEBAR_WIDTH = 250;
 
 const img = 'https://www.w3schools.com/howto/img_avatar.png';
 
@@ -22,51 +24,57 @@ function Author({
 
   return (
     <Section className={classes.page}>
-      <Grid.Row spacing={theme.spacing(4)}>
+      <Grid.Row 
+        spacing={theme.spacing(2)}
+        cols={[`${SIDEBAR_WIDTH}px`, '1fr', `${SIDEBAR_WIDTH}px`]}
+      >
 
-        <Grid.Col xs={0} md='250px'>
+        <Grid.Col xs={0} md={1}>
           <div className={classes.authorCard}>
             <Text.Br/>
             <AspectRatioImage
               src={img}
-              aspectRatio={[1,1]}
+              aspectRatio={1}
               className={classes.avatar}
             />
-            <Text variant='h3'>{page.author[0].display_name}</Text>
+            <Text variant='h3'>{page.author[0].displayName}</Text>
             <Text variant='p'>Bio goes here.</Text>
           </div>
         </Grid.Col>
 
-        <Grid.Col xs={24} md={0}>
+        <Grid.Col xs={3} md={0}>
           <Card.Compact
             className={classes.articleCard}
-            title={page.author[0].display_name}
+            title={page.author[0].displayName}
             subtitle='Bio goes here.'
             image={img}
-            aspectRatio={[3,2]}
+            aspectRatio={3 /2}
           />
           <Divider className={classes.divider}/>
         </Grid.Col>
 
-        <Grid.Col xs={24} md='auto'>
-          {page.articles.map(article => (
-            <Card.Compact
-              className={classes.articleCard}
-              key={article.id}
-              title={article.title}
-              image={article.media[0]+'?h=260&w=400&fit=crop&crop=faces,center'}
-              href='/article/[year]/[month]/[slug]'
-              as={'/'+article.slug}
-              aspectRatio={[3,2]}
-              date={formatDateAbriviated(article.publishDate)}
-            />
-          ))}
+        <Grid.Col xs={3} md={2} lg={1}>
+          <FlatList
+            data={page.articles}
+            keyExtractor={article => article.id}
+            renderItem={article => (
+              <Card.Compact
+                className={classes.articleCard}
+                title={article.title}
+                image={article.media[0]+'?h=260&w=400&fit=crop&crop=faces,center'}
+                href='/article/[year]/[month]/[slug]'
+                as={'/'+article.slug}
+                aspectRatio={3 / 2}
+                date={formatDateAbriviated(article.publishDate)}
+              />
+            )}
+            ItemSeparatorComponent={<Card.Spacer/>}
+          />
           <ActivityIndicator.ProgressiveLoader
             onVisible={() => console.log('implement progressive load')}
           />
         </Grid.Col>
 
-        <Grid.Col xs={0} xl='250px'></Grid.Col>
       </Grid.Row>
     </Section>
   );
@@ -81,7 +89,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex('column'),
     alignItems: 'center',
     ...styleHelpers.card(theme),
-    ...styleHelpers.lockWidth(250 - theme.spacing(2)),
+    ...styleHelpers.lockWidth(SIDEBAR_WIDTH - theme.spacing(1)),
     position: 'fixed',
     padding: theme.spacing(1)
   },

@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import Theme from './Theme';
-import Grid from './Grid';
+import Grid from './Grid/web';
 import Text from './Text';
 import Section from './Section';
 import { Article } from '../shared/src/client';

@@ -6,7 +6,7 @@
   --spinner-color: #bbb;
   --background-color: #f7f7f7;
   --surface-color: #fff;
-  --divider-color: rgba(0,0,0,0.08);
+  --divider-color: rgba(0, 0, 0, 0.06);
   --touchable-highlight-color: #eee;
   --button-color: #eee;
 }
@@ -41,7 +41,35 @@ h6,
 span { 
   padding: 0;
   margin: 0;
-  display: inline-block;
+  /* display: inline-block; */
+  display: block;
+}
+
+a {
+  color: var(--accent-color);
+}
+
+table tr th,
+table tr td {
+  text-align: left;
+}
+
+table tr th:last-child,
+table tr td:last-child {
+  text-align: right;
+}
+
+table th {
+  background-color: var(--background-color);
+}
+
+table th,
+table td {
+  padding: 0;
+}
+
+table tr td {
+  border-bottom: 1px solid var(--divider-color);
 }
 
 .animate-opacity {
@@ -64,6 +92,11 @@ span {
   transition: all 0.4s;
 }
 
+.animate-all-1s {
+  transition: all 1s;
+  transition-timing-function: linear;
+}
+
 .hide-scrollbars::-webkit-scrollbar {
-  display: inline-block;
+  display: none;
 }

@@ -1,14 +1,9 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
-import { Section, Theme, Text, Grid, ActivityIndicator, Card, CardRow } from '../../components';
+import { Section, Theme, Grid, ActivityIndicator, Card, CardCols } from '../../components';
 import { styleHelpers } from '../../utils';
-import { formatDateAbriviated } from '../../shared/src/utils';
-
-
-function chopArray<I>(arr: I[]) {
-  return [[arr[0]], [arr[1], arr[2]]];
-}
+import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 
 function Category({ 
   initSection
@@ -40,47 +35,60 @@ function Category({
   return (
     <Section className={classes.page}>
       <div className={classes.logoWrap}>
-        <Text className={classes.logo}>Sports</Text>
+        <span className={classes.logo}>Sports</span>
       </div>
 
-      <CardRow items={chopArray(section.items)}>
-        {(article, i) => {
-          if (!article) {
-            return null;
-          }
+      <Grid.Row 
+        spacing={spacing(2)}
+        cols={['2fr', '1fr', '1fr']}
+      >
+        <CardCols 
+          items={chopArray(section.items, [1, 2, 2])}
+        >
+          {(article, i) => {
+            if (!article) {
+              return null;
+            }
 
-          return i === 0 ? (
-            <Card.ImageResponsive 
-              title={article[0].title}
-              image={article[0].media[0]}
-              href='/article/[year]/[month]/[slug]'
-              as={'/'+article[0].slug}
-              date={formatDateAbriviated(article[0].publishDate)}
-            />
-          ) : (
-            <>
-              <Card.ImageResponsive
+            return i === 0 ? (
+              <Card.ImageResponsive 
                 title={article[0].title}
                 image={article[0].media[0]}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article[0].slug}
-                aspectRatioImage={[16, 7]}
                 date={formatDateAbriviated(article[0].publishDate)}
               />
-              <Card.ImageResponsive
-                title={article[1].title}
-                image={article[1].media[0]}
-                href='/article/[year]/[month]/[slug]'
-                as={'/'+article[1].slug}
-                aspectRatioImage={[16, 7]}
-                date={formatDateAbriviated(article[1].publishDate)}
-              />
-            </>
-          );
-        }}
-      </CardRow>
+            ) : (
+              <>
+                <Card.ImageResponsive
+                  title={article[0].title}
+                  image={article[0].media[0]}
+                  href='/article/[year]/[month]/[slug]'
+                  as={'/'+article[0].slug}
+                  aspectRatioImage={3 / 2}
+                  date={formatDateAbriviated(article[0].publishDate)}
+                />
+                <Card.Spacer/>
+                <Card.ImageResponsive
+                  title={article[1].title}
+                  image={article[1].media[0]}
+                  href='/article/[year]/[month]/[slug]'
+                  as={'/'+article[1].slug}
+                  aspectRatioImage={3 / 2}
+                  date={formatDateAbriviated(article[1].publishDate)}
+                />
+              </>
+            );
+          }}
+        </CardCols>
+      </Grid.Row>
+      
+      <Card.Spacer/>
 
-      <Grid.Row spacing={spacing(2)}>
+      <Grid.Row 
+        spacing={spacing(2)}
+      >
+        
         {section.items.slice(3).map(item => (
           <Grid.Col 
             key={item.id}
@@ -94,7 +102,7 @@ function Category({
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
-              aspectRatioStacked={[16, 9]}
+              aspectRatioStacked={16 / 9}
             />
           </Grid.Col>
         ))}

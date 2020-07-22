@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
-import { Section, Theme, Text, Grid, ActivityIndicator, Card } from '../../components';
+import { Section, Theme, Grid, ActivityIndicator, Card } from '../../components';
 import { styleHelpers } from '../../utils';
 
 function Category({ 
@@ -34,7 +34,7 @@ function Category({
   return (
     <Section className={classes.page}>
       <div className={classes.logoWrap}>
-        <Text className={classes.logo}>Inside <Text className={classes.logoAccent}>Beat</Text></Text>
+        <span className={classes.logo}>Inside <span className={classes.logoAccent}>Beat</span></span>
       </div>
       
       <Grid.Row spacing={spacing(2)}>
@@ -45,7 +45,7 @@ function Category({
             title={section.items[0].title}
             href='/article/[year]/[month]/[slug]'
             as={'/'+section.items[0].slug}
-            aspectRatioStacked={[2,1]}
+            aspectRatioStacked={2 / 1}
           />
         </Grid.Col>
 
@@ -56,7 +56,7 @@ function Category({
             title={section.items[1].title}
             href='/article/[year]/[month]/[slug]'
             as={'/'+section.items[1].slug}
-            aspectRatioStacked={[2,1]}
+            aspectRatioStacked={2 /1}
           />
         </Grid.Col>
 
@@ -77,15 +77,20 @@ function Category({
           </Grid.Col>
         ))}
       </Grid.Row>
+
       {section.nextToken ? (
-        <ActivityIndicator.ProgressiveLoader onVisible={loadMore}/>
+        <ActivityIndicator.ProgressiveLoader 
+          onVisible={loadMore}
+        />
       ) : null}
+
     </Section>
   );
 }
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
+    ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background,
   },
   grow: {
@@ -96,7 +101,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.card(theme),
     backgroundColor: theme.colors.primary,
     padding: theme.spacing(2),
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(0, 0, 2),
     display: 'flex',
     justifyContent: 'center'
   },
@@ -108,7 +113,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     color: '#fff'
   },
   logoAccent: {
-    color: theme.colors.accent
+    color: theme.colors.accent,
+    display: 'inline'
   },
   tag: {
     color: '#fff',
@@ -146,7 +152,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   cardMediumImage: {
     height: 250,
-    ...styleHelpers.aspectRatioFullWidth(4, 1),
+    ...styleHelpers.aspectRatioFullWidth(4 / 1),
     ...styleHelpers.centerBackgroundImage(),
   }
 }));

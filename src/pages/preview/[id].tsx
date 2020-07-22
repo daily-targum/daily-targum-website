@@ -3,7 +3,7 @@ import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../shared/src/client';
 import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage } from '../../components';
 import NotFound from '../404';
-import { processNextQueryStringParam } from '../../utils';
+import { processNextQueryStringParam, styleHelpers } from '../../utils';
 
 function Article({
   article,
@@ -40,7 +40,7 @@ function Article({
     <>
       <Section className={classes.page}>
         <Grid.Row spacing={spacing(4)}>
-          <Grid.Col xs={24} md={0} lg='250px'>
+          <Grid.Col xs={24} md={0}>
           </Grid.Col>
           <Grid.Col>
             <Text variant='h2'>{dynamicArticle.title}</Text>
@@ -50,14 +50,14 @@ function Article({
               publishDate={dynamicArticle.publishDate}
             />
             <AspectRatioImage
-              aspectRatio={[16,9]}
+              aspectRatio={16/9}
               src={dynamicArticle.media[0]+'?ar=16:9&fit=crop&crop=faces,center'}
             />
             <Br/>
             <HTML html={dynamicArticle.body}/>
           </Grid.Col>
 
-          <Grid.Col xs={0} md='250px'>
+          <Grid.Col xs={0}>
             <div style={{backgroundColor: '#eee', flex: 1, display: 'flex', height: '100%'}}>
               <span>Ad</span>
             </div>
@@ -67,12 +67,12 @@ function Article({
 
       <Divider/>
       <Section className={classes.page}>
-        <Grid.Row spacing={spacing(4)} wrap={false}>
-          <Grid.Col xs={24} md={0} lg='250px'></Grid.Col>
+        <Grid.Row spacing={spacing(4)}>
+          <Grid.Col xs={24} md={0}></Grid.Col>
           <Grid.Col>
             <Text variant='h2'>Comments</Text>
           </Grid.Col>
-          <Grid.Col xs={24} md='250px'></Grid.Col>
+          <Grid.Col xs={24}></Grid.Col>
         </Grid.Row>
       </Section>
 
@@ -105,7 +105,7 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
 };
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: Section.style.page(theme),
+  page: styleHelpers.page(theme),
   image: {
     width: '100%',
     height: 'auto'

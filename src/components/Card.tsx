@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Theme from './Theme';
 import Text from './Text';
-import Grid from './Grid';
+import Grid from './Grid/web';
 import { AspectRatioImage, AspectRatioView } from './AspectRatioView';
 import { styleHelpers } from '../utils';
 
@@ -13,7 +13,7 @@ function CardCompact({
   image,
   href,
   as,
-  aspectRatio = [1,1],
+  aspectRatio = 1,
   date,
   className
 }: {
@@ -23,7 +23,7 @@ function CardCompact({
   image: string
   href?: string
   as?: string
-  aspectRatio?: [number, number]
+  aspectRatio?: number
   date?: string,
   className?: string
 }) {
@@ -40,11 +40,11 @@ function CardCompact({
             aspectRatio={aspectRatio}
             src={image}
           />
-          <div className={classes.cardBody}>
-            {date ? <Text variant='p' className={classes.date} noPadding>{date}</Text> : null}
+          <div className={classes.compactCardBody}>
             {tag ? <Text className={classes.tag}>{tag}</Text> : null}
-            {title ? <Text variant='h4' numberOfLines={3}>{title}</Text> : null}
-            {subtitle ? <Text variant='p' numberOfLines={3} noPadding>{subtitle}</Text> : null}
+            {title ? <Text variant='h4' numberOfLines={3} lockNumberOfLines={true}>{title}</Text> : null}
+            {subtitle ? <Text numberOfLines={3} noPadding>{subtitle}</Text> : null}
+            {date ? <Text className={classes.date}>{date}</Text> : null}
           </div>
         </div>
       </a>
@@ -59,7 +59,7 @@ type CardStackedProps = {
   image: string
   href: string
   as?: string
-  aspectRatio?: [number, number]
+  aspectRatio?: number
   date?: string
 }
 
@@ -94,11 +94,11 @@ function CardStacked({
             /> 
           ) : <div style={{flex: 1}}/>}
           </div>
-          <div className={classes.cardBody}>
-            {date ? <Text variant='p' className={classes.date} noPadding>{date}</Text> : null}
+          <div className={classes.stackedCardBody}>
             {tag ? <Text className={classes.tag}>{tag}</Text> : null}
-            {title ? <Text variant='h4' numberOfLines={2}>{title}</Text> : null}
-            {subtitle ? <Text variant='p' numberOfLines={2} noPadding>{subtitle}</Text> : null}
+            {title ? <Text variant='h4' numberOfLines={2} lockNumberOfLines={true}>{title}</Text> : null}
+            {subtitle ? <Text numberOfLines={2} noPadding>{subtitle}</Text> : null}
+            {date ? <Text className={classes.date}>{date}</Text> : null}
           </div>
         </div>
       </a>
@@ -107,8 +107,8 @@ function CardStacked({
 }
 
 interface CardStackedResponsiveProps extends CardStackedProps {
-  aspectRatioCompact?: [number, number]
-  aspectRatioStacked?: [number, number]
+  aspectRatioCompact?: number
+  aspectRatioStacked?: number
   tag?: string
 }
 
@@ -118,28 +118,28 @@ export function CardStackedResponsive({
   ...rest
 }: CardStackedResponsiveProps) {
   return (
-    <Grid.Row>
+    <>
       {/* Desktop */}
-      <Grid.Col 
-        xs={0}
-        md={24}
+      <Grid.Display 
+        xs={false}
+        md={true}
       >
         <CardStacked
           {...rest}
           aspectRatio={aspectRatioStacked || rest.aspectRatio}
         />
-      </Grid.Col>
+      </Grid.Display>
       {/* Mobile */}
-      <Grid.Col 
-        xs={24}
-        md={0}
+      <Grid.Display 
+        xs={true}
+        md={false}
       >
         <CardCompact
           {...rest}
           aspectRatio={aspectRatioCompact || rest.aspectRatio}
         />
-      </Grid.Col>
-    </Grid.Row>
+      </Grid.Display>
+    </>
   )
 }
 
@@ -148,7 +148,7 @@ type CardImageProps = {
   image: string
   href: string
   as?: string
-  aspectRatio?: [number, number]
+  aspectRatio?: number
   date?: string
 }
 
@@ -180,8 +180,8 @@ function CardImage({
         ) : <div style={{flex: 1}}/>}
         <div className={classes.imageCardOverlay}/>
         <div className={classes.imageCardTitleWrap}>
-          {date ? <Text variant='p' className={classes.imageCardSubtitle} noPadding>{date}</Text> : null}
-          {title ? <Text variant='h3' numberOfLines={2} className={classes.imageCardTitle} noPadding>{title}</Text> : null}
+          {title ? <Text variant='h3' numberOfLines={2} className={classes.imageCardTitle}>{title}</Text> : null}
+          {date ? <Text className={classes.imageCardSubtitle}>{date}</Text> : null}
         </div>
       </a>
     </Link>
@@ -189,12 +189,12 @@ function CardImage({
 }
 
 interface CardImageResponsiveProps extends CardImageProps {
-  aspectRatioCompact?: [number, number]
-  aspectRatioImage?: [number, number]
+  aspectRatioCompact?: number
+  aspectRatioImage?: number
   tag?: string
 }
 
-export function CardImageResponsive({
+function CardImageResponsive({
   aspectRatioCompact,
   aspectRatioImage,
   ...rest
@@ -225,28 +225,38 @@ export function CardImageResponsive({
   )
 }
 
+function CardSpacer() {
+  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  return (
+    <div className={classes.spacer}/>
+  )
+}
+
 const styleCreator =  Theme.makeStyleCreator(theme => ({  
   stackedCard: {
     ...styleHelpers.flex(),
     ...styleHelpers.card(theme),
-    flex: 1,
-    marginBottom: theme.spacing(2)
+    flex: 1
   },
   compactCard: {
     ...styleHelpers.flex('row'),
     ...styleHelpers.card(theme),
-    flex: 1,
-    marginBottom: theme.spacing(2)
+    flex: 1
   },
   compactCardImage: {
     ...styleHelpers.lockWidth('40%')
   },
-  cardBody: {
+  stackedCardBody: {
     ...styleHelpers.flex('column'),
-    padding: theme.spacing(2),
-    backgroundColor: theme.colors.surface,
+    ...styleHelpers.cardBody(theme),
     flex: 1,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+  },
+  compactCardBody: {
+    ...styleHelpers.flex('column'),
+    ...styleHelpers.cardBody(theme),
+    flex: 1,
+    alignItems: 'flex-start',
   },
   imageCard: {
     ...styleHelpers.card(theme),
@@ -255,8 +265,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     display: 'flex',
     alignItems: 'flex-end',
     position: 'relative',
-    ...styleHelpers.centerBackgroundImage(),
-    marginBottom: theme.spacing(2)
+    ...styleHelpers.centerBackgroundImage()
   },
   backgroundImgae: {
     height: '100%',
@@ -281,11 +290,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   imageCardTitleWrap: {
     position: 'absolute',
     bottom: 0,
-    margin: theme.spacing(2),
-    padding: theme.spacing(1.5),
-    borderLeftColor: theme.colors.accent,
-    borderLeftWidth: 3,
-    borderLeftStyle: 'solid'
+    padding: theme.spacing(2)
   },
   tag: {
     display: 'flex',
@@ -301,6 +306,9 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   },
   date: {
     color: theme.colors.textMuted
+  },
+  spacer: {
+    height: theme.spacing(2)
   }
 }));
 
@@ -310,6 +318,7 @@ export const Card = {
   StackedResponsive: CardStackedResponsive,
   Image: CardImage,
   ImageResponsive: CardImageResponsive,
+  Spacer: CardSpacer
 }
 
 export default Card;

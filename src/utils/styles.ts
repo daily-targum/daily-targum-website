@@ -39,10 +39,17 @@ function centerBackgroundImage() {
   } as const;
 }
 
-function aspectRatioFullWidth(x: number, y: number) {
+function aspectRatioFullHeight(aspectRatio: number) {
+  return {
+    height: '100%',
+    paddingTop: `${100 / aspectRatio}%`
+  } as const;
+}
+
+function aspectRatioFullWidth(aspectRatio: number) {
   return {
     width: '100%',
-    paddingTop: `${(y / x) * 100}%`
+    paddingTop: `${100 / aspectRatio}%`
   } as const;
 }
 
@@ -95,11 +102,15 @@ function absoluteFill() {
 function card(theme: Theme) {
   return {
     backgroundColor: theme.colors.surface,
-    borderColor: theme.colors.divider,
     borderRadius: theme.roundness(1),
-    borderStyle: 'solid',
-    borderWidth: 1,
     overflow: 'hidden'
+  } as const;
+}
+
+function cardBody(theme: Theme) {
+  return {
+    backgroundColor: theme.colors.surface,
+    padding: theme.spacing(2)
   } as const;
 }
 
@@ -118,11 +129,13 @@ export const styleHelpers = {
   lockHeight,
   hideLink,
   centerBackgroundImage,
+  aspectRatioFullHeight,
   aspectRatioFullWidth,
   page,
   flex,
   textCenter,
   absoluteFill,
   card,
+  cardBody,
   unstyle
 }

@@ -14,8 +14,16 @@ export function spacing(...args: number[]): number | string {
   return args.map(num => `${BASE * num}px`).join(' ');
 }
 
-export function roundness(multiplier: number = 1) {
-  return multiplier * BASE;
+export function roundness(): typeof BASE
+export function roundness(multiplier: number): number
+export function roundness(top: number, right: number): string
+export function roundness(top: number, right: number, bottom: number): string
+export function roundness(top: number, right: number, bottom: number, left: number): string
+export function roundness(...args: number[]): number | string {
+  if (args.length <= 1) {
+    return (args[0] || 1) * BASE;
+  }
+  return args.map(num => `${BASE * num}px`).join(' ');
 }
 
 const light: Theme = {

@@ -3,6 +3,7 @@ import { NextPageContext } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage } from '../../../../components';
 import NotFound from '../../../404';
+import { styleHelpers } from '../../../../utils';
 
 
 function Article({
@@ -18,25 +19,30 @@ function Article({
   return (
     <>
       <Section className={classes.page}>
-        <Grid.Row spacing={spacing(4)} wrap={false}>
-          <Grid.Col xs={24} md={0} lg='250px'>
-          </Grid.Col>
-          <Grid.Col>
-            <Text variant='h2'>{article.title}</Text>
-            <Byline.Authors 
-              authors={article.authors}
-              updatedAt={article.updatedAt} 
-              publishDate={article.publishDate}
-            />
-            <AspectRatioImage
-              aspectRatio={[16,9]}
-              src={article.media[0]+'?ar=16:9&fit=crop&crop=faces,center'}
-            />
-            <Br/>
-            <HTML html={article.body}/>
+        <Grid.Row 
+          spacing={spacing(4)}
+          cols={['165px', '1fr', '165px']}
+        >
+          <Grid.Col xs={0} lg={1}/>
+
+          <Grid.Col xs={3} lg={1}>
+            <article>
+              <Text variant='h1'>{article.title}</Text>
+              <Byline.Authors 
+                authors={article.authors}
+                updatedAt={article.updatedAt} 
+                publishDate={article.publishDate}
+              />
+              <AspectRatioImage
+                aspectRatio={16 / 9}
+                src={article.media[0]+'?ar=16:9&fit=crop&crop=faces,center'}
+              />
+              <Br/>
+              <HTML html={article.body}/>
+            </article>
           </Grid.Col>
 
-          <Grid.Col xs={0} md='250px'>
+          <Grid.Col xs={0} lg={1}>
             <div style={{backgroundColor: '#eee', flex: 1, display: 'flex', height: '100%'}}>
               <span>Ad</span>
             </div>
@@ -44,16 +50,18 @@ function Article({
         </Grid.Row>
       </Section>
 
-      <Divider/>
+      {/* <Divider/>
       <Section className={classes.page}>
-        <Grid.Row spacing={spacing(4)}>
-          <Grid.Col xs={24} md={0} lg='250px'></Grid.Col>
+        <Grid.Row 
+          spacing={spacing(4)}
+          cols={['165px', '1fr', '165px']}
+        >
+          <Grid.Col xs={3} md={0} lg={1}></Grid.Col>
           <Grid.Col>
             <Text variant='h2'>Comments</Text>
           </Grid.Col>
-          <Grid.Col xs={24} md='250px'></Grid.Col>
         </Grid.Row>
-      </Section>
+      </Section> */}
 
       <Divider/>
       <Newsletter.Section/>
@@ -78,7 +86,7 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
 };
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: Section.style.page(theme),
+  page: styleHelpers.page(theme),
   image: {
     width: '100%',
     height: 'auto'

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Provider as ContextThemeProvider, useTheme as defaultUseTheme, Context } from 'react-context-theming/lib/index';
+import { useTheme as defaultUseTheme, Context } from 'react-context-theming/lib/index';
 import * as WebTheming from 'react-context-theming/lib/web';
-import { StyleCreatorFunction, GenerateStylesFunction, NamedStyles } from 'react-context-theming/lib/web';
+import { StyleCreatorFunction, GenerateStylesFunction, NamedStyles, Provider as ContextThemeProvider } from 'react-context-theming/lib/web';
 import { themes } from '../constants';
 import { ComputedTheme } from '../types';
 

@@ -1,18 +1,42 @@
 import React from 'react';
 
+const BASE = {
+  siteName: 'The Daily Targum',
+  facebookAppId: ''
+}
+
 export type SEOProps = {
-  title?: string,
-  description?: string,
-  twitterHandle?: string,
-  type?: 'article' | 'website',
-  imageSrc?: string,
-  imageAlt?: string,
-  url?: string,
-  host?: string,
-  pathname?: string,
-  facebookAppId?: string,
+  title?: string
+  description?: string
+  twitterHandle?: string
+  type?: 'article' | 'website' | 'podcast'
+  imageSrc?: string
+  imageAlt?: string
+  url?: string
+  host?: string
+  pathname?: string
   siteName?: string
 };
+
+export function Podcast({
+  audioFile,
+  player
+}: {
+  audioFile: string
+  player: string
+}) {
+  return (
+    <>
+      <meta property="og:audio" content={audioFile} />
+      <meta property="og:audio:type" content='audio/vnd.facebook.bridge' />
+      <meta property="og:type" content='music.song' />
+
+      <meta property="twitter:player" content={player} />
+      <meta property="twitter:player:width" content='500px' />
+      <meta property="twitter:player:width" content='200px' />
+    </>
+  );
+}
 
 export function SEO({
   title,
@@ -22,14 +46,15 @@ export function SEO({
   imageSrc = 'https://daily-targum-website-pied.now.sh/social-media-card-image.png',
   host = 'https://daily-targum-website-pied.now.sh/',
   pathname = '/',
-  imageAlt = 'logo',
-  facebookAppId = '',
-  siteName = 'The Daily Targum'
+  imageAlt = 'logo'
 }: SEOProps) {
+
+
   return (
     <>
-      <title>{title ? (title+' | ') : ''}{siteName}</title>
+      <title>{title ? (title+' | ') : ''}{BASE.siteName}</title>
 
+      {/* Twitter */}
       <meta name="twitter:card" content="summary"/>
       <meta name="twitter:site" content={twitterHandle} />
       <meta name="twitter:title" content={title} />
@@ -37,14 +62,15 @@ export function SEO({
       <meta name="twitter:creator" content={twitterHandle} />
       <meta name="twitter:image" content={imageSrc} />
 
-      <meta property="og:title" content={title || siteName} />
+      {/* FaceBook */}
+      <meta property="og:title" content={title || BASE.siteName} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={host+pathname} />
+      <meta property="og:site_name" content={BASE.siteName} />
       <meta property="og:image" content={imageSrc} />
       <meta property="fb:image:alt" content={imageAlt} />
       <meta property="og:description" content={description} />
-      <meta property="og:site_name" content={siteName} />
-      <meta property="fb:app_id" content={facebookAppId} />
+      <meta property="fb:app_id" content={BASE.facebookAppId} />
     </>
   );
 }

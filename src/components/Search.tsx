@@ -3,7 +3,7 @@ import Theme from './Theme';
 import Text from './Text';
 import { styleHelpers } from '../utils';
 import { FiSearch } from 'react-icons/fi';
-import { IoIosCloseCircle } from 'react-icons/io';
+import { GrClose } from 'react-icons/gr';
 
 function Input() {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
@@ -20,7 +20,7 @@ function Input() {
       ].join(' ')}>
         <FiSearch
           className={classes.searchIcon}
-          size={13}
+          size={14}
         />
         <input 
           onFocus={() => setFocused(true)}
@@ -33,14 +33,16 @@ function Input() {
           ].join(' ')}
           placeholder='Search'
         />
-        <IoIosCloseCircle
+        <GrClose
           className={[
             classes.clickable,
             classes.searchIcon
           ].join(' ')}
-          size={18}
+          size={13}
           onClick={() => {
-            setValue('')
+            if(focused) {
+              setValue('')
+            }
           }}
         />
       </div>
@@ -55,7 +57,7 @@ function Input() {
       >
         <FiSearch
           className={classes.searchIcon}
-          size={13}
+          size={14}
         />
         <Text className={classes.searchPlaceholder}>{value || 'Search'}</Text>
       </div>
@@ -68,10 +70,11 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   searchWrap: {
     position: 'relative',
     height: '2rem',
-    ...styleHelpers.lockWidth(180),
+    ...styleHelpers.lockWidth(175),
     ...styleHelpers.card(theme),
     marginLeft: theme.spacing(2.5),
-    backgroundColor: theme.colors.background,
+    // backgroundColor: theme.colors.surface,
+    border: '1px solid rgba(0, 0, 0, 0.07)'
   },
   searchInput: {
     ...styleHelpers.unstyle(),
@@ -80,13 +83,13 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     minWidth: 0,
     width: 'auto',
     flex: 1,
-    fontSize: '0.9rem',
-    lineHeight: '0.9rem',
+    fontSize: '1rem',
+    lineHeight: '1rem',
   },
   searchPlaceholder: {
-    fontSize: '0.9rem',
-    lineHeight: '0.9rem',
-    color: theme.colors.textMuted,
+    fontSize: '1rem',
+    lineHeight: '1rem',
+    color: '#444',
     margin: theme.spacing(0, 0.5),
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -94,7 +97,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   searchIcon: {
     ...styleHelpers.lockWidth('18px'),
-    color: '#aaa'
+    color: '#444'
   },
   searchRow: {
     ...styleHelpers.absoluteFill(),

@@ -16,4 +16,6 @@ export * from './CardRow';
 export * from './AspectRatioView';
 export * from './Card';
 export * from './Carousel';
-export { default as Grid } from './Grid';
+export * from './Grid/web';
+export * from './PodcastPlayerBar';
+export * from './Table';

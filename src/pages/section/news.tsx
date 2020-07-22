@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404';
-import { Section, Theme, Grid, Text, ActivityIndicator, Card, CardRow } from '../../components';
+import { Section, Theme, Grid, ActivityIndicator, Card, CardCols } from '../../components';
 import { styleHelpers } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 
@@ -35,38 +35,41 @@ function News({
   return (
     <Section className={classes.page}>
       <div className={classes.logoWrap}>
-        <Text className={classes.logo}>News</Text>
+        <span className={classes.logo}>News</span>
       </div>
 
-      <CardRow items={section.items.slice(0,2)}>
-        {(article, i) => {
-          if (!article) {
-            return null;
-          }
-
-          return i === 0 ? (
-            <Card.ImageResponsive
-              title={article.title}
-              image={article.media[0]}
-              href='/article/[year]/[month]/[slug]'
-              as={'/'+article.slug}
-              date={formatDateAbriviated(article.publishDate)}
-              aspectRatioImage={[16, 9]}
-            />
-          ) : (
-            <Card.ImageResponsive
-              title={article.title}
-              image={article.media[0]}
-              href='/article/[year]/[month]/[slug]'
-              as={'/'+article.slug}
-              date={formatDateAbriviated(article.publishDate)}
-              aspectRatioImage={[16, 9]}
-            />
-          );
-        }}
-      </CardRow>
-
       <Grid.Row spacing={spacing(2)}>
+        
+        <CardCols 
+          items={section.items.slice(0,2)}
+        >
+          {(article, i) => {
+            if (!article) {
+              return null;
+            }
+
+            return i === 0 ? (
+              <Card.ImageResponsive
+                title={article.title}
+                image={article.media[0]}
+                href='/article/[year]/[month]/[slug]'
+                as={'/'+article.slug}
+                date={formatDateAbriviated(article.publishDate)}
+                aspectRatioImage={16 / 9}
+              />
+            ) : (
+              <Card.ImageResponsive
+                title={article.title}
+                image={article.media[0]}
+                href='/article/[year]/[month]/[slug]'
+                as={'/'+article.slug}
+                date={formatDateAbriviated(article.publishDate)}
+                aspectRatioImage={16 / 9}
+              />
+            );
+          }}
+        </CardCols>
+
         {section.items.slice(2).map(item => (
           <Grid.Col 
             key={item.id}
@@ -80,7 +83,7 @@ function News({
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
-              aspectRatioStacked={[16, 9]}
+              aspectRatioStacked={16 / 9}
             />
           </Grid.Col>
         ))}

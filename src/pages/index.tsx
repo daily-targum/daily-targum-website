@@ -1,18 +1,12 @@
 import React from 'react';
-import Link from 'next/link';
 import { actions, GetHomepage, Article } from '../shared/src/client';
-import { Section, Theme, Divider, Text, NewsSlider, Newsletter, Card, CardRow } from '../components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { formatDateAbriviated } from '../shared/src/utils';
+import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, Text } from '../components';
+import { formatDateAbriviated, chopArray, camelCaseToCapitalized } from '../shared/src/utils';
+import { styleHelpers } from '../utils';
 
 interface Section {
   id: string,
   title: string
-}
-
-function chopArray<I>(arr: I[]) {
-  return [[arr[0]], [arr[1], arr[2]], [arr[3], arr[4]]];
 }
 
 function NewsRow({
@@ -25,55 +19,50 @@ function NewsRow({
   category: Article[]
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const theme = Theme.useTheme();
   return (
     <div className={classes.section}>
-      <div className={classes.sectionHeader}>
-        <Text variant='h3'>{title}</Text>
-        <Link 
-          href={`/section/${id}`}
-        >
-          <a className={classes.moreInLink}>
-            <Text variant='h4' style={{fontWeight: 400}} className={classes.moreInLinkText}>
-              More in {title}
-            </Text>
-            <FontAwesomeIcon icon={faArrowRight}/>
-          </a>
-        </Link>
-      </div>
+      <CardCols.Header
+        title={title}
+        href={`/section/${id}`}
+      />
 
-      <CardRow items={chopArray(category)}>
-        {(item, i) => {
-          if(!item) return null;
-          return i === 0 ? (
-            <Card.ImageResponsive 
-              title={item[0].title}
-              image={item[0].media[0]}
-              href='/article/[year]/[month]/[slug]'
-              as={item[0].slug}
-              date={formatDateAbriviated(item[0].publishDate)}
-            />
-          ) : (
-            <>
-              <Card.Compact
+      <Grid.Row spacing={theme.spacing(2)}>
+        <CardCols items={chopArray(category, [1, 2, 2])}>
+          {(item, i) => {
+            if(!item) return null;
+            return i === 0 ? (
+              <Card.ImageResponsive 
                 title={item[0].title}
                 image={item[0].media[0]}
                 href='/article/[year]/[month]/[slug]'
                 as={item[0].slug}
-                aspectRatio={[3,2]}
                 date={formatDateAbriviated(item[0].publishDate)}
               />
-              <Card.Compact
-                title={item[1].title}
-                image={item[1].media[0]}
-                href='/article/[year]/[month]/[slug]'
-                as={item[1].slug}
-                aspectRatio={[3,2]}
-                date={formatDateAbriviated(item[1].publishDate)}
-              />
-            </>
-          );
-        }}
-      </CardRow>
+            ) : (
+              <>
+                <Card.Compact
+                  title={item[0].title}
+                  image={item[0].media[0]}
+                  href='/article/[year]/[month]/[slug]'
+                  as={item[0].slug}
+                  aspectRatio={3/2}
+                  date={formatDateAbriviated(item[0].publishDate)}
+                />
+                <Card.Spacer/>
+                <Card.Compact
+                  title={item[1].title}
+                  image={item[1].media[0]}
+                  href='/article/[year]/[month]/[slug]'
+                  as={item[1].slug}
+                  aspectRatio={3/2}
+                  date={formatDateAbriviated(item[1].publishDate)}
+                />
+              </>
+            );
+          }}
+        </CardCols>
+      </Grid.Row>
     </div>
   );
 }
@@ -81,15 +70,6 @@ function NewsRow({
 function literalArray<T extends string>(array: T[]): T[] {
   return array
 }
-
-function capitalizeWords(str: string){
- return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-}
-
-function camelCaseToCapitalized(str: string) {
-  return capitalizeWords(str.replace(/([A-Z])/, ' $1'));
-}
-
 
 function Home({ 
   homepage 
@@ -101,11 +81,10 @@ function Home({
     <div className={classes.page}>
       <NewsSlider articles={homepage.high}/>
       <Section>
-        {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category, i) => (
+        {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category) => (
           <React.Fragment
             key={category}
           >
-            {i > 0 ? <Divider/> : null}
             <NewsRow
               category={homepage[category]}
               id={category}
@@ -114,8 +93,36 @@ function Home({
           </React.Fragment>
         ))}
       </Section>
+
       <Divider/>
       <Newsletter.Section/>
+
+      <Divider/>
+      <Section className={classes.appSection}>
+        <Grid.Row>
+          <Grid.Col xs={24} md={12} className={classes.getTheApp}>
+            <Text variant='h1'>Get the App</Text>
+            <div className={classes.appStoreRow}>
+              <img
+                className={classes.appStoreBadge}
+                src='/app-store-badge.svg'
+              />
+              <img
+                className={classes.appStoreBadge}
+                src='/google-play-badge.png'
+              />  
+            </div>
+          </Grid.Col>
+
+          <Grid.Col xs={24} md={12} style={{alignItems: 'center'}}>
+            <img
+              className={classes.appScreenShot}
+              src='/app-framed.png'
+            />
+          </Grid.Col>
+        </Grid.Row>
+      </Section>
+
     </div>
   );
 }
@@ -130,9 +137,6 @@ Home.getInitialProps = async () => {
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     backgroundColor: theme.colors.background
-  },
-  card: {
-    marginBottom: theme.spacing(2)
   },
   section: {
     marginTop: theme.spacing(4),
@@ -170,7 +174,27 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     right: 0,
     bottom: 0,
     left: 0
-  }
+  },
+  appSection: {
+    paddingTop: theme.spacing(5)
+  },
+  appStoreRow: {
+    ...styleHelpers.flex('row'),
+    alignItems: 'center'
+  },
+  appStoreBadge: {
+    ...styleHelpers.lockHeight(45),
+    margin: theme.spacing(1)
+  },
+  getTheApp: {
+    alignItems: 'center', 
+    justifyContent: 'center',
+    padding: theme.spacing(0, 0, 6)
+  },
+  appScreenShot: {
+    width: '70%',
+    height: 'auto'
+  },
 }));
 
 export default Home;

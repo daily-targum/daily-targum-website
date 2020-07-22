@@ -10,7 +10,7 @@ export function AspectRatioView({
   style,
   styleInside
 }: {
-  aspectRatio: [number, number]
+  aspectRatio: number
   children?: ReactChildren
   className?: string
   classNameInside?: string
@@ -25,7 +25,7 @@ export function AspectRatioView({
       <div 
         className={classNameInside}
         style={{
-          ...styleHelpers.aspectRatioFullWidth(...aspectRatio),
+          ...styleHelpers.aspectRatioFullWidth(aspectRatio),
           ...styleInside
         }}
       >
@@ -41,7 +41,7 @@ export function AspectRatioImage({
   className,
   style,
 }: {
-  aspectRatio: [number, number]
+  aspectRatio: number
   src: string
   className?: string
   style?: React.CSSProperties
