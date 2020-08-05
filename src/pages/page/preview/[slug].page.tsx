@@ -1,9 +1,8 @@
 import React from 'react';
 import { NextPageContext } from 'next';
-import { Section, Theme, HTML } from '../../components';
-import { getPage, GetPage } from '../../shared/src/client';
-import NotFound from '../404';
-import { styleHelpers } from '../../utils';
+import { Section, Theme, HTML } from '../../../components';
+import { getPage, GetPage } from '../../../shared/src/client';
+import NotFound from '../../404.page';
 
 function Page({
   page 
@@ -22,7 +21,8 @@ function Page({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   section: {
-    ...styleHelpers.page(theme)
+    paddingTop: theme.spacing(6),
+    paddingBottom: theme.spacing(6),
   }
 }));
 

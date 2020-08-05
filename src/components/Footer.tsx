@@ -11,17 +11,17 @@ const links = {
   company: [
     {
       title: 'Donate',
-      href: '/page/[section]',
+      href: '/page/[slug]',
       as: '/page/donate'
     },
     {
       title: 'Advertise',
-      href: '/page/[section]',
+      href: '/page/[slug]',
       as: '/page/advertise'
     },
     {
       title: 'Get Involved',
-      href: '/page/[section]',
+      href: '/page/[slug]',
       as: '/page/get-involved'
     },
     {

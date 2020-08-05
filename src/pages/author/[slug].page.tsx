@@ -4,7 +4,7 @@ import { Section, Text, Grid, Theme, AspectRatioImage, Card, ActivityIndicator, 
 import { getAuthorPage, GetAuthorPage } from '../../shared/src/client';
 import { hyphenatedToCapitalized, formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, styleHelpers } from '../../utils';
-import NotFound from '../404';
+import NotFound from '../404.page';
 
 const SIDEBAR_WIDTH = 250;
 

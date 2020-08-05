@@ -16,4 +16,5 @@ module.exports = {
     config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//))
     return config
   },
+  pageExtensions: ["page.tsx"],
 }

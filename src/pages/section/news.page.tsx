@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import NotFound from '../404';
+import NotFound from '../404.page';
 import { Section, Theme, Grid, ActivityIndicator, Card, CardCols } from '../../components';
 import { styleHelpers } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';

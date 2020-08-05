@@ -2,7 +2,7 @@ import React from 'react';
 import { NextPageContext } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage } from '../../../../components';
-import NotFound from '../../../404';
+import NotFound from '../../../404.page';
 import { styleHelpers } from '../../../../utils';
 
 

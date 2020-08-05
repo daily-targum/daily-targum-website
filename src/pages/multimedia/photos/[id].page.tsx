@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { IoMdClose } from 'react-icons/io';
 import { NextPageContext } from 'next';
 import { Gallery as GalleryType } from '../../../shared/src/client';
-import NotFound from '../../404';
+import NotFound from '../../404.page';
 
 function Gallery({
   gallery
