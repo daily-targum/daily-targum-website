@@ -19,3 +19,4 @@ export * from './Carousel';
 export * from './Grid/web';
 export * from './PodcastPlayerBar';
 export * from './Table';
+export * from './NextNProgress';

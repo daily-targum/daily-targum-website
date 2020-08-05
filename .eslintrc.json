@@ -14,9 +14,7 @@
     "@typescript-eslint",
     "react-hooks"
   ],
-  "extends": [
-    "plugin:react/recommended"
-  ],
+  "extends": [],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",

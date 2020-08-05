@@ -8,6 +8,7 @@ export const Col = styled.div<{
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 
   @media (max-width: ${({breakPoints}) => breakPoints.sm-1+'px'}) {
     display: ${({computedBreakPoints}) => computedBreakPoints.xs === 0 ? 'none' : null};

@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyleCreator, useStyleCreatorClassNames } from './Theme'
 import { ReactChildren } from '../types';
+import { styleHelpers } from '../utils';
 
 export function Section({
   children,
@@ -31,8 +32,13 @@ const styleCreator = makeStyleCreator(theme => ({
     paddingLeft: theme.spacing(2),
   },
   inside: {
-    width: 'max(1100px, 80vw)',
-    maxWidth: '100%'
+    ...styleHelpers.lockWidth('100%'),
+    [theme.mediaQuery('xl', 'xxl')]: {
+      ...styleHelpers.lockWidth('85vw'),
+    },
+    [theme.mediaQuery('xxl')]: {
+      ...styleHelpers.lockWidth('80vw'),
+    }
   }
 }));
 

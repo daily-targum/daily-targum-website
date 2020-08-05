@@ -6,7 +6,7 @@ import Logo from './Logo';
 import Search from './Search';
 import Link from 'next/link';
 // @ts-ignore
-import NextNprogress from 'nextjs-progressbar';
+import NextNprogress from './NextNProgress';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from '../store';
 import { navigationActions } from '../store/ducks/navigation';
@@ -137,8 +137,10 @@ function DesktopNavbar() {
     <>
       <NextNprogress
         color={theme.colors.accent}
-        height="2"
-        options={{showSpinner: false}}
+        height={2}
+        options={{
+          showSpinner: false
+        }}
       />
       <Section 
         className={classes.navbar}
@@ -246,6 +248,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   inner: {
     display: 'flex',
     flex: 1,
+    width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',

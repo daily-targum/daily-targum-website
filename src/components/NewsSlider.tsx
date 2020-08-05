@@ -35,20 +35,25 @@ function Slide({
         }}
       >
         <div className={classes.slideCardImageOverlay}/>
-        <Section>
-          <div className={classes.slideCardTitleWrap}>
-            <Text 
-              variant='h2' 
-              numberOfLines={2} 
-              className={[
-                hide ? classes.hide : null,
-                classes.sliderCardTitle,
-                'animate-opacity-fast'
-              ].join(' ')}
-              
-            >{article.title}</Text>
-          </div>
-        </Section>
+          <Section>
+            <div className={classes.slideCardTitleWrap}>
+              <Text 
+                variant='h5'
+                style={{fontWeight: 900, color: '#fff'}}
+              >NEWS</Text>
+              <Text 
+                variant='h3' 
+                numberOfLines={2} 
+                className={[
+                  hide ? classes.hide : null,
+                  classes.sliderCardTitle,
+                  'animate-opacity-fast'
+                ].join(' ')}
+                style={{fontWeight: 400}}
+                noPadding
+              >{article.title}</Text>
+            </div>
+          </Section>
       </a>
     </Link>
   );
@@ -76,7 +81,7 @@ export function NewsSlider({
   }, [index, articles.length])
 
   return (
-    <Section className={classes.section}>
+    <div>
       <div className={classes.sider}>
         {articles.map((a, i) => (
           <Slide
@@ -102,14 +107,11 @@ export function NewsSlider({
           />
         ))}
       </div>
-    </Section>
+    </div>
   );
 }
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
-  section: {
-    backgroundColor: theme.colors.primary
-  },
   hide: {
     opacity: 0,
     pointerEvents: 'none'
@@ -153,17 +155,16 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.9), transparent)'
   },
   slideCardTitleWrap: {
+    ...styleHelpers.flex('column'),
     position: 'relative',
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    borderLeft: `4px solid ${theme.colors.accent}`
   },
   sliderCardTitle: {
     color: '#fff',
-    textAlign: 'center',
-    maxWidth: 800
+    maxWidth: '50%'
   },
   sider: {
     // maxHeight: 400,

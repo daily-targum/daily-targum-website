@@ -3,7 +3,6 @@ import { ServerStyleSheet } from 'styled-components';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { SEO } from '../components';
 import { ReactChildren } from '../types';
-import { StyleSheet } from 'react-context-theming/lib/web';
 import { dom } from "@fortawesome/fontawesome-svg-core";
 
 export default class MyDocument extends Document<{
@@ -40,7 +39,6 @@ export default class MyDocument extends Document<{
     return (
       <html>
         <Head>
-          <StyleSheet/>
           {this.props.styleTags}
           <style type="text/css">{dom.css()}</style>
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>

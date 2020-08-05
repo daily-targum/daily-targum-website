@@ -1,15 +1,17 @@
 import React from 'react';
 import { CardCols, Card, Grid, Section, Theme, FlatList } from '../../components';
 import { chopArray } from '../../shared/src/utils';
-import { actions, GetArticles, Article } from '../../shared/src/client';
+import { actions, GetImageGalleries, GalleryImage } from '../../shared/src/client';
 import { styleHelpers } from '../../utils';
 
 function Gallery({
   title,
+  id,
   items
 }: {
   title: string
-  items: Article[]
+  id: string
+  items: GalleryImage[]
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const theme = Theme.useTheme();
@@ -17,7 +19,8 @@ function Gallery({
     <div className={classes.section}>
       <CardCols.Header
         title={title}
-        href='/'
+        href='/multimedia/photos/[gallery]'
+        as={`/multimedia/photos/${id}`}
       />
 
       <Grid.Row 
@@ -34,26 +37,26 @@ function Gallery({
 
             return i === 0 ? (
               <Card.Image
-                key={item[0].id}
-                image={item[0].media[0]}
+                key={item[0]?.id}
+                image={item[0]?.url}
                 href=''
-                title={item[0].title}
+                title={item[0]?.title}
               />
             ) : (
               <>
                 <Card.Image
-                  key={item[0].id}
-                  image={item[0].media[0]}
+                  key={item[0]?.id}
+                  image={item[0]?.url}
                   href=''
-                  title={item[0].title}
+                  title={item[0]?.title}
                   aspectRatio={3 / 2}
                 />
                 <Card.Spacer/>
                 <Card.Image
-                  key={item[1].id}
-                  image={item[1].media[0]}
+                  key={item[1]?.id}
+                  image={item[1]?.url}
                   href=''
-                  title={item[1].title}
+                  title={item[1]?.title}
                   aspectRatio={3 / 2}
                 />
               </>
@@ -67,20 +70,21 @@ function Gallery({
 }
 
 function Photos({
-  initSection
+  imageGalleries
 }: {
-  initSection: GetArticles
+  imageGalleries: GetImageGalleries
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return (
     <Section className={classes.page}>
       <FlatList
-        data={[0, 1]}
-        keyExtractor={index => index}
-        renderItem={() => (
+        data={imageGalleries}
+        keyExtractor={index => index.id}
+        renderItem={images => (
           <Gallery
-            title='Untitled'
-            items={initSection.items}
+            id={images.id}
+            title={images.title}
+            items={images.images}
           />
         )}
       />
@@ -93,18 +97,16 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.page(theme, 'compact')
   },
   section: {
+    ...styleHelpers.lockWidth('100%'),
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(8)
   },
 }));
 
 Photos.getInitialProps = async () => {
-  const section = await actions.getArticles({
-    category: 'News',
-    limit: 20
-  });
+  const imageGalleries = await actions.getImageGalleries();
   return { 
-    initSection: section
+    imageGalleries
   };
 };
   

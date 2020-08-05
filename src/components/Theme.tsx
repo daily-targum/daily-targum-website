@@ -7,7 +7,7 @@ import { ComputedTheme } from '../types';
 
 export function Provider({ children }: {children: React.ReactNode}) {
   return ( 
-    <ContextThemeProvider<any> theme={themes.light}>
+    <ContextThemeProvider<any> theme={themes.main}>
       {children}
     </ContextThemeProvider>
   );

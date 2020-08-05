@@ -1,4 +1,4 @@
-import { spacing, roundness } from '../constants/theme';
+import { spacing, roundness, mediaQuery } from '../constants/theme';
 
 export interface Theme {
   colors: {
@@ -22,9 +22,9 @@ export interface Theme {
   /**
    * Insets set by safe area view context
    */
-  dark: boolean,
   roundness: typeof roundness,
-  spacing: typeof spacing
+  spacing: typeof spacing,
+  mediaQuery: typeof mediaQuery
 }
 
 export interface ComputedTheme extends Theme {}

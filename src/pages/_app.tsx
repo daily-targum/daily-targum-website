@@ -26,4 +26,5 @@ class App extends NextApp {
   }
 }
 
+
 export default withGA(process.env.GOOGLE_ANALYTICS_TRACKING_CODE, Router)(App);

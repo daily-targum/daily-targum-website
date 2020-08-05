@@ -2,6 +2,16 @@ import { Theme } from '../types';
 
 const BASE = 5;
 
+export const breakPoints = {
+  xs: 0,
+  sm: 576,
+  md: 768,
+  lg: 992,
+  xl: 1200,
+  xxl: 1600
+} as const;
+type BreakPoint = keyof typeof breakPoints;
+
 export function spacing(): typeof BASE
 export function spacing(multiplier: number): number
 export function spacing(top: number, right: number): string
@@ -26,7 +36,18 @@ export function roundness(...args: number[]): number | string {
   return args.map(num => `${BASE * num}px`).join(' ');
 }
 
-const light: Theme = {
+export function mediaQuery(min?: BreakPoint, max?: BreakPoint) {
+	const bounds: string[] = [];
+	if (min) {
+		bounds.push(`(min-width: ${breakPoints[min]}px)`);
+	}
+	if (max) {
+		bounds.push(`(max-width: ${breakPoints[max]}px)`);
+	}
+	return `@media only screen and ${bounds.join(' and ')}`
+}
+
+const main: Theme = {
   colors: {
     primary: 'var(--primary-color)',
     accent: 'var(--accent-color)',
@@ -45,17 +66,11 @@ const light: Theme = {
     medium: '',
     bold: ''
   },
-  dark: false,
   roundness,
-  spacing
-}
-
-const dark: Theme = {
-  ...light,
-  dark: true
+  spacing,
+  mediaQuery
 }
 
 export const themes = {
-  dark,
-  light
+  main
 }

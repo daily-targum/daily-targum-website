@@ -100,3 +100,8 @@ table tr td {
 .hide-scrollbars::-webkit-scrollbar {
   display: none;
 }
+
+.hide-scrollbars {
+  scrollbar-width: none;
+  overflow: -moz-scrollbars-none;
+}

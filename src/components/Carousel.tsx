@@ -1,11 +1,9 @@
 import React from 'react';
 import Theme from './Theme';
-import Grid from './Grid/web';
 import { ReactChildren } from '../types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { styleHelpers } from '../utils';
 import { clamp } from '../shared/src/utils';
+import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
 
 function Button({
   onClick,
@@ -16,24 +14,23 @@ function Button({
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return (
-    <Grid.Display
-      xs={false}
-      md={true}
+    <div
+      onClick={onClick}
+      className={classes.buttonWrap}
+      style={{[direction]: 0}}
     >
-      <div
-        onClick={onClick}
-        className={classes.buttonWrap}
-        style={{[direction]: 0}}
-      >
-        <div className={classes.button}>
-          <FontAwesomeIcon 
-            icon={direction === 'left' ? faChevronLeft : faChevronRight}
-            size='2x'
-            color='#fff'
-          />
-        </div>
-      </div>
-    </Grid.Display>
+      {direction === 'left' ? (
+        <IoIosArrowDropleftCircle
+          size={32}
+          color='#fff'
+        />
+      ) : (
+        <IoIosArrowDroprightCircle
+          size={32}
+          color='#fff'
+        />
+      )}
+    </div>
   )
 }
 
@@ -47,7 +44,9 @@ export function Carousel<T>({
   ListHeaderComponent,
   ListFooterComponent,
   className,
-  style
+  style,
+  initialIndex,
+  onChange
 }: {
   data: T[]
   renderItem: (item: T, index: number) => ReactChildren
@@ -58,11 +57,15 @@ export function Carousel<T>({
   ListHeaderComponent?: ReactChildren
   ListFooterComponent?: ReactChildren
   className?: string
-  style?: React.CSSProperties
+  style?: React.CSSProperties,
+  initialIndex: number,
+  onChange: (index: number) => any
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const [width, setWidth] = React.useState(0);
+  const [ width, setWidth ] = React.useState(0);
+  const index = React.useRef(initialIndex ?? 0);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     function handleResize() {
@@ -77,17 +80,35 @@ export function Carousel<T>({
     }
   }, [ref.current]);
 
-  const scrollLeft = React.useRef<number | null>(null);
+  React.useEffect(() => {
+    if (!ref.current) return;
+    ref.current.scrollLeft = index.current * width;
+  }, [width]);
+
+  React.useEffect(() => {
+    if (!ref.current) return;
+
+    const newIndex = clamp(
+      0, 
+      initialIndex, 
+      data.length - 1
+    );
+    ref.current.scrollLeft = newIndex * width;
+
+    // timeout prevents scroll animation on load
+    let timeout = setTimeout(() => {
+      setLoading(false);
+    }, 50); 
+    
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, [ref.current]);
 
   function updateScroll(offset: number) {
-    if(!ref.current) return;
-    if(!scrollLeft.current) {
-      scrollLeft.current = ref.current.scrollLeft;
-    }
-    const requestedPosition = scrollLeft.current + (width * offset);
-    const snapPosition = Math.round(requestedPosition / width) * width;
-    scrollLeft.current = clamp(0, snapPosition, ref.current.scrollWidth - width);
-    ref.current.scrollLeft = scrollLeft.current;
+    if (!ref.current) return;
+    const newIndex = clamp(0, index.current + offset, data.length - 1);
+    ref.current.scrollLeft = newIndex * width;
   }
 
   if(data.length === 0) {
@@ -106,15 +127,29 @@ export function Carousel<T>({
   }
 
   return (
-    <div className={[classes.carousel, className].join(' ')}>
+    <div 
+      className={[
+        classes.carousel, 
+        className,
+        loading ? classes.hide : ''
+      ].join(' ')}
+    >
       <div
         className={[
           classes.scroll,
           'hide-scrollbars',
-          classes.snap
+          loading ? '' : classes.smoothScroll
         ].join(' ')}
         style={style}
         ref={ref}
+        onScroll={() => {
+          if (!ref.current) return;
+          const crntIndex = Math.round(ref.current.scrollLeft / width);
+          if (crntIndex !== index.current) {
+            index.current = crntIndex;
+            onChange(index.current);
+          }
+        }}
       >
         {ListHeaderComponent}
         {(inverted ? data.reverse() : data)
@@ -149,16 +184,17 @@ export function Carousel<T>({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   carousel: {
-    position: 'relative'
+    position: 'relative',
+    height: '100%'
   },
   scroll: {
     ...styleHelpers.flex('row'),
     overflow: 'auto',
     flex: 1,
-    ...styleHelpers.lockHeight('100%')
-  },
-  snap: {
+    ...styleHelpers.lockHeight('100%'),
     scrollSnapType: 'x mandatory',
+  },
+  smoothScroll: {
     scrollBehavior: 'smooth'
   },
   buttonWrap: {
@@ -168,14 +204,13 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     position: 'absolute',
     top: 0,
     bottom: 0,
-  },
-  button: {
-    padding: theme.spacing(3, 1.5),
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    backdropFilter: 'blur(20px)'
+    padding: theme.spacing(0, 1.5)
   },
   item: {
     scrollSnapAlign: 'start'
+  },
+  hide: {
+    opacity: 0
   }
 }));
 
