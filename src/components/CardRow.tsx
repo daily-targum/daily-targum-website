@@ -3,8 +3,7 @@ import Grid from './Grid/web';
 import Theme from './Theme';
 import Text from './Text';
 import { ReactChild } from '../types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { RiArrowRightLine } from 'react-icons/ri';
 import Link from 'next/link';
 
 function getColSizes(numOfItems: number, numOfCols: number): {
@@ -102,7 +101,10 @@ function Header({
           <Text variant='h4' style={{fontWeight: 400}} className={classes.moreInLinkText}>
             More in {title}
           </Text>
-          <FontAwesomeIcon icon={faArrowRight}/>
+          <RiArrowRightLine
+            size={22}
+            style={{marginBottom: 4}}
+          />
         </a>
       </Link>
     </div>
@@ -125,7 +127,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     alignItems: 'center',
   },
   moreInLinkText: {
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(0.5),
     fontWeight: 600
   }
 }));

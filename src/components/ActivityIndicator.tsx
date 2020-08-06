@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react';
-// @ts-ignore
-import { Spinner } from 'react-activity';
-import { Grid, Theme } from '.';
+
 import { useVisibility } from '../utils';
+import Theme from './Theme';
+import Grid from './Grid/web';
+
+function Spinner() {
+  const styles = Theme.useStyleCreator(styleCreator);
+  return (
+    <div 
+      className='animation-preset-spin'
+      style={styles.spinner}
+    />
+  )
+}
  
 export function ActivityIndicator() {
   const [visible, setVisible] = useState(false);
@@ -60,6 +70,16 @@ function ActivityIndicatorProgressiveLoader({
     </div>
   );
 }
+
+const styleCreator = Theme.makeStyleCreator(theme => ({
+  spinner: {
+    border: `4px solid rgba(0,0,0,0.1)`,
+    borderTop: `4px solid ${theme.colors.text}`,
+    borderRadius: '50%',
+    width: 38,
+    height: 38
+  }
+}));
 
 ActivityIndicator.Screen = ActivityIndicatorScreen;
 ActivityIndicator.ProgressiveLoader = ActivityIndicatorProgressiveLoader;

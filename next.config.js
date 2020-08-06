@@ -1,3 +1,5 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
   env: {
     AWS_APPSYNC_URL: process.env.AWS_APPSYNC_URL,
@@ -13,7 +15,10 @@ module.exports = {
     // Note: we provide webpack above so you should not `require` it
     // Perform customizations to webpack config
     // Important: return the modified config
-    config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//))
+    config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
+    config.plugins.push(new BundleAnalyzerPlugin({
+      analyzerMode: 'static'
+    }));
     return config
   },
   pageExtensions: ["page.tsx"],
