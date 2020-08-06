@@ -53,6 +53,7 @@ export function SEO({
   return (
     <>
       <title>{title ? (title+' | ') : ''}{BASE.siteName}</title>
+      <meta name="description" content={description} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary"/>

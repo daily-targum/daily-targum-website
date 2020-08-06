@@ -26,13 +26,20 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
-Page.getInitialProps = async (ctx: NextPageContext) => {
+export const getStaticProps = async (ctx: NextPageContext) => {
   const page = await getPage({slug: (
     typeof ctx.query.slug === 'object' ? ctx.query.slug[0] : (ctx.query.slug||'')
   )});
-  return { 
-    page
-  };
+
+  return {
+    props: {
+      page
+    },
+    // we will attempt to re-generate the page:
+    // - when a request comes in
+    // - at most once every sixty seconds
+    revalidate: 60
+  }
 };
 
 export default Page;
