@@ -3,7 +3,8 @@ import * as types from './types';
 import { Context, defaultContextValue } from './context';
 import { computeBreakpoints, getBreakpoint } from './utils';
 import * as contextExports from './context';
-import Theme from '../Theme';
+import * as Styles from './styles';
+import { breakPoints } from './config';
 
 export interface ColProps extends Partial<types.BreakPoints<number>> {
   style?: React.CSSProperties
@@ -26,20 +27,19 @@ export interface DisplayProps extends Partial<types.BreakPoints<boolean>> {
 }
 
 function Col(props: ColProps) {
+  // const context = useContext(Context);
   const { xs, sm, md, lg, xl, xxl, style, children, className } = props;
   const computedBreakpoints = computeBreakpoints({ xs, sm, md, lg, xl, xxl });
-  const classes = Theme.useStyleCreatorClassNames(styleCreator, computedBreakpoints);
 
   return (
-    <div
-      className={[
-        className,
-        classes.col
-      ].join(' ')}
+    <Styles.Col 
+      className={className}
+      computedBreakPoints={computedBreakpoints} 
       style={style}
+      breakPoints={breakPoints}
     >
       {children}
-    </div>
+    </Styles.Col>
   );
 }
 
@@ -86,17 +86,15 @@ function Display({
   ...rest
 }: DisplayProps) {
   const computedBreakPoints = computeBreakpoints(rest);
-  const classes = Theme.useStyleCreatorClassNames(styleCreator, computedBreakPoints);
   return (
-    <div
-      className={[
-        className,
-        classes.display
-      ].join(' ')}
+    <Styles.Display
+      computedBreakPoints={computedBreakPoints}
+      breakPoints={breakPoints}
+      className={className}
       style={style}
     >
       {children}
-    </div>
+    </Styles.Display>
   )
 }
 
@@ -124,59 +122,6 @@ function Provider({
     </Context.Provider>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator((theme, computedBreakPoints: types.BreakPoints<number | boolean>) => ({
-  col: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    overflowX: 'hidden',
-    [theme.mediaQuery(undefined, 'sm')]: {
-      display: computedBreakPoints.xs === 0 ? 'none' : null,
-      gridColumnEnd: `span ${computedBreakPoints.xs}`
-    },
-    [theme.mediaQuery('sm', 'md')]: {
-      display: computedBreakPoints.sm === 0 ? 'none' : null,
-      gridColumnEnd: `span ${computedBreakPoints.sm}`
-    },
-    [theme.mediaQuery('md', 'lg')]: {
-      display: computedBreakPoints.md === 0 ? 'none' : null,
-      gridColumnEnd: `span ${computedBreakPoints.md}`
-    },
-    [theme.mediaQuery('lg', 'xl')]: {
-      display: computedBreakPoints.lg === 0 ? 'none' : null,
-      gridColumnEnd: `span ${computedBreakPoints.lg}`
-    },
-    [theme.mediaQuery('xl', 'xxl')]: {
-      display: computedBreakPoints.xl === 0 ? 'none' : null,
-      gridColumnEnd: `span ${computedBreakPoints.xl}`
-    },
-    [theme.mediaQuery('xxl')]: {
-      display: computedBreakPoints.xxl === 0 ? 'none' : null,
-      gridColumnEnd: `span ${computedBreakPoints.xxl}`
-    }
-  },
-  display: {
-    [theme.mediaQuery(undefined, 'sm')]: {
-      display: computedBreakPoints.xs ? null : 'none'
-    },
-    [theme.mediaQuery('sm', 'md')]: {
-      display: computedBreakPoints.sm ? null : 'none'
-    },
-    [theme.mediaQuery('md', 'lg')]: {
-      display: computedBreakPoints.md ? null : 'none'
-    },
-    [theme.mediaQuery('lg', 'xl')]: {
-      display: computedBreakPoints.lg ? null : 'none'
-    },
-    [theme.mediaQuery('xl', 'xxl')]: {
-      display: computedBreakPoints.xl ? null : 'none'
-    },
-    [theme.mediaQuery('xxl')]: {
-      display: computedBreakPoints.xxl ? null : 'none'
-    }
-  }
-}));
 
 export const Grid = {
   ...contextExports,

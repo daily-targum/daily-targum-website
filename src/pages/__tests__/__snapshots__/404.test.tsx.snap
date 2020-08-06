@@ -8,14 +8,25 @@ exports[`<404 /> renders correctly 1`] = `
     className=" inside"
   >
     <span
-      className=" h1  "
-      style={Object {}}
+      style={
+        Object {
+          "fontSize": "2.5rem",
+          "fontWeight": 800,
+          "lineHeight": "1.2em",
+          "marginBottom": 10,
+        }
+      }
     >
       404. Not found.
     </span>
     <span
-      className=" p  "
-      style={Object {}}
+      style={
+        Object {
+          "fontSize": "1rem",
+          "lineHeight": "1.8em",
+          "marginBottom": 10,
+        }
+      }
     >
       Sorry, but the page you were trying to view does not exist.
     </span>

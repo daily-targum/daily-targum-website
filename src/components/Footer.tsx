@@ -51,42 +51,43 @@ const links = {
 }
 
 export function Footer() {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
+
   return (
-    <Section className={classes.footer}>
+    <Section style={styles.footer}>
       <Grid.Row>
         <Grid.Col xs={0} md={8}>
-          <div className={classes.centerHorizontally}>
+          <div style={styles.centerHorizontally}>
             <Text.Br/>
             <Text.Br/>
             <Logo 
               color='#fff'
-              className={classes.logo}
+              style={styles.logo}
             />
             <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
-              <img src="/powered-by-contentful.svg" alt="Powered by Contentful" className={classes.sublogo}/>
+              <img src="/powered-by-contentful.svg" alt="Powered by Contentful" style={styles.sublogo}/>
             </a>
           </div>
         </Grid.Col>
         <Grid.Col xs={0} md={8}>
-          <Text variant='h4' className={classes.title}>Social Media</Text>
+          <Text variant='h4' style={styles.title}>Social Media</Text>
           {links.socialMedia.map(l => (
             <a 
               key={l.href} 
-              className={classes.link}
+              style={styles.link}
               href={l.href}
             >{l.title}</a>
           ))}
         </Grid.Col>
         <Grid.Col xs={0} md={8}>
-          <Text variant='h4' className={classes.title}>Company</Text>
+          <Text variant='h4' style={styles.title}>Company</Text>
           {links.company.map(l => (
             <Link
               key={l.as}
               href={l.href}
               as={l.as}
             >
-              <a className={classes.link}>{l.title}</a>
+              <a style={styles.link}>{l.title}</a>
             </Link>
           ))}
         </Grid.Col>
@@ -94,42 +95,42 @@ export function Footer() {
 
         {/* Mobile */}
         <Grid.Col xs={24} md={0}>
-          <Text variant='h4' className={classes.title}>Social Media</Text>
+          <Text variant='h4' style={styles.title}>Social Media</Text>
           {links.socialMedia.map(l => (
             <a 
               key={l.href} 
-              className={classes.link}
+              style={styles.mobileLink}
               href={l.href}
             >{l.title}</a>
           ))}
         </Grid.Col>
         <Grid.Col xs={24} md={0}>
-          <div className={classes.spacer}/>
-          <Text variant='h4' className={classes.title}>Company</Text>
+          <div style={styles.spacer}/>
+          <Text variant='h4' style={styles.title}>Company</Text>
           {links.company.map(l => (
             <Link
               key={l.as}
               href={l.href}
               as={l.as}
             >
-              <a className={classes.link}>{l.title}</a>
+              <a style={styles.mobileLink}>{l.title}</a>
             </Link>
           ))}
         </Grid.Col>
         <Grid.Col xs={24} md={0}>
-          <div className={classes.centerHorizontally}>
-            <div className={classes.spacer}/>
+          <div style={styles.centerHorizontally}>
+            <div style={styles.spacer}/>
             <Logo 
               color='rgba(0,0,0,0.2)'
-              className={classes.logo}
+              style={styles.logo}
             />
             <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
-              <img src="/powered-by-contentful.svg" alt="Powered by Contentful" className={classes.logo}/>
+              <img src="/powered-by-contentful.svg" alt="Powered by Contentful" style={styles.logo}/>
             </a>
           </div>
         </Grid.Col>
       </Grid.Row>
-      <Text className={classes.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
+      <Text style={styles.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
     </Section>
   );
 }
@@ -163,6 +164,12 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   link: {
     marginTop: theme.spacing(2),
+    textDecoration: 'none',
+    color: theme.colors.textMuted,
+    textAlign: 'center'
+  },
+  mobileLink: {
+    margin: theme.spacing(3.5, 0, 2),
     textDecoration: 'none',
     color: theme.colors.textMuted,
     textAlign: 'center'

@@ -236,6 +236,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     zIndex: 1000,
     backgroundColor: 'rgba(255,255,255,0.92)',
     backdropFilter: 'saturate(180%) blur(10px)',
+    '-webkitBackdropFilter': 'saturate(180%) blur(10px)',
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.divider,

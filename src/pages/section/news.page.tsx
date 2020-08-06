@@ -1,24 +1,27 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Section, Theme, Grid, ActivityIndicator, Card, CardCols } from '../../components';
-import { styleHelpers } from '../../utils';
-import { formatDateAbriviated, imgix } from '../../shared/src/utils';
+import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner } from '../../components';
+import { styleHelpers, imgix } from '../../utils';
+import { formatDateAbriviated } from '../../shared/src/utils';
+import { useRouter } from 'next/router';
 
 function News({ 
   initSection
 }: { 
   initSection: GetArticles
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const { spacing } = Theme.useTheme();
+  const router = useRouter();
+  const styles = Theme.useStyleCreator(styleCreator);
+  const theme = Theme.useTheme();
 
   const [ section, setSection ] = React.useState(initSection);
   const [ isLoading, setIsLoading ] = React.useState(false);
 
   async function loadMore() {
-    if(!section.nextToken || isLoading) return;
+    if (!section.nextToken || isLoading) return;
     setIsLoading(true);
+
     const res = await actions.getArticles({
       category: 'News',
       limit: 20,
@@ -31,14 +34,19 @@ function News({
     setIsLoading(false);
   }
 
-  if(!section) return <NotFound/>;
-  return (
-    <Section className={classes.page}>
-      <div className={classes.logoWrap}>
-        <span className={classes.logo}>News</span>
-      </div>
+  if (router.isFallback) {
+    return <ActivityIndicator.Screen/>
+  }
 
-      <Grid.Row spacing={spacing(2)}>
+  if (!section) {
+    return <NotFound/>;
+  }
+
+  return (
+    <Section style={styles.page}>
+      <Banner text='News'/>
+
+      <Grid.Row spacing={theme.spacing(2)}>
         
         <CardCols 
           items={section.items.slice(0,2)}
@@ -72,7 +80,7 @@ function News({
 
         {section.items.slice(2).map(item => (
           <Grid.Col 
-            key={item.id}
+            key={item.title}
             xs={24}
             md={12}
             lg={8}
@@ -88,8 +96,11 @@ function News({
           </Grid.Col>
         ))}
       </Grid.Row>
+      
       {section.nextToken ? (
-        <ActivityIndicator.ProgressiveLoader onVisible={loadMore}/>
+        <ActivityIndicator.ProgressiveLoader 
+          onVisible={loadMore}
+        />
       ) : null}
     </Section>
   );
@@ -99,25 +110,6 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background
-  },
-  logoWrap: {
-    ...styleHelpers.card(theme),
-    backgroundColor: theme.colors.primary,
-    padding: theme.spacing(2),
-    margin: theme.spacing(0, 0, 2),
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  logo: {
-    textTransform: 'uppercase',
-    fontWeight: 900,
-    fontSize: 'calc(38px + 2vw)',
-    textAlign: 'center',
-    color: '#fff'
-  },
-  grow: {
-    display: 'flex',
-    flex: 1,
   }
 }));
 

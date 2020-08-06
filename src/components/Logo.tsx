@@ -2,13 +2,15 @@ import React from 'react';
 
 export function Logo({
   className,
-  color = '#111'
+  color = '#111',
+  style
 }: {
-  className: string,
+  className?: string,
   color?: string
+  style?: React.CSSProperties
 }) {
   return (
-    <svg className={className} width="1432px" height="237px" viewBox="0 0 1432 237" version="1.1">
+    <svg style={style} className={className} width="1432px" height="237px" viewBox="0 0 1432 237" version="1.1">
       <title>Logo</title>
       <g id="assets" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="Logo" fill={color}>

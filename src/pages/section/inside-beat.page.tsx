@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Section, Theme, Grid, ActivityIndicator, Card } from '../../components';
+import { Section, Theme, Grid, ActivityIndicator, Card, Banner } from '../../components';
 import { styleHelpers } from '../../utils';
 
 function Category({ 
@@ -33,9 +33,10 @@ function Category({
   if(!section) return <NotFound/>;
   return (
     <Section className={classes.page}>
-      <div className={classes.logoWrap}>
-        <span className={classes.logo}>Inside <span className={classes.logoAccent}>Beat</span></span>
-      </div>
+      <Banner 
+        text='Inside'
+        accentText='Beat'
+      />
       
       <Grid.Row spacing={spacing(2)}>
         <Grid.Col xs={24} md={12}>
@@ -157,14 +158,18 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
-Category.getInitialProps = async () => {
-  const section = await actions.getArticles({
+export async function getStaticProps() {
+  const initSection = await actions.getArticles({
     category: 'inside-beat',
     limit: 20
   });
-  return { 
-    initSection: section
-  };
+  
+  return {
+    props: {
+      initSection
+    },
+    revalidate: 60 // seconds
+  }
 };
 
 export default Category;

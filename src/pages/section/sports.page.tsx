@@ -1,8 +1,8 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Section, Theme, Grid, ActivityIndicator, Card, CardCols } from '../../components';
-import { styleHelpers } from '../../utils';
+import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner } from '../../components';
+import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 
 function Category({ 
@@ -11,7 +11,7 @@ function Category({
   initSection: GetArticles
 }) {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const { spacing } = Theme.useTheme();
+  const theme = Theme.useTheme();
 
   const [ section, setSection ] = React.useState(initSection);
   const [ isLoading, setIsLoading ] = React.useState(false);
@@ -34,12 +34,10 @@ function Category({
   if(!section) return <NotFound/>;
   return (
     <Section className={classes.page}>
-      <div className={classes.logoWrap}>
-        <span className={classes.logo}>Sports</span>
-      </div>
+      <Banner text='Sports'/>
 
       <Grid.Row 
-        spacing={spacing(2)}
+        spacing={theme.spacing(2)}
         cols={['2fr', '1fr', '1fr']}
       >
         <CardCols 
@@ -53,7 +51,7 @@ function Category({
             return i === 0 ? (
               <Card.ImageResponsive 
                 title={article[0].title}
-                image={article[0].media[0]}
+                image={imgix(article[0].media[0], imgix.presets.fourByThree.medium)}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article[0].slug}
                 date={formatDateAbriviated(article[0].publishDate)}
@@ -62,7 +60,7 @@ function Category({
               <>
                 <Card.ImageResponsive
                   title={article[0].title}
-                  image={article[0].media[0]}
+                  image={imgix(article[0].media[0], imgix.presets.fourByThree.medium)}
                   href='/article/[year]/[month]/[slug]'
                   as={'/'+article[0].slug}
                   aspectRatioImage={3 / 2}
@@ -71,7 +69,7 @@ function Category({
                 <Card.Spacer/>
                 <Card.ImageResponsive
                   title={article[1].title}
-                  image={article[1].media[0]}
+                  image={imgix(article[0].media[0], imgix.presets.fourByThree.medium)}
                   href='/article/[year]/[month]/[slug]'
                   as={'/'+article[1].slug}
                   aspectRatioImage={3 / 2}
@@ -86,7 +84,7 @@ function Category({
       <Card.Spacer/>
 
       <Grid.Row 
-        spacing={spacing(2)}
+        spacing={theme.spacing(2)}
       >
         
         {section.items.slice(3).map(item => (
@@ -107,8 +105,11 @@ function Category({
           </Grid.Col>
         ))}
       </Grid.Row>
+      
       {section.nextToken ? (
-        <ActivityIndicator.ProgressiveLoader onVisible={loadMore}/>
+        <ActivityIndicator.ProgressiveLoader 
+          onVisible={loadMore}
+        />
       ) : null}
     </Section>
   );
@@ -118,35 +119,20 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background
-  },
-  logoWrap: {
-    ...styleHelpers.card(theme),
-    backgroundColor: theme.colors.accent,
-    padding: theme.spacing(2),
-    margin: theme.spacing(0, 0, 2),
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  logo: {
-    textTransform: 'uppercase',
-    fontWeight: 900,
-    fontSize: 'calc(38px + 2vw)',
-    textAlign: 'center',
-    color: '#fff'
-  },
-  grow: {
-    display: 'flex',
-    flex: 1,
   }
 }));
 
-Category.getInitialProps = async () => {
-  const section = await actions.getArticles({
+export async function getStaticProps() {
+  const initSection = await actions.getArticles({
     category: 'Sports',
     limit: 20
   });
-  return { 
-    initSection: section
+
+  return {
+    props: {
+      initSection
+    },
+    revalidate: 60 // seconds
   };
 };
 

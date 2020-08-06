@@ -1,5 +1,7 @@
 // babel.config.js
 module.exports = {
   presets: ['next/babel'],
-  plugins: []
+  plugins: [
+    "babel-plugin-styled-components"
+  ]
 };

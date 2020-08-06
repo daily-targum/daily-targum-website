@@ -3,7 +3,7 @@ import { NextPageContext } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage } from '../../../../components';
 import NotFound from '../../../404.page';
-import { styleHelpers } from '../../../../utils';
+import { styleHelpers, imgix } from '../../../../utils';
 
 
 function Article({
@@ -11,16 +11,16 @@ function Article({
 }: {
   article: GetArticle
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const { spacing } = Theme.useTheme();
+  const styles = Theme.useStyleCreator(styleCreator);
+  const theme = Theme.useTheme();
 
   if(!article) return <NotFound/>;
   
   return (
     <>
-      <Section className={classes.page}>
+      <Section style={styles.page}>
         <Grid.Row 
-          spacing={spacing(4)}
+          spacing={theme.spacing(4)}
           cols={['165px', '1fr', '165px']}
         >
           <Grid.Col xs={0} lg={1}/>
@@ -35,7 +35,7 @@ function Article({
               />
               <AspectRatioImage
                 aspectRatio={16 / 9}
-                src={article.media[0]+'?ar=16:9&fit=crop&crop=faces,center'}
+                src={imgix(article.media[0], imgix.presets.sixteenByNine.xl)}
               />
               <Br/>
               <HTML html={article.body}/>

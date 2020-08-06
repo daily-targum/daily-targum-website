@@ -32,7 +32,7 @@ function Slide({
         <div className={classes.slideCardImageOverlay}/>
         <Section>
           <div className={classes.slideCardTitleWrap}>
-            <Text variant='h2' numberOfLines={2} className={classes.sliderCardTitle}>{article.title}</Text>
+            <Text.Truncate variant='h2' numberOfLines={2} className={classes.sliderCardTitle}>{article.title}</Text.Truncate>
           </div>
         </Section>
       </a>
@@ -65,7 +65,7 @@ function Large({
         <div className={classes.largeCardImageOverlay}/>
         <div className={classes.largeCardTitleWrap}>
           <Text variant='p' className={classes.largeCardSubtitle} noPadding>{formatDateAbriviated(article.publishDate)}</Text>
-          <Text variant='h3' numberOfLines={2} className={classes.largeCardTitle} noPadding>{article.title}</Text>
+          <Text.Truncate variant='h3' numberOfLines={2} className={classes.largeCardTitle} noPadding>{article.title}</Text.Truncate>
         </div>
       </a>
     </Link>
@@ -106,7 +106,7 @@ function Medium({
           <Grid.Col xs={12}>
             <div className={classes.textWrap}>
               <Text variant='p' className={classes.mediumCardSubtitle}>{formatDateAbriviated(article.publishDate)}</Text>
-              <Text variant='h5' numberOfLines={3}>{article.title}</Text>
+              <Text.Truncate variant='h5' numberOfLines={3}>{article.title}</Text.Truncate>
             </div>
           </Grid.Col>
         </Grid.Row>

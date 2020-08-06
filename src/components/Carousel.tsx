@@ -1,7 +1,7 @@
 import React from 'react';
 import Theme from './Theme';
 import { ReactChildren } from '../types';
-import { styleHelpers } from '../utils';
+import { styleHelpers, browser } from '../utils';
 import { clamp } from '../shared/src/utils';
 import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
 
@@ -65,7 +65,13 @@ export function Carousel<T>({
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const [ width, setWidth ] = React.useState(0);
   const index = React.useRef(initialIndex ?? 0);
-  const [loading, setLoading] = React.useState(true);
+  const [ loading, setLoading ] = React.useState(true);
+
+  const hasGoodScrollSnapSupport = browser.is([
+    'chrome',
+    'edge',
+    'firefox'
+  ]);
 
   React.useEffect(() => {
     function handleResize() {
@@ -144,8 +150,11 @@ export function Carousel<T>({
         ref={ref}
         onScroll={() => {
           if (!ref.current) return;
+
+          const scrollStopped = hasGoodScrollSnapSupport ? (ref.current.scrollLeft % width < 1) : true;
           const crntIndex = Math.round(ref.current.scrollLeft / width);
-          if (crntIndex !== index.current) {
+
+          if (scrollStopped && crntIndex !== index.current) {
             index.current = crntIndex;
             onChange(index.current);
           }
@@ -193,6 +202,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     flex: 1,
     ...styleHelpers.lockHeight('100%'),
     scrollSnapType: 'x mandatory',
+    '-webkit-scroll-snap-type': 'x mandatory',
+    '-webkit-overflow-scrolling': 'touch'
   },
   smoothScroll: {
     scrollBehavior: 'smooth'
@@ -207,7 +218,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     padding: theme.spacing(0, 1.5)
   },
   item: {
-    scrollSnapAlign: 'start'
+    scrollSnapAlign: 'center'
   },
   hide: {
     opacity: 0

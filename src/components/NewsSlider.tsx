@@ -2,7 +2,7 @@ import React from 'react';
 import { Article } from '../shared/src/client';
 import { Theme, Section, Text } from '../components';
 import Link from 'next/link';
-import { styleHelpers } from '../utils';
+import { styleHelpers, imgix } from '../utils';
 
 function Slide({
   article,
@@ -31,7 +31,7 @@ function Slide({
         ].join(' ')}
         style={{
           ...style,
-          backgroundImage: `url(${article.media[0]}?fm=webp&ar=16:9&fit=crop&crop=faces,center)`
+          backgroundImage: `url(${imgix(article.media[0], imgix.presets.sixteenByNine.lg)})`
         }}
       >
         <div className={classes.slideCardImageOverlay}/>
@@ -41,7 +41,7 @@ function Slide({
                 variant='h5'
                 style={{fontWeight: 900, color: '#fff'}}
               >NEWS</Text>
-              <Text 
+              <Text.Truncate
                 variant='h3' 
                 numberOfLines={2} 
                 className={[
@@ -51,7 +51,9 @@ function Slide({
                 ].join(' ')}
                 style={{fontWeight: 400}}
                 noPadding
-              >{article.title}</Text>
+              >
+                {article.title}
+              </Text.Truncate>
             </div>
           </Section>
       </a>

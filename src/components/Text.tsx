@@ -23,6 +23,36 @@ export const variants: Variant[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'sp
 
 export function Text({
   children,
+  className,
+  variant = 'span',
+  style,
+  noPadding = false
+}: {
+  children: (string | ReactChild)[] | string | ReactChild
+  className?: string
+  variant?: Variant
+  style?: CSSProperties
+  noPadding?: boolean
+}) {
+  const styles = Theme.useStyleCreator(styleCreator);
+
+  return (
+    <span
+      className={className}
+      style={{
+        ...styles[variant],
+        ...(noPadding ? styles.noPadding : null),
+        ...style
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+Text.Truncate = Truncate;
+function Truncate({
+  children,
   numberOfLines = null,
   lockNumberOfLines = false,
   className,
@@ -38,17 +68,18 @@ export function Text({
   style?: CSSProperties
   noPadding?: boolean
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator, numberOfLines);
   const styles = Theme.useStyleCreator(styleCreator, numberOfLines);
+  const classes = Theme.useStyleCreatorClassNames(styleCreator, numberOfLines);
+
   return (
     <span
       className={[
-        noPadding ? classes.noPadding : null,
-        classes[variant],
-        numberOfLines ? classes.trunkcate : null,
-        className, 
+        className,
+        numberOfLines ? classes.trunkcate : null
       ].join(' ')}
       style={{
+        ...styles[variant],
+        ...(noPadding ? styles.noPadding : null),
         ...(lockNumberOfLines && (numberOfLines !== null) && variant) ? {
           minHeight: `calc(${styles[variant].lineHeight} * ${numberOfLines}`
         } : null,
@@ -61,9 +92,9 @@ export function Text({
 }
 
 export function Br() {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <div className={classes.br}/>
+    <div style={styles.br}/>
   );
 }
 

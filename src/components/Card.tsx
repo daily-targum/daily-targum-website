@@ -27,24 +27,29 @@ function CardCompact({
   date?: string,
   className?: string
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Link
       href={href||''}
       as={as}
     >
-      <a className={classes.cardLink}>
-        <div className={[classes.compactCard, className].join(' ')}>
+      <a style={styles.cardLink}>
+        <div 
+          style={styles.compactCard} 
+          className={className}
+        >
           <AspectRatioImage
-            className={classes.compactCardImage}
+            style={styles.compactCardImage}
             aspectRatio={aspectRatio}
             src={image}
           />
-          <div className={classes.compactCardBody}>
-            {tag ? <Text className={classes.tag}>{tag}</Text> : null}
-            {title ? <Text variant='h4' numberOfLines={3} lockNumberOfLines={true}>{title}</Text> : null}
-            {subtitle ? <Text numberOfLines={3} noPadding>{subtitle}</Text> : null}
-            {date ? <Text className={classes.date}>{date}</Text> : null}
+          
+
+          <div style={styles.compactCardBody}>
+            {date ? <Text style={styles.date}>{date}</Text> : null}
+            {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+            {title ? <Text.Truncate variant='h4' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
+            {subtitle ? <Text.Truncate numberOfLines={3} noPadding>{subtitle}</Text.Truncate> : null}
           </div>
         </div>
       </a>
@@ -73,17 +78,17 @@ function CardStacked({
   aspectRatio,
   date
 }: CardStackedProps) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Link
       href={href}
       as={as}
     >
-      <a className={classes.cardLink}>
-        <div className={classes.stackedCard}>
+      <a style={styles.cardLink}>
+        <div style={styles.stackedCard}>
           <div
-            className={classes.backgroundImgae}
             style={{
+              ...styles.backgroundImgae,
               backgroundImage: `url(${image})`
             }}
           >
@@ -94,11 +99,11 @@ function CardStacked({
             /> 
           ) : <div style={{flex: 1}}/>}
           </div>
-          <div className={classes.stackedCardBody}>
-            {tag ? <Text className={classes.tag}>{tag}</Text> : null}
-            {title ? <Text variant='h4' numberOfLines={2} lockNumberOfLines={true}>{title}</Text> : null}
-            {subtitle ? <Text numberOfLines={2} noPadding>{subtitle}</Text> : null}
-            {date ? <Text className={classes.date}>{date}</Text> : null}
+          <div style={styles.stackedCardBody}>
+            {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+            {title ? <Text.Truncate variant='h4' numberOfLines={2} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
+            {subtitle ? <Text.Truncate numberOfLines={2} noPadding>{subtitle}</Text.Truncate> : null}
+            {date ? <Text style={styles.date}>{date}</Text> : null}
           </div>
         </div>
       </a>
@@ -180,8 +185,8 @@ function CardImage({
         ) : <div style={{flex: 1}}/>}
         <div className={classes.imageCardOverlay}/>
         <div className={classes.imageCardTitleWrap}>
-          {title ? <Text variant='h3' numberOfLines={2} className={classes.imageCardTitle}>{title}</Text> : null}
-          {date ? <Text className={classes.imageCardSubtitle}>{date}</Text> : null}
+          {date ? <Text.Truncate className={classes.imageCardSubtitle}>{date}</Text.Truncate> : null}
+          {title ? <Text.Truncate variant='h3' numberOfLines={2} className={classes.imageCardTitle}>{title}</Text.Truncate> : null}
         </div>
       </a>
     </Link>

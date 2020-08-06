@@ -51,10 +51,20 @@ export function AspectRatioImage({
       aspectRatio={aspectRatio}
       className={className}
       style={{
-        background: `url(${src})`,
-        ...styleHelpers.centerBackgroundImage(),
+        position: 'relative',
         ...style
       }}
-    />
+    >
+      <img 
+        src={src}
+        style={{
+          ...styleHelpers.absoluteFill(),
+          height: '100%',
+          width: '100%',
+          objectFit: 'cover'
+        }}
+        loading='lazy'
+      />
+    </AspectRatioView>
   );
 }

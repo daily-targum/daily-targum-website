@@ -106,10 +106,12 @@ function Home({
               <img
                 className={classes.appStoreBadge}
                 src='/app-store-badge.svg'
+                loading='lazy'
               />
               <img
                 className={classes.appStoreBadge}
                 src='/google-play-badge.png'
+                loading='lazy'
               />  
             </div>
           </Grid.Col>
@@ -118,6 +120,7 @@ function Home({
             <img
               className={classes.appScreenShot}
               src='/app-framed.png'
+              loading='lazy'
             />
           </Grid.Col>
         </Grid.Row>
@@ -127,11 +130,15 @@ function Home({
   );
 }
 
-Home.getInitialProps = async () => {
+export async function getStaticProps() {
   const homepage = await actions.getHomepage();
-  return { 
-    homepage
-  };
+
+  return {
+    props: {
+      homepage
+    },
+    revalidate: 60 // seconds
+  }
 };
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
@@ -192,8 +199,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     padding: theme.spacing(0, 0, 6)
   },
   appScreenShot: {
-    width: '70%',
-    height: 'auto'
+    width: 'auto',
+    height: 'calc(300px + 3vw)'
   },
 }));
 
