@@ -81,7 +81,7 @@ export function NewsSlider({
   }, [index, articles.length])
 
   return (
-    <div>
+    <div style={{position: 'relative'}}>
       <div className={classes.sider}>
         {articles.map((a, i) => (
           <Slide
@@ -95,6 +95,7 @@ export function NewsSlider({
           />
         ))}
       </div>
+      
       <div className={classes.dots}>
         {articles.map((a, i) => (
           <div
@@ -117,8 +118,10 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     pointerEvents: 'none'
   },
   dots: {
+    position: 'absolute',
     display: 'flex',
-    margin: theme.spacing(5),
+    margin: theme.spacing(3),
+    top: 0,
     left: 0,
     right: 0,
     justifyContent: 'center'

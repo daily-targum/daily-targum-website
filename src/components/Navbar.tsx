@@ -55,7 +55,7 @@ const navbarLinks: {
   },
   {
     title: 'HoRU',
-    href: '/section/[section]',
+    href: '/section/humans-of-rutgers',
     as: '/section/humans-of-rutgers'
   },
   {

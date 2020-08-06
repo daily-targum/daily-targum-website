@@ -84,7 +84,7 @@ function CardStacked({
           <div
             className={classes.backgroundImgae}
             style={{
-              backgroundImage: `url(${image}?h=260&w=400&fit=crop&crop=faces,center)`
+              backgroundImage: `url(${image})`
             }}
           >
             {aspectRatio ? (
@@ -169,7 +169,7 @@ function CardImage({
       <a
         className={classes.imageCard}
         style={{
-          backgroundImage: `url(${image}?h=260&w=400&fit=crop&crop=faces,center)`
+          backgroundImage: `url(${image})`
         }}
       >
         {aspectRatio ? (

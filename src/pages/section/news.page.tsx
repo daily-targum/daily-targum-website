@@ -3,7 +3,7 @@ import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { Section, Theme, Grid, ActivityIndicator, Card, CardCols } from '../../components';
 import { styleHelpers } from '../../utils';
-import { formatDateAbriviated } from '../../shared/src/utils';
+import { formatDateAbriviated, imgix } from '../../shared/src/utils';
 
 function News({ 
   initSection
@@ -51,7 +51,7 @@ function News({
             return i === 0 ? (
               <Card.ImageResponsive
                 title={article.title}
-                image={article.media[0]}
+                image={imgix(article.media[0], imgix.presets.fourByThree.medium)}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article.slug}
                 date={formatDateAbriviated(article.publishDate)}
@@ -60,7 +60,7 @@ function News({
             ) : (
               <Card.ImageResponsive
                 title={article.title}
-                image={article.media[0]}
+                image={imgix(article.media[0], imgix.presets.fourByThree.medium)}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article.slug}
                 date={formatDateAbriviated(article.publishDate)}
@@ -78,7 +78,7 @@ function News({
             lg={8}
           >
             <Card.StackedResponsive
-              image={item.media[0]}
+              image={imgix(item.media[0], imgix.presets.fourByThree.medium)}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
@@ -121,14 +121,18 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
-News.getInitialProps = async () => {
-  const section = await actions.getArticles({
+export async function getStaticProps() {
+  const initSection = await actions.getArticles({
     category: 'News',
     limit: 20
   });
-  return { 
-    initSection: section
-  };
+
+  return {
+    props: {
+      initSection
+    },
+    revalidate: 60 // seconds
+  }
 };
 
 export default News;

@@ -7,15 +7,25 @@ export function Section({
   children,
   className,
   style,
+  classNameInside,
+  styleInside
 }: {
   children: ReactChildren,
   className?: string,
   style?: React.CSSProperties,
+  classNameInside?: string,
+  styleInside?: React.CSSProperties,
 }) {
   const classes = useStyleCreatorClassNames(styleCreator);
   return (
-    <div style={style} className={[className, classes.section].join(' ')}>
-      <div className={classes.inside}>
+    <div 
+      style={style} 
+      className={[className, classes.section].join(' ')}
+    >
+      <div 
+        style={styleInside} 
+        className={[classNameInside, classes.inside].join(' ')}
+      >
         {children}
       </div>
     </div>

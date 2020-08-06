@@ -73,11 +73,11 @@ function ActivityIndicatorProgressiveLoader({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   spinner: {
-    border: `4px solid rgba(0,0,0,0.1)`,
-    borderTop: `4px solid ${theme.colors.text}`,
+    border: `3px solid rgba(0,0,0,0.1)`,
+    borderTop: `3px solid ${theme.colors.text}`,
     borderRadius: '50%',
-    width: 38,
-    height: 38
+    width: 30,
+    height: 30
   }
 }));
 
