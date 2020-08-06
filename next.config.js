@@ -1,4 +1,4 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   env: {
@@ -16,9 +16,9 @@ module.exports = {
     // Perform customizations to webpack config
     // Important: return the modified config
     config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
-    config.plugins.push(new BundleAnalyzerPlugin({
-      analyzerMode: 'static'
-    }));
+    // config.plugins.push(new BundleAnalyzerPlugin({
+    //   analyzerMode: 'static'
+    // }));
     return config
   },
   pageExtensions: ["page.tsx"],
