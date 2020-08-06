@@ -31,7 +31,7 @@ function Slide({
         ].join(' ')}
         style={{
           ...style,
-          backgroundImage: `url(${article.media[0]}?ar=16:9&fit=crop&crop=faces,center)`
+          backgroundImage: `url(${article.media[0]}?fm=webp&ar=16:9&fit=crop&crop=faces,center)`
         }}
       >
         <div className={classes.slideCardImageOverlay}/>
