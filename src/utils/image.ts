@@ -6,6 +6,7 @@ type ImgixOptions = {
   width?: string
   crop?: 'faces,center'
   fm?: 'webp'
+  q?: number
 }
 
 const supportsWebp = browser.is([
@@ -15,7 +16,8 @@ const supportsWebp = browser.is([
 ]);
 
 const imgixDefaultOptions: ImgixOptions = {
-  fm: supportsWebp ? 'webp' : undefined
+  fm: supportsWebp ? 'webp' : undefined,
+  q: 75
 };
 
 const presets = {
@@ -65,14 +67,16 @@ export function imgix(src: string, {
   ar,
   width,
   crop,
-  fm
+  fm,
+  q
 }: ImgixOptions) {
 
   const query = queryString.stringify({
     ar,
     crop,
     fm,
-    width
+    width,
+    q
   }, {
     encode: false
   });

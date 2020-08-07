@@ -2,7 +2,7 @@ import React from 'react';
 import { actions, GetHomepage, Article } from '../shared/src/client';
 import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, Text } from '../components';
 import { formatDateAbriviated, chopArray, camelCaseToCapitalized } from '../shared/src/utils';
-import { styleHelpers } from '../utils';
+import { styleHelpers, imgix } from '../utils';
 
 interface Section {
   id: string,
@@ -34,7 +34,7 @@ function NewsRow({
             return i === 0 ? (
               <Card.ImageResponsive 
                 title={item[0].title}
-                image={item[0].media[0]}
+                image={imgix(item[0].media[0], imgix.presets.fourByThree.medium)}
                 href='/article/[year]/[month]/[slug]'
                 as={item[0].slug}
                 date={formatDateAbriviated(item[0].publishDate)}
@@ -43,7 +43,7 @@ function NewsRow({
               <>
                 <Card.Compact
                   title={item[0].title}
-                  image={item[0].media[0]}
+                  image={imgix(item[0].media[0], imgix.presets.fourByThree.medium)}
                   href='/article/[year]/[month]/[slug]'
                   as={item[0].slug}
                   aspectRatio={3/2}
@@ -52,7 +52,7 @@ function NewsRow({
                 <Card.Spacer/>
                 <Card.Compact
                   title={item[1].title}
-                  image={item[1].media[0]}
+                  image={imgix(item[1].media[0], imgix.presets.fourByThree.medium)}
                   href='/article/[year]/[month]/[slug]'
                   as={item[1].slug}
                   aspectRatio={3/2}
