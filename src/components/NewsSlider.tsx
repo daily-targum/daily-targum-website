@@ -15,28 +15,28 @@ function Slide({
   hide: boolean,
   style?: React.CSSProperties
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Link
       href='/article/[year]/[month]/[slug]'
       as={article.slug}
     >
       <a
+        style={{
+          ...(hide ? styles.hide : null),
+          ...styles.link,
+          ...styles.slideImage,
+          backgroundImage: `url(${imgix(article.media[0], imgix.presets.sixteenByNine.lg)})`,
+          ...style,
+        }}
         className={[
           className, 
-          hide ? classes.hide : null,
-          classes.link, 
-          classes.slideImage,
           'animate-opacity'
         ].join(' ')}
-        style={{
-          ...style,
-          backgroundImage: `url(${imgix(article.media[0], imgix.presets.sixteenByNine.lg)})`
-        }}
       >
-        <div className={classes.slideCardImageOverlay}/>
+        <div style={styles.slideCardImageOverlay}/>
           <Section>
-            <div className={classes.slideCardTitleWrap}>
+            <div style={styles.slideCardTitleWrap}>
               <Text 
                 variant='h5'
                 style={{fontWeight: 900, color: '#fff'}}
@@ -44,19 +44,19 @@ function Slide({
               <Text.Truncate
                 variant='h3' 
                 numberOfLines={2} 
-                className={[
-                  hide ? classes.hide : null,
-                  classes.sliderCardTitle,
-                  'animate-opacity-fast'
-                ].join(' ')}
-                style={{fontWeight: 400}}
+                className='animate-opacity-fast'
+                style={{
+                  fontWeight: 400,
+                  ...styles.sliderCardTitle,
+                  ...(hide ? styles.hide : null),
+                }}
                 noPadding
               >
                 {article.title}
               </Text.Truncate>
             </div>
           </Section>
-      </a>
+        </a>
     </Link>
   );
 }
@@ -66,8 +66,8 @@ export function NewsSlider({
 }: {
   articles: Article[]
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const [index, setIndex] = React.useState(0);
+  const styles = Theme.useStyleCreator(styleCreator);
+  const [ index, setIndex ] = React.useState(0);
 
   React.useEffect(() => {
     const id = setTimeout(() => {
@@ -84,28 +84,28 @@ export function NewsSlider({
 
   return (
     <div style={{position: 'relative'}}>
-      <div className={classes.sider}>
+      <div style={styles.sider}>
         {articles.map((a, i) => (
           <Slide
             key={a.id}
             article={a}
             hide={i !== index}
-            className={[
-              i !== index ? classes.hide : null,
-              classes.slide
-            ].join(' ')}
+            style={{
+              ...styles.slide,
+              ...(i !== index ? styles.hide : null)
+            }}
           />
         ))}
       </div>
       
-      <div className={classes.dots}>
+      <div style={styles.dots}>
         {articles.map((a, i) => (
           <div
             key={a.id}
-            className={[
-              i !== index ? classes.dotActive : null,
-              classes.dot
-            ].join(' ')}
+            style={{
+              ...styles.dot,
+              ...(i !== index ? styles.dotActive : null)
+            }}
             onClick={() => setIndex(i)}
           />
         ))}

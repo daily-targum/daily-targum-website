@@ -74,6 +74,7 @@ const navbarLinks: {
 function MobileMenu() {
   const isVisible = useSelector(s => s.navigation.mobileMenuVisible);
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -87,11 +88,9 @@ function MobileMenu() {
       lg={false}
     >
       <div
-        className={[
-          classes.mobileMenu,
-          'animate-all-fast'
-        ].join(' ')}
+        className={'animate-all-fast'}
         style={{
+          ...styles.mobileMenu,
           opacity: +isVisible,
           pointerEvents: isVisible ? undefined : 'none'
         }}
@@ -99,10 +98,8 @@ function MobileMenu() {
         {navbarLinks.map(link => (link.as === router.asPath) ? (
           <span 
             key={link.as}
-            className={[
-              classes.mobileLink,
-              classes.linkActive
-            ].join(' ')}
+            style={styles.linkActive}
+            className={classes.mobileLink}
             onClick={() => dispatch(navigationActions.closeMobileMenu())}
           >
             <span>{link.title}</span>
@@ -127,10 +124,12 @@ function MobileMenu() {
 
 function DesktopNavbar() {
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
   const mobileMenuVisible = useSelector(s => s.navigation.mobileMenuVisible);
+
   return (
     <>
       <NextNprogress
@@ -153,14 +152,14 @@ function DesktopNavbar() {
             lg={true} 
             style={{ flex: 1 }}
           >
-            <div className={classes.inner}>
+            <div style={styles.inner}>
               <Link href='/'>
                 <a>
-                  <Logo className={classes.logo}/>
+                  <Logo style={styles.logo}/>
                 </a>
               </Link>
               
-              <div className={classes.links}>
+              <div style={styles.links}>
                 {navbarLinks.filter(l => !l.mobileOnly).map(link => (
                   <Link 
                     key={link.as}
@@ -168,10 +167,12 @@ function DesktopNavbar() {
                     as={link.as}
                   >
                     <a
+                      style={{
+                        ...(link.as === router.asPath) ? styles.linkActive : null,
+                      }}
                       className={[
                         classes.link,
-                        'animate-all-fast',
-                        (link.as === router.asPath) ? classes.linkActive : null,
+                        'animate-all-fast'
                       ].join(' ')}
                     >
                       <span>{link.title}</span>
@@ -188,15 +189,18 @@ function DesktopNavbar() {
             xs={true}
             lg={false}
           >
-            <div className={classes.inner}>
+            <div style={styles.inner}>
               <Link href='/'>
                 <a>
-                  <Logo className={classes.logo}/>
+                  <Logo style={styles.logo}/>
                 </a>
               </Link>
 
               <div 
-                className={[classes.links, classes.menuIconWrap].join(' ')}
+                style={{
+                  ...styles.menuIconWrap,
+                  ...styles.links
+                }}
                 onClick={() => dispatch(navigationActions.toggleMobileMenu())}
               >
                 {mobileMenuVisible ? (
@@ -214,7 +218,7 @@ function DesktopNavbar() {
 
         </nav>        
       </Section>
-      <div className={mobileMenuVisible ? classes.navbarSpacer : undefined}/>
+      <div style={mobileMenuVisible ? styles.navbarSpacer : undefined}/>
     </>
   );
 }
@@ -236,7 +240,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     zIndex: 1000,
     backgroundColor: 'rgba(255,255,255,0.92)',
     backdropFilter: 'saturate(180%) blur(10px)',
-    '-webkitBackdropFilter': 'saturate(180%) blur(10px)',
+    '-webkit-backdrop-filter': 'saturate(180%) blur(10px)',
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.divider,

@@ -6,20 +6,22 @@ import { FiSearch } from 'react-icons/fi';
 import { GrClose } from 'react-icons/gr';
 
 function Input() {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const [ focused, setFocused ] = React.useState(false);
   const [ value, setValue ] = React.useState('');
 
   return (
-    <div className={classes.searchWrap}>
+    <div style={styles.searchWrap}>
 
-      <div className={[
-        classes.searchRow,
-        focused ? '' : classes.hide,
-        'animate-all-fast'
-      ].join(' ')}>
+      <div 
+        style={{
+          ...styles.searchRow,
+          ...(focused ? '' : styles.hide)
+        }}
+        className='animate-all-fast'
+      >
         <FiSearch
-          className={classes.searchIcon}
+          style={styles.searchIcon}
           size={14}
         />
         <input 
@@ -27,17 +29,17 @@ function Input() {
           onBlur={() => setFocused(false)}
           onChange={e => setValue(e.target.value)}
           value={value}
-          className={[
-            classes.searchInput,
-            (focused ? null : classes.hide)
-          ].join(' ')}
+          style={{
+            ...styles.searchInput,
+            ...(focused ? null : styles.hide)
+          }}
           placeholder='Search'
         />
         <GrClose
-          className={[
-            classes.clickable,
-            classes.searchIcon
-          ].join(' ')}
+          style={{
+            ...styles.clickable,
+            ...styles.searchIcon
+          }}
           size={13}
           onClick={() => {
             if(focused) {
@@ -48,18 +50,18 @@ function Input() {
       </div>
 
       <div 
-        className={[
-          classes.touchTransparent,
-          classes.searchRow,
-          focused ? classes.hide : '',
-          'animate-all-fast'
-        ].join(' ')}
+        style={{
+          ...styles.touchTransparent,
+          ...styles.searchRow,
+          ...(focused ? styles.hide : '')
+        }}
+        className='animate-all-fast'
       >
         <FiSearch
-          className={classes.searchIcon}
+          style={styles.searchIcon}
           size={14}
         />
-        <Text className={classes.searchPlaceholder}>{value || 'Search'}</Text>
+        <Text style={styles.searchPlaceholder}>{value || 'Search'}</Text>
       </div>
 
     </div>

@@ -18,10 +18,11 @@ function NewsRow({
   title: string,
   category: Article[]
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
+
   return (
-    <div className={classes.section}>
+    <div style={styles.section}>
       <CardCols.Header
         title={title}
         href={`/section/${id}`}
@@ -76,9 +77,9 @@ function Home({
 }: { 
   homepage: GetHomepage
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <div className={classes.page}>
+    <div style={styles.page}>
 
       <main>
         <NewsSlider articles={homepage.high}/>
@@ -101,18 +102,18 @@ function Home({
       <Newsletter.Section/>
 
       <Divider/>
-      <Section className={classes.appSection}>
+      <Section style={styles.appSection}>
         <Grid.Row>
-          <Grid.Col xs={24} md={12} className={classes.getTheApp}>
+          <Grid.Col xs={24} md={12} style={styles.getTheApp}>
             <Text variant='h1'>Get the App</Text>
-            <div className={classes.appStoreRow}>
+            <div style={styles.appStoreRow}>
               <img
-                className={classes.appStoreBadge}
+                style={styles.appStoreBadge}
                 src='/app-store-badge.svg'
                 loading='lazy'
               />
               <img
-                className={classes.appStoreBadge}
+                style={styles.appStoreBadge}
                 src='/google-play-badge.png'
                 loading='lazy'
               />  
@@ -121,7 +122,7 @@ function Home({
 
           <Grid.Col xs={24} md={12} style={{alignItems: 'center'}}>
             <img
-              className={classes.appScreenShot}
+              style={styles.appScreenShot}
               src='/app-framed.png'
               loading='lazy'
             />
