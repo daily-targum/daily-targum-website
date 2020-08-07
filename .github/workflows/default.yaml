@@ -138,9 +138,9 @@ jobs:
           STEPS_CONTEXT: ${{ toJson(steps) }}
         run: echo "$STEPS_CONTEXT"
       - name: Audit live URL
-      uses: jakejarvis/lighthouse-action@master
-      with:
-        url: ${{ steps.vercel.outputs.preview-url }}
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: ${{ steps.vercel.outputs.preview-url }}
       - name: Upload results as an artifact
         uses: actions/upload-artifact@master
         with:
