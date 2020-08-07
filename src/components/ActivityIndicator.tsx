@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import { useVisibility } from '../utils';
 import Theme from './Theme';
-import Grid from './Grid/web';
 
 function Spinner() {
   const styles = Theme.useStyleCreator(styleCreator);
@@ -31,20 +30,23 @@ function ActivityIndicatorScreen() {
   let { colors } = Theme.useTheme();
 
   return (
-    <Grid.Row style={{
-      position: 'fixed',
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      
-      backgroundColor: colors.surface,
-      zIndex: 500,
-    }}>
+    <div
+      style={{
+        display: 'flex',
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        
+        backgroundColor: colors.surface,
+        zIndex: 500,
+      }}
+    >
       <ActivityIndicator />
-    </Grid.Row>
+    </div>
   );
 }
 

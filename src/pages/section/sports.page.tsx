@@ -4,12 +4,14 @@ import NotFound from '../404.page';
 import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
+import { useRouter } from 'next/router';
 
 function Category({ 
   initSection
 }: { 
   initSection: GetArticles
 }) {
+  const router = useRouter();
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const theme = Theme.useTheme();
 
@@ -31,7 +33,14 @@ function Category({
     setIsLoading(false);
   }
 
-  if(!section) return <NotFound/>;
+  if (router.isFallback) {
+    return <ActivityIndicator.Screen/>
+  }
+
+  if(!section) {
+    return <NotFound/>;
+  }
+
   return (
     <Section className={classes.page}>
       <Banner text='Sports'/>

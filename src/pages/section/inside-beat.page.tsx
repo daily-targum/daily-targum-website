@@ -3,17 +3,19 @@ import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { Section, Theme, Grid, ActivityIndicator, Card, Banner } from '../../components';
 import { styleHelpers } from '../../utils';
+import { useRouter } from 'next/router';
 
 function Category({ 
   initSection
 }: { 
   initSection: GetArticles
 }) {
+  const router = useRouter();
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const { spacing } = Theme.useTheme();
+  const theme = Theme.useTheme();
 
-  const [section, setSection] = React.useState(initSection);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [ section, setSection ] = React.useState(initSection);
+  const [ isLoading, setIsLoading ] = React.useState(false);
 
   async function loadMore() {
     if(!section.nextToken || isLoading) return;
@@ -30,7 +32,14 @@ function Category({
     setIsLoading(false);
   }
 
-  if(!section) return <NotFound/>;
+  if (router.isFallback) {
+    return <ActivityIndicator.Screen/>
+  }
+
+  if(!section) {
+    return <NotFound/>;
+  }
+
   return (
     <Section className={classes.page}>
       <Banner 
@@ -38,7 +47,7 @@ function Category({
         accentText='Beat'
       />
       
-      <Grid.Row spacing={spacing(2)}>
+      <Grid.Row spacing={theme.spacing(2)}>
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
             tag='Category'
