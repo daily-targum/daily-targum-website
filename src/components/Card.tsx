@@ -46,10 +46,10 @@ function CardCompact({
           
 
           <div style={styles.compactCardBody}>
-            {date ? <Text style={styles.date}>{date}</Text> : null}
             {tag ? <Text style={styles.tag}>{tag}</Text> : null}
-            {title ? <Text.Truncate variant='h4' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
+            {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
             {subtitle ? <Text.Truncate numberOfLines={3} noPadding>{subtitle}</Text.Truncate> : null}
+            {date ? <Text style={styles.date}>{date}</Text> : null}
           </div>
         </div>
       </a>
@@ -101,7 +101,7 @@ function CardStacked({
           </div>
           <div style={styles.stackedCardBody}>
             {tag ? <Text style={styles.tag}>{tag}</Text> : null}
-            {title ? <Text.Truncate variant='h4' numberOfLines={2} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
+            {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={2} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
             {subtitle ? <Text.Truncate numberOfLines={2} noPadding>{subtitle}</Text.Truncate> : null}
             {date ? <Text style={styles.date}>{date}</Text> : null}
           </div>
@@ -185,8 +185,8 @@ function CardImage({
         ) : <div style={{flex: 1}}/>}
         <div className={classes.imageCardOverlay}/>
         <div className={classes.imageCardTitleWrap}>
+          {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2} className={classes.imageCardTitle}>{title}</Text.Truncate> : null}
           {date ? <Text.Truncate className={classes.imageCardSubtitle}>{date}</Text.Truncate> : null}
-          {title ? <Text.Truncate variant='h3' numberOfLines={2} className={classes.imageCardTitle}>{title}</Text.Truncate> : null}
         </div>
       </a>
     </Link>

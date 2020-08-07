@@ -55,82 +55,86 @@ export function Footer() {
 
   return (
     <Section style={styles.footer}>
-      <Grid.Row>
-        <Grid.Col xs={0} md={8}>
-          <div style={styles.centerHorizontally}>
-            <Text.Br/>
-            <Text.Br/>
-            <Logo 
-              color='#fff'
-              style={styles.logo}
-            />
-            <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
-              <img src="/powered-by-contentful.svg" alt="Powered by Contentful" style={styles.sublogo}/>
-            </a>
-          </div>
-        </Grid.Col>
-        <Grid.Col xs={0} md={8}>
-          <Text variant='h4' style={styles.title}>Social Media</Text>
-          {links.socialMedia.map(l => (
-            <a 
-              key={l.href} 
-              style={styles.link}
-              href={l.href}
-            >{l.title}</a>
-          ))}
-        </Grid.Col>
-        <Grid.Col xs={0} md={8}>
-          <Text variant='h4' style={styles.title}>Company</Text>
-          {links.company.map(l => (
-            <Link
-              key={l.as}
-              href={l.href}
-              as={l.as}
-            >
-              <a style={styles.link}>{l.title}</a>
-            </Link>
-          ))}
-        </Grid.Col>
+      <footer>
+
+        <Grid.Row>
+          <Grid.Col xs={0} md={8}>
+            <div style={styles.centerHorizontally}>
+              <Text.Br/>
+              <Text.Br/>
+              <Logo 
+                color='#fff'
+                style={styles.logo}
+              />
+              <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
+                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" style={styles.sublogo}/>
+              </a>
+            </div>
+          </Grid.Col>
+          <Grid.Col xs={0} md={8}>
+            <Text variant='h4' style={styles.title}>Social Media</Text>
+            {links.socialMedia.map(l => (
+              <a 
+                key={l.href} 
+                style={styles.link}
+                href={l.href}
+              >{l.title}</a>
+            ))}
+          </Grid.Col>
+          <Grid.Col xs={0} md={8}>
+            <Text variant='h4' style={styles.title}>Company</Text>
+            {links.company.map(l => (
+              <Link
+                key={l.as}
+                href={l.href}
+                as={l.as}
+              >
+                <a style={styles.link}>{l.title}</a>
+              </Link>
+            ))}
+          </Grid.Col>
 
 
-        {/* Mobile */}
-        <Grid.Col xs={24} md={0}>
-          <Text variant='h4' style={styles.title}>Social Media</Text>
-          {links.socialMedia.map(l => (
-            <a 
-              key={l.href} 
-              style={styles.mobileLink}
-              href={l.href}
-            >{l.title}</a>
-          ))}
-        </Grid.Col>
-        <Grid.Col xs={24} md={0}>
-          <div style={styles.spacer}/>
-          <Text variant='h4' style={styles.title}>Company</Text>
-          {links.company.map(l => (
-            <Link
-              key={l.as}
-              href={l.href}
-              as={l.as}
-            >
-              <a style={styles.mobileLink}>{l.title}</a>
-            </Link>
-          ))}
-        </Grid.Col>
-        <Grid.Col xs={24} md={0}>
-          <div style={styles.centerHorizontally}>
+          {/* Mobile */}
+          <Grid.Col xs={24} md={0}>
+            <Text variant='h4' style={styles.title}>Social Media</Text>
+            {links.socialMedia.map(l => (
+              <a 
+                key={l.href} 
+                style={styles.mobileLink}
+                href={l.href}
+              >{l.title}</a>
+            ))}
+          </Grid.Col>
+          <Grid.Col xs={24} md={0}>
             <div style={styles.spacer}/>
-            <Logo 
-              color='rgba(0,0,0,0.2)'
-              style={styles.logo}
-            />
-            <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
-              <img src="/powered-by-contentful.svg" alt="Powered by Contentful" style={styles.logo}/>
-            </a>
-          </div>
-        </Grid.Col>
-      </Grid.Row>
-      <Text style={styles.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
+            <Text variant='h4' style={styles.title}>Company</Text>
+            {links.company.map(l => (
+              <Link
+                key={l.as}
+                href={l.href}
+                as={l.as}
+              >
+                <a style={styles.mobileLink}>{l.title}</a>
+              </Link>
+            ))}
+          </Grid.Col>
+          <Grid.Col xs={24} md={0}>
+            <div style={styles.centerHorizontally}>
+              <div style={styles.spacer}/>
+              <Logo 
+                color='rgba(0,0,0,0.2)'
+                style={styles.logo}
+              />
+              <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
+                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" style={styles.logo}/>
+              </a>
+            </div>
+          </Grid.Col>
+        </Grid.Row>
+        <Text style={styles.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
+      
+      </footer>
     </Section>
   );
 }
@@ -148,30 +152,30 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   footer: {
     padding: theme.spacing(8, 0, 4),
-    backgroundColor: theme.colors.primary
+    backgroundColor: theme.colors.primary.main
   },
   copyright: {
     ...styleHelpers.flex(),
     ...styleHelpers.textCenter(),
-    color: theme.colors.textMuted,
+    color: theme.colors.primary.contrastTextMuted,
     fontSize: '0.8rem',
     marginTop: theme.spacing(10),
     fontWeight: 300
   },
   title: {
-    color: '#fff',
+    color: theme.colors.primary.contrastText,
     ...styleHelpers.textCenter()
   },
   link: {
     marginTop: theme.spacing(2),
     textDecoration: 'none',
-    color: theme.colors.textMuted,
+    color: theme.colors.primary.contrastTextMuted,
     textAlign: 'center'
   },
   mobileLink: {
     margin: theme.spacing(3.5, 0, 2),
     textDecoration: 'none',
-    color: theme.colors.textMuted,
+    color: theme.colors.primary.contrastTextMuted,
     textAlign: 'center'
   },
   centerHorizontally: {

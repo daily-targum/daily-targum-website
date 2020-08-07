@@ -35,7 +35,10 @@ function Authors({
             href={'/author/[slug]'}
             as={`/author/${capitalizedToHypenated(author)}`}
           >
-            <a className={classes.hideLink}>
+            <a 
+              className={classes.hideLink}
+              aria-label={`More articles by ${author}`}
+            >
               <div 
                 className={classes.avatar}
                 style={{backgroundImage: `url(${img})`}}
@@ -53,7 +56,10 @@ function Authors({
                   href={'/author/[slug]'}
                   as={`/author/${capitalizedToHypenated(author)}`}
                 >
-                  <a className={classes.hideLink}>
+                  <a 
+                    className={classes.hideLink}
+                    aria-label={`More articles by ${author}`}
+                  >
                     <Text className={classes.author}>{author}</Text>
                   </a>
                 </Link>

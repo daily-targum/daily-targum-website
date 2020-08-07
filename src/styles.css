@@ -1,8 +1,11 @@
 :root {
   --primary-color: #050505;
+  --primary-contrastText-color: #ffffff;
+  --primary-contrastTextMuted-color: rgba(255,255,255,0.8);
+
   --accent-color: #cc0033;
   --text-color: #000;
-  --text-muted-color: #999;
+  --text-muted-color: #555555;
   --spinner-color: #bbb;
   --background-color: #f7f7f7;
   --surface-color: #fff;

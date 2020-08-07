@@ -2,7 +2,11 @@ import { spacing, roundness, mediaQuery } from '../constants/theme';
 
 export interface Theme {
   colors: {
-    primary: string,
+    primary: {
+      main: string,
+      contrastText: string
+      contrastTextMuted: string
+    },
     accent: string,
     text: string,
     textMuted: string,

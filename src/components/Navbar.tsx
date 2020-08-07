@@ -101,7 +101,6 @@ function MobileMenu() {
             key={link.as}
             className={[
               classes.mobileLink,
-              classes["link:hover"],
               classes.linkActive
             ].join(' ')}
             onClick={() => dispatch(navigationActions.closeMobileMenu())}
@@ -115,8 +114,7 @@ function MobileMenu() {
             as={link.as}
           >
             <a className={[
-              classes.mobileLink,
-              classes["link:hover"]
+              classes.mobileLink
             ].join(' ')}>
               <span>{link.title}</span>
             </a>
@@ -148,71 +146,73 @@ function DesktopNavbar() {
           position: mobileMenuVisible ? 'fixed' : 'sticky'
         }}
       >
-        <Grid.Display
-          xs={false}
-          lg={true} 
-          style={{ flex: 1 }}
-        >
-          <div className={classes.inner}>
-            <Link href='/'>
-              <a>
-                <Logo className={classes.logo}/>
-              </a>
-            </Link>
-            
-            <div className={classes.links}>
-              {navbarLinks.filter(l => !l.mobileOnly).map(link => (
-                <Link 
-                  key={link.as}
-                  href={link.href} 
-                  as={link.as}
-                >
-                  <a
-                    className={[
-                      classes['link:hover'],
-                      classes.link,
-                      'animate-all-fast',
-                      (link.as === router.asPath) ? classes.linkActive : null,
-                    ].join(' ')}
+        <nav>
+          
+          <Grid.Display
+            xs={false}
+            lg={true} 
+            style={{ flex: 1 }}
+          >
+            <div className={classes.inner}>
+              <Link href='/'>
+                <a>
+                  <Logo className={classes.logo}/>
+                </a>
+              </Link>
+              
+              <div className={classes.links}>
+                {navbarLinks.filter(l => !l.mobileOnly).map(link => (
+                  <Link 
+                    key={link.as}
+                    href={link.href} 
+                    as={link.as}
                   >
-                    <span>{link.title}</span>
-                  </a>
-                </Link>
-              ))}
+                    <a
+                      className={[
+                        classes.link,
+                        'animate-all-fast',
+                        (link.as === router.asPath) ? classes.linkActive : null,
+                      ].join(' ')}
+                    >
+                      <span>{link.title}</span>
+                    </a>
+                  </Link>
+                ))}
+              </div>
+
+              <Search.Input/>
             </div>
+          </Grid.Display>
 
-            <Search.Input/>
-          </div>
-        </Grid.Display>
+          <Grid.Display
+            xs={true}
+            lg={false}
+          >
+            <div className={classes.inner}>
+              <Link href='/'>
+                <a>
+                  <Logo className={classes.logo}/>
+                </a>
+              </Link>
 
-        <Grid.Display
-          xs={true}
-          lg={false}
-        >
-          <div className={classes.inner}>
-            <Link href='/'>
-              <a>
-                <Logo className={classes.logo}/>
-              </a>
-            </Link>
-
-            <div 
-              className={[classes.links, classes.menuIconWrap].join(' ')}
-              onClick={() => dispatch(navigationActions.toggleMobileMenu())}
-            >
-              {mobileMenuVisible ? (
-                <MdClose
-                  size={34}
-                />
-              ) : (
-                <FiMenu
-                  size={30}
-                />
-              )}
+              <div 
+                className={[classes.links, classes.menuIconWrap].join(' ')}
+                onClick={() => dispatch(navigationActions.toggleMobileMenu())}
+              >
+                {mobileMenuVisible ? (
+                  <MdClose
+                    size={34}
+                  />
+                ) : (
+                  <FiMenu
+                    size={30}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        </Grid.Display>
+          </Grid.Display>
 
+        </nav>        
       </Section>
       <div className={mobileMenuVisible ? classes.navbarSpacer : undefined}/>
     </>
@@ -279,7 +279,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     textDecoration: 'none',
     color: '#000',
     margin: theme.spacing(0, 1),
-    padding: theme.spacing(0, 1.5), 
+    padding: theme.spacing(1), 
     height: NAVBAR_HEIGHT,
     alignItems: 'center',
     display: 'flex',
@@ -287,17 +287,21 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     borderBottomWidth: 2,
     borderTopWidth: 2,
     borderColor: 'transparent',
-    borderStyle: 'solid'
+    borderStyle: 'solid',
+    ':hover': {
+      color: theme.colors.accent,
+      borderBottomColor: theme.colors.accent
+    }
   },
   mobileLink: {
     ...styleHelpers.hideLink(),
     fontSize: 'calc(18px + 2vw)',
     marginBottom: theme.spacing(3),
-    cursor: 'pointer'
-  },
-  'link:hover': {
-    color: theme.colors.accent,
-    borderBottomColor: theme.colors.accent
+    cursor: 'pointer',
+    ':hover': {
+      color: theme.colors.accent,
+      borderBottomColor: theme.colors.accent
+    }
   },
   linkActive: {
     color: theme.colors.accent,

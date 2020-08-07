@@ -26,20 +26,22 @@ function Article({
           <Grid.Col xs={0} lg={1}/>
 
           <Grid.Col xs={3} lg={1}>
-            <article>
-              <Text variant='h1'>{article.title}</Text>
-              <Byline.Authors 
-                authors={article.authors}
-                updatedAt={article.updatedAt} 
-                publishDate={article.publishDate}
-              />
-              <AspectRatioImage
-                aspectRatio={16 / 9}
-                src={imgix(article.media[0], imgix.presets.sixteenByNine.xl)}
-              />
-              <Br/>
-              <HTML html={article.body}/>
-            </article>
+            <main>
+              <article>
+                <Text variant='h1' htmlTag='h1'>{article.title}</Text>
+                <Byline.Authors 
+                  authors={article.authors}
+                  updatedAt={article.updatedAt} 
+                  publishDate={article.publishDate}
+                />
+                <AspectRatioImage
+                  aspectRatio={16 / 9}
+                  src={imgix(article.media[0], imgix.presets.sixteenByNine.xl)}
+                />
+                <Br/>
+                <HTML html={article.body}/>
+              </article>
+            </main>
           </Grid.Col>
 
           <Grid.Col xs={0} lg={1}>

@@ -3,10 +3,8 @@ import { NextPageContext } from 'next';
 import { Section, Text, Grid, Theme, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList } from '../../components';
 import { getAuthorPage, GetAuthorPage } from '../../shared/src/client';
 import { hyphenatedToCapitalized, formatDateAbriviated } from '../../shared/src/utils';
-import { processNextQueryStringParam, styleHelpers } from '../../utils';
+import { processNextQueryStringParam, styleHelpers, imgix } from '../../utils';
 import NotFound from '../404.page';
-
-const SIDEBAR_WIDTH = 250;
 
 const img = 'https://www.w3schools.com/howto/img_avatar.png';
 
@@ -26,10 +24,9 @@ function Author({
     <Section className={classes.page}>
       <Grid.Row 
         spacing={theme.spacing(2)}
-        cols={[`${SIDEBAR_WIDTH}px`, '1fr', `${SIDEBAR_WIDTH}px`]}
       >
 
-        <Grid.Col xs={0} md={1}>
+        <Grid.Col xs={0} md={6} lg={5}>
           <div className={classes.authorCard}>
             <Text.Br/>
             <AspectRatioImage
@@ -42,7 +39,7 @@ function Author({
           </div>
         </Grid.Col>
 
-        <Grid.Col xs={3} md={0}>
+        <Grid.Col xs={24} md={0}>
           <Card.Compact
             className={classes.articleCard}
             title={page.author[0].displayName}
@@ -50,10 +47,12 @@ function Author({
             image={img}
             aspectRatio={3 /2}
           />
-          <Divider className={classes.divider}/>
+
+          <Card.Spacer/>
+          <Divider/>
         </Grid.Col>
 
-        <Grid.Col xs={3} md={2} lg={1}>
+        <Grid.Col xs={24} md={18} lg={14}>
           <FlatList
             data={page.articles}
             keyExtractor={article => article.id}
@@ -61,7 +60,7 @@ function Author({
               <Card.Compact
                 className={classes.articleCard}
                 title={article.title}
-                image={article.media[0]+'?h=260&w=400&fit=crop&crop=faces,center'}
+                image={imgix(article.media[0], imgix.presets.square.small)}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article.slug}
                 aspectRatio={3 / 2}
@@ -89,8 +88,6 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex('column'),
     alignItems: 'center',
     ...styleHelpers.card(theme),
-    ...styleHelpers.lockWidth(SIDEBAR_WIDTH - theme.spacing(1)),
-    position: 'fixed',
     padding: theme.spacing(1)
   },
   authorCardMobile: {
@@ -116,9 +113,6 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex('column'),
     flex: 1,
     alignItems: 'center'
-  },
-  divider: {
-    marginBottom: theme.spacing(2)
   }
 }));
 

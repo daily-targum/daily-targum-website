@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetHoru } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Section, Theme, Grid, AspectRatioImage, ActivityIndicator } from '../../components';
+import { Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner } from '../../components';
 import { styleHelpers } from '../../utils';
 
 function Category({ 
@@ -35,9 +35,7 @@ function Category({
 
   return (
     <Section className={classes.page}>
-      <div className={classes.logoWrap}>
-        <span className={classes.logo}>Humans of RU</span>
-      </div>
+      <Banner text='Humans of RU'/>
       
       <Grid.Row spacing={theme.spacing(2)}>
 
@@ -70,23 +68,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background,
-  },
-  logoWrap: {
-    ...styleHelpers.card(theme),
-    backgroundColor: theme.colors.primary,
-    padding: theme.spacing(2),
-    margin: theme.spacing(0, 0, 2),
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  logo: {
-    textTransform: 'uppercase',
-    fontWeight: 900,
-    fontSize: 'calc(38px + 2vw)',
-    textAlign: 'center',
-    color: '#fff'
-  },
-  
+  }
 }));
 
 export async function getStaticProps() {

@@ -21,23 +21,61 @@ function getTextBase({
 export type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
 export const variants: Variant[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span'];
 
+function TextBase({
+  htmlTag = 'span',
+  ...props
+}: {
+  htmlTag?: Variant
+  className?: string
+  style?: React.CSSProperties
+  children: (string | ReactChild)[] | string | ReactChild
+}) {
+
+  switch (htmlTag) {
+    case 'h1':
+      return <h1 {...props} />;
+    case 'h2':
+      return <h2 {...props} />;
+    case 'h3':
+      return <h3 {...props} />;
+    case 'h4':
+      return <h4 {...props} />;
+    case 'h5':
+      return <h5 {...props} />;
+    case 'h6':
+      return <h6 {...props} />;
+    case 'p':
+      return <p {...props} />;
+    default:
+      return <span {...props} />
+  }
+
+}
+
 export function Text({
   children,
   className,
   variant = 'span',
+  htmlTag,
   style,
   noPadding = false
 }: {
   children: (string | ReactChild)[] | string | ReactChild
   className?: string
   variant?: Variant
+  htmlTag?: Variant
   style?: CSSProperties
   noPadding?: boolean
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
 
+  if (htmlTag === undefined && !/h{1,6}/.test(variant)) {
+    htmlTag = variant;
+  }
+
   return (
-    <span
+    <TextBase
+      htmlTag={htmlTag}
       className={className}
       style={{
         ...styles[variant],
@@ -46,7 +84,7 @@ export function Text({
       }}
     >
       {children}
-    </span>
+    </TextBase>
   );
 }
 
@@ -57,6 +95,7 @@ function Truncate({
   lockNumberOfLines = false,
   className,
   variant = 'span',
+  htmlTag = 'span',
   style,
   noPadding = false
 }: {
@@ -65,6 +104,7 @@ function Truncate({
   lockNumberOfLines?: boolean
   className?: string
   variant?: Variant
+  htmlTag?: Variant
   style?: CSSProperties
   noPadding?: boolean
 }) {
@@ -72,7 +112,8 @@ function Truncate({
   const classes = Theme.useStyleCreatorClassNames(styleCreator, numberOfLines);
 
   return (
-    <span
+    <TextBase
+      htmlTag={htmlTag}
       className={[
         className,
         numberOfLines ? classes.trunkcate : null
@@ -87,7 +128,7 @@ function Truncate({
       }}
     >
       {children}
-    </span>
+    </TextBase>
   );
 }
 

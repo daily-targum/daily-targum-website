@@ -24,7 +24,7 @@ export function Banner({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   logoWrap: {
     ...styleHelpers.card(theme),
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.primary.main,
     padding: theme.spacing(2),
     margin: theme.spacing(0, 0, 2),
     display: 'flex',

@@ -49,7 +49,11 @@ export function mediaQuery(min?: BreakPoint, max?: BreakPoint) {
 
 const main: Theme = {
   colors: {
-    primary: 'var(--primary-color)',
+    primary: {
+      main: 'var(--primary-color)',
+      contrastText: 'var(--primary-contrastText-color)',
+      contrastTextMuted: 'var(--primary-contrastTextMuted-color)'
+    },
     accent: 'var(--accent-color)',
     text: 'var(--text-color)',
     textMuted: 'var(--text-muted-color)',

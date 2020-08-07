@@ -18,6 +18,16 @@ const processingInstructions = [
     },
   },
   {
+    shouldProcessNode: function (node: any) {
+      return node.type === 'tag' && node.name === 'a';
+    },
+    processNode: (_0: any, children: any, index: any) => {
+      return (
+        <a key={index} rel="noreferrer">{children}</a>
+      );
+    },
+  },
+  {
     shouldProcessNode: function () {
       return true;
     },

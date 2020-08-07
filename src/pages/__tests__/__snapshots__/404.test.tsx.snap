@@ -7,7 +7,7 @@ exports[`<404 /> renders correctly 1`] = `
   <div
     className=" inside"
   >
-    <span
+    <h1
       style={
         Object {
           "fontSize": "2.5rem",
@@ -18,8 +18,8 @@ exports[`<404 /> renders correctly 1`] = `
       }
     >
       404. Not found.
-    </span>
-    <span
+    </h1>
+    <p
       style={
         Object {
           "fontSize": "1rem",
@@ -29,7 +29,7 @@ exports[`<404 /> renders correctly 1`] = `
       }
     >
       Sorry, but the page you were trying to view does not exist.
-    </span>
+    </p>
   </div>
 </div>
 `;

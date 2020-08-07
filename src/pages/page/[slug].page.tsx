@@ -13,7 +13,9 @@ function Page({
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return page?.content ? (
     <Section className={classes.section}>
-      <HTML html={page.content}/>
+      <main>
+        <HTML html={page.content}/>
+      </main>
     </Section>
   ) : (
     <NotFound/>
@@ -26,13 +28,27 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
-Page.getInitialProps = async (ctx: NextPageContext) => {
+export async function getStaticProps(ctx: NextPageContext) {
   const page = await getPage({slug: (
     typeof ctx.query.slug === 'object' ? ctx.query.slug[0] : (ctx.query.slug||'')
   )});
-  return { 
-    page
-  };
+
+  return {
+    props: {
+      page
+    },
+    // we will attempt to re-generate the page:
+    // - when a request comes in
+    // - at most once every sixty seconds
+    revalidate: 60
+  }
 };
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true
+  };
+}
 
 export default Page;

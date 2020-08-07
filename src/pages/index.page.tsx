@@ -79,20 +79,23 @@ function Home({
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   return (
     <div className={classes.page}>
-      <NewsSlider articles={homepage.high}/>
-      <Section>
-        {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category) => (
-          <React.Fragment
-            key={category}
-          >
-            <NewsRow
-              category={homepage[category]}
-              id={category}
-              title={camelCaseToCapitalized(category)}
-            />
-          </React.Fragment>
-        ))}
-      </Section>
+
+      <main>
+        <NewsSlider articles={homepage.high}/>
+        <Section>
+          {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category) => (
+            <React.Fragment
+              key={category}
+            >
+              <NewsRow
+                category={homepage[category]}
+                id={category}
+                title={camelCaseToCapitalized(category)}
+              />
+            </React.Fragment>
+          ))}
+        </Section>
+      </main>
 
       <Divider/>
       <Newsletter.Section/>
