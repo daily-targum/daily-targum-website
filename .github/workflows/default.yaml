@@ -127,6 +127,7 @@ jobs:
           path: src/shared/node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
       - uses: amondnet/vercel-action@v19
+        id: vercel
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GITHUB_TOKEN }} #Optional 
@@ -136,21 +137,12 @@ jobs:
         env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
         run: echo "$STEPS_CONTEXT"
-  audit:
-    name: Audit - Vercel
-    runs-on: ubuntu-latest
-    needs: deploy-vercel
-    steps:
-    - name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
-    - name: Audit live URL
+      - name: Audit live URL
       uses: jakejarvis/lighthouse-action@master
       with:
-        url: ${{ steps.deploy-vercel.outputs.preview-url }}
-    - name: Upload results as an artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: report
-        path: './report'
+        url: ${{ steps.vercel.outputs.preview-url }}
+      - name: Upload results as an artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: report
+          path: './report'
