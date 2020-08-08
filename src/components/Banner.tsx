@@ -33,7 +33,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   logo: {
     textTransform: 'uppercase',
     fontWeight: 900,
-    fontSize: 'calc(38px + 2vw)',
+    fontSize: 'calc(32px + 2vw)',
     textAlign: 'center',
     color: '#fff'
   },

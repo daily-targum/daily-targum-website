@@ -1,8 +1,8 @@
 import React from 'react';
-import { actions, GetHoru } from '../../shared/src/client';
-import NotFound from '../404.page';
-import { Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner } from '../../components';
-import { styleHelpers } from '../../utils';
+import { actions, GetHoru } from '../../../shared/src/client';
+import NotFound from '../../404.page';
+import { Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner } from '../../../components';
+import { styleHelpers } from '../../../utils';
 
 function Category({ 
   initHoru

@@ -1,7 +1,7 @@
 import React from 'react';
 import Theme from './Theme';
 import { ReactChildren } from '../types';
-import { styleHelpers, browser } from '../utils';
+import { styleHelpers } from '../utils';
 import { clamp } from '../shared/src/utils';
 import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
 
@@ -66,12 +66,7 @@ export function Carousel<T>({
   const [ width, setWidth ] = React.useState(0);
   const index = React.useRef(initialIndex ?? 0);
   const [ loading, setLoading ] = React.useState(true);
-
-  const hasGoodScrollSnapSupport = browser.is([
-    'chrome',
-    'edge',
-    'firefox'
-  ]);
+  const scrollTimeout = React.useRef<number | undefined>();
 
   React.useEffect(() => {
     function handleResize() {
@@ -150,14 +145,16 @@ export function Carousel<T>({
         ref={ref}
         onScroll={() => {
           if (!ref.current) return;
+          clearTimeout(scrollTimeout.current);
 
-          const scrollStopped = hasGoodScrollSnapSupport ? (ref.current.scrollLeft % width < 1) : true;
           const crntIndex = Math.round(ref.current.scrollLeft / width);
 
-          if (scrollStopped && crntIndex !== index.current) {
-            index.current = crntIndex;
-            onChange(index.current);
-          }
+          scrollTimeout.current = setTimeout(() => {
+            if (crntIndex !== index.current) {
+              index.current = crntIndex;
+              onChange(index.current);
+            }
+          }, 50);
         }}
       >
         {ListHeaderComponent}

@@ -19,7 +19,7 @@ function Gallery({
     <div className={classes.section}>
       <CardCols.Header
         title={title}
-        href='/multimedia/photos/[gallery]'
+        href='/multimedia/photos/[id]'
         as={`/multimedia/photos/${id}`}
       />
 

@@ -1,12 +1,12 @@
 import React from 'react';
-import { actions } from '../../../shared/src/client';
+import { actions, Gallery as GalleryType } from '../../../shared/src/client';
+import { numbers } from '../../../shared/src/utils';
 import { Grid, Carousel, Theme, Text } from '../../../components';
 import { styleHelpers, nextUtils, processNextQueryStringParam } from '../../../utils';
 import queryString from 'query-string';
 import { useRouter } from 'next/router';
 import { IoMdClose } from 'react-icons/io';
 import { NextPageContext } from 'next';
-import { Gallery as GalleryType } from '../../../shared/src/client';
 import NotFound from '../../404.page';
 
 function Gallery({
@@ -22,7 +22,12 @@ function Gallery({
   if (typeof location !== 'undefined') {
     query = queryString.parse(location?.search);
   }
-  const initialIndex = +processNextQueryStringParam(query.index, '0');
+
+  const initialIndex = numbers.clamp(
+    0, 
+    +processNextQueryStringParam(query.index, '0'), 
+    gallery?.images.length ?? 0
+  );
   const [index, setIndex] = React.useState(initialIndex);
 
   React.useEffect(() => {
@@ -129,12 +134,11 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 }));
 
 Gallery.getInitialProps = async (ctx: NextPageContext) => {
-  const { id } = ctx.query;
-  const imageGalleries = await actions.getImageGalleries();
+  const id = processNextQueryStringParam(ctx.query.id, '');
 
-  const gallery = imageGalleries.find(
-    gallery => gallery.id === processNextQueryStringParam(id)
-  );
+  const gallery = await actions.getImageGallery({ 
+    id
+  });
 
   return { 
     gallery
