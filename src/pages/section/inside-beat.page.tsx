@@ -20,7 +20,10 @@ function Category({
   async function loadMore() {
     if(!section.nextToken || isLoading) return;
     setIsLoading(true);
-    const res = await actions.getArticles({
+
+    const { actions: clientActions } = await import('../../shared/src/client');
+
+    const res = await clientActions.getArticles({
       category: 'inside-beat',
       limit: 20,
       nextToken: section.nextToken

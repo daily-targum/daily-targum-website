@@ -1,41 +1,23 @@
-/* eslint-disable */
 import React from 'react';
+import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser';
+import sanitizeHtml from 'sanitize-html';
 import Text, { variants } from './Text';
-// @ts-ignore
-import { Parser, ProcessNodeDefinitions } from 'html-to-react';
-const htmlToReactParser = new Parser();
 
-const preprocessingInstructions: any[] = [];
-const processingInstructions = [
-  {
-    shouldProcessNode: function (node: any) {
-      return node.type === 'tag' && variants.includes(node.name);
-    },
-    processNode: (node: any, children: any, index: any) => {
+const options: HTMLReactParserOptions = {
+  replace: ({ type, name, children }) => {
+    if (type === 'tag' && variants.includes(name)) {
       return (
-        <Text variant={node.name} key={index}>{children}</Text>
+        <Text variant={name}>{domToReact(children, options)}</Text>
       );
-    },
-  },
-  {
-    shouldProcessNode: function (node: any) {
-      return node.type === 'tag' && node.name === 'a';
-    },
-    processNode: (_0: any, children: any, index: any) => {
-      return (
-        <a key={index} rel="noreferrer">{children}</a>
-      );
-    },
-  },
-  {
-    shouldProcessNode: function () {
-      return true;
-    },
-    processNode: ProcessNodeDefinitions().processDefaultNode,
-  },
-];
+    }
 
-const isValidNode = () => true;
+    if (type === 'tag' && name === 'a') {
+      return (
+        <a rel="noreferrer">{domToReact(children, options)}</a>
+      );
+    }
+  }
+};
 
 export function HTML({
   html
@@ -43,10 +25,10 @@ export function HTML({
   html: string
 }) {
   return (
-    <>
-      {htmlToReactParser.parseWithInstructions(html, isValidNode, processingInstructions, preprocessingInstructions)}
-    </>
-  )
+    <div>
+      {parse(sanitizeHtml(html), options)}
+    </div>
+  );
 }
 
 export default HTML;

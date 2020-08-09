@@ -1,6 +1,7 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, Theme, HTML, ActivityIndicator } from '../../components';
+import { Section, Theme, ActivityIndicator } from '../../components';
+import HTML from '../../components/HTML';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { styleHelpers, processNextQueryStringParam } from '../../utils';

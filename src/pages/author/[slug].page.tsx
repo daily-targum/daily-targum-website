@@ -1,10 +1,11 @@
 import React from 'react';
-import { NextPageContext } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { Section, Text, Grid, Theme, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList } from '../../components';
 import { getAuthorPage, GetAuthorPage } from '../../shared/src/client';
 import { hyphenatedToCapitalized, formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, styleHelpers, imgix } from '../../utils';
 import NotFound from '../404.page';
+import { useRouter } from 'next/router';
 
 const img = 'https://www.w3schools.com/howto/img_avatar.png';
 
@@ -13,8 +14,13 @@ function Author({
 }: {
   page: GetAuthorPage
 }) {
+  const router = useRouter();
   const theme = Theme.useTheme();
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
+
+  if (router.isFallback) {
+    return <ActivityIndicator.Screen/>;
+  }
 
   if(page.author.length === 0) {
     return <NotFound/>;
@@ -116,14 +122,24 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
-Author.getInitialProps = async (ctx: NextPageContext) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
   const page = await getAuthorPage({
     // FIX THIS: should be able to look up author by slug
-    author: hyphenatedToCapitalized(processNextQueryStringParam(ctx.query.slug))
+    author: hyphenatedToCapitalized(processNextQueryStringParam(ctx.params?.slug, ''))
   });
-  return { 
-    page
+
+  return {
+    props: { 
+      page
+    }
   };
 };
+
+export const getStaticPaths: GetStaticPaths = async () =>  {
+  return {
+    paths: [],
+    fallback: true
+  };
+}
 
 export default Author;

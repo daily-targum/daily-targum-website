@@ -1,7 +1,8 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator } from '../../../../components';
+import { SEOProps, Section, Theme, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator } from '../../../../components';
+import HTML from '../../../../components/HTML';
 import NotFound from '../../../404.page';
 import { styleHelpers, imgix, processNextQueryStringParam } from '../../../../utils';
 import { useRouter } from 'next/router';
@@ -96,6 +97,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   if (article?.abstract) {
     seo.description = article.abstract;
+  }
+
+  if (article?.media[0]) {
+    seo.imageSrc = article.media[0];
   }
 
   return {

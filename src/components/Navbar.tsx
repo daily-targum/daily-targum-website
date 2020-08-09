@@ -60,8 +60,8 @@ const navbarLinks: {
   },
   {
     title: 'Podcasts',
-    href: '',
-    as: ''
+    href: '/podcasts/[slug]',
+    as: '/podcasts/targrum-tea'
   },
   {
     title: 'Search',

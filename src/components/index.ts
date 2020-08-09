@@ -8,7 +8,6 @@ export * from './Text';
 export * from './NewsSlider';
 export * from './Newsletter';
 export * from './Button';
-export * from './HTML';
 export * from './Byline';
 export * from './FlatList';
 export * from './ActivityIndicator';

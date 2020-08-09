@@ -36,6 +36,7 @@ export default class MyDocument extends Document<{
 
   render() {
     const seo = this.props.__NEXT_DATA__.props?.pageProps?.seo || {};
+
     return (
       <html lang='en'>
         <Head>
@@ -61,6 +62,7 @@ export default class MyDocument extends Document<{
           <meta name="theme-color" content="#ffffff"/>
           <SEO {...seo} />
         </Head>
+
         <body>
           <Main />
           <NextScript />

@@ -19,7 +19,9 @@ function Category({
     if(!horu.nextToken || isLoading) return;
     setIsLoading(true);
 
-    const res = await actions.getHoru({
+    const { actions: clientActions } = await import('../../../shared/src/client');
+
+    const res = await clientActions.getHoru({
       limit: 20,
       nextToken: horu.nextToken
     });

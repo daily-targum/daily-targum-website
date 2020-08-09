@@ -1,7 +1,8 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../shared/src/client';
-import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage } from '../../components';
+import { SEOProps, Section, Theme, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage } from '../../components';
+import HTML from '../../components/HTML';
 import NotFound from '../404.page';
 import { processNextQueryStringParam, styleHelpers } from '../../utils';
 

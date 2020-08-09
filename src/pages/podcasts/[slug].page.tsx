@@ -10,7 +10,7 @@ import { podcastActions } from '../../store/ducks/podcast';
 import dayjs from 'dayjs';
 import { IoIosPlay, IoIosPause } from 'react-icons/io';
 import { useRouter } from 'next/router';
-
+import NotFound from '../404.page';
 
 function Podcast({
   podcast
@@ -24,7 +24,7 @@ function Podcast({
   const firstEpisode = podcast?.items[0];
 
   const playing = useSelector(s => s.podcast.playState === 'play');
-  const playingThisShow = useSelector(s => s.podcast.episode?.show === podcast?.items[0].show);
+  const playingThisShow = useSelector(s => s.podcast.episode?.show === podcast?.items[0]?.show);
   const episodePlayingId = useSelector(s => s.podcast.episode?.id);
 
   async function play(id?: string) {
@@ -43,6 +43,10 @@ function Podcast({
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
+  }
+
+  if (podcast === undefined || podcast.items.length === 0) {
+    return <NotFound/>;
   }
   
   return (
@@ -159,7 +163,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   let seo: SEOProps = {
     pathname: `/podcast/${slug}`,
     title: show,
-    type: 'podcast',
+    type: 'podcast'
     // audioFile: episode.audioFile
   };
 

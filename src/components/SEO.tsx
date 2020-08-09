@@ -43,12 +43,11 @@ export function SEO({
   description = "The Daily Targum is where you can find Rutgers University's campus news, Scarlet Knights sports coverage, features, opinions and breaking news for New Brunswick, New Jersey",
   twitterHandle = '@daily_targum',
   type = 'website',
-  imageSrc = 'https://daily-targum-website-pied.now.sh/social-media-card-image.png',
-  host = 'https://daily-targum-website-pied.now.sh/',
+  imageSrc = 'https://dailytargum.now.sh/social-media-card-image.png',
+  host = 'https://dailytargum.now.sh/',
   pathname = '/',
   imageAlt = 'logo'
 }: SEOProps) {
-
 
   return (
     <>
