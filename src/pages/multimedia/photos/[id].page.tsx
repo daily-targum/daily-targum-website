@@ -1,12 +1,12 @@
 import React from 'react';
 import { actions, Gallery as GalleryType } from '../../../shared/src/client';
 import { numbers } from '../../../shared/src/utils';
-import { Grid, Carousel, Theme, Text } from '../../../components';
+import { Grid, Carousel, Theme, Text, ActivityIndicator } from '../../../components';
 import { styleHelpers, nextUtils, processNextQueryStringParam } from '../../../utils';
 import queryString from 'query-string';
 import { useRouter } from 'next/router';
 import { IoMdClose } from 'react-icons/io';
-import { NextPageContext } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import NotFound from '../../404.page';
 
 function Gallery({
@@ -42,6 +42,10 @@ function Gallery({
     } else {
       router.replace('/multimedia/photos');
     }
+  }
+
+  if (router.isFallback) {
+    return <ActivityIndicator.Screen/>;
   }
 
   if (gallery === undefined) {
@@ -133,16 +137,25 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
-Gallery.getInitialProps = async (ctx: NextPageContext) => {
-  const id = processNextQueryStringParam(ctx.query.id, '');
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const id = processNextQueryStringParam(ctx.params?.id, '');
 
   const gallery = await actions.getImageGallery({ 
     id
   });
 
-  return { 
-    gallery
+  return {
+    props: { 
+      gallery
+    }
   };
 };
+
+export const getStaticPaths: GetStaticPaths = async () =>  {
+  return {
+    paths: [],
+    fallback: true
+  };
+}
 
 export default Gallery;

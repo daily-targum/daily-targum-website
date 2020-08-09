@@ -1,9 +1,10 @@
 import React from 'react';
-import { NextPageContext } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage } from '../../../../components';
+import { SEOProps, Section, Theme, HTML, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator } from '../../../../components';
 import NotFound from '../../../404.page';
-import { styleHelpers, imgix } from '../../../../utils';
+import { styleHelpers, imgix, processNextQueryStringParam } from '../../../../utils';
+import { useRouter } from 'next/router';
 
 
 function Article({
@@ -11,10 +12,17 @@ function Article({
 }: {
   article: GetArticle
 }) {
+  const router = useRouter();
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
-  if(!article) return <NotFound/>;
+  if (router.isFallback) {
+    return <ActivityIndicator.Screen/>;
+  }
+
+  if (!article) {
+    return <NotFound/>;
+  }
   
   return (
     <>
@@ -71,21 +79,39 @@ function Article({
   );
 }
 
-Article.getInitialProps = async (ctx: NextPageContext) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const year = processNextQueryStringParam(ctx.params?.year, '');
+  const month = processNextQueryStringParam(ctx.params?.month, '');
+  const slug = processNextQueryStringParam(ctx.params?.slug, '');
+
   const article = await actions.getArticle({
-    slug: ctx.asPath?.replace(/(^\/|\/$)/g, '') as string
+    slug: `article/${year}/${month}/${slug}`
   });
-  const seo: SEOProps = {
-    pathname: `/${ctx.query.slug}`,
+
+  let seo: SEOProps = {
+    pathname: `/article/${year}/${month}/${slug}`,
     title: article?.title,
-    type: 'article',
-    description: article?.abstract ? article?.abstract : undefined
+    type: 'article'
   };
-  return { 
-    article,
-    seo
+
+  if (article?.abstract) {
+    seo.description = article.abstract;
+  }
+
+  return {
+    props: { 
+      article,
+      seo
+    }
   };
 };
+
+export const getStaticPaths: GetStaticPaths = async () =>  {
+  return {
+    paths: [],
+    fallback: true
+  };
+}
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: styleHelpers.page(theme),

@@ -1,8 +1,10 @@
 import React from 'react';
-import { CardCols, Card, Grid, Section, Theme, FlatList } from '../../components';
+import { CardCols, Card, Grid, Section, Theme, FlatList, ActivityIndicator } from '../../components';
 import { chopArray } from '../../shared/src/utils';
 import { actions, GetImageGalleries, GalleryImage } from '../../shared/src/client';
 import { styleHelpers } from '../../utils';
+import { GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 
 function Gallery({
   title,
@@ -13,8 +15,14 @@ function Gallery({
   id: string
   items: GalleryImage[]
 }) {
+  const router = useRouter();
   const classes = Theme.useStyleCreatorClassNames(styleCreator);
   const theme = Theme.useTheme();
+
+  if (router.isFallback) {
+    return <ActivityIndicator.Screen/>;
+  }
+
   return (
     <div className={classes.section}>
       <CardCols.Header
@@ -103,10 +111,13 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
 }));
 
-Photos.getInitialProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const imageGalleries = await actions.getImageGalleries();
-  return { 
-    imageGalleries
+
+  return {
+    props: { 
+      imageGalleries
+    }
   };
 };
   
