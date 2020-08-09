@@ -20,3 +20,4 @@ export * from './PodcastPlayerBar';
 export * from './Table';
 export * from './NextNProgress';
 export * from './Banner';
+export * from './HTML';

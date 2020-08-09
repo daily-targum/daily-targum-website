@@ -1,6 +1,6 @@
 import React from 'react';
 import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser';
-import sanitizeHtml from 'sanitize-html';
+import xss from 'xss';
 import Text, { variants } from './Text';
 
 const options: HTMLReactParserOptions = {
@@ -24,9 +24,11 @@ export function HTML({
 }: {
   html: string
 }) {
+  const computedHtml = parse(xss(html), options);
+
   return (
     <div>
-      {parse(sanitizeHtml(html), options)}
+      {computedHtml}
     </div>
   );
 }

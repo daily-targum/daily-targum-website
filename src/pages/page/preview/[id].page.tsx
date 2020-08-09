@@ -1,7 +1,6 @@
 import React from 'react';
 import { NextPageContext } from 'next';
-import { Section, Theme, ActivityIndicator } from '../../../components';
-import HTML from '../../../components/HTML';
+import { Section, Theme, ActivityIndicator, HTML } from '../../../components';
 import { getPagePreview, GetPage } from '../../../shared/src/client';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';

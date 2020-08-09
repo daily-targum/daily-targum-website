@@ -1,8 +1,8 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { SEOProps, Section, Theme, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator } from '../../../../components';
-import HTML from '../../../../components/HTML';
+import { SEOProps, Section, Theme, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator, HTML } from '../../../../components';
+
 import NotFound from '../../../404.page';
 import { styleHelpers, imgix, processNextQueryStringParam } from '../../../../utils';
 import { useRouter } from 'next/router';

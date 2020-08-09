@@ -85,3 +85,5 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 
 ActivityIndicator.Screen = ActivityIndicatorScreen;
 ActivityIndicator.ProgressiveLoader = ActivityIndicatorProgressiveLoader;
+
+export default ActivityIndicator;

@@ -2,7 +2,7 @@ import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { Section, Theme, Grid, ActivityIndicator, Card, Banner } from '../../components';
-import { styleHelpers } from '../../utils';
+import { styleHelpers, imgix } from '../../utils';
 import { useRouter } from 'next/router';
 
 function Category({ 
@@ -54,7 +54,7 @@ function Category({
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
             tag='Category'
-            image={section.items[0].media[0]}
+            image={imgix(section.items[0].media[0], imgix.presets.fourByThree.medium)}
             title={section.items[0].title}
             href='/article/[year]/[month]/[slug]'
             as={'/'+section.items[0].slug}
@@ -65,7 +65,7 @@ function Category({
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
             tag='Category'
-            image={section.items[1].media[0]}
+            image={imgix(section.items[1].media[0], imgix.presets.fourByThree.medium)}
             title={section.items[1].title}
             href='/article/[year]/[month]/[slug]'
             as={'/'+section.items[1].slug}
@@ -82,7 +82,7 @@ function Category({
           >
             <Card.Compact
               tag='Category'
-              image={item.media[0]}
+              image={imgix(item.media[0], imgix.presets.square.small)}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
