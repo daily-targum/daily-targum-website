@@ -3,7 +3,7 @@ import Router from "next/router";
 import NextApp from 'next/app';
 // @ts-ignore
 import withGA from "next-ga";
-import { Navbar, Theme, Footer, Grid, PodcastPlayerBar } from '../components';
+import { Navbar, Theme, Footer, Grid, PodcastPlayerBar, PersistentVideoPlayer, Page } from '../components';
 import { Provider as ReduxProvider } from '../store';
 import '../styles.css';
 
@@ -14,10 +14,14 @@ class App extends NextApp {
       <ReduxProvider>
         <Grid.Provider>
           <Theme.Provider>
-            <Navbar/>
-            <Component {...pageProps}/>
-            <Footer/>
-            <PodcastPlayerBar/>
+            <Page>
+              <Navbar/>
+              <Component {...pageProps}/>
+              <Footer/>
+
+              <PodcastPlayerBar/>
+              <PersistentVideoPlayer/>
+            </Page>
           </Theme.Provider>
         </Grid.Provider>
       </ReduxProvider>

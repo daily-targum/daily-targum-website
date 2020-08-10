@@ -30,6 +30,12 @@ const presets = {
       ar: '1:1',
       width: '250',
       crop: 'faces,center',
+    },
+    md: {
+      ...imgixDefaultOptions,
+      ar: '1:1',
+      width: '500',
+      crop: 'faces,center',
     }
   },
   fourByThree: {

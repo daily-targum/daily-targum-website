@@ -1,7 +1,7 @@
 import React from 'react';
 import { hyphenatedToCapitalized } from '../../shared/src/utils';
 import { actions, GetPodcast } from '../../shared/src/client';
-import { processNextQueryStringParam, styleHelpers } from '../../utils';
+import { processNextQueryStringParam, styleHelpers, imgix } from '../../utils';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { SEOProps } from '../../components/SEO';
 import { Grid, AspectRatioImage, Section, Theme, Text, Button, Table, ActivityIndicator } from '../../components';
@@ -62,7 +62,9 @@ function Podcast({
             md={1}
           >
             <AspectRatioImage
-              src={firstEpisode?.coverArt ?? ''}
+              src={firstEpisode?.coverArt ? (
+                imgix(firstEpisode.coverArt, imgix.presets.square.md)
+              ) : ''}
               aspectRatio={1}
               className={classes.coverImage}
             />

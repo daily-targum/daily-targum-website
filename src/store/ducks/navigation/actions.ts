@@ -1,8 +1,16 @@
 import types from './types';
 
-export function disablewDynamicHeader() {
+export function enableDarkNavbar() {
   return {
-    type: types.DISABLE_DYNAMIC_HEADER
+    type: types.SET_DARK_NAVBAR,
+    payload: true
+  }
+}
+
+export function disableDarkNavbar() {
+  return {
+    type: types.SET_DARK_NAVBAR,
+    payload: false
   }
 }
 

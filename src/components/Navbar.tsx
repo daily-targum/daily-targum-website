@@ -45,13 +45,13 @@ const navbarLinks: {
   },
   {
     title: 'Videos',
-    href: '/multimedia/videos',
-    as: '/multimedia/videos'
+    href: '/videos',
+    as: '/videos'
   },
   {
     title: 'Photos',
-    href: '/multimedia/photos',
-    as: '/multimedia/photos'
+    href: '/photos',
+    as: '/photos'
   },
   {
     title: 'HoRU',
@@ -61,7 +61,7 @@ const navbarLinks: {
   {
     title: 'Podcasts',
     href: '/podcasts/[slug]',
-    as: '/podcasts/targrum-tea'
+    as: '/podcasts/targum-tea'
   },
   {
     title: 'Search',
@@ -123,8 +123,9 @@ function MobileMenu() {
 }
 
 function DesktopNavbar() {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const styles = Theme.useStyleCreator(styleCreator);
+  const darkNavbar = useSelector(s => s.navigation.darkNavbar);
+  const classes = Theme.useStyleCreatorClassNames(styleCreator, darkNavbar);
+  const styles = Theme.useStyleCreator(styleCreator, darkNavbar);
   const theme = Theme.useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -181,7 +182,7 @@ function DesktopNavbar() {
                 ))}
               </div>
 
-              <Search.Input/>
+              <Search.Input dark={darkNavbar}/>
             </div>
           </Grid.Display>
 
@@ -232,13 +233,13 @@ export function Navbar() {
   );
 }
 
-const styleCreator = Theme.makeStyleCreator(theme => ({
+const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
   navbar: {
     position: 'sticky',
     width: '100%',
     top: 0,
     zIndex: 1000,
-    backgroundColor: 'rgba(255,255,255,0.92)',
+    backgroundColor: darkNavbar ? 'rgba(33, 32, 32, 0.92)' : 'rgba(255,255,255,0.92)',
     backdropFilter: 'saturate(180%) blur(10px)',
     '-webkit-backdrop-filter': 'saturate(180%) blur(10px)',
     borderBottomStyle: 'solid',
@@ -248,7 +249,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     overflow: 'visible'
   },
   navbarSpacer: {
-    height: NAVBAR_HEIGHT,
+    height: NAVBAR_HEIGHT
   },
   inner: {
     display: 'flex',
@@ -266,7 +267,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   logo: {
     width: 175,
     height: 'auto',
-    marginTop: 8
+    marginTop: 8,
+    color: darkNavbar ? theme.colors.primary.contrastText : theme.colors.text,
   },
   logoDT: {
     width: 40,
@@ -281,7 +283,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   link: {
     textDecoration: 'none',
-    color: '#000',
+    color: darkNavbar ? theme.colors.primary.contrastText : theme.colors.text,
     margin: theme.spacing(0, 1),
     padding: theme.spacing(1), 
     height: NAVBAR_HEIGHT,
@@ -328,4 +330,15 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
+export function useDynamicHeader() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(navigationActions.enableDarkNavbar());
+    return () => {
+      dispatch(navigationActions.disableDarkNavbar());
+    };
+  });
+}
+
+Navbar.useDynamicHeader = useDynamicHeader;
 export default Navbar;

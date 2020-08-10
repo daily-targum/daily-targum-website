@@ -1,13 +1,13 @@
 import React from 'react';
-import { actions, Gallery as GalleryType } from '../../../shared/src/client';
-import { numbers } from '../../../shared/src/utils';
-import { Grid, Carousel, Theme, Text, ActivityIndicator } from '../../../components';
-import { styleHelpers, nextUtils, processNextQueryStringParam } from '../../../utils';
+import { actions, Gallery as GalleryType } from '../../shared/src/client';
+import { numbers } from '../../shared/src/utils';
+import { Grid, Carousel, Theme, Text, ActivityIndicator } from '../../components';
+import { styleHelpers, nextUtils, processNextQueryStringParam } from '../../utils';
 import queryString from 'query-string';
 import { useRouter } from 'next/router';
 import { IoMdClose } from 'react-icons/io';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import NotFound from '../../404.page';
+import NotFound from '../404.page';
 
 function Gallery({
   gallery

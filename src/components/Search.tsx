@@ -3,22 +3,27 @@ import Theme from './Theme';
 import Text from './Text';
 import { styleHelpers } from '../utils';
 import { FiSearch } from 'react-icons/fi';
-import { GrClose } from 'react-icons/gr';
+import { IoMdClose } from 'react-icons/io';
 
-function Input() {
-  const styles = Theme.useStyleCreator(styleCreator);
+function Input({
+  dark = false
+}: {
+  dark: boolean
+}) {
+  const styles = Theme.useStyleCreator(styleCreator, dark);
   const [ focused, setFocused ] = React.useState(false);
   const [ value, setValue ] = React.useState('');
 
   return (
     <div style={styles.searchWrap}>
 
-      <div 
+      <form 
         style={{
           ...styles.searchRow,
           ...(focused ? '' : styles.hide)
         }}
         className='animate-all-fast'
+        onSubmit={e => e.preventDefault()}
       >
         <FiSearch
           style={styles.searchIcon}
@@ -34,20 +39,21 @@ function Input() {
             ...(focused ? null : styles.hide)
           }}
           placeholder='Search'
+          aria-labelledby='Search'
         />
-        <GrClose
+        <IoMdClose
           style={{
             ...styles.clickable,
             ...styles.searchIcon
           }}
-          size={13}
+          size={22}
           onClick={() => {
             if(focused) {
               setValue('')
             }
           }}
         />
-      </div>
+      </form>
 
       <div 
         style={{
@@ -68,15 +74,15 @@ function Input() {
   )
 }
 
-const styleCreator = Theme.makeStyleCreator(theme => ({
+const styleCreator = Theme.makeStyleCreator((theme, dark: boolean) => ({
   searchWrap: {
     position: 'relative',
     height: '2rem',
     ...styleHelpers.lockWidth(175),
     ...styleHelpers.card(theme),
     marginLeft: theme.spacing(2.5),
-    // backgroundColor: theme.colors.surface,
-    border: '1px solid rgba(0, 0, 0, 0.07)'
+    border: `1px solid ${dark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(0, 0, 0, 0.08)'}`,
+    backgroundColor: dark ? 'transparent' : theme.colors.surface
   },
   searchInput: {
     ...styleHelpers.unstyle(),
@@ -87,19 +93,22 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     flex: 1,
     fontSize: '1rem',
     lineHeight: '1rem',
+    color: dark ? theme.colors.primary.contrastText : theme.colors.text,
   },
   searchPlaceholder: {
     fontSize: '1rem',
     lineHeight: '1rem',
-    color: '#444',
+    color: dark ? theme.colors.primary.contrastText : theme.colors.text,
     margin: theme.spacing(0, 0.5),
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    opacity: 0.7
   },
   searchIcon: {
     ...styleHelpers.lockWidth('18px'),
-    color: '#444'
+    color: dark ? theme.colors.primary.contrastText : theme.colors.text,
+    opacity: 0.7
   },
   searchRow: {
     ...styleHelpers.absoluteFill(),

@@ -1,15 +1,16 @@
 import types, { State } from './types';
 
 const initialState: State = {
-  mobileMenuVisible: false
+  mobileMenuVisible: false,
+  darkNavbar: false
 };
 
 export default function reducer(state = initialState, action: any) {
   switch (action.type) {
-    case types.DISABLE_DYNAMIC_HEADER:
+    case types.SET_DARK_NAVBAR:
       return {
         ...state,
-        dynamicHeaderEnabled: false
+        darkNavbar: action.payload
       };
     case types.TOGGLE_MOBILE_MENU: 
       return {
