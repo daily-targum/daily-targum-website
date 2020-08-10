@@ -72,9 +72,10 @@ const navbarLinks: {
 ]
 
 function MobileMenu() {
+  const darkNavbar = useSelector(s => s.navigation.darkNavbar);
   const isVisible = useSelector(s => s.navigation.mobileMenuVisible);
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const styles = Theme.useStyleCreator(styleCreator);
+  const classes = Theme.useStyleCreatorClassNames(styleCreator, darkNavbar);
+  const styles = Theme.useStyleCreator(styleCreator, darkNavbar);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -110,9 +111,7 @@ function MobileMenu() {
             href={link.href} 
             as={link.as}
           >
-            <a className={[
-              classes.mobileLink
-            ].join(' ')}>
+            <a className={classes.mobileLink}>
               <span>{link.title}</span>
             </a>
           </Link>
@@ -206,10 +205,12 @@ function DesktopNavbar() {
               >
                 {mobileMenuVisible ? (
                   <MdClose
+                    style={styles.icon}
                     size={34}
                   />
                 ) : (
                   <FiMenu
+                    style={styles.icon}
                     size={30}
                   />
                 )}
@@ -302,6 +303,7 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
   mobileLink: {
     ...styleHelpers.hideLink(),
     fontSize: 'calc(18px + 2vw)',
+    color: darkNavbar ? theme.colors.primary.contrastText : theme.colors.text,
     marginBottom: theme.spacing(3),
     cursor: 'pointer',
     ':hover': {
@@ -323,10 +325,13 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
     ...styleHelpers.flex(),
     ...styleHelpers.absoluteFill(),
     position: 'fixed',
-    backgroundColor: theme.colors.surface,
+    backgroundColor: darkNavbar ? theme.colors.primary.main : theme.colors.surface,
     paddingLeft: theme.spacing(2.5),
     zIndex: 999,
     justifyContent: 'center'
+  },
+  icon: {
+    color: darkNavbar ? theme.colors.primary.contrastText : theme.colors.text
   }
 }));
 
