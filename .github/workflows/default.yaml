@@ -135,10 +135,51 @@ jobs:
           vercel-project-id: ${{ secrets.PROJECT_ID }} #Required
           alias-domains: |
             staging-dailytargum.now.sh
-      - name: Audit live URL
+  audit:
+    name: Auddit - Staging Website
+    runs-on: ubuntu-latest
+    needs: deploy-vercel
+    steps:
+      - name: Audit home page
         uses: jakejarvis/lighthouse-action@master
         with:
-          url: ${{ steps.vercel.outputs.preview-url }}
+          url: http://staging-dailytargum.now.sh/
+      - name: Audit news section
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: https://staging-dailytargum.now.sh/section/news
+      - name: Audit sports section
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: https://staging-dailytargum.now.sh/section/sports
+      - name: Audit opinions section
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: https://staging-dailytargum.now.sh/section/opinions
+      - name: Audit inside beat section
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: https://staging-dailytargum.now.sh/section/inside-beat
+      - name: Audit dynamic page (privacy policy)
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: https://staging-dailytargum.now.sh/page/privacy-policy
+      - name: Audit videos page
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: https://staging-dailytargum.now.sh/videos
+      - name: Audit photos page
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: https://staging-dailytargum.now.sh/photos
+      - name: Audit HoRU page
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: https://staging-dailytargum.now.sh/section/humans-of-rutgers
+      - name: Audit podcast page
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: https://staging-dailytargum.now.sh/podcasts/targum-tea
       - name: Upload results as an artifact
         uses: actions/upload-artifact@master
         with:

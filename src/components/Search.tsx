@@ -39,7 +39,7 @@ function Input({
             ...(focused ? null : styles.hide)
           }}
           placeholder='Search'
-          aria-labelledby='Search'
+          aria-label='Enter search text'
         />
         <IoMdClose
           style={{
