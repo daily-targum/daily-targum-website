@@ -125,7 +125,7 @@ jobs:
         with:
           path: src/shared/node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
-      - uses: amondnet/vercel-action@v19
+      - uses: amondnet/vercel-action@v19.0.1+2
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GITHUB_TOKEN }} #Optional 
