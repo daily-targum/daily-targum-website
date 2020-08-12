@@ -2,7 +2,7 @@ import React from 'react';
 import { actions, GetHoru } from '../../../shared/src/client';
 import NotFound from '../../404.page';
 import { Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner } from '../../../components';
-import { styleHelpers } from '../../../utils';
+import { styleHelpers, imgix } from '../../../utils';
 
 function Category({ 
   initHoru
@@ -48,7 +48,9 @@ function Category({
             xs={24}
           >
             <AspectRatioImage
-              src={item.photo}
+              data={imgix(item.photo, {
+                xs: imgix.presets.square.md
+              })}
               aspectRatio={1}
             />
           </Grid.Col>

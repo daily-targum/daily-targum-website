@@ -35,28 +35,35 @@ function NewsRow({
             return i === 0 ? (
               <Card.ImageResponsive 
                 title={item[0].title}
-                image={imgix(item[0].media[0], imgix.presets.fourByThree.medium)}
+                imageData={imgix(item[0].media[0], {
+                  xs: imgix.presets.square.md,
+                  md: imgix.presets.fourByThree.md
+                })}
                 href='/article/[year]/[month]/[slug]'
                 as={item[0].slug}
                 date={formatDateAbriviated(item[0].publishDate)}
               />
             ) : (
               <>
-                <Card.Compact
+                <Card.CompactResponsive
                   title={item[0].title}
-                  image={imgix(item[0].media[0], imgix.presets.fourByThree.medium)}
+                  imageData={imgix(item[0].media[0], {
+                    xs: imgix.presets.square.md
+                  })}
                   href='/article/[year]/[month]/[slug]'
                   as={item[0].slug}
-                  aspectRatio={3/2}
+                  aspectRatioMobile={1}
                   date={formatDateAbriviated(item[0].publishDate)}
                 />
                 <Card.Spacer/>
-                <Card.Compact
+                <Card.CompactResponsive
                   title={item[1].title}
-                  image={imgix(item[1].media[0], imgix.presets.fourByThree.medium)}
+                  imageData={imgix(item[1].media[0], {
+                    xs: imgix.presets.square.md
+                  })}
                   href='/article/[year]/[month]/[slug]'
                   as={item[1].slug}
-                  aspectRatio={3/2}
+                  aspectRatioMobile={1}
                   date={formatDateAbriviated(item[1].publishDate)}
                 />
               </>

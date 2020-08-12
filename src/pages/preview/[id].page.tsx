@@ -3,7 +3,7 @@ import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../shared/src/client';
 import { SEOProps, Section, Theme, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, HTML } from '../../components';
 import NotFound from '../404.page';
-import { processNextQueryStringParam, styleHelpers } from '../../utils';
+import { processNextQueryStringParam, styleHelpers, imgix } from '../../utils';
 
 function Article({
   article,
@@ -51,7 +51,10 @@ function Article({
             />
             <AspectRatioImage
               aspectRatio={16/9}
-              src={dynamicArticle.media[0]+'?ar=16:9&fit=crop&crop=faces,center'}
+              data={imgix(dynamicArticle.media[0], {
+                xs: imgix.presets.sixteenByNine.md,
+                md: imgix.presets.sixteenByNine.xl
+              })}
             />
             <Br/>
             <HTML html={dynamicArticle.body}/>

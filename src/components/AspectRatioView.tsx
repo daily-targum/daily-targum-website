@@ -1,6 +1,7 @@
 import React from 'react';
 import { styleHelpers } from '../utils';
 import { ReactChildren } from '../types';
+import { ImageData } from './Image';
 
 export function AspectRatioView({
   aspectRatio,
@@ -10,7 +11,7 @@ export function AspectRatioView({
   style,
   styleInside
 }: {
-  aspectRatio: number
+  aspectRatio?: number
   children?: ReactChildren
   className?: string
   classNameInside?: string
@@ -19,13 +20,19 @@ export function AspectRatioView({
 }) {
   return (
     <div 
-      style={style}
+      style={{
+        ...(aspectRatio ? null : {
+          flex: 1,
+          height: '100%'
+        }),
+        ...style
+      }}
       className={className}
     >
       <div 
         className={classNameInside}
         style={{
-          ...styleHelpers.aspectRatioFullWidth(aspectRatio),
+          ...(aspectRatio ? styleHelpers.aspectRatioFullWidth(aspectRatio) : null),
           ...styleInside
         }}
       >
@@ -37,34 +44,49 @@ export function AspectRatioView({
 
 export function AspectRatioImage({
   aspectRatio,
-  src,
+  data,
   className,
   style,
 }: {
-  aspectRatio: number
-  src: string
+  aspectRatio?: number
+  data: ImageData[]
   className?: string
   style?: React.CSSProperties
 }) {
+  const lastImg = data.slice(-1)[0] ?? {};
+
   return (
     <AspectRatioView
       aspectRatio={aspectRatio}
       className={className}
       style={{
         position: 'relative',
+        width: '100%',
         ...style
       }}
     >
-      <img 
-        src={src}
+      <picture 
         style={{
           ...styleHelpers.absoluteFill(),
           height: '100%',
-          width: '100%',
-          objectFit: 'cover'
+          width: '100%'
         }}
-        loading='lazy'
-      />
+      >
+        {data.map(img => (
+          <source 
+            key={img.src}
+            srcSet={img.src}
+            type={img.type}
+            style={{ height: '100%', width: '100%', objectFit: 'cover' }}
+            media={img.media}
+          />
+        ))}
+        
+        <img 
+          src={lastImg.src}
+          style={{ height: '100%', width: '100%', objectFit: 'cover' }}
+        />
+      </picture>
     </AspectRatioView>
   );
 }

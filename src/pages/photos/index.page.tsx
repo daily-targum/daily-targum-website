@@ -2,7 +2,7 @@ import React from 'react';
 import { CardCols, Card, Grid, Section, Theme, FlatList, ActivityIndicator } from '../../components';
 import { chopArray } from '../../shared/src/utils';
 import { actions, GetImageGalleries, GalleryImage } from '../../shared/src/client';
-import { styleHelpers } from '../../utils';
+import { styleHelpers, imgix } from '../../utils';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 
@@ -46,7 +46,10 @@ function Gallery({
             return i === 0 ? (
               <Card.Image
                 key={item[0]?.id}
-                image={item[0]?.url}
+                imageData={imgix(item[0]?.url, {
+                  xs: imgix.presets.fourByThree.md,
+                  md: imgix.presets.fourByThree.lg
+                })}
                 href=''
                 title={item[0]?.title}
               />
@@ -54,7 +57,9 @@ function Gallery({
               <>
                 <Card.Image
                   key={item[0]?.id}
-                  image={item[0]?.url}
+                  imageData={imgix(item[0]?.url, {
+                    xs: imgix.presets.fourByThree.md
+                  })}
                   href=''
                   title={item[0]?.title}
                   aspectRatio={3 / 2}
@@ -62,7 +67,9 @@ function Gallery({
                 <Card.Spacer/>
                 <Card.Image
                   key={item[1]?.id}
-                  image={item[1]?.url}
+                  imageData={imgix(item[1]?.url, {
+                    xs: imgix.presets.fourByThree.md
+                  })}
                   href=''
                   title={item[1]?.title}
                   aspectRatio={3 / 2}

@@ -30,11 +30,11 @@ function Article({
       <Section style={styles.page}>
         <Grid.Row 
           spacing={theme.spacing(4)}
-          cols={['165px', '1fr', '165px']}
+          cols={12}
         >
-          <Grid.Col xs={0} lg={1}/>
+          <Grid.Col xs={0} md={0}/>
 
-          <Grid.Col xs={3} lg={1}>
+          <Grid.Col xs={12} md={10}>
             <main>
               <article>
                 <Text variant='h1' htmlTag='h1'>{article.title}</Text>
@@ -45,7 +45,10 @@ function Article({
                 />
                 <AspectRatioImage
                   aspectRatio={16 / 9}
-                  src={imgix(article.media[0], imgix.presets.sixteenByNine.xl)}
+                  data={imgix(article.media[0], {
+                    xs: imgix.presets.sixteenByNine.md,
+                    md: imgix.presets.sixteenByNine.xl
+                  })}
                 />
                 <Br/>
                 <HTML html={article.body}/>
@@ -53,7 +56,7 @@ function Article({
             </main>
           </Grid.Col>
 
-          <Grid.Col xs={0} lg={1}>
+          <Grid.Col xs={0} md={2}>
             <div style={{backgroundColor: '#eee', flex: 1, display: 'flex', height: '100%'}}>
               <span>Ad</span>
             </div>

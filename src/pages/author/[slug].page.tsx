@@ -36,7 +36,9 @@ function Author({
           <div className={classes.authorCard}>
             <Text.Br/>
             <AspectRatioImage
-              src={img}
+              data={imgix(img, {
+                xs: imgix.presets.square.sm
+              })}
               aspectRatio={1}
               className={classes.avatar}
             />
@@ -50,7 +52,9 @@ function Author({
             className={classes.articleCard}
             title={page.author[0].displayName}
             subtitle='Bio goes here.'
-            image={img}
+            imageData={imgix(img, {
+              xs: imgix.presets.square.sm
+            })}
             aspectRatio={3 /2}
           />
 
@@ -66,7 +70,9 @@ function Author({
               <Card.Compact
                 className={classes.articleCard}
                 title={article.title}
-                image={imgix(article.media[0], imgix.presets.square.small)}
+                imageData={imgix(article.media[0], {
+                  xs: imgix.presets.square.md
+                })}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article.slug}
                 aspectRatio={3 / 2}

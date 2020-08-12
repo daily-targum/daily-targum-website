@@ -3,14 +3,15 @@ import Link from 'next/link';
 import Theme from './Theme';
 import Text from './Text';
 import Grid from './Grid/web';
-import { AspectRatioImage, AspectRatioView } from './AspectRatioView';
+import { AspectRatioImage } from './AspectRatioView';
+import { ImageData } from './Image';
 import { styleHelpers } from '../utils';
 
 function CardCompact({
   title,
   subtitle,
   tag,
-  image,
+  imageData,
   href,
   as,
   aspectRatio = 1,
@@ -20,7 +21,7 @@ function CardCompact({
   title?: string
   subtitle?: string
   tag?: string
-  image: string
+  imageData: ImageData[]
   href?: string
   as?: string
   aspectRatio?: number
@@ -41,9 +42,77 @@ function CardCompact({
           <AspectRatioImage
             style={styles.compactCardImage}
             aspectRatio={aspectRatio}
-            src={image}
+            data={imageData}
           />
           
+
+          <div style={styles.compactCardBody}>
+            {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+            {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
+            {subtitle ? <Text.Truncate numberOfLines={3} noPadding>{subtitle}</Text.Truncate> : null}
+            {date ? <Text style={styles.date}>{date}</Text> : null}
+          </div>
+        </div>
+      </a>
+    </Link>
+  );
+}
+
+function CardCompactResponsive({
+  title,
+  subtitle,
+  tag,
+  imageData,
+  href,
+  as,
+  aspectRatioMobile,
+  aspectRatioDesktop,
+  date,
+  className
+}: {
+  title?: string
+  subtitle?: string
+  tag?: string
+  imageData: ImageData[]
+  href?: string
+  as?: string
+  aspectRatioMobile?: number
+  aspectRatioDesktop?: number
+  date?: string,
+  className?: string
+}) {
+  const styles = Theme.useStyleCreator(styleCreator);
+  return (
+    <Link
+      href={href||''}
+      as={as}
+    >
+      <a style={styles.cardLink}>
+        <div 
+          style={styles.compactCard} 
+          className={className}
+        >
+          <Grid.Display 
+            xs={false}
+            md={true}
+            style={styles.compactCardImage}
+          >
+            <AspectRatioImage
+              aspectRatio={aspectRatioDesktop}
+              data={imageData}
+            />
+          </Grid.Display>
+          {/* Mobile */}
+          <Grid.Display 
+            xs={true}
+            md={false}
+            style={styles.compactCardImage}
+          >
+            <AspectRatioImage
+              aspectRatio={aspectRatioMobile}
+              data={imageData}
+            />
+          </Grid.Display>
 
           <div style={styles.compactCardBody}>
             {tag ? <Text style={styles.tag}>{tag}</Text> : null}
@@ -61,7 +130,7 @@ type CardStackedProps = {
   title?: string
   subtitle?: string
   tag?: string
-  image: string
+  imageData: ImageData[]
   href: string
   as?: string
   aspectRatio?: number
@@ -72,7 +141,7 @@ function CardStacked({
   title,
   subtitle,
   tag,
-  image,
+  imageData,
   href,
   as,
   aspectRatio,
@@ -86,19 +155,11 @@ function CardStacked({
     >
       <a style={styles.cardLink}>
         <div style={styles.stackedCard}>
-          <div
-            style={{
-              ...styles.backgroundImgae,
-              backgroundImage: `url(${image})`
-            }}
-          >
-            {aspectRatio ? (
-            <AspectRatioView 
-              aspectRatio={aspectRatio}
-              style={{width: '100%'}}
-            /> 
-          ) : <div style={{flex: 1}}/>}
-          </div>
+          <AspectRatioImage
+            aspectRatio={aspectRatio}
+            data={imageData}
+          />
+          
           <div style={styles.stackedCardBody}>
             {tag ? <Text style={styles.tag}>{tag}</Text> : null}
             {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={2} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
@@ -150,7 +211,7 @@ export function CardStackedResponsive({
 
 type CardImageProps = {
   title?: string
-  image: string
+  imageData: ImageData[]
   href: string
   as?: string
   aspectRatio?: number
@@ -159,7 +220,7 @@ type CardImageProps = {
 
 function CardImage({
   title,
-  image,
+  imageData,
   href,
   as,
   aspectRatio,
@@ -171,18 +232,12 @@ function CardImage({
       href={href}
       as={as}
     >
-      <a
-        className={classes.imageCard}
-        style={{
-          backgroundImage: `url(${image})`
-        }}
-      >
-        {aspectRatio ? (
-          <AspectRatioView 
-            aspectRatio={aspectRatio}
-            style={{width: '100%'}}
-          /> 
-        ) : <div style={{flex: 1}}/>}
+      <a className={classes.imageCard}>
+        <AspectRatioImage
+          aspectRatio={aspectRatio}
+          data={imageData}
+        />
+
         <div className={classes.imageCardOverlay}/>
         <div className={classes.imageCardTitleWrap}>
           {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2} className={classes.imageCardTitle}>{title}</Text.Truncate> : null}
@@ -319,6 +374,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
 
 export const Card = {
   Compact: CardCompact,
+  CompactResponsive: CardCompactResponsive,
   Stacked: CardStacked,
   StackedResponsive: CardStackedResponsive,
   Image: CardImage,

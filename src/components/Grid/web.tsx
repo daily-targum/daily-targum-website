@@ -17,7 +17,7 @@ export interface RowProps {
   children?: React.ReactNode
   spacing?: number
   className?: string
-  cols?: string[]
+  cols?: string[] | number
 }
 
 export interface DisplayProps extends Partial<types.BreakPoints<boolean>> {
@@ -54,6 +54,10 @@ function Row({
     ...contextExports.defaultContextValue,
     breakPoint: useContext(Context).breakPoint
   };
+
+  if (typeof cols === 'number') {
+    cols = Array.from({ length: cols }).map(() => '1fr');
+  }
 
   return (
     <Context.Provider 

@@ -1,5 +1,7 @@
 import queryString from 'query-string';
-import { browser } from './browser';
+import { BreakPoints } from '../components/Grid/types';
+import { breakPoints } from '../components/Grid/config';
+import { ObjectKeys } from '../shared/src/utils';
 
 type ImgixOptions = {
   ar?: string
@@ -11,21 +13,14 @@ type ImgixOptions = {
   fit?: 'crop'
 }
 
-const supportsWebp = browser.is([
-  'chrome',
-  'edge',
-  'firefox'
-]);
-
 const imgixDefaultOptions: ImgixOptions = {
-  fm: supportsWebp ? 'webp' : undefined,
   auto: 'compress',
   fit: 'crop'
 };
 
 const presets = {
   square: {
-    small: {
+    sm: {
       ...imgixDefaultOptions,
       ar: '1:1',
       width: '250',
@@ -39,13 +34,13 @@ const presets = {
     }
   },
   fourByThree: {
-    medium: {
+    md: {
       ...imgixDefaultOptions,
       ar: '4:3',
       width: '500',
       crop: 'faces,center',
     },
-    large: {
+    lg: {
       ...imgixDefaultOptions,
       ar: '4:3',
       width: '700',
@@ -53,6 +48,18 @@ const presets = {
     }
   },
   sixteenByNine: {
+    sm: {
+      ...imgixDefaultOptions,
+      ar: '16:9',
+      width: '250',
+      crop: 'faces,center',
+    },
+    md: {
+      ...imgixDefaultOptions,
+      ar: '16:9',
+      width: '500',
+      crop: 'faces,center',
+    },
     lg: {
       ...imgixDefaultOptions,
       ar: '16:9',
@@ -72,27 +79,36 @@ const presets = {
 } as const;
 imgix.presets = presets;
 
-export function imgix(src: string, {
-  ar,
-  width,
-  crop,
-  fm,
-  q,
-  auto,
-  fit
-}: ImgixOptions) {
+type ImgData = {
+  src: string,
+  type: string,
+  media: string
+}
 
-  const query = queryString.stringify({
-    ar,
-    crop,
-    fm,
-    width,
-    q,
-    auto,
-    fit
-  }, {
-    encode: false
+export function imgix(src: string, presets: Partial<BreakPoints<ImgixOptions>>) {
+
+  const formats = ['webp', 'jpg'];
+
+  const data: ImgData[] = [];
+
+  formats.forEach(format => {
+
+    const computedPreset = ObjectKeys(presets).reverse().map(breakPoint => ({
+      type: `image/${format}`,
+      src: `${src}?` + (
+        queryString.stringify({
+          ...presets[breakPoint],
+          fm: format
+        }, {
+          encode: false
+        })
+      ),
+      media: `(min-width: ${breakPoints[breakPoint]}px)`
+    }));
+
+    data.push(...computedPreset);
+
   });
 
-  return `${src}?${query}`;
+  return data;
 }

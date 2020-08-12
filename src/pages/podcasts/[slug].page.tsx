@@ -50,7 +50,7 @@ function Podcast({
   }
   
   return (
-    <>
+    <div className={classes.page}>
       <Section className={classes.section}>
         <Grid.Row
           cols={['250px', '1fr']}
@@ -62,9 +62,12 @@ function Podcast({
             md={1}
           >
             <AspectRatioImage
-              src={firstEpisode?.coverArt ? (
-                imgix(firstEpisode.coverArt, imgix.presets.square.md)
-              ) : ''}
+              data={firstEpisode?.coverArt ? (
+                imgix(firstEpisode.coverArt, {
+                  xs: imgix.presets.square.md,
+                  md: imgix.presets.square.sm
+                })
+              ) : []}
               aspectRatio={1}
               className={classes.coverImage}
             />
@@ -128,11 +131,14 @@ function Podcast({
         />
 
       </Section>
-    </>
+    </div>
   );
 }
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
+  page: {
+    flex: 1
+  },
   section: {
     ...styleHelpers.page(theme, 'compact')
   },

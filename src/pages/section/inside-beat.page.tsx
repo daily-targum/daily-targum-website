@@ -54,7 +54,10 @@ function Category({
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
             tag='Category'
-            image={imgix(section.items[0].media[0], imgix.presets.fourByThree.medium)}
+            imageData={imgix(section.items[0].media[0], {
+              xs: imgix.presets.square.sm,
+              md: imgix.presets.fourByThree.md
+            })}
             title={section.items[0].title}
             href='/article/[year]/[month]/[slug]'
             as={'/'+section.items[0].slug}
@@ -65,7 +68,10 @@ function Category({
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
             tag='Category'
-            image={imgix(section.items[1].media[0], imgix.presets.fourByThree.medium)}
+            imageData={imgix(section.items[1].media[0], {
+              xs: imgix.presets.square.sm,
+              md: imgix.presets.fourByThree.md
+            })}
             title={section.items[1].title}
             href='/article/[year]/[month]/[slug]'
             as={'/'+section.items[1].slug}
@@ -82,7 +88,9 @@ function Category({
           >
             <Card.Compact
               tag='Category'
-              image={imgix(item.media[0], imgix.presets.square.small)}
+              imageData={imgix(item.media[0], {
+                xs: imgix.presets.square.sm
+              })}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}

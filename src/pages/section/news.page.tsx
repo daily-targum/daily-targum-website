@@ -61,7 +61,10 @@ function News({
             return i === 0 ? (
               <Card.ImageResponsive
                 title={article.title}
-                image={imgix(article.media[0], imgix.presets.fourByThree.medium)}
+                imageData={imgix(article.media[0], {
+                  xs: imgix.presets.square.sm,
+                  md: imgix.presets.fourByThree.lg
+                })}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article.slug}
                 date={formatDateAbriviated(article.publishDate)}
@@ -70,7 +73,10 @@ function News({
             ) : (
               <Card.ImageResponsive
                 title={article.title}
-                image={imgix(article.media[0], imgix.presets.fourByThree.medium)}
+                imageData={imgix(article.media[0], {
+                  xs: imgix.presets.square.sm,
+                  md: imgix.presets.fourByThree.lg
+                })}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article.slug}
                 date={formatDateAbriviated(article.publishDate)}
@@ -88,7 +94,10 @@ function News({
             lg={8}
           >
             <Card.StackedResponsive
-              image={imgix(item.media[0], imgix.presets.fourByThree.medium)}
+              imageData={imgix(item.media[0], {
+                xs: imgix.presets.square.sm,
+                md: imgix.presets.fourByThree.md
+              })}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Article } from '../shared/src/client';
-import { Theme, Section, Text } from '../components';
+import { Theme, Section, Text, AspectRatioImage } from '../components';
 import Link from 'next/link';
 import { styleHelpers, imgix } from '../utils';
 
@@ -8,12 +8,14 @@ function Slide({
   article,
   className,
   hide,
-  style
+  style,
+  load
 }: {
   article: Article,
   className?: string,
   hide: boolean,
-  style?: React.CSSProperties
+  style?: React.CSSProperties,
+  load: boolean
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
@@ -25,8 +27,7 @@ function Slide({
         style={{
           ...(hide ? styles.hide : null),
           ...styles.link,
-          ...styles.slideImage,
-          backgroundImage: `url(${imgix(article.media[0], imgix.presets.sixteenByNine.lg)})`,
+          ...styles.slide,
           ...style,
         }}
         className={[
@@ -34,29 +35,38 @@ function Slide({
           'animate-opacity'
         ].join(' ')}
       >
+        <AspectRatioImage
+          data={load ? imgix(article.media[0], {
+            xs: imgix.presets.sixteenByNine.sm,
+            sm: imgix.presets.sixteenByNine.md,
+            md: imgix.presets.sixteenByNine.lg,
+            lg: imgix.presets.sixteenByNine.xl
+          }) : []}
+          style={styles.slideImage}
+        />
         <div style={styles.slideCardImageOverlay}/>
-          <Section>
-            <div style={styles.slideCardTitleWrap}>
-              <Text 
-                variant='h5'
-                style={{fontWeight: 900, color: '#fff'}}
-              >NEWS</Text>
-              <Text.Truncate
-                variant='h3' 
-                numberOfLines={2} 
-                className='animate-opacity-fast'
-                style={{
-                  fontWeight: 400,
-                  ...styles.sliderCardTitle,
-                  ...(hide ? styles.hide : null),
-                }}
-                noPadding
-              >
-                {article.title}
-              </Text.Truncate>
-            </div>
-          </Section>
-        </a>
+        <Section>
+          <div style={styles.slideCardTitleWrap}>
+            <Text 
+              variant='h5'
+              style={{fontWeight: 900, color: '#fff'}}
+            >NEWS</Text>
+            <Text.Truncate
+              variant='h3' 
+              numberOfLines={2} 
+              className='animate-opacity-fast'
+              style={{
+                fontWeight: 400,
+                ...styles.sliderCardTitle,
+                ...(hide ? styles.hide : null),
+              }}
+              noPadding
+            >
+              {article.title}
+            </Text.Truncate>
+          </div>
+        </Section>
+      </a>
     </Link>
   );
 }
@@ -68,6 +78,15 @@ export function NewsSlider({
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   const [ index, setIndex ] = React.useState(0);
+  const [ loaded, setLoaded ] = React.useState([true]);
+
+  React.useEffect(() => {
+    if (!loaded[index]) {
+      const clone = loaded.slice(0);
+      clone[index] = true;
+      setLoaded(clone);
+    }
+  }, [index]);
 
   React.useEffect(() => {
     const id = setTimeout(() => {
@@ -91,9 +110,9 @@ export function NewsSlider({
             article={a}
             hide={i !== index}
             style={{
-              ...styles.slide,
               ...(i !== index ? styles.hide : null)
             }}
+            load={loaded[i]}
           />
         ))}
       </div>
@@ -146,10 +165,13 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     textDecoration: 'none',
     color: theme.colors.text
   },
+  slide: {
+    ...styleHelpers.absoluteFill(),
+    ...styleHelpers.flex('column'),
+    justifyContent: 'flex-end'
+  },
   slideImage: {
-    ...styleHelpers.centerBackgroundImage(),
-    display: 'flex',
-    alignItems: 'flex-end'
+    ...styleHelpers.absoluteFill()
   },
   slideCardImageOverlay: {
     position: 'absolute',
@@ -172,15 +194,11 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     maxWidth: '50%'
   },
   sider: {
-    // maxHeight: 400,
     height: 'calc(25vw + 180px)',
     backgroundColor: '#000',
     position: 'relative',
     overflow: 'hidden'
-  },
-  slide: {
-    ...styleHelpers.absoluteFill()
-  },
+  }
 }));
 
 export default NewsSlider;

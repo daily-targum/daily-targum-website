@@ -63,7 +63,10 @@ function Category({
             return i === 0 ? (
               <Card.ImageResponsive 
                 title={article[0].title}
-                image={imgix(article[0].media[0], imgix.presets.fourByThree.medium)}
+                imageData={imgix(article[0].media[0], {
+                  xs: imgix.presets.square.sm,
+                  md: imgix.presets.fourByThree.md
+                })}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article[0].slug}
                 date={formatDateAbriviated(article[0].publishDate)}
@@ -72,7 +75,10 @@ function Category({
               <>
                 <Card.ImageResponsive
                   title={article[0].title}
-                  image={imgix(article[0].media[0], imgix.presets.fourByThree.medium)}
+                  imageData={imgix(article[0].media[0], {
+                    xs: imgix.presets.square.sm,
+                    md: imgix.presets.fourByThree.md
+                  })}
                   href='/article/[year]/[month]/[slug]'
                   as={'/'+article[0].slug}
                   aspectRatioImage={3 / 2}
@@ -81,7 +87,10 @@ function Category({
                 <Card.Spacer/>
                 <Card.ImageResponsive
                   title={article[1].title}
-                  image={imgix(article[0].media[0], imgix.presets.fourByThree.medium)}
+                  imageData={imgix(article[0].media[0], {
+                    xs: imgix.presets.square.sm,
+                    md: imgix.presets.fourByThree.md
+                  })}
                   href='/article/[year]/[month]/[slug]'
                   as={'/'+article[1].slug}
                   aspectRatioImage={3 / 2}
@@ -107,7 +116,10 @@ function Category({
             lg={8}
           >
             <Card.StackedResponsive
-              image={item.media[0]}
+              imageData={imgix(item.media[0], {
+                xs: imgix.presets.square.sm,
+                md: imgix.presets.fourByThree.md
+              })}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
