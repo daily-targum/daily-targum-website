@@ -89,6 +89,12 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     slug: `article/${year}/${month}/${slug}`
   });
 
+  if (!article) {
+    return {
+      props: {}
+    };
+  }
+
   let seo: SEOProps = {
     pathname: `/article/${year}/${month}/${slug}`,
     title: article?.title,

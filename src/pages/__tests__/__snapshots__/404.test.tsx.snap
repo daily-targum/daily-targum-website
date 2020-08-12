@@ -2,34 +2,74 @@
 
 exports[`<404 /> renders correctly 1`] = `
 <div
-  className="section section"
+  className=" section"
+  style={
+    Object {
+      "flex": 1,
+      "justifyContent": "center",
+      "paddingBottom": 40,
+      "paddingTop": 40,
+    }
+  }
 >
   <div
     className=" inside"
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
   >
-    <h1
+    <div
       style={
         Object {
-          "fontSize": "2.5rem",
-          "fontWeight": 800,
-          "lineHeight": "1.2em",
-          "marginBottom": 10,
+          "alignItems": "flex-start",
+          "display": "flex",
+          "flexDirection": "column",
         }
       }
     >
-      404. Not found.
-    </h1>
-    <p
-      style={
-        Object {
-          "fontSize": "1rem",
-          "lineHeight": "1.8em",
-          "marginBottom": 10,
+      <h1
+        style={
+          Object {
+            "fontSize": "2.5rem",
+            "fontWeight": 800,
+            "lineHeight": "1.2em",
+            "marginBottom": 10,
+          }
         }
-      }
-    >
-      Sorry, but the page you were trying to view does not exist.
-    </p>
+      >
+        404. Not found.
+      </h1>
+      <p
+        style={
+          Object {
+            "fontSize": "1rem",
+            "lineHeight": "1.8em",
+            "marginBottom": 10,
+          }
+        }
+      >
+        Sorry, but the page you were trying to view does not exist.
+      </p>
+      <a
+        href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        <div
+          className="button "
+        >
+          <span
+            className="buttonText"
+          >
+            Go to Home
+          </span>
+        </div>
+      </a>
+    </div>
   </div>
 </div>
 `;

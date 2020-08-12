@@ -1,3 +1,4 @@
+export * from './Analytics';
 export * from './SEO';
 export * from './Theme';
 export * from './Navbar';

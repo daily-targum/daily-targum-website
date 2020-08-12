@@ -1,9 +1,6 @@
 import React from 'react';
-import Router from "next/router";
 import NextApp from 'next/app';
-// @ts-ignore
-import withGA from "next-ga";
-import { Navbar, Theme, Footer, Grid, PodcastPlayerBar, PersistentVideoPlayer, Page } from '../components';
+import { Navbar, Theme, Footer, Grid, PodcastPlayerBar, PersistentVideoPlayer, Page, Analytics } from '../components';
 import { Provider as ReduxProvider } from '../store';
 import '../styles.css';
 
@@ -15,6 +12,8 @@ class App extends NextApp {
         <Grid.Provider>
           <Theme.Provider>
             <Page>
+              <Analytics/>
+
               <Navbar/>
               <Component {...pageProps}/>
               <Footer/>
@@ -30,4 +29,4 @@ class App extends NextApp {
 }
 
 
-export default withGA(process.env.GOOGLE_ANALYTICS_TRACKING_CODE, Router)(App);
+export default App;

@@ -82,10 +82,7 @@ export async function getStaticProps() {
     props: {
       initHoru
     },
-    // we will attempt to re-generate the page:
-    // - when a request comes in
-    // - at most once every second
-    revalidate: 1
+    revalidate: 60 // seconds
   }
 };
 
