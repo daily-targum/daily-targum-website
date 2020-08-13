@@ -90,7 +90,7 @@ function Category({
                 <Card.ImageResponsive
                   id={article[1].id}
                   title={article[1].title}
-                  imageData={imgix(article[0].media[0], {
+                  imageData={imgix(article[1].media[0], {
                     xs: imgix.presets.square.sm,
                     md: imgix.presets.fourByThree.md
                   })}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetHomepage, Article } from '../shared/src/client';
 import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, Text, Image } from '../components';
-import { formatDateAbriviated, chopArray, camelCaseToCapitalized } from '../shared/src/utils';
+import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../shared/src/utils';
 import { styleHelpers, imgix } from '../utils';
 
 interface Section {
@@ -100,7 +100,7 @@ function Home({
             >
               <NewsRow
                 category={homepage[category]}
-                id={category}
+                id={camelCaseToHyphenated(category)}
                 title={camelCaseToCapitalized(category)}
               />
             </React.Fragment>

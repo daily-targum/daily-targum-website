@@ -53,24 +53,12 @@ function News({
         <CardCols 
           items={section.items.slice(0,2)}
         >
-          {(article, i) => {
+          {article => {
             if (!article) {
               return null;
             }
 
-            return i === 0 ? (
-              <Card.ImageResponsive
-                id={article.id}
-                imageData={imgix(article.media[0], {
-                  xs: imgix.presets.square.sm,
-                  md: imgix.presets.fourByThree.lg
-                })}
-                href='/article/[year]/[month]/[slug]'
-                as={'/'+article.slug}
-                date={formatDateAbriviated(article.publishDate)}
-                aspectRatioImage={16 / 9}
-              />
-            ) : (
+            return (
               <Card.ImageResponsive
                 id={article.id}
                 title={article.title}
