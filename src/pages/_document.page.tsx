@@ -3,35 +3,24 @@ import { ServerStyleSheet } from 'styled-components';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { SEO } from '../components';
 import { ReactChildren } from '../types';
-import { StyleSheet } from 'react-context-theming/lib/web';
 
 export default class MyDocument extends Document<{
   styleTags: ReactChildren
 }> {
-  static async getInitialProps(ctx: any) {
-    const sheet = new ServerStyleSheet()
-    const originalRenderPage = ctx.renderPage
+  static getInitialProps({ renderPage }: any) {
+    // Step 1: Create an instance of ServerStyleSheet
+    const sheet = new ServerStyleSheet();
 
-    try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          enhanceApp: (App: any) => (props: any) =>
-            sheet.collectStyles(<App {...props} />),
-        })
+    // Step 2: Retrieve styles from components in the page
+    const page = renderPage((App: any) => (props: any) =>
+      sheet.collectStyles(<App {...props} />),
+    );
 
-      const initialProps = await Document.getInitialProps(ctx)
-      return {
-        ...initialProps,
-        styles: (
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
-        ),
-      }
-    } finally {
-      sheet.seal()
-    }
+    // Step 3: Extract the styles as <style> tags
+    const styleTags = sheet.getStyleElement();
+
+    // Step 4: Pass styleTags as a prop
+    return { ...page, styleTags };
   }
 
   render() {
@@ -40,7 +29,6 @@ export default class MyDocument extends Document<{
     return (
       <html lang='en'>
         <Head>
-          <StyleSheet/>
           {this.props.styleTags}
 
           <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"/>
