@@ -5,22 +5,32 @@ import { SEO } from '../components';
 import { ReactChildren } from '../types';
 
 export default class MyDocument extends Document<{
-  styleTags: ReactChildren
+  styles: ReactChildren
 }> {
-  static getInitialProps({ renderPage }: any) {
-    // Step 1: Create an instance of ServerStyleSheet
-    const sheet = new ServerStyleSheet();
+  static async getInitialProps(ctx: any) {
+    const sheet = new ServerStyleSheet()
+    const originalRenderPage = ctx.renderPage
 
-    // Step 2: Retrieve styles from components in the page
-    const page = renderPage((App: any) => (props: any) =>
-      sheet.collectStyles(<App {...props} />),
-    );
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App: any) => (props: any) =>
+            sheet.collectStyles(<App {...props} />),
+        })
 
-    // Step 3: Extract the styles as <style> tags
-    const styleTags = sheet.getStyleElement();
-
-    // Step 4: Pass styleTags as a prop
-    return { ...page, styleTags };
+      const initialProps = await Document.getInitialProps(ctx)
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      }
+    } finally {
+      sheet.seal()
+    }
   }
 
   render() {
@@ -29,7 +39,7 @@ export default class MyDocument extends Document<{
     return (
       <html lang='en'>
         <Head>
-          {this.props.styleTags}
+          {this.props.styles}
 
           <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"/>
           <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png"/>
@@ -48,6 +58,7 @@ export default class MyDocument extends Document<{
           <meta name="msapplication-TileColor" content="#ffffff"/>
           <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
           <meta name="theme-color" content="#ffffff"/>
+
           <SEO {...seo} />
         </Head>
 
