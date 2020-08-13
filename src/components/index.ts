@@ -24,3 +24,4 @@ export * from './Banner';
 export * from './HTML';
 export * from './VideoPlayer';
 export * from './Page';
+export * from './Image';

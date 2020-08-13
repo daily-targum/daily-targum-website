@@ -1,7 +1,7 @@
 import React from 'react';
 import { styleHelpers } from '../utils';
 import { ReactChildren } from '../types';
-import { ImageData } from './Image';
+import { ImageData, Image } from './Image';
 
 export function AspectRatioView({
   aspectRatio,
@@ -53,8 +53,6 @@ export function AspectRatioImage({
   className?: string
   style?: React.CSSProperties
 }) {
-  const lastImg = data.slice(-1)[0] ?? {};
-
   return (
     <AspectRatioView
       aspectRatio={aspectRatio}
@@ -65,28 +63,15 @@ export function AspectRatioImage({
         ...style
       }}
     >
-      <picture 
+      <Image
         style={{
           ...styleHelpers.absoluteFill(),
           height: '100%',
-          width: '100%'
+          width: '100%',
+          objectFit: 'cover'
         }}
-      >
-        {data.map(img => (
-          <source 
-            key={img.src}
-            srcSet={img.src}
-            type={img.type}
-            style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-            media={img.media}
-          />
-        ))}
-        
-        <img 
-          src={lastImg.src}
-          style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-        />
-      </picture>
+        data={data}
+      />
     </AspectRatioView>
   );
 }

@@ -89,16 +89,16 @@ function Header({
   href: string
   as?: string
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <div className={classes.sectionHeader}>
+    <div style={styles.sectionHeader}>
       <Text variant='h3'>{title}</Text>
       <Link 
         href={href}
         as={as}
       >
-        <a className={classes.moreInLink}>
-          <Text variant='h4' style={{fontWeight: 400}} className={classes.moreInLinkText}>
+        <a style={styles.moreInLink}>
+          <Text variant='h4' style={{...styles.moreInLinkText, fontWeight: 400}}>
             More in {title}
           </Text>
           <RiArrowRightLine

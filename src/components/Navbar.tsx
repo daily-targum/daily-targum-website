@@ -80,7 +80,9 @@ function MobileMenu() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(navigationActions.closeMobileMenu());
+    if (isVisible) {
+      dispatch(navigationActions.closeMobileMenu());
+    }
   }, [router.pathname]);
 
   return (

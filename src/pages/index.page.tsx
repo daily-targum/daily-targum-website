@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetHomepage, Article } from '../shared/src/client';
-import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, Text } from '../components';
+import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, Text, Image } from '../components';
 import { formatDateAbriviated, chopArray, camelCaseToCapitalized } from '../shared/src/utils';
 import { styleHelpers, imgix } from '../utils';
 
@@ -34,6 +34,7 @@ function NewsRow({
             if(!item) return null;
             return i === 0 ? (
               <Card.ImageResponsive 
+                id={item[0].id} 
                 title={item[0].title}
                 imageData={imgix(item[0].media[0], {
                   xs: imgix.presets.square.md,
@@ -46,6 +47,7 @@ function NewsRow({
             ) : (
               <>
                 <Card.CompactResponsive
+                  id={item[0].id} 
                   title={item[0].title}
                   imageData={imgix(item[0].media[0], {
                     xs: imgix.presets.square.md
@@ -57,6 +59,7 @@ function NewsRow({
                 />
                 <Card.Spacer/>
                 <Card.CompactResponsive
+                  id={item[1].id}
                   title={item[1].title}
                   imageData={imgix(item[1].media[0], {
                     xs: imgix.presets.square.md
@@ -128,10 +131,12 @@ function Home({
           </Grid.Col>
 
           <Grid.Col xs={24} md={12} style={{alignItems: 'center'}}>
-            <img
+            <Image
               style={styles.appScreenShot}
-              src='/app-framed.png'
-              loading='lazy'
+              data={imgix('https://dailytargum.imgix.net/images/app-framed.png', {
+                xs: imgix.presets.original.md,
+                lg: imgix.presets.original.lg
+              })}
             />
           </Grid.Col>
         </Grid.Row>

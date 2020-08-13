@@ -60,7 +60,7 @@ function News({
 
             return i === 0 ? (
               <Card.ImageResponsive
-                title={article.title}
+                id={article.id}
                 imageData={imgix(article.media[0], {
                   xs: imgix.presets.square.sm,
                   md: imgix.presets.fourByThree.lg
@@ -72,6 +72,7 @@ function News({
               />
             ) : (
               <Card.ImageResponsive
+                id={article.id}
                 title={article.title}
                 imageData={imgix(article.media[0], {
                   xs: imgix.presets.square.sm,
@@ -88,12 +89,13 @@ function News({
 
         {section.items.slice(2).map(item => (
           <Grid.Col 
-            key={item.title}
+            key={item.id}
             xs={24}
             md={12}
             lg={8}
           >
             <Card.StackedResponsive
+              id={item.id}
               imageData={imgix(item.media[0], {
                 xs: imgix.presets.square.sm,
                 md: imgix.presets.fourByThree.md

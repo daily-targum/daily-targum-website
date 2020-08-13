@@ -62,6 +62,7 @@ function Category({
 
             return i === 0 ? (
               <Card.ImageResponsive 
+                id={article[0].id}
                 title={article[0].title}
                 imageData={imgix(article[0].media[0], {
                   xs: imgix.presets.square.sm,
@@ -74,6 +75,7 @@ function Category({
             ) : (
               <>
                 <Card.ImageResponsive
+                  id={article[0].id}
                   title={article[0].title}
                   imageData={imgix(article[0].media[0], {
                     xs: imgix.presets.square.sm,
@@ -86,6 +88,7 @@ function Category({
                 />
                 <Card.Spacer/>
                 <Card.ImageResponsive
+                  id={article[1].id}
                   title={article[1].title}
                   imageData={imgix(article[0].media[0], {
                     xs: imgix.presets.square.sm,

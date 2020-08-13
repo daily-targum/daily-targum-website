@@ -29,6 +29,7 @@ function Column({
         <CardCols items={articles}>
           {article => article ? (
             <Card.StackedResponsive 
+              id={article.id}
               title={article.title}
               subtitle='Subheading...'
               imageData={imgix(article.media[0], {
@@ -63,6 +64,7 @@ function Category({
         <CardCols items={section.items.slice(0,3)}>
           {article => article ? (
             <Card.StackedResponsive
+              id={article.id}
               tag='Column'
               title={article.title}
               imageData={imgix(article.media[0], {

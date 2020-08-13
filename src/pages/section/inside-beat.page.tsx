@@ -53,6 +53,7 @@ function Category({
       <Grid.Row spacing={theme.spacing(2)}>
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
+            id={section.items[0].id}
             tag='Category'
             imageData={imgix(section.items[0].media[0], {
               xs: imgix.presets.square.sm,
@@ -67,6 +68,7 @@ function Category({
 
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
+            id={section.items[1].id}
             tag='Category'
             imageData={imgix(section.items[1].media[0], {
               xs: imgix.presets.square.sm,
@@ -87,6 +89,7 @@ function Category({
             lg={8}
           >
             <Card.Compact
+              id={item.id}
               tag='Category'
               imageData={imgix(item.media[0], {
                 xs: imgix.presets.square.sm

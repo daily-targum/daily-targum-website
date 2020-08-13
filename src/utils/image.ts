@@ -73,6 +73,28 @@ const presets = {
       crop: 'faces,center',
     }
   },
+  original: {
+    sm: {
+      ...imgixDefaultOptions,
+      width: '250',
+      crop: 'faces,center',
+    },
+    md: {
+      ...imgixDefaultOptions,
+      width: '500',
+      crop: 'faces,center',
+    },
+    lg: {
+      ...imgixDefaultOptions,
+      width: '700',
+      crop: 'faces,center',
+    },
+    xl: {
+      ...imgixDefaultOptions,
+      width: '1200',
+      crop: 'faces,center',
+    }
+  },
   performance: {
     ...imgixDefaultOptions,
   }
