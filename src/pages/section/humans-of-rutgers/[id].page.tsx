@@ -14,7 +14,8 @@ function Gallery({
 }: {
   gallery?: GalleryType
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
+  const cng = Theme.useClassNameGenerator();
   const router = useRouter();
   const routeHistory = nextUtils.useRouteHistory();
 
@@ -53,9 +54,9 @@ function Gallery({
   }
 
   return (
-    <div className={classes.modal}>
+    <div style={styles.modal}>
       <Grid.Row
-        className={classes.grid}
+        style={styles.grid}
       >
         <Grid.Col
           xs={24}
@@ -63,11 +64,11 @@ function Gallery({
         >
           <Carousel
             data={gallery.images}
-            className={classes.carousel}
+            style={styles.carousel}
             keyExtractor={item => item.id}
             renderItem={item => (
               <div
-                className={classes.image}
+                className={cng(styles.image)}
                 style={{
                   backgroundImage: `url(${item.url})`
                 }}
@@ -83,7 +84,7 @@ function Gallery({
           xs={24}
           md={6}
         >
-          <div className={classes.body}>
+          <div style={styles.body}>
             <Text variant='h1'>{gallery.images[index].title}</Text>
             <Text variant='p'>{gallery.images[index].description}</Text>
           </div>
@@ -92,7 +93,7 @@ function Gallery({
       </Grid.Row>
 
       <IoMdClose
-        className={classes.closeIcon}
+        style={styles.closeIcon}
         size={32}
         onClick={goBack}
       />

@@ -14,7 +14,7 @@ function Page({
   pageId: string
 }) {
   const router = useRouter();
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const [ page, setPage ] = React.useState<GetPage | undefined>(initialPage);
 
   React.useEffect(() => {
@@ -32,7 +32,7 @@ function Page({
   }
 
   return page?.content ? (
-    <Section className={classes.section}>
+    <Section style={styles.section}>
       <HTML html={page.content}/>
     </Section>
   ) : (

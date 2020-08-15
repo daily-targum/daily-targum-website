@@ -9,7 +9,7 @@
   --spinner-color: #bbb;
   --background-color: #f7f7f7;
   --surface-color: #fff;
-  --divider-color: rgba(0, 0, 0, 0.06);
+  --divider-color: rgba(0, 0, 0, 0.12);
   --touchable-highlight-color: #eee;
   --button-color: #eee;
 }
@@ -43,7 +43,7 @@ span {
   padding: 0;
   margin: 0;
   /* display: inline-block; */
-  display: block;
+  /* display: block; */
 }
 
 a {

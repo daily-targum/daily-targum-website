@@ -16,7 +16,8 @@ function CardCompact({
   as,
   aspectRatio = 1,
   date,
-  className
+  className,
+  style
 }: {
   title?: string
   subtitle?: string
@@ -27,7 +28,8 @@ function CardCompact({
   aspectRatio?: number
   date?: string,
   className?: string
-  id?: string
+  id?: string,
+  style?: React.CSSProperties
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
@@ -37,7 +39,10 @@ function CardCompact({
     >
       <a style={styles.cardLink}>
         <div 
-          style={styles.compactCard} 
+          style={{
+            ...styles.compactCard,
+            ...style
+          }} 
           className={className}
         >
           <AspectRatioImage
@@ -69,7 +74,8 @@ function CardCompactResponsive({
   aspectRatioMobile,
   aspectRatioDesktop,
   date,
-  className
+  className,
+  author
 }: {
   title?: string
   subtitle?: string
@@ -82,6 +88,7 @@ function CardCompactResponsive({
   date?: string,
   className?: string,
   id?: string
+  author?: string
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
@@ -120,7 +127,7 @@ function CardCompactResponsive({
             {tag ? <Text style={styles.tag}>{tag}</Text> : null}
             {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
             {subtitle ? <Text.Truncate numberOfLines={3} noPadding>{subtitle}</Text.Truncate> : null}
-            {date ? <Text style={styles.date}>{date}</Text> : null}
+            {date ? <Text style={styles.date}><Text style={{color: '#cc0033'}}>{author ? author+' ' : ''}</Text>{date}</Text> : null}
           </div>
         </div>
       </a>

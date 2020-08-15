@@ -9,7 +9,7 @@ function Category({
 }: { 
   initHoru: GetHoru
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
   const [horu, setHoru] = React.useState(initHoru);
@@ -36,7 +36,7 @@ function Category({
   if(!horu) return <NotFound/>;
 
   return (
-    <Section className={classes.page}>
+    <Section style={styles.page}>
       <Banner text='Humans of RU'/>
       
       <Grid.Row spacing={theme.spacing(2)}>

@@ -1,8 +1,7 @@
 import React from 'react';
 import { VideoPlayer, Section, Theme, CardCols, Grid, Divider, Text, Navbar } from '../../components';
-import { useSelector, useDispatch, store } from '../../store';
+import { useSelector, useDispatch } from '../../store';
 import { videoActions } from '../../store/ducks/video';
-import { navigationActions } from '../../store/ducks/navigation';
 import { styleHelpers } from '../../utils';
 import { GetStaticProps } from 'next';
 
@@ -76,8 +75,6 @@ function Videos() {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  store.dispatch(navigationActions.enableDarkNavbar())
-
   return {
     props: {},
     revalidate: 60 // seconds

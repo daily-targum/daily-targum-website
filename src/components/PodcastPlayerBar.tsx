@@ -46,7 +46,7 @@ export function PodcastPlayerBar() {
   const position = useSelector(s => s.podcast.position);
   const episode = useSelector(s => s.podcast.episode);
   const visible = useSelector(s => s.podcast.player !== undefined);
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
 
   function play() {
     dispatch(podcastActions.play());
@@ -62,62 +62,62 @@ export function PodcastPlayerBar() {
 
   return visible ? (
     <>
-      <div className={classes.spacer}/>
-      <Section className={classes.section}>
+      <div style={styles.spacer}/>
+      <Section style={styles.section}>
         <Grid.Row>
 
           {/* Desktop */}
           <Grid.Col xs={0} md={6}>
-            <div className={classes.row}>
+            <div style={styles.row}>
               <GrBackTen
                 size={20}
-                className={classes.icon}
+                style={styles.icon}
                 onClick={() => skip(-10)}
               />
               {playState !== 'play' ? (
                 <IoIosPlay
                   size={22}
                   onClick={play}
-                  className={classes.icon}
+                  style={styles.icon}
                 />
               ) : (
                 <IoIosPause
                   size={22}
                   onClick={pause}
-                  className={classes.icon}
+                  style={styles.icon}
                 />
               )}
               <GrForwardTen
                 size={20}
-                className={classes.icon}
+                style={styles.icon}
                 onClick={() => skip(10)}
               />
             </div>
           </Grid.Col>
 
           <Grid.Col xs={0} md={12}>
-            <div className={classes.row}>
+            <div style={styles.row}>
               <span
-                className={classes.time}
+                style={styles.time}
               >{secondsToTimeCode(position)}</span>
               <ProgressBar
                 progress={clamp(0, 100 * position / duration, 100)}
               />
               <span
-                className={classes.time}
+                style={styles.time}
               >{secondsToTimeCode(duration)}</span>
             </div>
           </Grid.Col>
 
           <Grid.Col xs={0} md={6} style={{alignItems: 'flex-end'}}>
-            <div className={classes.row}>
+            <div style={styles.row}>
               <div
-                className={classes.coverImage}
                 style={{
+                  ...styles.coverImage,
                   backgroundImage: `url(${episode?.coverArt})`
                 }}
               />
-              <div className={classes.col}>
+              <div style={styles.col}>
                 <Text>{episode?.show || ''}</Text>
                 <Text>{episode?.title || ''}</Text>
               </div>
@@ -126,8 +126,8 @@ export function PodcastPlayerBar() {
 
           {/* Mobile */}
           <Grid.Col xs={8} md={0}>
-            <div className={classes.row}>
-              <div className={classes.col}>
+            <div style={styles.row}>
+              <div style={styles.col}>
                 <Text>{episode?.show || ''}</Text>
                 <Text>{episode?.title || ''}</Text>
               </div>
@@ -135,36 +135,36 @@ export function PodcastPlayerBar() {
           </Grid.Col>
           
           <Grid.Col xs={8} md={0} style={{alignItems: 'center'}}>
-            <div className={classes.row}>
+            <div style={styles.row}>
               <GrBackTen
                 size={20}
-                className={classes.icon}
+                style={styles.icon}
                 onClick={() => skip(-10)}
               />
               {playState !== 'play' ? (
                 <IoIosPlay
                   size={22}
                   onClick={play}
-                  className={classes.icon}
+                  style={styles.icon}
                 />
               ) : (
                 <IoIosPause
                   size={22}
                   onClick={pause}
-                  className={classes.icon}
+                  style={styles.icon}
                 />
               )}
               <GrForwardTen
                 size={20}
-                className={classes.icon}
+                style={styles.icon}
                 onClick={() => skip(10)}
               />
             </div>
           </Grid.Col>
 
           <Grid.Col xs={8} md={0} style={{alignItems: 'flex-end'}}>
-            <div className={classes.row}>
-              <span className={classes.time} >
+            <div style={styles.row}>
+              <span style={styles.time} >
                 {secondsToTimeCode(position)} / {secondsToTimeCode(duration)}
               </span>
             </div>

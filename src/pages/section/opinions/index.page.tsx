@@ -14,11 +14,11 @@ function Column({
   title: string
   articles: Article[]
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
   return (
-    <div className={classes.section}>
+    <div style={styles.section}>
       <CardCols.Header
         title={title}
         href='/section/opinions/[column]'
@@ -53,11 +53,11 @@ function Category({
 }: { 
   section: GetArticles
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
   return (
-    <Section className={classes.page}>
+    <Section style={styles.page}>
       <Banner text='Opinions'/>
 
       <Grid.Row spacing={theme.spacing(2)}>
@@ -79,7 +79,7 @@ function Category({
         </CardCols>
       </Grid.Row>
 
-      <Divider className={classes.divider}/>
+      <Divider style={styles.divider}/>
       <Text variant='h2'>Our Columnists</Text>
       <FlatList
         data={section.columnists}
@@ -88,9 +88,9 @@ function Category({
             href='/author/[slug]'
             as={`/author/${capitalizedToHypenated(author)}`}
           >
-            <a className={classes.columnist}>
-              <div className={classes.columnistPicture}/>
-              <Text className={classes.columnistTitle}>{author}</Text>
+            <a style={styles.columnist}>
+              <div style={styles.columnistPicture}/>
+              <Text style={styles.columnistTitle}>{author}</Text>
             </a>
           </Link>
         )}
@@ -98,7 +98,7 @@ function Category({
         horizontal
       />
 
-      <Divider className={classes.divider}/>
+      <Divider style={styles.divider}/>
       <Column
         title='Column'
         articles={section.items}

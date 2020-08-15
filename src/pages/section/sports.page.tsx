@@ -1,10 +1,12 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner } from '../../components';
+import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
+
+
 
 function Category({ 
   initSection
@@ -12,11 +14,21 @@ function Category({
   initSection: GetArticles
 }) {
   const router = useRouter();
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
   const [ section, setSection ] = React.useState(initSection);
+  const [ filteredItems, setFilteredItems ] = React.useState(initSection.items.slice(5));
   const [ isLoading, setIsLoading ] = React.useState(false);
+  const [ tag, setTag ] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (tag) {
+      setFilteredItems(section.items.slice(5).filter(item => item.title.indexOf('Rutgers') > -1));
+    } else {
+      setFilteredItems(section.items.slice(5));
+    }
+  }, [tag]);
 
   async function loadMore() {
     if(!section.nextToken || isLoading) return;
@@ -45,7 +57,7 @@ function Category({
   }
 
   return (
-    <Section className={classes.page}>
+    <Section style={styles.page}>
       <Banner text='Sports'/>
 
       <Grid.Row 
@@ -106,12 +118,23 @@ function Category({
       </Grid.Row>
       
       <Card.Spacer/>
+      <Card.Spacer/>
+      <Divider/>
+      <Card.Spacer/>
+      <Card.Spacer/>
+      <TagBar
+        tags={['All', 'Football', 'Basketball', 'Soccer']}
+        value={tag}
+        onChange={val => setTag(val)}
+      />
+      <Card.Spacer/>
+      <Card.Spacer/>
 
       <Grid.Row 
         spacing={theme.spacing(2)}
       >
         
-        {section.items.slice(3).map(item => (
+        {filteredItems.map(item => (
           <Grid.Col 
             key={item.id}
             xs={24}

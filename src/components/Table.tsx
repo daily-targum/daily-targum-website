@@ -8,7 +8,6 @@ export function Table<T extends string>({
   data,
   keyExtractor,
   style,
-  className,
   renderItem = item => item,
   widths = [],
   colDisplay = []
@@ -16,19 +15,17 @@ export function Table<T extends string>({
   data: T[][]
   keyExtractor: (item: T) => (string | number)
   style?: React.CSSProperties
-  className?: string
   renderItem: (item: T, row: number, col: number) => (ReactChildren | string),
   widths: (undefined | string)[]
   colDisplay?: (Partial<BreakPoints<boolean>> | undefined)[]
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const clone = data.map(arr => arr.slice(0)).slice(0);
   const header = clone.shift();
 
   return (
     <table
       style={style}
-      className={className}
     >
       {header ? (
         <thead>
@@ -41,7 +38,7 @@ export function Table<T extends string>({
                 }}
               >
                 <Grid.Display
-                  className={classes.cell}
+                  style={styles.cell}
                   {...(colDisplay[j] ? colDisplay[j] : {xs: true})}
                 >
                   {renderItem(col, 0, j)}
@@ -63,7 +60,7 @@ export function Table<T extends string>({
                 }}
               >
                 <Grid.Display
-                  className={classes.cell}
+                  style={styles.cell}
                   {...(colDisplay[j] ? colDisplay[j] : {xs: true})}
                 >
                   {renderItem(col, i+1, j)}

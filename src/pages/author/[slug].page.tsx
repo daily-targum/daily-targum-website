@@ -16,7 +16,7 @@ function Author({
 }) {
   const router = useRouter();
   const theme = Theme.useTheme();
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
@@ -27,20 +27,20 @@ function Author({
   }
 
   return (
-    <Section className={classes.page}>
+    <Section style={styles.page}>
       <Grid.Row 
         spacing={theme.spacing(2)}
       >
 
         <Grid.Col xs={0} md={6} lg={5}>
-          <div className={classes.authorCard}>
+          <div style={styles.authorCard}>
             <Text.Br/>
             <AspectRatioImage
               data={imgix(img, {
                 xs: imgix.presets.square.sm
               })}
               aspectRatio={1}
-              className={classes.avatar}
+              style={styles.avatar}
             />
             <Text variant='h3'>{page.author[0].displayName}</Text>
             <Text variant='p'>Bio goes here.</Text>
@@ -49,7 +49,7 @@ function Author({
 
         <Grid.Col xs={24} md={0}>
           <Card.Compact
-            className={classes.articleCard}
+            style={styles.articleCard}
             title={page.author[0].displayName}
             subtitle='Bio goes here.'
             imageData={imgix(img, {
@@ -68,7 +68,7 @@ function Author({
             keyExtractor={article => article.id}
             renderItem={article => (
               <Card.Compact
-                className={classes.articleCard}
+                style={styles.articleCard}
                 title={article.title}
                 imageData={imgix(article.media[0], {
                   xs: imgix.presets.square.md

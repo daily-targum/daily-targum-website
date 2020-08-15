@@ -56,6 +56,7 @@ function NewsRow({
                   as={item[0].slug}
                   aspectRatioMobile={1}
                   date={formatDateAbriviated(item[0].publishDate)}
+                  author={item[0].authors[0]}
                 />
                 <Card.Spacer/>
                 <Card.CompactResponsive
@@ -68,6 +69,7 @@ function NewsRow({
                   as={item[1].slug}
                   aspectRatioMobile={1}
                   date={formatDateAbriviated(item[1].publishDate)}
+                  author={item[1].authors[0]}
                 />
               </>
             );

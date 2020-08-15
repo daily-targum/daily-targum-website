@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme as defaultUseTheme, Context } from 'react-context-theming/lib/index';
 import * as WebTheming from 'react-context-theming/lib/web';
-import { StyleCreatorFunction, GenerateStylesFunction, NamedStyles, Provider as ContextThemeProvider } from 'react-context-theming/lib/web';
+import { StyleCreatorFunction, GenerateStylesFunction, NamedStyles, Provider as ContextThemeProvider, useClassGenerator } from 'react-context-theming/lib/web';
 import { themes } from '../constants';
 import { ComputedTheme } from '../types';
 
@@ -45,16 +45,6 @@ export function withStyleCreator<
   return WebTheming.withStyleCreator<T, S>(Component, styleFn, ...extraData)
 }
 
-export function useStyleCreatorClassNames<
-  T = ComputedTheme,
-  S = never
->(
-  styleFn: GenerateStylesFunction<T, S>,
-  ...extraData: any[]
-) {
-  return WebTheming.useStyleCreatorClassNames(styleFn, ...extraData);
-}
-
 export function withTheme(Component: any): any {
   return class WrappedComponent extends React.Component<{}, null> {
     static contextType = Context;
@@ -70,7 +60,7 @@ export const Theme = {
   makeStyleCreator,
   useStyleCreator,
   withStyleCreator,
-  useStyleCreatorClassNames,
-  withTheme
+  withTheme,
+  useClassNameGenerator: useClassGenerator
 };
 export default Theme;

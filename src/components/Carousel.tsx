@@ -12,12 +12,14 @@ function Button({
   onClick: () => any
   direction: 'left' | 'right'
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <div
       onClick={onClick}
-      className={classes.buttonWrap}
-      style={{[direction]: 0}}
+      style={{
+        ...styles.buttonWrap,
+        [direction]: 0
+      }}
     >
       {direction === 'left' ? (
         <IoIosArrowDropleftCircle
@@ -62,7 +64,7 @@ export function Carousel<T>({
   onChange: (index: number) => any
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const [ width, setWidth ] = React.useState(0);
   const index = React.useRef(initialIndex ?? 0);
   const [ loading, setLoading ] = React.useState(true);
@@ -129,19 +131,21 @@ export function Carousel<T>({
 
   return (
     <div 
-      className={[
-        classes.carousel, 
-        className,
-        loading ? classes.hide : ''
-      ].join(' ')}
+      style={{
+        ...styles.carousel,
+        ...(loading ? styles.hide : null)
+      }}
+      className={className}
     >
       <div
         className={[
-          classes.scroll,
+          styles.scroll,
           'hide-scrollbars',
-          loading ? '' : classes.smoothScroll
         ].join(' ')}
-        style={style}
+        style={{
+          ...(loading ? null : styles.smoothScroll),
+          ...style
+        }}
         ref={ref}
         onScroll={() => {
           if (!ref.current) return;
@@ -162,8 +166,8 @@ export function Carousel<T>({
         .map((item: any, i: number) => (
           <React.Fragment key={keyExtractor(item, i)}>
             <div 
-              className={classes.item}
               style={{
+                ...styles.item,
                 width,
                 minWidth: width,
                 maxWidth: width

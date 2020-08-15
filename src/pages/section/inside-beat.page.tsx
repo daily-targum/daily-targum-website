@@ -11,7 +11,7 @@ function Category({
   initSection: GetArticles
 }) {
   const router = useRouter();
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
   const [ section, setSection ] = React.useState(initSection);
@@ -44,7 +44,7 @@ function Category({
   }
 
   return (
-    <Section className={classes.page}>
+    <Section style={styles.page}>
       <Banner 
         text='Inside'
         accentText='Beat'

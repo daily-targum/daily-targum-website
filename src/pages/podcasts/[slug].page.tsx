@@ -19,7 +19,7 @@ function Podcast({
 }) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
   const firstEpisode = podcast?.items[0];
 
@@ -29,9 +29,9 @@ function Podcast({
 
   async function play(id?: string) {
     if (id && id !== episodePlayingId) {
-      await dispatch(podcastActions.loadPodcast(id));
+      dispatch(podcastActions.loadPodcast(id));
     } else if (!playingThisShow && firstEpisode !== undefined) {
-      await dispatch(podcastActions.loadPodcast(firstEpisode.id));
+      dispatch(podcastActions.loadPodcast(firstEpisode.id));
     }
 
     if (playing) {
@@ -50,8 +50,8 @@ function Podcast({
   }
   
   return (
-    <div className={classes.page}>
-      <Section className={classes.section}>
+    <div style={styles.page}>
+      <Section style={styles.section}>
         <Grid.Row
           cols={['250px', '1fr']}
           spacing={theme.spacing(2)}
@@ -69,7 +69,7 @@ function Podcast({
                 })
               ) : []}
               aspectRatio={1}
-              className={classes.coverImage}
+              style={styles.coverImage}
             />
           </Grid.Col>
 
@@ -77,7 +77,7 @@ function Podcast({
             xs={2}
             md={1}
           >
-            <div className={classes.description}>
+            <div style={styles.description}>
               <Text variant='h1'>{firstEpisode?.show ?? ''}</Text>
               <Text variant='p'>{firstEpisode?.description ?? ''}</Text>
               <Button
@@ -92,7 +92,7 @@ function Podcast({
 
       </Section>
 
-      <Section className={classes.section}>
+      <Section style={styles.section}>
 
         <Table
           data={[
@@ -108,7 +108,7 @@ function Podcast({
           renderItem={(item, i, j) => {
             if(j === 0 && i !== 0) {
               return (
-                <div className={classes.centerHorizontally}>
+                <div style={styles.centerHorizontally}>
                   {(episodePlayingId === item && playing) ? (
                     <IoIosPause
                       onClick={() => dispatch(podcastActions.pause())}

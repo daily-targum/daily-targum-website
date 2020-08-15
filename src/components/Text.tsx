@@ -29,6 +29,7 @@ function TextBase({
   className?: string
   style?: React.CSSProperties
   children: (string | ReactChild)[] | string | ReactChild
+  onClick?: () => any
 }) {
 
   switch (htmlTag) {
@@ -58,7 +59,8 @@ export function Text({
   variant = 'span',
   htmlTag,
   style,
-  noPadding = false
+  noPadding = false,
+  onClick
 }: {
   children: (string | ReactChild)[] | string | ReactChild
   className?: string
@@ -66,6 +68,7 @@ export function Text({
   htmlTag?: Variant
   style?: CSSProperties
   noPadding?: boolean
+  onClick?: () => any
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
 
@@ -82,6 +85,7 @@ export function Text({
         ...(noPadding ? styles.noPadding : null),
         ...style
       }}
+      onClick={onClick}
     >
       {children}
     </TextBase>
@@ -109,14 +113,14 @@ function Truncate({
   noPadding?: boolean
 }) {
   const styles = Theme.useStyleCreator(styleCreator, numberOfLines);
-  const classes = Theme.useStyleCreatorClassNames(styleCreator, numberOfLines);
+  const cng = Theme.useClassNameGenerator();
 
   return (
     <TextBase
       htmlTag={htmlTag}
       className={[
         className,
-        numberOfLines ? classes.trunkcate : null
+        numberOfLines ? cng(styles.trunkcate) : ''
       ].join(' ')}
       style={{
         ...styles[variant],

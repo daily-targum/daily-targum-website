@@ -12,8 +12,8 @@ function Article({
   article: GetArticle | null,
   articleId: string
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const { spacing } = Theme.useTheme();
+  const styles = Theme.useStyleCreator(styleCreator);
+  const theme = Theme.useTheme();
 
   const [ dynamicArticle, setDynamicArticle ] = React.useState<GetArticle | null>(article);
 
@@ -38,8 +38,8 @@ function Article({
   
   return (
     <>
-      <Section className={classes.page}>
-        <Grid.Row spacing={spacing(4)}>
+      <Section style={styles.page}>
+        <Grid.Row spacing={theme.spacing(4)}>
           <Grid.Col xs={24} md={0}>
           </Grid.Col>
           <Grid.Col>
@@ -69,8 +69,8 @@ function Article({
       </Section>
 
       <Divider/>
-      <Section className={classes.page}>
-        <Grid.Row spacing={spacing(4)}>
+      <Section style={styles.page}>
+        <Grid.Row spacing={theme.spacing(4)}>
           <Grid.Col xs={24} md={0}></Grid.Col>
           <Grid.Col>
             <Text variant='h2'>Comments</Text>

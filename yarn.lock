@@ -10226,10 +10226,10 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-context-theming@^1.0.0-alpha.831:
-  version "1.0.0-alpha.831"
-  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.831.tgz#0c8ed07fb9e97bec95d87d71b304d632044fe644"
-  integrity sha512-lcdHXBUHV+7cDtp5A6iggOE+ZSk4+SPKZ1S4HyTbYOZgeFrInAV69oVpbnAzMjmBawaJwU0xCTWTD4mXex+/iA==
+react-context-theming@^1.0.0-alpha.836:
+  version "1.0.0-alpha.836"
+  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.836.tgz#05ef7642422d9e690956c0187508ae3efa8577c9"
+  integrity sha512-KArwu39pN1Gfj9Zw/eqOTErql6FWcxliMbxr+T97ghSujrpPH8gqDdPjn8xMA7JYfWLJ1M+NPqPfLQK4KJaNwQ==
   dependencies:
     autoprefixer "9.8.5"
     react-native "0.62.2"

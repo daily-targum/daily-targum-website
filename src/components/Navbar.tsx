@@ -74,8 +74,8 @@ const navbarLinks: {
 function MobileMenu() {
   const darkNavbar = useSelector(s => s.navigation.darkNavbar);
   const isVisible = useSelector(s => s.navigation.mobileMenuVisible);
-  const classes = Theme.useStyleCreatorClassNames(styleCreator, darkNavbar);
   const styles = Theme.useStyleCreator(styleCreator, darkNavbar);
+  const cng = Theme.useClassNameGenerator();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -102,7 +102,7 @@ function MobileMenu() {
           <span 
             key={link.as}
             style={styles.linkActive}
-            className={classes.mobileLink}
+            className={cng(styles.mobileLink)}
             onClick={() => dispatch(navigationActions.closeMobileMenu())}
           >
             <span>{link.title}</span>
@@ -113,7 +113,7 @@ function MobileMenu() {
             href={link.href} 
             as={link.as}
           >
-            <a className={classes.mobileLink}>
+            <a className={cng(styles.mobileLink)}>
               <span>{link.title}</span>
             </a>
           </Link>
@@ -125,8 +125,8 @@ function MobileMenu() {
 
 function DesktopNavbar() {
   const darkNavbar = useSelector(s => s.navigation.darkNavbar);
-  const classes = Theme.useStyleCreatorClassNames(styleCreator, darkNavbar);
   const styles = Theme.useStyleCreator(styleCreator, darkNavbar);
+  const cng = Theme.useClassNameGenerator();
   const theme = Theme.useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -142,7 +142,7 @@ function DesktopNavbar() {
         }}
       />
       <Section 
-        className={classes.navbar}
+        className={cng(styles.navbar)}
         style={{
           position: mobileMenuVisible ? 'fixed' : 'sticky'
         }}
@@ -173,7 +173,7 @@ function DesktopNavbar() {
                         ...(link.as === router.asPath) ? styles.linkActive : null,
                       }}
                       className={[
-                        classes.link,
+                        cng(styles.link),
                         'animate-all-fast'
                       ].join(' ')}
                     >

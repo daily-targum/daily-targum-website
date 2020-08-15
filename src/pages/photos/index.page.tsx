@@ -16,7 +16,7 @@ function Gallery({
   items: GalleryImage[]
 }) {
   const router = useRouter();
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
   if (router.isFallback) {
@@ -24,7 +24,7 @@ function Gallery({
   }
 
   return (
-    <div className={classes.section}>
+    <div style={styles.section}>
       <CardCols.Header
         title={title}
         href='/multimedia/photos/[id]'
@@ -89,9 +89,9 @@ function Photos({
 }: {
   imageGalleries: GetImageGalleries
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <Section className={classes.page}>
+    <Section style={styles.page}>
       <FlatList
         data={imageGalleries}
         keyExtractor={index => index.id}

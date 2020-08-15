@@ -12,14 +12,14 @@ function Page({
   page?: GetPage
 }) {
   const router = useRouter();
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
   }
 
   return page?.content ? (
-    <Section className={classes.section}>
+    <Section style={styles.section}>
       <main>
         <HTML html={page.content}/>
       </main>

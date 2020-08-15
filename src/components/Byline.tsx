@@ -16,7 +16,7 @@ function Authors({
   updatedAt: number
   publishDate: number
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   const wasUpdated = updatedAt > publishDate;
 
   const authorsExceptLast = authors.slice(0);
@@ -27,7 +27,7 @@ function Authors({
 
   return (
     <>
-      <div className={classes.row}>
+      <div style={styles.row}>
         {authors.map((author) => (
           <Link 
             key={author}
@@ -36,19 +36,21 @@ function Authors({
             as={`/author/${capitalizedToHypenated(author)}`}
           >
             <a 
-              className={classes.hideLink}
+              style={styles.hideLink}
               aria-label={`More articles by ${author}`}
             >
               <div 
-                className={classes.avatar}
-                style={{backgroundImage: `url(${img})`}}
+                style={{
+                  ...styles.avatar,
+                  backgroundImage: `url(${img})`
+                }}
               />
             </a>
           </Link>
         ))}
 
-        <div className={classes.column}>
-          <div className={classes.authors}>
+        <div style={styles.column}>
+          <div style={styles.authors}>
             {authorsExceptLast.map((author, i) => (
               <React.Fragment key={author}>
                 <Link 
@@ -57,31 +59,31 @@ function Authors({
                   as={`/author/${capitalizedToHypenated(author)}`}
                 >
                   <a 
-                    className={classes.hideLink}
+                    style={styles.hideLink}
                     aria-label={`More articles by ${author}`}
                   >
-                    <Text className={classes.author}>{author}</Text>
+                    <Text style={styles.author}>{author}</Text>
                   </a>
                 </Link>
-                {(i < authorsExceptLast.length - 1) ? (<Text className={classes.breakSpaces}>, </Text>) : null}
+                {(i < authorsExceptLast.length - 1) ? (<Text style={styles.breakSpaces}>, </Text>) : null}
               </React.Fragment>
             ))}
             {last ? (
               <>
-                <Text className={classes.breakSpaces}> and </Text>
+                <Text style={styles.breakSpaces}> and </Text>
                 <Link 
                   // FIX THIS: get slug from backend
                   href={'/author/[slug]'}
                   as={`/author/${capitalizedToHypenated(last)}`}
                 >
-                  <a className={classes.hideLink}>
-                    <Text className={classes.author}>{last}</Text>
+                  <a style={styles.hideLink}>
+                    <Text style={styles.author}>{last}</Text>
                   </a>
                 </Link>
               </>
             ) : null}
           </div>
-          <Text className={classes.date} noPadding>{wasUpdated ? ('Updated '+formatDate(updatedAt)) : formatDate(publishDate)}</Text>
+          <Text style={styles.date} noPadding>{wasUpdated ? ('Updated '+formatDate(updatedAt)) : formatDate(publishDate)}</Text>
         </div>
 
       </div>

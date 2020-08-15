@@ -3,19 +3,23 @@ import { ServerStyleSheet } from 'styled-components';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { SEO } from '../components';
 import { ReactChildren } from '../types';
+import { ServerStyleSheet as ContextStyleSheet } from 'react-context-theming/lib/web';
 
 export default class MyDocument extends Document<{
   styles: ReactChildren
 }> {
   static async getInitialProps(ctx: any) {
-    const sheet = new ServerStyleSheet()
-    const originalRenderPage = ctx.renderPage
+    const sheet = new ServerStyleSheet();
+    const sheet2 = new ContextStyleSheet();
+    const originalRenderPage = ctx.renderPage;
 
     try {
       ctx.renderPage = () =>
         originalRenderPage({
           enhanceApp: (App: any) => (props: any) =>
-            sheet.collectStyles(<App {...props} />),
+            sheet.collectStyles(
+              sheet2.collectStyles(<App {...props} />)
+            ),
         })
 
       const initialProps = await Document.getInitialProps(ctx)
@@ -24,6 +28,7 @@ export default class MyDocument extends Document<{
         styles: (
           <>
             {initialProps.styles}
+            {sheet2.getStyleElement()}
             {sheet.getStyleElement()}
           </>
         ),
