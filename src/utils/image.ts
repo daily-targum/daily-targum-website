@@ -49,20 +49,24 @@ type ImgData = {
   media: string
 }
 
-export function imgix(src: string, presets: Partial<BreakPoints<ImgixOptions>>) {
+export function imgix(
+  src: string,
+  presets: Partial<BreakPoints<ImgixOptions>>,
+  format = 'pjpg'
+) {
 
-  const formats = ['webp', 'jpg'];
+  const formats = [format, 'jpg'];
 
   const data: ImgData[] = [];
 
-  formats.forEach(format => {
+  formats.forEach(fm => {
 
     const computedPreset = ObjectKeys(presets).reverse().map(breakPoint => ({
-      type: `image/${format}`,
+      type: `image/${fm}`,
       src: `${src}?` + (
         queryString.stringify({
           ...presets[breakPoint],
-          fm: format
+          fm
         }, {
           encode: false
         })

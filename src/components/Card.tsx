@@ -107,6 +107,7 @@ function CardCompactResponsive({
             <AspectRatioImage
               aspectRatio={aspectRatioDesktop}
               data={imageData}
+              style={{ minHeight: '100%' }}
             />
           </Grid.Display>
 
@@ -119,6 +120,7 @@ function CardCompactResponsive({
             <AspectRatioImage
               aspectRatio={aspectRatioMobile}
               data={imageData}
+              style={{ minHeight: '100%' }}
             />
           </Grid.Display>
 
@@ -356,7 +358,8 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   imageCardTitleWrap: {
     position: 'absolute',
     bottom: 0,
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
+    width: '100%'
   },
   tag: {
     display: 'flex',
