@@ -92,18 +92,21 @@ function Header({
   const styles = Theme.useStyleCreator(styleCreator);
   return (
     <div style={styles.sectionHeader}>
-      <Text variant='h3'>{title}</Text>
+      <Text variant='h3' noPadding>{title}</Text>
       <Link 
         href={href}
         as={as}
       >
         <a style={styles.moreInLink}>
-          <Text variant='h4' style={{...styles.moreInLinkText, fontWeight: 400}}>
+          <Text 
+            variant='h4' 
+            style={styles.moreInLinkText}
+            noPadding
+          >
             More in {title}
           </Text>
           <RiArrowRightLine
             size={22}
-            style={{marginBottom: 4}}
           />
         </a>
       </Link>
@@ -116,8 +119,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
+    margin: theme.spacing(2, 0)
   },
   moreInLink: {
     textDecoration: 'none',

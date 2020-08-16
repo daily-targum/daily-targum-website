@@ -48,7 +48,8 @@ const styleCreator = makeStyleCreator(theme => ({
   },
   inside: {
     width: '100%',
-    maxWidth: 'calc(1000px + 22vw)'
+    maxWidth: 'calc(1000px + 22vw)',
+    overflowX: 'hidden'
   }
 }));
 

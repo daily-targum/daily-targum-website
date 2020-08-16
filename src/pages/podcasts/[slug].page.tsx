@@ -64,8 +64,8 @@ function Podcast({
             <AspectRatioImage
               data={firstEpisode?.coverArt ? (
                 imgix(firstEpisode.coverArt, {
-                  xs: imgix.presets.square.md,
-                  md: imgix.presets.square.sm
+                  xs: imgix.presets.md('1:1'),
+                  md: imgix.presets.sm('1:1')
                 })
               ) : []}
               aspectRatio={1}

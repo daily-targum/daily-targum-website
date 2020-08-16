@@ -7,9 +7,28 @@ import { AspectRatioImage } from './AspectRatioView';
 import { ImageData } from './Image';
 import { styleHelpers } from '../utils';
 
+interface CardBaseProps {
+  title?: string
+  tag?: string
+  imageData: ImageData[]
+  href: string
+  as?: string
+  aspectRatio?: number
+  date?: string
+  className?: string
+  id?: string
+  style?: React.CSSProperties
+  author?: string
+}
+
+interface CardBaseResponsiveProps extends CardBaseProps {
+  aspectRatioMobile?: number
+  aspectRatioDesktop?: number
+}
+
 function CardCompact({
+  author,
   title,
-  subtitle,
   tag,
   imageData,
   href,
@@ -18,23 +37,11 @@ function CardCompact({
   date,
   className,
   style
-}: {
-  title?: string
-  subtitle?: string
-  tag?: string
-  imageData: ImageData[]
-  href?: string
-  as?: string
-  aspectRatio?: number
-  date?: string,
-  className?: string
-  id?: string,
-  style?: React.CSSProperties
-}) {
+}: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Link
-      href={href||''}
+      href={href}
       as={as}
     >
       <a style={styles.cardLink}>
@@ -51,12 +58,16 @@ function CardCompact({
             data={imageData}
           />
           
-
           <div style={styles.compactCardBody}>
             {tag ? <Text style={styles.tag}>{tag}</Text> : null}
             {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
-            {subtitle ? <Text.Truncate numberOfLines={3} noPadding>{subtitle}</Text.Truncate> : null}
-            {date ? <Text style={styles.date}>{date}</Text> : null}
+
+            <div style={styles.grow}/>
+
+            <div style={{ ...styles.byline, ...styles.textMuted }}>
+              {date ? (<Text style={styles.date}>{date}</Text>) : null}
+              {author ? (<Text style={styles.author}>{author}</Text>) : null}
+            </div>
           </div>
         </div>
       </a>
@@ -66,7 +77,6 @@ function CardCompact({
 
 function CardCompactResponsive({
   title,
-  subtitle,
   tag,
   imageData,
   href,
@@ -76,24 +86,11 @@ function CardCompactResponsive({
   date,
   className,
   author
-}: {
-  title?: string
-  subtitle?: string
-  tag?: string
-  imageData: ImageData[]
-  href?: string
-  as?: string
-  aspectRatioMobile?: number
-  aspectRatioDesktop?: number
-  date?: string,
-  className?: string,
-  id?: string
-  author?: string
-}) {
+}: CardBaseResponsiveProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Link
-      href={href||''}
+      href={href}
       as={as}
     >
       <a style={styles.cardLink}>
@@ -101,6 +98,7 @@ function CardCompactResponsive({
           style={styles.compactCard} 
           className={className}
         >
+          {/* Desktop */}
           <Grid.Display 
             xs={false}
             md={true}
@@ -111,6 +109,7 @@ function CardCompactResponsive({
               data={imageData}
             />
           </Grid.Display>
+
           {/* Mobile */}
           <Grid.Display 
             xs={true}
@@ -126,8 +125,13 @@ function CardCompactResponsive({
           <div style={styles.compactCardBody}>
             {tag ? <Text style={styles.tag}>{tag}</Text> : null}
             {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
-            {subtitle ? <Text.Truncate numberOfLines={3} noPadding>{subtitle}</Text.Truncate> : null}
-            {date ? <Text style={styles.date}><Text style={{color: '#cc0033'}}>{author ? author+' ' : ''}</Text>{date}</Text> : null}
+          
+            <div style={styles.grow}/>
+
+            <div style={{ ...styles.byline, ...styles.textMuted }}>
+              {date ? (<Text style={styles.date}>{date}</Text>) : null}
+              {author ? (<Text style={styles.author}>{author}</Text>) : null}
+            </div>
           </div>
         </div>
       </a>
@@ -135,28 +139,16 @@ function CardCompactResponsive({
   );
 }
 
-type CardStackedProps = {
-  title?: string
-  subtitle?: string
-  tag?: string
-  imageData: ImageData[]
-  href: string
-  as?: string
-  aspectRatio?: number
-  date?: string,
-  id?: string
-}
-
 function CardStacked({
   title,
-  subtitle,
   tag,
   imageData,
   href,
   as,
   aspectRatio,
-  date
-}: CardStackedProps) {
+  date,
+  author
+}: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Link
@@ -165,42 +157,44 @@ function CardStacked({
     >
       <a style={styles.stackedCard}>
         <AspectRatioImage
+          style={styles.stackedCardImage}
           aspectRatio={aspectRatio}
           data={imageData}
         />
         
         <div style={styles.stackedCardBody}>
           {tag ? <Text style={styles.tag}>{tag}</Text> : null}
-          {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={2} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
-          {subtitle ? <Text.Truncate numberOfLines={2} noPadding>{subtitle}</Text.Truncate> : null}
-          {date ? <Text style={styles.date}>{date}</Text> : null}
+          {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={2}>{title}</Text.Truncate> : null}
+
+          <div style={styles.grow}/>
+
+          <div style={{ ...styles.byline, ...styles.textMuted }}>
+            {date ? (<Text style={styles.date}>{date}</Text>) : null}
+            {author ? (<Text style={styles.author}>{author}</Text>) : null}
+          </div>
         </div>
       </a>
     </Link>
   );
 }
 
-interface CardStackedResponsiveProps extends CardStackedProps {
-  aspectRatioCompact?: number
-  aspectRatioStacked?: number
-  tag?: string
-}
 
 export function CardStackedResponsive({
-  aspectRatioCompact,
-  aspectRatioStacked,
+  aspectRatioMobile,
+  aspectRatioDesktop,
   ...rest
-}: CardStackedResponsiveProps) {
+}: CardBaseResponsiveProps) {
   return (
     <>
       {/* Desktop */}
       <Grid.Display 
         xs={false}
         md={true}
+        style={{ flex: 1 }}
       >
         <CardStacked
           {...rest}
-          aspectRatio={aspectRatioStacked ?? rest.aspectRatio}
+          aspectRatio={aspectRatioDesktop ?? rest.aspectRatio}
         />
       </Grid.Display>
 
@@ -211,21 +205,11 @@ export function CardStackedResponsive({
       >
         <CardCompact
           {...rest}
-          aspectRatio={aspectRatioCompact ?? rest.aspectRatio}
+          aspectRatio={aspectRatioMobile ?? rest.aspectRatio}
         />
       </Grid.Display>
     </>
   )
-}
-
-type CardImageProps = {
-  title?: string
-  imageData: ImageData[]
-  href: string
-  as?: string
-  aspectRatio?: number
-  date?: string
-  id?: string
 }
 
 function CardImage({
@@ -234,8 +218,9 @@ function CardImage({
   href,
   as,
   aspectRatio,
-  date
-}: CardImageProps) {
+  date,
+  author
+}: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Link
@@ -259,24 +244,21 @@ function CardImage({
         <div style={styles.imageCardOverlay}/>
         <div style={styles.imageCardTitleWrap}>
           {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2} style={styles.imageCardTitle}>{title}</Text.Truncate> : null}
-          {date ? <Text style={styles.imageCardSubtitle}>{date}</Text> : null}
+          <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
+            {date ? (<Text style={styles.date}>{date}</Text>) : null}
+            {author ? (<Text style={styles.author}>{author}</Text>) : null}
+          </div>
         </div>
       </a>
     </Link>
   );
 }
 
-interface CardImageResponsiveProps extends CardImageProps {
-  aspectRatioCompact?: number
-  aspectRatioImage?: number
-  tag?: string
-}
-
 function CardImageResponsive({
-  aspectRatioCompact,
-  aspectRatioImage,
+  aspectRatioMobile,
+  aspectRatioDesktop,
   ...rest
-}: CardImageResponsiveProps) {
+}: CardBaseResponsiveProps) {
   return (
     <>
       {/* Desktop */}
@@ -287,7 +269,7 @@ function CardImageResponsive({
       >
         <CardImage
           {...rest}
-          aspectRatio={aspectRatioImage ?? rest.aspectRatio}
+          aspectRatio={aspectRatioDesktop ?? rest.aspectRatio}
         />
       </Grid.Display>
 
@@ -298,7 +280,7 @@ function CardImageResponsive({
       >
         <CardCompact
           {...rest}
-          aspectRatio={aspectRatioCompact ?? rest.aspectRatio}
+          aspectRatio={aspectRatioMobile ?? rest.aspectRatio}
         />
       </Grid.Display>
     </>
@@ -317,15 +299,18 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     ...styleHelpers.hideLink(),
     ...styleHelpers.flex(),
     flex: 1,
-    ...styleHelpers.card(theme)
+    height: '100%'
   },
   compactCard: {
     ...styleHelpers.flex('row'),
-    ...styleHelpers.card(theme),
     flex: 1
   },
   compactCardImage: {
-    ...styleHelpers.lockWidth('40%')
+    ...styleHelpers.lockWidth('40%'),
+    ...styleHelpers.card(theme)
+  },
+  stackedCardImage: {
+    ...styleHelpers.card(theme)
   },
   stackedCardBody: {
     ...styleHelpers.flex('column'),
@@ -337,7 +322,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex('column'),
     ...styleHelpers.cardBody(theme),
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'flex-start'
   },
   imageCard: {
     ...styleHelpers.card(theme),
@@ -386,10 +371,26 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     flex: 1
   },
   date: {
-    color: theme.colors.textMuted
   },
   spacer: {
-    height: theme.spacing(2)
+    height: theme.spacing(2.5)
+  },
+  byline: {
+    ...styleHelpers.flex('row'),
+    width: '100%',
+    justifyContent: 'space-between'
+  },
+  author: {
+    fontStyle: 'italic'
+  },
+  textMuted: {
+    color: theme.colors.textMuted
+  },
+  contrastTextMuted: {
+    color: 'rgba(255,255,255,0.7)'
+  },
+  grow: {
+    flex: 1
   }
 }));
 

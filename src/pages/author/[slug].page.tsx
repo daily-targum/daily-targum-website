@@ -37,7 +37,7 @@ function Author({
             <Text.Br/>
             <AspectRatioImage
               data={imgix(img, {
-                xs: imgix.presets.square.sm
+                xs: imgix.presets.sm('1:1')
               })}
               aspectRatio={1}
               style={styles.avatar}
@@ -49,11 +49,11 @@ function Author({
 
         <Grid.Col xs={24} md={0}>
           <Card.Compact
+            href='#'
             style={styles.articleCard}
             title={page.author[0].displayName}
-            subtitle='Bio goes here.'
             imageData={imgix(img, {
-              xs: imgix.presets.square.sm
+              xs: imgix.presets.sm('1:1')
             })}
             aspectRatio={3 /2}
           />
@@ -71,7 +71,7 @@ function Author({
                 style={styles.articleCard}
                 title={article.title}
                 imageData={imgix(article.media[0], {
-                  xs: imgix.presets.square.md
+                  xs: imgix.presets.md('1:1')
                 })}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article.slug}

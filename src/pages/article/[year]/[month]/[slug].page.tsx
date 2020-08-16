@@ -46,8 +46,8 @@ function Article({
                 <AspectRatioImage
                   aspectRatio={16 / 9}
                   data={imgix(article.media[0], {
-                    xs: imgix.presets.sixteenByNine.md,
-                    md: imgix.presets.sixteenByNine.xl
+                    xs: imgix.presets.md('16:9'),
+                    md: imgix.presets.xl('16:9')
                   })}
                 />
                 <Br/>

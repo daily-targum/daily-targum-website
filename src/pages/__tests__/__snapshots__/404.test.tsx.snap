@@ -24,6 +24,7 @@ exports[`<404 /> renders correctly 1`] = `
         "display": "flex",
         "flexDirection": "column",
         "maxWidth": "calc(1000px + 22vw)",
+        "overflowX": "hidden",
         "width": "100%",
       }
     }
@@ -53,8 +54,10 @@ exports[`<404 /> renders correctly 1`] = `
         style={
           Object {
             "fontSize": "1rem",
+            "hyphens": "auto",
             "lineHeight": "1.8em",
             "marginBottom": 10,
+            "wordWrap": "break-word",
           }
         }
       >

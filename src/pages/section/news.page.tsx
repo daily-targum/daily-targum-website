@@ -48,7 +48,7 @@ function News({
     <Section style={styles.page}>
       <Banner text='News'/>
 
-      <Grid.Row spacing={theme.spacing(2)}>
+      <Grid.Row spacing={theme.spacing(2.5)}>
         
         <CardCols 
           items={section.items.slice(0,2)}
@@ -63,13 +63,14 @@ function News({
                 id={article.id}
                 title={article.title}
                 imageData={imgix(article.media[0], {
-                  xs: imgix.presets.square.sm,
-                  md: imgix.presets.fourByThree.lg
+                  xs: imgix.presets.sm('1:1'),
+                  md: imgix.presets.lg('4:3')
                 })}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article.slug}
                 date={formatDateAbriviated(article.publishDate)}
-                aspectRatioImage={16 / 9}
+                aspectRatioDesktop={16 / 9}
+                author={article.authors.join(' ')}
               />
             );
           }}
@@ -85,14 +86,15 @@ function News({
             <Card.StackedResponsive
               id={item.id}
               imageData={imgix(item.media[0], {
-                xs: imgix.presets.square.sm,
-                md: imgix.presets.fourByThree.md
+                xs: imgix.presets.sm('1:1'),
+                md: imgix.presets.md('4:3')
               })}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
-              aspectRatioStacked={16 / 9}
+              aspectRatioDesktop={16 / 9}
+              author={item.authors.join(' ')}
             />
           </Grid.Col>
         ))}
@@ -110,7 +112,7 @@ function News({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
-    backgroundColor: theme.colors.background
+    backgroundColor: theme.colors.surface
   }
 }));
 

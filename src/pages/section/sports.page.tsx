@@ -77,12 +77,13 @@ function Category({
                 id={article[0].id}
                 title={article[0].title}
                 imageData={imgix(article[0].media[0], {
-                  xs: imgix.presets.square.sm,
-                  md: imgix.presets.fourByThree.md
+                  xs: imgix.presets.sm('1:1'),
+                  md: imgix.presets.md('4:3')
                 })}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article[0].slug}
                 date={formatDateAbriviated(article[0].publishDate)}
+                author={article[0].authors.join(' ')}
               />
             ) : (
               <>
@@ -90,26 +91,28 @@ function Category({
                   id={article[0].id}
                   title={article[0].title}
                   imageData={imgix(article[0].media[0], {
-                    xs: imgix.presets.square.sm,
-                    md: imgix.presets.fourByThree.md
+                    xs: imgix.presets.sm('1:1'),
+                    md: imgix.presets.md('3:2')
                   })}
                   href='/article/[year]/[month]/[slug]'
                   as={'/'+article[0].slug}
-                  aspectRatioImage={3 / 2}
+                  aspectRatioDesktop={3 / 2}
                   date={formatDateAbriviated(article[0].publishDate)}
+                  author={article[0].authors.join(' ')}
                 />
                 <Card.Spacer/>
                 <Card.ImageResponsive
                   id={article[1].id}
                   title={article[1].title}
                   imageData={imgix(article[1].media[0], {
-                    xs: imgix.presets.square.sm,
-                    md: imgix.presets.fourByThree.md
+                    xs: imgix.presets.sm('1:1'),
+                    md: imgix.presets.md('3:2')
                   })}
                   href='/article/[year]/[month]/[slug]'
                   as={'/'+article[1].slug}
-                  aspectRatioImage={3 / 2}
+                  aspectRatioDesktop={3 / 2}
                   date={formatDateAbriviated(article[1].publishDate)}
+                  author={article[1].authors.join(' ')}
                 />
               </>
             );
@@ -143,14 +146,15 @@ function Category({
           >
             <Card.StackedResponsive
               imageData={imgix(item.media[0], {
-                xs: imgix.presets.square.sm,
-                md: imgix.presets.fourByThree.md
+                xs: imgix.presets.sm('1:1'),
+                md: imgix.presets.md('16:9')
               })}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
-              aspectRatioStacked={16 / 9}
+              aspectRatioDesktop={16 / 9}
+              author={item.authors.join(' ')}
             />
           </Grid.Col>
         ))}

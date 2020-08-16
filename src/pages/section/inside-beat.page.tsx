@@ -1,5 +1,6 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
+import { formatDateAbriviated } from '../../shared/src/utils';
 import NotFound from '../404.page';
 import { Section, Theme, Grid, ActivityIndicator, Card, Banner } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
@@ -50,19 +51,21 @@ function Category({
         accentText='Beat'
       />
       
-      <Grid.Row spacing={theme.spacing(2)}>
+      <Grid.Row spacing={theme.spacing(2.5)}>
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
             id={section.items[0].id}
             tag='Category'
             imageData={imgix(section.items[0].media[0], {
-              xs: imgix.presets.square.sm,
-              md: imgix.presets.fourByThree.md
+              xs: imgix.presets.sm('1:1'),
+              md: imgix.presets.md('2:1')
             })}
             title={section.items[0].title}
             href='/article/[year]/[month]/[slug]'
             as={'/'+section.items[0].slug}
-            aspectRatioStacked={2 / 1}
+            aspectRatioDesktop={2 / 1}
+            date={formatDateAbriviated(section.items[0].publishDate)}
+            author={section.items[0].authors.join(' ')}
           />
         </Grid.Col>
 
@@ -71,13 +74,15 @@ function Category({
             id={section.items[1].id}
             tag='Category'
             imageData={imgix(section.items[1].media[0], {
-              xs: imgix.presets.square.sm,
-              md: imgix.presets.fourByThree.md
+              xs: imgix.presets.sm('1:1'),
+              md: imgix.presets.md('2:1')
             })}
             title={section.items[1].title}
             href='/article/[year]/[month]/[slug]'
             as={'/'+section.items[1].slug}
-            aspectRatioStacked={2 /1}
+            aspectRatioDesktop={2 /1}
+            date={formatDateAbriviated(section.items[1].publishDate)}
+            author={section.items[1].authors.join(' ')}
           />
         </Grid.Col>
 
@@ -92,11 +97,13 @@ function Category({
               id={item.id}
               tag='Category'
               imageData={imgix(item.media[0], {
-                xs: imgix.presets.square.sm
+                xs: imgix.presets.sm('1:1')
               })}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
+              date={formatDateAbriviated(item.publishDate)}
+            author={item.authors.join(' ')}
             />
           </Grid.Col>
         ))}

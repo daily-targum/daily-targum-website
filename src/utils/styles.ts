@@ -109,7 +109,6 @@ function card(theme: Theme) {
 
 function cardBody(theme: Theme) {
   return {
-    backgroundColor: theme.colors.surface,
     padding: theme.spacing(2)
   } as const;
 }

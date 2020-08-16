@@ -6,7 +6,7 @@ import { ObjectKeys } from '../shared/src/utils';
 type ImgixOptions = {
   ar?: string
   width?: string
-  crop?: 'faces,center'
+  crop?: string
   fm?: 'webp'
   q?: number
   auto?: 'compress'
@@ -15,89 +15,31 @@ type ImgixOptions = {
 
 const imgixDefaultOptions: ImgixOptions = {
   auto: 'compress',
-  fit: 'crop'
+  fit: 'crop',
+  crop: 'faces,entropy',
 };
 
 const presets = {
-  square: {
-    sm: {
-      ...imgixDefaultOptions,
-      ar: '1:1',
-      width: '250',
-      crop: 'faces,center',
-    },
-    md: {
-      ...imgixDefaultOptions,
-      ar: '1:1',
-      width: '500',
-      crop: 'faces,center',
-    }
-  },
-  fourByThree: {
-    md: {
-      ...imgixDefaultOptions,
-      ar: '4:3',
-      width: '500',
-      crop: 'faces,center',
-    },
-    lg: {
-      ...imgixDefaultOptions,
-      ar: '4:3',
-      width: '700',
-      crop: 'faces,center',
-    }
-  },
-  sixteenByNine: {
-    sm: {
-      ...imgixDefaultOptions,
-      ar: '16:9',
-      width: '250',
-      crop: 'faces,center',
-    },
-    md: {
-      ...imgixDefaultOptions,
-      ar: '16:9',
-      width: '500',
-      crop: 'faces,center',
-    },
-    lg: {
-      ...imgixDefaultOptions,
-      ar: '16:9',
-      width: '700',
-      crop: 'faces,center',
-    },
-    xl: {
-      ...imgixDefaultOptions,
-      ar: '16:9',
-      width: '1200',
-      crop: 'faces,center',
-    }
-  },
-  original: {
-    sm: {
-      ...imgixDefaultOptions,
-      width: '250',
-      crop: 'faces,center',
-    },
-    md: {
-      ...imgixDefaultOptions,
-      width: '500',
-      crop: 'faces,center',
-    },
-    lg: {
-      ...imgixDefaultOptions,
-      width: '700',
-      crop: 'faces,center',
-    },
-    xl: {
-      ...imgixDefaultOptions,
-      width: '1200',
-      crop: 'faces,center',
-    }
-  },
-  performance: {
+  sm: (ar?: string) => ({
     ...imgixDefaultOptions,
-  }
+    ar,
+    width: '250'
+  }) as const,
+  md: (ar?: string) => ({
+    ...imgixDefaultOptions,
+    ar,
+    width: '500'
+  }) as const,
+  lg: (ar?: string) => ({
+    ...imgixDefaultOptions,
+    ar,
+    width: '700'
+  }) as const,
+  xl: (ar?: string) => ({
+    ...imgixDefaultOptions,
+    ar,
+    width: '1200'
+  }) as const,
 } as const;
 imgix.presets = presets;
 

@@ -49,7 +49,7 @@ function Category({
           >
             <AspectRatioImage
               data={imgix(item.photo, {
-                xs: imgix.presets.square.md
+                xs: imgix.presets.md('1:1')
               })}
               aspectRatio={1}
             />
@@ -72,6 +72,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background,
+    flex: 1
   }
 }));
 

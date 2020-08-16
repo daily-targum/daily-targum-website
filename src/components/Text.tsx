@@ -176,7 +176,7 @@ const styleCreator = Theme.makeStyleCreator((theme, numberOfLines) => ({
       size: 1.2
     }),
     fontWeight: 700,
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1.5)
   },
   h5: {
     ...getTextBase({
@@ -197,7 +197,9 @@ const styleCreator = Theme.makeStyleCreator((theme, numberOfLines) => ({
       size: 1.8,
       type: 'paragraph'
     }),
-    fontSize: '1rem'
+    fontSize: '1rem',
+    wordWrap: 'break-word',
+    hyphens: 'auto'
   },
   span: {
     ...getTextBase({

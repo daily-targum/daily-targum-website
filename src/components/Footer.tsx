@@ -123,7 +123,7 @@ export function Footer() {
             <div style={styles.centerHorizontally}>
               <div style={styles.spacer}/>
               <Logo 
-                color='rgba(0,0,0,0.2)'
+                color='#fff'
                 style={styles.logo}
               />
               <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">

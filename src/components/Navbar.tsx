@@ -146,6 +146,9 @@ function DesktopNavbar() {
         style={{
           position: mobileMenuVisible ? 'fixed' : 'sticky'
         }}
+        styleInside={{
+          overflow: 'visible'
+        }}
       >
         <nav>
           

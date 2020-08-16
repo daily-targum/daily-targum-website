@@ -37,10 +37,10 @@ function Gallery({
 
   // treat back button as if page is a modal
   function goBack() {
-    if (routeHistory.slice(-2, -1)[0] === '/multimedia/photos') {
+    if (routeHistory.slice(-2, -1)[0] === '/photos') {
       router.back();
     } else {
-      router.replace('/multimedia/photos');
+      router.replace('/photos');
     }
   }
 

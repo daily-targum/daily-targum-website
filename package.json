@@ -52,7 +52,7 @@
     "nprogress": "^0.2.0",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
-    "react-context-theming": "^1.0.0-alpha.836",
+    "react-context-theming": "^1.0.0-alpha.837",
     "react-div-100vh": "^0.3.8",
     "react-dom": "^16.13.1",
     "react-ga": "^3.1.2",

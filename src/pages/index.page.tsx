@@ -22,13 +22,16 @@ function NewsRow({
   const theme = Theme.useTheme();
 
   return (
-    <div style={styles.section}>
+    <div style={styles.newsRow}>
+
       <CardCols.Header
         title={title}
         href={`/section/${id}`}
       />
 
-      <Grid.Row spacing={theme.spacing(2)}>
+      <Divider style={styles.divider}/>
+
+      <Grid.Row spacing={theme.spacing(2.5)}>
         <CardCols items={chopArray(category, [1, 2, 2])}>
           {(item, i) => {
             if(!item) return null;
@@ -37,12 +40,13 @@ function NewsRow({
                 id={item[0].id} 
                 title={item[0].title}
                 imageData={imgix(item[0].media[0], {
-                  xs: imgix.presets.square.md,
-                  md: imgix.presets.fourByThree.md
+                  xs: imgix.presets.md('1:1'),
+                  md: imgix.presets.md('16:9')
                 })}
                 href='/article/[year]/[month]/[slug]'
                 as={item[0].slug}
                 date={formatDateAbriviated(item[0].publishDate)}
+                author={item[0].authors.join(' ')}
               />
             ) : (
               <>
@@ -50,26 +54,28 @@ function NewsRow({
                   id={item[0].id} 
                   title={item[0].title}
                   imageData={imgix(item[0].media[0], {
-                    xs: imgix.presets.square.md
+                    xs: imgix.presets.md('1:1')
                   })}
                   href='/article/[year]/[month]/[slug]'
                   as={item[0].slug}
                   aspectRatioMobile={1}
+                  aspectRatioDesktop={7/5}
                   date={formatDateAbriviated(item[0].publishDate)}
-                  author={item[0].authors[0]}
+                  author={item[0].authors.join(' ')}
                 />
                 <Card.Spacer/>
                 <Card.CompactResponsive
                   id={item[1].id}
                   title={item[1].title}
                   imageData={imgix(item[1].media[0], {
-                    xs: imgix.presets.square.md
+                    xs: imgix.presets.md('1:1')
                   })}
                   href='/article/[year]/[month]/[slug]'
                   as={item[1].slug}
                   aspectRatioMobile={1}
+                  aspectRatioDesktop={7/5}
                   date={formatDateAbriviated(item[1].publishDate)}
-                  author={item[1].authors[0]}
+                  author={item[1].authors.join(' ')}
                 />
               </>
             );
@@ -95,7 +101,7 @@ function Home({
 
       <main>
         <NewsSlider articles={homepage.high}/>
-        <Section>
+        <Section style={styles.mainSection}>
           {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category) => (
             <React.Fragment
               key={category}
@@ -136,8 +142,8 @@ function Home({
             <Image
               style={styles.appScreenShot}
               data={imgix('https://dailytargum.imgix.net/images/app-framed.png', {
-                xs: imgix.presets.original.md,
-                lg: imgix.presets.original.lg
+                xs: imgix.presets.md(),
+                lg: imgix.presets.lg()
               })}
             />
           </Grid.Col>
@@ -161,11 +167,14 @@ export async function getStaticProps() {
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
-    backgroundColor: theme.colors.background
+    backgroundColor: theme.colors.surface
   },
-  section: {
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(8)
+  mainSection: {
+    paddingBottom: theme.spacing(6)
+  },
+  newsRow: {
+    marginTop: `calc(${theme.spacing(3)}px + 1vw)`,
+    marginBottom: `calc(${theme.spacing(4)}px + 1vw)`,
   },
   sectionHeader: {
     display: 'flex',
@@ -201,7 +210,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     left: 0
   },
   appSection: {
-    paddingTop: theme.spacing(5)
+    paddingTop: theme.spacing(5),
+    backgroundColor: theme.colors.background
   },
   appStoreRow: {
     ...styleHelpers.flex('row'),
@@ -220,6 +230,9 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     width: 'auto',
     height: 'calc(300px + 3vw)'
   },
+  divider: {
+    marginBottom: theme.spacing(2.5)
+  }
 }));
 
 export default Home;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Article } from '../shared/src/client';
+import { formatDateAbriviated } from '../shared/src/utils';
 import { Theme, Section, Text, AspectRatioImage } from '../components';
 import Link from 'next/link';
 import { styleHelpers, imgix } from '../utils';
@@ -37,10 +38,10 @@ function Slide({
       >
         <AspectRatioImage
           data={load ? imgix(article.media[0], {
-            xs: imgix.presets.sixteenByNine.sm,
-            sm: imgix.presets.sixteenByNine.md,
-            md: imgix.presets.sixteenByNine.lg,
-            lg: imgix.presets.sixteenByNine.xl
+            xs: imgix.presets.sm('16:9'),
+            sm: imgix.presets.md('16:9'),
+            md: imgix.presets.lg('16:9'),
+            lg: imgix.presets.xl('16:9')
           }) : []}
           style={styles.slideImage}
         />
@@ -60,10 +61,14 @@ function Slide({
                 ...styles.sliderCardTitle,
                 ...(hide ? styles.hide : null),
               }}
-              noPadding
             >
               {article.title}
             </Text.Truncate>
+
+            <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
+              <Text style={styles.date}>{formatDateAbriviated(article.publishDate)}</Text>
+              <Text style={styles.author}>{article.authors.join(' ')}</Text>
+            </div>
           </div>
         </Section>
       </a>
@@ -187,17 +192,31 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
     width: '100%',
-    borderLeft: `4px solid ${theme.colors.accent}`
+    borderLeft: `4px solid ${theme.colors.accent}`,
+    maxWidth: 600
   },
   sliderCardTitle: {
     color: '#fff',
-    maxWidth: '50%'
+    textAlign: 'justify'
   },
   sider: {
     height: 'calc(25vw + 180px)',
     backgroundColor: '#000',
     position: 'relative',
     overflow: 'hidden'
+  },
+  date: {
+  },
+  byline: {
+    ...styleHelpers.flex('row'),
+    width: '100%',
+    justifyContent: 'space-between'
+  },
+  author: {
+    fontStyle: 'italic'
+  },
+  contrastTextMuted: {
+    color: 'rgba(255,255,255,0.7)'
   }
 }));
 

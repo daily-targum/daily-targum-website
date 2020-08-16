@@ -27,8 +27,8 @@ function Gallery({
     <div style={styles.section}>
       <CardCols.Header
         title={title}
-        href='/multimedia/photos/[id]'
-        as={`/multimedia/photos/${id}`}
+        href='/photos/[id]'
+        as={`/photos/${id}`}
       />
 
       <Grid.Row 
@@ -47,8 +47,8 @@ function Gallery({
               <Card.Image
                 key={item[0]?.id}
                 imageData={imgix(item[0]?.url, {
-                  xs: imgix.presets.fourByThree.md,
-                  md: imgix.presets.fourByThree.lg
+                  xs: imgix.presets.md('3:2'),
+                  md: imgix.presets.lg('3:2')
                 })}
                 href=''
                 title={item[0]?.title}
@@ -58,7 +58,7 @@ function Gallery({
                 <Card.Image
                   key={item[0]?.id}
                   imageData={imgix(item[0]?.url, {
-                    xs: imgix.presets.fourByThree.md
+                    xs: imgix.presets.md('3:2')
                   })}
                   href=''
                   title={item[0]?.title}
@@ -68,7 +68,7 @@ function Gallery({
                 <Card.Image
                   key={item[1]?.id}
                   imageData={imgix(item[1]?.url, {
-                    xs: imgix.presets.fourByThree.md
+                    xs: imgix.presets.md('3:2')
                   })}
                   href=''
                   title={item[1]?.title}
