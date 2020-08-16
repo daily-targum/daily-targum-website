@@ -52,7 +52,7 @@ type ImgData = {
 export function imgix(
   src: string,
   presets: Partial<BreakPoints<ImgixOptions>>,
-  format = 'pjpg'
+  format = 'webp'
 ) {
 
   const formats = [format, 'jpg'];
