@@ -67,7 +67,7 @@ export function Footer() {
                 style={styles.logo}
               />
               <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
-                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" style={styles.sublogo}/>
+                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" loading='lazy' style={styles.sublogo}/>
               </a>
             </div>
           </Grid.Col>
@@ -127,7 +127,7 @@ export function Footer() {
                 style={styles.logo}
               />
               <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
-                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" style={styles.logo}/>
+                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" loading='lazy' style={styles.logo}/>
               </a>
             </div>
           </Grid.Col>

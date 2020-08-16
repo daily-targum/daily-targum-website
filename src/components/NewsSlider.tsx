@@ -42,7 +42,7 @@ function Slide({
             sm: imgix.presets.md('16:9'),
             md: imgix.presets.lg('16:9'),
             lg: imgix.presets.xl('16:9')
-          }, 'pjpg') : []}
+          }) : []}
           style={styles.slideImage}
         />
         <div style={styles.slideCardImageOverlay}/>

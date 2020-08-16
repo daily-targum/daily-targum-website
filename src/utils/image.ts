@@ -10,37 +10,43 @@ type ImgixOptions = {
   fm?: 'webp'
   q?: number
   auto?: 'compress'
-  fit?: 'crop'
+  fit?: 'crop',
+  formats: readonly string[]
 }
 
 const imgixDefaultOptions: ImgixOptions = {
   auto: 'compress',
   fit: 'crop',
   crop: 'faces,entropy',
+  formats: ['webp', 'jpg']
 };
 
 const presets = {
   sm: (ar?: string) => ({
     ...imgixDefaultOptions,
     ar,
-    width: '250'
+    width: '250',
+    formats: ['webp', 'jpg']
   }) as const,
   md: (ar?: string) => ({
     ...imgixDefaultOptions,
     ar,
-    width: '500'
+    width: '500',
+    formats: ['webp', 'jpg']
   }) as const,
   lg: (ar?: string) => ({
     ...imgixDefaultOptions,
     ar,
-    width: '700'
+    width: '700',
+    formats: ['pjpg', 'jpg']
   }) as const,
   xl: (ar?: string) => ({
     ...imgixDefaultOptions,
     ar,
-    width: '1200'
+    width: '1200',
+    formats: ['pjpg', 'jpg']
   }) as const,
-} as const;
+};
 imgix.presets = presets;
 
 type ImgData = {
@@ -51,21 +57,26 @@ type ImgData = {
 
 export function imgix(
   src: string,
-  presets: Partial<BreakPoints<ImgixOptions>>,
-  format = 'webp'
+  presets: Partial<BreakPoints<ImgixOptions>>
 ) {
-
-  const formats = [format, 'jpg'];
 
   const data: ImgData[] = [];
 
-  formats.forEach(fm => {
+  ObjectKeys(presets).reverse().forEach(breakPoint => {
 
-    const computedPreset = ObjectKeys(presets).reverse().map(breakPoint => ({
+    const preset = presets[breakPoint]
+
+    if (preset === undefined) {
+      return;
+    }
+
+    const { formats, ...rest } = preset;
+
+    const computedPreset = formats.map(fm => ({
       type: `image/${fm}`,
       src: `${src}?` + (
         queryString.stringify({
-          ...presets[breakPoint],
+          ...rest,
           fm
         }, {
           encode: false
