@@ -52,6 +52,9 @@ module.exports = withSourceMaps({
       config.resolve.alias['@sentry/node'] = '@sentry/browser';
     }
 
+    config.resolve.alias['react'] = 'preact/compat';
+    config.resolve.alias['react-dom'] = 'preact/compat';
+
     // When all the Sentry configuration env variables are available/configured
     // The Sentry webpack plugin gets pushed to the webpack plugins to build
     // and upload the source maps to sentry.
@@ -91,4 +94,14 @@ module.exports = withSourceMaps({
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
   pageExtensions: ["page.tsx"],
+
+  async redirects() {
+    return [
+      {
+        source: '/multimedia/video',
+        destination: '/videos',
+        permanent: true,
+      }
+    ]
+  },
 });

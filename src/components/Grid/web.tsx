@@ -72,7 +72,7 @@ function Row({
         style={{
           display: 'grid',
           gridTemplateColumns: (cols || context.cols).join(' '),
-          gridGap: spacing,
+          gridGap: spacing+'px',
           flex: 1,
           ...style
         }}

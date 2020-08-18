@@ -55,6 +55,8 @@
     "husky": "^4.2.5",
     "next": "9.5.2",
     "nprogress": "^0.2.0",
+    "preact": "^10.4.7",
+    "preact-compat": "^3.19.0",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-context-theming": "^1.0.0-alpha.837",
