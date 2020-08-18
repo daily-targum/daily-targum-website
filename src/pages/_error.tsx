@@ -3,11 +3,6 @@ import NextErrorComponent from 'next/error';
 import * as Sentry from '@sentry/node';
 import { ErrorProps } from 'next/error';
 import { NextPageContext } from 'next';
-import { Section, Theme, Text, Button } from '../components';
-import { styleHelpers, nextUtils } from '../utils';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-
 
 interface CustomErrorProps extends ErrorProps {
   hasGetInitialPropsRun: boolean
@@ -19,12 +14,6 @@ function ErrorPage({
   hasGetInitialPropsRun, 
   err 
 }: CustomErrorProps) {
-  const styles = Theme.useStyleCreator(styleCreator);
-  const canGoBack = nextUtils.useCanGoBack();
-  const router = useRouter();
-
-  console.log('THIS IS AN ERROR', hasGetInitialPropsRun, err, statusCode)
-
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
     // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
@@ -33,48 +22,9 @@ function ErrorPage({
   }
 
   return (
-    <Section 
-      style={styles.section}
-      styleInside={styles.sectionInside}
-    >
-      <div style={styles.textWrap}>
-        <Text variant='h1' htmlTag='h1'>An Error Occured</Text>
-        <Text variant='p'>Sorry, it's us, not you.</Text>
-        {canGoBack ? (
-          <Button onClick={() => router.back()}>
-            Go Back
-          </Button>
-        ) : (
-          <Link href='/'>
-            <a>
-              <Button>
-                Go to Home
-              </Button>
-            </a>
-          </Link>
-        )}
-        
-      </div>
-    </Section>
+    <NextErrorComponent statusCode={statusCode}/>
   )
 };
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  section: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-    flex: 1,
-    justifyContent: 'center'
-  },
-  sectionInside: {
-    ...styleHelpers.flex('column'),
-    alignItems: 'center'
-  },
-  textWrap: {
-    ...styleHelpers.flex('column'),
-    alignItems: 'flex-start'
-  }
-}));
 
 ErrorPage.getInitialProps = async (ctx: NextPageContext) => {
   const { res, err, asPath } = ctx;
