@@ -2,10 +2,9 @@ import React from 'react';
 
 function FakeError() {
 
-  if (typeof window !== 'undefined') {
-    // @ts-ignore
-    console.log(test2.test2)
-  }
+  React.useEffect(() => {
+    throw new Error('Client Test 4')
+  }, [])
 
   return (
     <h1>Fake Error</h1>

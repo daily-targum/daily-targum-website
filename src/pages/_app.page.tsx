@@ -8,7 +8,7 @@ import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
 import getConfig from 'next/config'
 
-if (process.env.SENTRY_DSN) {
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   const config = getConfig()
   const distDir = `${config?.serverRuntimeConfig?.rootDir ?? ''}/.next`
   Sentry.init({
@@ -21,7 +21,7 @@ if (process.env.SENTRY_DSN) {
         },
       }),
     ],
-    dsn: process.env.SENTRY_DSN,
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   })
 }
 

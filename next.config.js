@@ -8,7 +8,7 @@ const withSourceMaps = require('@zeit/next-source-maps');
 // Use the SentryWebpack plugin to upload the source maps during build step
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const {
-  SENTRY_DSN,
+  NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
   SENTRY_ORG,
   SENTRY_PROJECT,
   SENTRY_AUTH_TOKEN,
@@ -24,6 +24,9 @@ const COMMIT_SHA =
   VERCEL_BITBUCKET_COMMIT_SHA;
 
 module.exports = withSourceMaps({
+  serverRuntimeConfig: {
+    rootDir: __dirname,
+  },
   webpack: (config, options) => {
     config.plugins.push(new options.webpack.IgnorePlugin(/\/__tests__\//));
 
@@ -85,7 +88,7 @@ module.exports = withSourceMaps({
 
     GOOGLE_ANALYTICS_TRACKING_CODE: process.env.GOOGLE_ANALYTICS_TRACKING_CODE,
 
-    SENTRY_DSN
+    NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
   pageExtensions: ["page.tsx"],
 });
