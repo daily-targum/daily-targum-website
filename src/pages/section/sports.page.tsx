@@ -83,7 +83,7 @@ function Category({
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article[0].slug}
                 date={formatDateAbriviated(article[0].publishDate)}
-                author={article[0].authors.join(' ')}
+                author={article[0].authors.join(', ')}
               />
             ) : (
               <>
@@ -98,7 +98,7 @@ function Category({
                   as={'/'+article[0].slug}
                   aspectRatioDesktop={3 / 2}
                   date={formatDateAbriviated(article[0].publishDate)}
-                  author={article[0].authors.join(' ')}
+                  author={article[0].authors.join(', ')}
                 />
                 <Card.Spacer/>
                 <Card.ImageResponsive
@@ -112,7 +112,7 @@ function Category({
                   as={'/'+article[1].slug}
                   aspectRatioDesktop={3 / 2}
                   date={formatDateAbriviated(article[1].publishDate)}
-                  author={article[1].authors.join(' ')}
+                  author={article[1].authors.join(', ')}
                 />
               </>
             );
@@ -172,7 +172,8 @@ function Category({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
-    backgroundColor: theme.colors.background
+    backgroundColor: theme.colors.background,
+    flex: 1
   }
 }));
 

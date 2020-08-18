@@ -1,10 +1,19 @@
 import types from './types';
+import { podcastActions } from '../podcast';
 
 export function setPlayState(playState: 'stop' | 'pause' | 'play') {
-  return {
-    type: types.VIDEO_SET_PLAY_STATE,
-    payload: playState
-  };
+  return async (dispatch: any) => {
+
+    if (playState === 'play') {
+      dispatch(podcastActions.pause());
+      dispatch(podcastActions.setPersist(false));
+    }
+
+    dispatch({
+      type: types.VIDEO_SET_PLAY_STATE,
+      payload: playState
+    });
+  }
 }
 
 export function setDuration(duration: number) {
@@ -28,9 +37,21 @@ export function setPersist(persist: boolean) {
   };
 }
 
-export function loadVideo(src: string) {
+export function loadVideo({
+  src,
+  title,
+  description
+}: {
+  src: string
+  title: string
+  description: string
+}) {
   return {
     type: types.VIDEO_SET_VIDEO,
-    payload: src
+    payload: {
+      src,
+      title,
+      description
+    }
   };
 }

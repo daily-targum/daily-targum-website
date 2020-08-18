@@ -7,6 +7,7 @@ import { SEOProps } from '../../components/SEO';
 import { Grid, AspectRatioImage, Section, Theme, Text, Button, Table, ActivityIndicator } from '../../components';
 import { useDispatch, useSelector } from '../../store';
 import { podcastActions } from '../../store/ducks/podcast';
+import { videoActions } from '../../store/ducks/video';
 import dayjs from 'dayjs';
 import { IoIosPlay, IoIosPause } from 'react-icons/io';
 import { useRouter } from 'next/router';
@@ -27,11 +28,18 @@ function Podcast({
   const playingThisShow = useSelector(s => s.podcast.episode?.show === podcast?.items[0]?.show);
   const episodePlayingId = useSelector(s => s.podcast.episode?.id);
 
+  React.useEffect(() => {
+    dispatch(videoActions.setPlayState('pause'));
+    dispatch(videoActions.setPersist(false));
+    
+    dispatch(podcastActions.setPersist(true));
+  }, []);
+
   async function play(id?: string) {
     if (id && id !== episodePlayingId) {
-      dispatch(podcastActions.loadPodcast(id));
+      await dispatch(podcastActions.loadPodcast(id));
     } else if (!playingThisShow && firstEpisode !== undefined) {
-      dispatch(podcastActions.loadPodcast(firstEpisode.id));
+      await dispatch(podcastActions.loadPodcast(firstEpisode.id));
     }
 
     if (playing) {

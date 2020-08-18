@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetArticles, Article } from '../../../shared/src/client';
-import { capitalizedToHypenated } from '../../../shared/src/utils';
+import { capitalizedToHypenated, formatDateAbriviated } from '../../../shared/src/utils';
 import { Section, Theme, Text, Divider, CardCols, Card, FlatList, Grid, Banner } from '../../../components';
 import { styleHelpers, imgix } from '../../../utils';
 
@@ -60,7 +60,7 @@ function Category({
       <Grid.Row spacing={theme.spacing(2)}>
         <CardCols items={section.items.slice(0,3)}>
           {article => article ? (
-            <Card.StackedResponsive
+            <Card.ImageResponsive
               id={article.id}
               tag='Column'
               title={article.title}
@@ -71,6 +71,8 @@ function Category({
               href='/article/[year]/[month]/[slug]'
               as={'/'+article.slug}
               aspectRatioDesktop={16 / 9}
+              date={formatDateAbriviated(article.publishDate)}
+              author={article.authors.join(', ')}
             />
           ) : null}
         </CardCols>
@@ -82,8 +84,8 @@ function Category({
         data={section.columnists}
         renderItem={(author) => (
           <Link
-            href='/author/[slug]'
-            as={`/author/${capitalizedToHypenated(author)}`}
+            href='/staff/[slug]'
+            as={`/staff/${capitalizedToHypenated(author)}`}
           >
             <a style={styles.columnist}>
               <div style={styles.columnistPicture}/>
@@ -107,7 +109,8 @@ function Category({
 const styleCreator =  Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
-    backgroundColor: theme.colors.background
+    backgroundColor: theme.colors.background,
+    flex: 1
   },
   divider: {
     margin: theme.spacing(6, 0, 4)
@@ -137,7 +140,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex(),
     alignItems: 'center',
     ...styleHelpers.hideLink(),
-    paddingBottom: theme.spacing(2)
+    padding: theme.spacing(5, 10)
   },
   columnistPicture: {
     ...styleHelpers.lockHeight(120),

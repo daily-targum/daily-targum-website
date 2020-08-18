@@ -1,8 +1,8 @@
 import React from 'react';
-import { actions, GetHoru } from '../../../shared/src/client';
-import NotFound from '../../404.page';
-import { Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner } from '../../../components';
-import { styleHelpers, imgix } from '../../../utils';
+import { actions, GetHoru } from '../../shared/src/client';
+import NotFound from '../404.page';
+import { Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner } from '../../components';
+import { styleHelpers, imgix } from '../../utils';
 
 function Category({ 
   initHoru
@@ -19,7 +19,7 @@ function Category({
     if(!horu.nextToken || isLoading) return;
     setIsLoading(true);
 
-    const { actions: clientActions } = await import('../../../shared/src/client');
+    const { actions: clientActions } = await import('../../shared/src/client');
 
     const res = await clientActions.getHoru({
       limit: 20,

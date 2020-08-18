@@ -1,5 +1,6 @@
 import React from 'react';
 import Theme from './Theme';
+import { ReactChildren } from '../types';
 
 export function Button({
   children,
@@ -7,7 +8,7 @@ export function Button({
   className,
   style
 }: {
-  children: string
+  children: ReactChildren<string>
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => any
   className?: string
   style?: React.CSSProperties
@@ -27,6 +28,29 @@ export function Button({
   );
 }
 
+export function ButtonText({
+  children,
+  onClick,
+  style
+}: {
+  children: ReactChildren<string>
+  onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => any
+  style?: React.CSSProperties
+}) {
+  const styles = Theme.useStyleCreator(styleCreator);
+  return (
+    <span 
+      onClick={onClick}
+      style={{
+        ...styles.textButton,
+        ...style
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
 const styleCreator = Theme.makeStyleCreator(theme => ({
   button: {
     padding: theme.spacing(2),
@@ -39,7 +63,12 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   buttonText: {
     color: '#fff',
     fontSize: '1.3rem'
+  },
+  textButton: {
+    color: theme.colors.accent,
+    cursor: 'pointer'
   }
 }));
 
+Button.Text = ButtonText;
 export default Button;

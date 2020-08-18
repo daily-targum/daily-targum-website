@@ -6,7 +6,8 @@ export default {
   SET_DURATION: 'SET_DURATION',
   SET_POSITION: 'SET_POSITION',
   SET_PLAYER: 'SET_PLAYER',
-  SET_EPISODE: 'SET_EPISODE'
+  SET_EPISODE: 'SET_EPISODE',
+  SET_PERSIST: 'SET_PERSIST',
 }
 
 export interface State {
@@ -15,4 +16,5 @@ export interface State {
   position: number
   duration: number
   episode?: Podcast
+  persist: boolean
 }

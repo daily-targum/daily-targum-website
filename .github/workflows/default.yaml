@@ -96,8 +96,10 @@ jobs:
       - name: Test
         run: yarn coverage
         env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           AMPLITUDE_KEY: ${{ secrets.AMPLITUDE_KEY }}
           AWS_APPSYNC_URL: ${{ secrets.AWS_APPSYNC_URL }}
           AWS_APPSYNC_REGION: ${{ secrets.AWS_APPSYNC_REGION }}

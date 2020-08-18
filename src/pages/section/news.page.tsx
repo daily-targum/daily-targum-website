@@ -70,7 +70,7 @@ function News({
                 as={'/'+article.slug}
                 date={formatDateAbriviated(article.publishDate)}
                 aspectRatioDesktop={16 / 9}
-                author={article.authors.join(' ')}
+                author={article.authors.join(', ')}
               />
             );
           }}
@@ -94,7 +94,7 @@ function News({
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
               aspectRatioDesktop={16 / 9}
-              author={item.authors.join(' ')}
+              author={item.authors.join(', ')}
             />
           </Grid.Col>
         ))}
@@ -112,7 +112,8 @@ function News({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
-    backgroundColor: theme.colors.surface
+    backgroundColor: theme.colors.surface,
+    flex: 1
   }
 }));
 

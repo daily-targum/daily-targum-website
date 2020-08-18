@@ -33,6 +33,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+*:focus {
+  outline: none;
+}
+
 h1,
 h2,
 h3,

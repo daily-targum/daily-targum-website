@@ -58,11 +58,11 @@ const navbarLinks: {
     href: '/section/humans-of-rutgers',
     as: '/section/humans-of-rutgers'
   },
-  {
-    title: 'Podcasts',
-    href: '/podcasts/[slug]',
-    as: '/podcasts/targum-tea'
-  },
+  // {
+  //   title: 'Podcasts',
+  //   href: '/podcasts/[slug]',
+  //   as: '/podcasts/targum-tea'
+  // },
   {
     title: 'Search',
     href: '/search',
@@ -347,7 +347,7 @@ export function useDynamicHeader() {
     return () => {
       dispatch(navigationActions.disableDarkNavbar());
     };
-  });
+  }, []);
 }
 
 Navbar.useDynamicHeader = useDynamicHeader;

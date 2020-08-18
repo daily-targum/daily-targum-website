@@ -31,8 +31,8 @@ function Authors({
           <Link 
             key={author}
             // FIX THIS: get slug from backend
-            href={'/author/[slug]'}
-            as={`/author/${capitalizedToHypenated(author)}`}
+            href={'/staff/[slug]'}
+            as={`/staff/${capitalizedToHypenated(author)}`}
           >
             <a 
               style={styles.hideLink}
@@ -54,8 +54,8 @@ function Authors({
               <React.Fragment key={author}>
                 <Link 
                   // FIX THIS: get slug from backend
-                  href={'/author/[slug]'}
-                  as={`/author/${capitalizedToHypenated(author)}`}
+                  href={'/staff/[slug]'}
+                  as={`/staff/${capitalizedToHypenated(author)}`}
                 >
                   <a 
                     style={styles.hideLink}
@@ -72,8 +72,8 @@ function Authors({
                 <Text style={styles.breakSpaces}> and </Text>
                 <Link 
                   // FIX THIS: get slug from backend
-                  href={'/author/[slug]'}
-                  as={`/author/${capitalizedToHypenated(last)}`}
+                  href={'/staff/[slug]'}
+                  as={`/staff/${capitalizedToHypenated(last)}`}
                 >
                   <a style={styles.hideLink}>
                     <Text style={styles.author}>{last}</Text>

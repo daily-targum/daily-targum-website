@@ -18,6 +18,8 @@ const imgixDefaultOptions: ImgixOptions = {
   auto: 'compress',
   fit: 'crop',
   crop: 'faces,entropy',
+  // allows us to prefer different formats
+  // based on device size (mobile/desktop)
   formats: ['webp', 'jpg']
 };
 
@@ -25,26 +27,22 @@ const presets = {
   sm: (ar?: string) => ({
     ...imgixDefaultOptions,
     ar,
-    width: '250',
-    formats: ['webp', 'jpg']
+    width: '250'
   }) as const,
   md: (ar?: string) => ({
     ...imgixDefaultOptions,
     ar,
-    width: '500',
-    formats: ['webp', 'jpg']
+    width: '500'
   }) as const,
   lg: (ar?: string) => ({
     ...imgixDefaultOptions,
     ar,
-    width: '700',
-    formats: ['pjpg', 'jpg']
+    width: '700'
   }) as const,
   xl: (ar?: string) => ({
     ...imgixDefaultOptions,
     ar,
-    width: '1200',
-    formats: ['pjpg', 'jpg']
+    width: '1200'
   }) as const,
 };
 imgix.presets = presets;

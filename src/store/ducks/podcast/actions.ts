@@ -21,6 +21,8 @@ export function play() {
       payload: 'play'
     });
 
+    dispatch(setPersist(true));
+
     privateState.id = state.podcast.player?.play(privateState.id);
 
     function updatePosition() {
@@ -157,5 +159,14 @@ export function loadPodcast(id: string) {
       payload: howl
     });
 
+    dispatch(setPersist(true));
+    
+  }
+}
+
+export function setPersist(persist: boolean) {
+  return {
+    type: types.SET_PERSIST,
+    payload: persist
   }
 }

@@ -65,7 +65,7 @@ function Category({
             as={'/'+section.items[0].slug}
             aspectRatioDesktop={2 / 1}
             date={formatDateAbriviated(section.items[0].publishDate)}
-            author={section.items[0].authors.join(' ')}
+            author={section.items[0].authors.join(', ')}
           />
         </Grid.Col>
 
@@ -82,7 +82,7 @@ function Category({
             as={'/'+section.items[1].slug}
             aspectRatioDesktop={2 /1}
             date={formatDateAbriviated(section.items[1].publishDate)}
-            author={section.items[1].authors.join(' ')}
+            author={section.items[1].authors.join(', ')}
           />
         </Grid.Col>
 
@@ -103,7 +103,7 @@ function Category({
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
-            author={item.authors.join(' ')}
+            author={item.authors.join(', ')}
             />
           </Grid.Col>
         ))}
@@ -123,6 +123,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
     backgroundColor: theme.colors.background,
+    flex: 1
   },
   tag: {
     color: '#fff',

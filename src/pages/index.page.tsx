@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetHomepage, Article } from '../shared/src/client';
-import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, Text, Image } from '../components';
+import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, Text, Image, Link } from '../components';
 import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../shared/src/utils';
 import { styleHelpers, imgix } from '../utils';
 
@@ -125,16 +125,23 @@ function Home({
           <Grid.Col xs={24} md={12} style={styles.getTheApp}>
             <Text variant='h1'>Get the App</Text>
             <div style={styles.appStoreRow}>
-              <img
-                style={styles.appStoreBadge}
-                src='/app-store-badge.svg'
-                loading='lazy'
-              />
-              <img
-                style={styles.appStoreBadge}
-                src='/google-play-badge.png'
-                loading='lazy'
-              />  
+
+              <Link href='https://apps.apple.com/us/app/daily-targum/id486306039'>
+                <img
+                  style={styles.appStoreBadge}
+                  src='/app-store-badge.svg'
+                  loading='lazy'
+                />
+              </Link>
+
+              <Link href='https://play.google.com/store/apps/details?id=com.dailytargum.dailytargum'>
+                <img
+                  style={styles.appStoreBadge}
+                  src='/google-play-badge.png'
+                  loading='lazy'
+                />  
+              </Link>
+
             </div>
           </Grid.Col>
 
@@ -167,7 +174,8 @@ export async function getStaticProps() {
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
-    backgroundColor: theme.colors.surface
+    backgroundColor: theme.colors.surface,
+    flex: 1
   },
   mainSection: {
     paddingBottom: theme.spacing(6)

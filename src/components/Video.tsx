@@ -2,10 +2,12 @@ import React from 'react';
 import { useSelector, useDispatch } from '../store';
 import { videoActions } from '../store/ducks/video';
 import Theme from './Theme';
+import Text from './Text';
+import Button from './Button';
 import { styleHelpers } from '../utils';
 import { IoMdClose } from 'react-icons/io';
 
-export function VideoPlayer({
+function Player({
   style,
   slave = false
 }: {
@@ -125,7 +127,7 @@ export function VideoPlayer({
   );
 }
 
-export function PersistentVideoPlayer() {
+function PersistentPlayer() {
   const persist = useSelector(s => s.video.persist);
   const src = useSelector(s => s.video.src);
   const styles = Theme.useStyleCreator(styleCreator);
@@ -143,13 +145,48 @@ export function PersistentVideoPlayer() {
         size={24}
         style={styles.closeIcon}
         onClick={() => {
-          dispatch(videoActions.setPersist(false));
           dispatch(videoActions.setPlayState('pause'));
+          dispatch(videoActions.setPersist(false));
         }}
       />
-      <VideoPlayer
+      <Player
         slave={!persist}
       />
+    </div>
+  );
+}
+
+function Description() {
+  const title = useSelector(s => s.video.title);
+  const description = useSelector(s => s.video.description);
+  const styles = Theme.useStyleCreator(styleCreator);
+  const [expanded, setExpanded] = React.useState(false);
+
+  return (
+    <div 
+      style={styles.description}
+    >
+      <Text 
+        variant='h2' 
+        htmlTag='h1'
+        style={styles.text}
+      >
+        {title||''}
+      </Text>
+      <Text.Truncate 
+        variant='p' 
+        htmlTag='p'
+        style={styles.text}
+        numberOfLines={expanded ? 0 : 3}
+      >
+        {description||''}
+      </Text.Truncate>
+
+      <Button.Text
+        onClick={() => setExpanded(bool => !bool)}
+      >
+        Show {expanded ? 'Less' : 'More'}
+      </Button.Text>
     </div>
   );
 }
@@ -181,5 +218,18 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     zIndex: 1001,
     cursor: 'pointer',
     color: '#fff'
+  },
+  description: {
+    padding: theme.spacing(4, 0),
+    ...styleHelpers.flex('column')
+  },
+  text: {
+    color: theme.colors.primary.contrastText
   }
 }));
+
+export const Video = {
+  Player,
+  PersistentPlayer,
+  Description
+}

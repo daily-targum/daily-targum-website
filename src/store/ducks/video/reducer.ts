@@ -7,7 +7,7 @@ const initialState: State = {
   persist: true
 };
 
-export default function reducer(state = initialState, action: any) {
+export default function reducer(state = initialState, action: any): State {
   switch (action.type) {
     case types.VIDEO_SET_PLAY_STATE: 
       return {
@@ -29,15 +29,12 @@ export default function reducer(state = initialState, action: any) {
         ...state,
         duration: action.payload
       }
-    case types.VIDEO_SET_PLAYER: 
-      return {
-        ...state,
-        player: action.payload
-      }
     case types.VIDEO_SET_VIDEO: 
       return {
         ...state,
-        src: action.payload,
+        src: action.payload.src,
+        title: action.payload.title,
+        description: action.payload.description,
         position: 0,
         duration: 0,
         playState: 'stop'

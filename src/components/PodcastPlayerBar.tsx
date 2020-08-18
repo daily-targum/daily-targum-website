@@ -22,7 +22,7 @@ function ProgressBar({
     <div
       style={{
         flex: 1,
-        height: 3,
+        height: 4,
         backgroundColor: theme.colors.divider
       }}
     >
@@ -45,8 +45,10 @@ export function PodcastPlayerBar() {
   const duration = useSelector(s => s.podcast.duration);
   const position = useSelector(s => s.podcast.position);
   const episode = useSelector(s => s.podcast.episode);
-  const visible = useSelector(s => s.podcast.player !== undefined);
+  const persist = useSelector(s => s.podcast.persist);
   const styles = Theme.useStyleCreator(styleCreator);
+
+  const visible = episode && persist;
 
   function play() {
     dispatch(podcastActions.play());
@@ -63,7 +65,12 @@ export function PodcastPlayerBar() {
   return visible ? (
     <>
       <div style={styles.spacer}/>
-      <Section style={styles.section}>
+      <Section 
+        style={styles.section}
+        styleInside={{
+          overflow: 'visible'
+        }}
+      >
         <Grid.Row>
 
           {/* Desktop */}

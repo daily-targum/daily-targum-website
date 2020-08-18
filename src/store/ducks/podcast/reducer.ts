@@ -1,10 +1,10 @@
 import types, { State } from './types';
 
 const initialState: State = {
-  player: undefined,
   playState: 'stop',
   position: 0,
-  duration: 0
+  duration: 0,
+  persist: false
 };
 
 export default function reducer(state = initialState, action: any) {
@@ -28,6 +28,11 @@ export default function reducer(state = initialState, action: any) {
       return {
         ...state,
         player: action.payload
+      }
+    case types.SET_PERSIST: 
+      return {
+        ...state,
+        persist: action.payload
       }
     case types.SET_EPISODE: 
       return {
