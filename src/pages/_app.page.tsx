@@ -10,7 +10,7 @@ import getConfig from 'next/config'
 
 if (process.env.SENTRY_DSN) {
   const config = getConfig()
-  const distDir = `${config.serverRuntimeConfig.rootDir}/.next`
+  const distDir = `${config?.serverRuntimeConfig?.rootDir ?? ''}/.next`
   Sentry.init({
     enabled: process.env.NODE_ENV === 'production',
     integrations: [
