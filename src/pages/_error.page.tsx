@@ -4,27 +4,77 @@ import * as Sentry from '@sentry/node';
 import { ErrorProps } from 'next/error';
 import { NextPageContext } from 'next';
 
+import { Section, Theme, Text, Button } from '../components';
+import { styleHelpers, nextUtils } from '../utils';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
 interface CustomErrorProps extends ErrorProps {
   hasGetInitialPropsRun: boolean
   err: any
 }
 
 function ErrorPage({ 
-  statusCode, 
+  // statusCode, 
   hasGetInitialPropsRun, 
   err 
 }: CustomErrorProps) {
-  if (!hasGetInitialPropsRun && err) {
-    // getInitialProps is not called in case of
-    // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
-    // err via _app.js so it can be captured
-    Sentry.captureException(err)
-  }
+  const styles = Theme.useStyleCreator(styleCreator);
+  const canGoBack = nextUtils.useCanGoBack();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!hasGetInitialPropsRun && err) {
+      // getInitialProps is not called in case of
+      // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
+      // err via _app.js so it can be captured
+      Sentry.captureException(err)
+    }
+  }, [hasGetInitialPropsRun, err]);
 
   return (
-    <NextErrorComponent statusCode={statusCode}/>
+    <Section 
+      style={styles.section}
+      styleInside={styles.sectionInside}
+    >
+      <div style={styles.textWrap}>
+        <Text variant='h1' htmlTag='h1'>Something Went Wrong.</Text>
+        <Text variant='p'>Sorry, it's us, not you.</Text>
+        {canGoBack ? (
+          <Button onClick={() => router.back()}>
+            Go Back
+          </Button>
+        ) : (
+          <Link href='/'>
+            <a>
+              <Button>
+                Go to Home
+              </Button>
+            </a>
+          </Link>
+        )}
+        
+      </div>
+    </Section>
   )
 };
+
+const styleCreator = Theme.makeStyleCreator(theme => ({
+  section: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+    flex: 1,
+    justifyContent: 'center'
+  },
+  sectionInside: {
+    ...styleHelpers.flex('column'),
+    alignItems: 'center'
+  },
+  textWrap: {
+    ...styleHelpers.flex('column'),
+    alignItems: 'flex-start'
+  }
+}));
 
 ErrorPage.getInitialProps = async (ctx: NextPageContext) => {
   const { res, err, asPath } = ctx;

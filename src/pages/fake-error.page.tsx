@@ -3,7 +3,7 @@ import React from 'react';
 function FakeError() {
 
   React.useEffect(() => {
-    throw new Error('Client Test 4')
+    throw new Error('Client Test 9')
   }, [])
 
   return (

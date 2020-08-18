@@ -12,7 +12,7 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   const config = getConfig()
   const distDir = `${config?.serverRuntimeConfig?.rootDir ?? ''}/.next`
   Sentry.init({
-    enabled: process.env.NODE_ENV === 'production',
+    enabled: true || process.env.NODE_ENV === 'production',
     integrations: [
       new RewriteFrames({
         iteratee: (frame) => {
