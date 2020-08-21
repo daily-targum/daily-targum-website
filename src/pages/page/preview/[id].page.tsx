@@ -4,7 +4,7 @@ import { Section, Theme, ActivityIndicator, HTML } from '../../../components';
 import { getPagePreview, GetPage } from '../../../shared/src/client';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
-import { processNextQueryStringParam } from '../../../utils';
+import { processNextQueryStringParam, styleHelpers } from '../../../utils';
 
 function Page({
   initialPage,
@@ -42,8 +42,8 @@ function Page({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   section: {
-    paddingTop: theme.spacing(6),
-    paddingBottom: theme.spacing(6),
+    ...styleHelpers.page(theme),
+    flex: 1
   }
 }));
 

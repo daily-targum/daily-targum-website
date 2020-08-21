@@ -27,3 +27,4 @@ export * from './Page';
 export * from './Image';
 export * from './TagBar';
 export * from './Link';
+export * from './Modal';

@@ -81,9 +81,9 @@ function Author({
             )}
             ItemSeparatorComponent={<Card.Spacer/>}
           />
-          <ActivityIndicator.ProgressiveLoader
+          {/* <ActivityIndicator.ProgressiveLoader
             onVisible={() => console.log('implement progressive load')}
-          />
+          /> */}
         </Grid.Col>
 
       </Grid.Row>

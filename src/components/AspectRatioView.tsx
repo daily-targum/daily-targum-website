@@ -9,7 +9,8 @@ export function AspectRatioView({
   className,
   classNameInside,
   style,
-  styleInside
+  styleInside,
+  onClick
 }: {
   aspectRatio?: number
   children?: ReactChildren
@@ -17,6 +18,7 @@ export function AspectRatioView({
   classNameInside?: string
   style?: React.CSSProperties
   styleInside?: React.CSSProperties
+  onClick?: () => any
 }) {
   return (
     <div 
@@ -28,6 +30,7 @@ export function AspectRatioView({
         ...style
       }}
       className={className}
+      onClick={onClick}
     >
       <div 
         className={classNameInside}
@@ -47,11 +50,13 @@ export function AspectRatioImage({
   data,
   className,
   style,
+  onClick
 }: {
   aspectRatio?: number
   data: ImageData[]
   className?: string
   style?: React.CSSProperties
+  onClick?: () => any
 }) {
   return (
     <AspectRatioView
@@ -62,6 +67,7 @@ export function AspectRatioImage({
         width: '100%',
         ...style
       }}
+      onClick={onClick}
     >
       <Image
         style={{

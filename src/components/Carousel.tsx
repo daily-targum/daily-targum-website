@@ -25,11 +25,13 @@ function Button({
         <IoIosArrowDropleftCircle
           size={32}
           color='#fff'
+          style={styles.icon}
         />
       ) : (
         <IoIosArrowDroprightCircle
           size={32}
           color='#fff'
+          style={styles.icon}
         />
       )}
     </div>
@@ -47,8 +49,8 @@ export function Carousel<T>({
   ListFooterComponent,
   className,
   style,
-  initialIndex,
-  onChange
+  initialIndex = 0,
+  onChange = () => {}
 }: {
   data: T[]
   renderItem: (item: T, index: number) => ReactChildren
@@ -60,8 +62,8 @@ export function Carousel<T>({
   ListFooterComponent?: ReactChildren
   className?: string
   style?: React.CSSProperties,
-  initialIndex: number,
-  onChange: (index: number) => any
+  initialIndex?: number,
+  onChange?: (index: number) => any
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
   const styles = Theme.useStyleCreator(styleCreator);
@@ -71,14 +73,19 @@ export function Carousel<T>({
   const scrollTimeout = React.useRef<number | undefined>();
 
   React.useEffect(() => {
+    const refClone = ref.current;
+
     function handleResize() {
       setWidth(ref.current?.offsetWidth ?? 0);
     }
     handleResize();
-    if(process.browser) {
+    if(process.browser && refClone) {
       window.addEventListener('resize', handleResize);
+      refClone.addEventListener('resize', handleResize);
+
       return () => {
         window.removeEventListener('resize', handleResize);
+        refClone.removeEventListener('resize', handleResize);
       }
     }
   }, [ref.current]);
@@ -133,18 +140,16 @@ export function Carousel<T>({
     <div 
       style={{
         ...styles.carousel,
-        ...(loading ? styles.hide : null)
+        ...(loading ? styles.hide : null),
+        ...style
       }}
       className={className}
     >
       <div
-        className={[
-          styles.scroll,
-          'hide-scrollbars',
-        ].join(' ')}
+        className={'hide-scrollbars'}
         style={{
-          ...(loading ? null : styles.smoothScroll),
-          ...style
+          ...styles.scroll,
+          ...(loading ? null : styles.smoothScroll)
         }}
         ref={ref}
         onScroll={() => {
@@ -204,7 +209,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.lockHeight('100%'),
     scrollSnapType: 'x mandatory',
     '-webkit-scroll-snap-type': 'x mandatory',
-    '-webkit-overflow-scrolling': 'touch'
+    '-webkit-overflow-scrolling': 'touch',
+    minHeight: '100%'
   },
   smoothScroll: {
     scrollBehavior: 'smooth'
@@ -216,13 +222,17 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    padding: theme.spacing(0, 1.5)
+    padding: theme.spacing(0, 1.5),
+    height: '100%'
   },
   item: {
     scrollSnapAlign: 'center'
   },
   hide: {
     opacity: 0
+  },
+  icon: {
+    filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.3))'
   }
 }));
 

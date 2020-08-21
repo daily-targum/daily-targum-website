@@ -83,21 +83,42 @@ CardCols.Header = Header;
 function Header({
   title,
   href,
-  as
+  as,
+  onClick
 } : {
   title: string
-  href: string
+  href?: string
   as?: string
+  onClick?: () => any
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
     <div style={styles.sectionHeader}>
       <Text variant='h3' noPadding>{title}</Text>
-      <Link 
-        href={href}
-        as={as}
-      >
-        <a style={styles.moreInLink}>
+
+      {href ? (
+        <Link 
+          href={href}
+          as={as}
+        >
+          <a style={styles.moreInLink}>
+            <Text 
+              variant='h4' 
+              style={styles.moreInLinkText}
+              noPadding
+            >
+              More in {title}
+            </Text>
+            <RiArrowRightLine
+              size={22}
+            />
+          </a>
+        </Link>
+      ): (
+        <div 
+          style={styles.moreInLink}
+          onClick={onClick}
+        >
           <Text 
             variant='h4' 
             style={styles.moreInLinkText}
@@ -108,8 +129,9 @@ function Header({
           <RiArrowRightLine
             size={22}
           />
-        </a>
-      </Link>
+        </div>
+      )}
+      
     </div>
   );
 }

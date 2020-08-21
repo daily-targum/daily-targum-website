@@ -91,7 +91,6 @@ function MobileMenu() {
       lg={false}
     >
       <div
-        className={'animate-all-fast'}
         style={{
           ...styles.mobileMenu,
           opacity: +isVisible,
@@ -175,10 +174,7 @@ function DesktopNavbar() {
                       style={{
                         ...(link.as === router.asPath) ? styles.linkActive : null,
                       }}
-                      className={[
-                        cng(styles.link),
-                        'animate-all-fast'
-                      ].join(' ')}
+                      className={cng(styles.link)}
                     >
                       <span>{link.title}</span>
                     </a>
@@ -300,6 +296,7 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
     borderTopWidth: 2,
     borderColor: 'transparent',
     borderStyle: 'solid',
+    transition: `border-bottom-color ${theme.timing(1)}, opacity ${theme.timing(1)}`,
     ':hover': {
       color: theme.colors.accent,
       borderBottomColor: theme.colors.accent

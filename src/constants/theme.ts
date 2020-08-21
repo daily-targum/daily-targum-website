@@ -47,6 +47,10 @@ export function mediaQuery(min?: BreakPoint, max?: BreakPoint) {
 	return `@media only screen and ${bounds.join(' and ')}`
 }
 
+export function timing(multiplier: number) {
+  return `${0.2 * multiplier}s`;
+}
+
 const main: Theme = {
   colors: {
     primary: {
@@ -72,7 +76,8 @@ const main: Theme = {
   },
   roundness,
   spacing,
-  mediaQuery
+  mediaQuery,
+  timing
 }
 
 export const themes = {

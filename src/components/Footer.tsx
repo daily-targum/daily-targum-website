@@ -10,6 +10,11 @@ import { styleHelpers } from '../utils';
 const links = {
   company: [
     {
+      title: 'About',
+      href: '/page/[slug]',
+      as: '/page/about'
+    },
+    {
       title: 'Donate',
       href: '/page/[slug]',
       as: '/page/donate'
@@ -71,16 +76,7 @@ export function Footer() {
               </a>
             </div>
           </Grid.Col>
-          <Grid.Col xs={0} md={8}>
-            <Text variant='h4' style={styles.title}>Social Media</Text>
-            {links.socialMedia.map(l => (
-              <a 
-                key={l.href} 
-                style={styles.link}
-                href={l.href}
-              >{l.title}</a>
-            ))}
-          </Grid.Col>
+          
           <Grid.Col xs={0} md={8}>
             <Text variant='h4' style={styles.title}>Company</Text>
             {links.company.map(l => (
@@ -94,18 +90,19 @@ export function Footer() {
             ))}
           </Grid.Col>
 
-
-          {/* Mobile */}
-          <Grid.Col xs={24} md={0}>
+          <Grid.Col xs={0} md={8}>
             <Text variant='h4' style={styles.title}>Social Media</Text>
             {links.socialMedia.map(l => (
               <a 
                 key={l.href} 
-                style={styles.mobileLink}
+                style={styles.link}
                 href={l.href}
               >{l.title}</a>
             ))}
           </Grid.Col>
+
+
+          {/* Mobile */}
           <Grid.Col xs={24} md={0}>
             <div style={styles.spacer}/>
             <Text variant='h4' style={styles.title}>Company</Text>
@@ -117,6 +114,16 @@ export function Footer() {
               >
                 <a style={styles.mobileLink}>{l.title}</a>
               </Link>
+            ))}
+          </Grid.Col>
+          <Grid.Col xs={24} md={0}>
+            <Text variant='h4' style={styles.title}>Social Media</Text>
+            {links.socialMedia.map(l => (
+              <a 
+                key={l.href} 
+                style={styles.mobileLink}
+                href={l.href}
+              >{l.title}</a>
             ))}
           </Grid.Col>
           <Grid.Col xs={24} md={0}>

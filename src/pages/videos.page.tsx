@@ -31,6 +31,7 @@ function Videos({
 
     if (!src) {
       const media = playlists.items[0].media[0];
+      console.log(media)
       dispatch(videoActions.loadVideo({
         ...media,
         src: media.url

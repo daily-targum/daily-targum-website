@@ -101,6 +101,11 @@ module.exports = withSourceMaps({
         source: '/multimedia/video',
         destination: '/videos',
         permanent: true,
+      },
+      {
+        source: '/multimedia/photo',
+        destination: '/photos',
+        permanent: true,
       }
     ]
   },
