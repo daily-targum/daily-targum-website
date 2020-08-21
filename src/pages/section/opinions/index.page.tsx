@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetArticles, Article } from '../../../shared/src/client';
-import { capitalizedToHypenated, formatDateAbriviated } from '../../../shared/src/utils';
+import { formatDateAbriviated } from '../../../shared/src/utils';
 import { Section, Theme, Text, Divider, CardCols, Card, FlatList, Grid, Banner } from '../../../components';
 import { styleHelpers, imgix } from '../../../utils';
 
@@ -29,7 +29,7 @@ function Column({
             <Card.StackedResponsive 
               id={article.id}
               title={article.title}
-              imageData={imgix(article.media[0], {
+              imageData={imgix(article.media[0].url, {
                 xs: imgix.presets.sm('1:1'),
                 md: imgix.presets.md('16:9')
               })}
@@ -58,13 +58,13 @@ function Category({
       <Banner text='Opinions'/>
 
       <Grid.Row spacing={theme.spacing(2)}>
-        <CardCols items={section.items.slice(0,3)}>
+        <CardCols items={section.items[0].articles.slice(0,3)}>
           {article => article ? (
             <Card.ImageResponsive
               id={article.id}
               tag='Column'
               title={article.title}
-              imageData={imgix(article.media[0], {
+              imageData={imgix(article.media[0].url, {
                 xs: imgix.presets.sm('1:1'),
                 md: imgix.presets.md('16:9')
               })}
@@ -85,23 +85,27 @@ function Category({
         renderItem={(author) => (
           <Link
             href='/staff/[slug]'
-            as={`/staff/${capitalizedToHypenated(author)}`}
+            as={`/staff/${author.slug}`}
           >
             <a style={styles.columnist}>
               <div style={styles.columnistPicture}/>
-              <Text style={styles.columnistTitle}>{author}</Text>
+              <Text style={styles.columnistTitle}>{author.displayName}</Text>
             </a>
           </Link>
         )}
-        keyExtractor={author => author}
+        keyExtractor={author => author.id}
         horizontal
       />
 
       <Divider style={styles.divider}/>
-      <Column
-        title='Column'
-        articles={section.items}
-      />
+
+      {section.items.map(column => (
+        <Column
+          key={column.name}
+          title={column.name}
+          articles={column.articles}
+        />
+      ))}
     </Section>
   );
 }
@@ -159,7 +163,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
 Category.getInitialProps = async () => {
   const section = await actions.getArticles({
     category: 'Opinions',
-    limit: 20
+    limit: 4
   });
   return { 
     section

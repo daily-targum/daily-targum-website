@@ -1,7 +1,8 @@
 import React from 'react';
 import Theme from './Theme';
 import Text from './Text';
-import { formatDate, capitalizedToHypenated } from '../shared/src/utils';
+import { formatDate } from '../shared/src/utils';
+import { Author } from '../shared/src/client';
 import { styleHelpers } from '../utils';
 import Link from 'next/link';
 
@@ -10,7 +11,7 @@ function Authors({
   publishDate,
   authors
 }: {
-  authors: string[]
+  authors: Author[]
   updatedAt: number
   publishDate: number
 }) {
@@ -19,7 +20,7 @@ function Authors({
   const wasUpdated = updatedAt > publishDate;
 
   const authorsExceptLast = authors.slice(0);
-  let last: string | undefined;
+  let last: Author | undefined;
   if(authors.length > 1) {
     last = authorsExceptLast.pop();
   }
@@ -29,14 +30,14 @@ function Authors({
       <div style={styles.row}>
         {authors.map((author) => (
           <Link 
-            key={author}
+            key={author.id}
             // FIX THIS: get slug from backend
             href={'/staff/[slug]'}
-            as={`/staff/${capitalizedToHypenated(author)}`}
+            as={`/staff/${author.slug}`}
           >
             <a 
               style={styles.hideLink}
-              aria-label={`More articles by ${author}`}
+              aria-label={`More articles by ${author.displayName}`}
             >
               <div 
                 className={cng(styles.avatar)}
@@ -51,17 +52,17 @@ function Authors({
         <div style={styles.column}>
           <div style={styles.authors}>
             {authorsExceptLast.map((author, i) => (
-              <React.Fragment key={author}>
+              <React.Fragment key={author.id}>
                 <Link 
                   // FIX THIS: get slug from backend
                   href={'/staff/[slug]'}
-                  as={`/staff/${capitalizedToHypenated(author)}`}
+                  as={`/staff/${author.slug}`}
                 >
                   <a 
                     style={styles.hideLink}
-                    aria-label={`More articles by ${author}`}
+                    aria-label={`More articles by ${author.displayName}`}
                   >
-                    <Text style={styles.author}>{author}</Text>
+                    <Text style={styles.author}>{author.displayName}</Text>
                   </a>
                 </Link>
                 {(i < authorsExceptLast.length - 1) ? (<Text style={styles.breakSpaces}>, </Text>) : null}
@@ -73,10 +74,10 @@ function Authors({
                 <Link 
                   // FIX THIS: get slug from backend
                   href={'/staff/[slug]'}
-                  as={`/staff/${capitalizedToHypenated(last)}`}
+                  as={`/staff/${last.slug}`}
                 >
                   <a style={styles.hideLink}>
-                    <Text style={styles.author}>{last}</Text>
+                    <Text style={styles.author}>{last.displayName}</Text>
                   </a>
                 </Link>
               </>

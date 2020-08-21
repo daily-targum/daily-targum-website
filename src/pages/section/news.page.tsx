@@ -29,10 +29,13 @@ function News({
       limit: 20,
       nextToken: section.nextToken
     });
-    setSection({
+    setSection(s => ({
       ...res,
-      items: section.items.concat(res.items)
-    });
+      items: [{
+        ...s.items[0],
+        articles: s.items[0].articles.concat(res.items[0].articles)
+      }]
+    }));
     setIsLoading(false);
   }
 
@@ -51,7 +54,7 @@ function News({
       <Grid.Row spacing={theme.spacing(2.5)}>
         
         <CardCols 
-          items={section.items.slice(0,2)}
+          items={section.items[0].articles.slice(0,2)}
         >
           {article => {
             if (!article) {
@@ -62,7 +65,7 @@ function News({
               <Card.ImageResponsive
                 id={article.id}
                 title={article.title}
-                imageData={imgix(article.media[0], {
+                imageData={imgix(article.media[0].url, {
                   xs: imgix.presets.sm('1:1'),
                   md: imgix.presets.lg('4:3')
                 })}
@@ -70,13 +73,13 @@ function News({
                 as={'/'+article.slug}
                 date={formatDateAbriviated(article.publishDate)}
                 aspectRatioDesktop={16 / 9}
-                author={article.authors.join(', ')}
+                author={article.authors.map(a => a.displayName).join(', ')}
               />
             );
           }}
         </CardCols>
 
-        {section.items.slice(2).map(item => (
+        {section.items[0].articles.slice(2).map(item => (
           <Grid.Col 
             key={item.id}
             xs={24}
@@ -85,7 +88,7 @@ function News({
           >
             <Card.StackedResponsive
               id={item.id}
-              imageData={imgix(item.media[0], {
+              imageData={imgix(item.media[0].url, {
                 xs: imgix.presets.sm('1:1'),
                 md: imgix.presets.md('4:3')
               })}
@@ -94,13 +97,13 @@ function News({
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
               aspectRatioDesktop={16 / 9}
-              author={item.authors.join(', ')}
+              author={item.authors.map(a => a.displayName).join(', ')}
             />
           </Grid.Col>
         ))}
       </Grid.Row>
-      
-      {section.nextToken ? (
+
+      {(section.nextToken) ? (
         <ActivityIndicator.ProgressiveLoader 
           onVisible={loadMore}
         />
@@ -120,7 +123,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 export async function getStaticProps() {
   const initSection = await actions.getArticles({
     category: 'News',
-    limit: 20
+    limit: 50
   });
 
   return {

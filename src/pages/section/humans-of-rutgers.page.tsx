@@ -55,13 +55,14 @@ function Category({
               xl={6}
             >
               <AspectRatioImage
-                data={imgix(item.photo, {
+                data={imgix(item.media[0].url, {
                   xs: imgix.presets.md('1:1')
                 })}
                 aspectRatio={1}
                 onClick={() => send({
                   type: 'OPEN_ITEM',
-                  itemId: item.id
+                  itemId: item.id,
+                  initialIndex: 0
                 })}
                 style={styles.post}
               />
@@ -92,14 +93,14 @@ function Category({
             <div style={styles.square}/>
             <Carousel
               id={state.context.itemId}
-              data={selectedPost ? [selectedPost.photo] : []}
+              data={selectedPost?.media ?? []}
               style={styles.carousel}
-              keyExtractor={item => item}
+              keyExtractor={item => item.id}
               renderItem={item => (
                 <div
                   style={{
                     ...styles.image,
-                    backgroundImage: `url(${item})`
+                    backgroundImage: `url(${item.url})`
                   }}
                 />
               )}

@@ -29,12 +29,17 @@ function Category({
       limit: 20,
       nextToken: section.nextToken
     });
-    setSection({
+    setSection(s => ({
       ...res,
-      items: section.items.concat(res.items)
-    });
+      items: [{
+        ...s.items[0],
+        articles: s.items[0].articles.concat(res.items[0].articles)
+      }]
+    }));
     setIsLoading(false);
   }
+
+  const articles = section.items[0].articles;
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>
@@ -54,39 +59,39 @@ function Category({
       <Grid.Row spacing={theme.spacing(2.5)}>
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
-            id={section.items[0].id}
+            id={articles[0].id}
             tag='Category'
-            imageData={imgix(section.items[0].media[0], {
+            imageData={imgix(articles[0].media[0].url, {
               xs: imgix.presets.sm('1:1'),
               md: imgix.presets.md('2:1')
             })}
-            title={section.items[0].title}
+            title={articles[0].title}
             href='/article/[year]/[month]/[slug]'
-            as={'/'+section.items[0].slug}
+            as={'/'+articles[0].slug}
             aspectRatioDesktop={2 / 1}
-            date={formatDateAbriviated(section.items[0].publishDate)}
-            author={section.items[0].authors.join(', ')}
+            date={formatDateAbriviated(articles[0].publishDate)}
+            author={articles[0].authors.map(a => a.displayName).join(', ')}
           />
         </Grid.Col>
 
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
-            id={section.items[1].id}
+            id={articles[1].id}
             tag='Category'
-            imageData={imgix(section.items[1].media[0], {
+            imageData={imgix(articles[1].media[0].url, {
               xs: imgix.presets.sm('1:1'),
               md: imgix.presets.md('2:1')
             })}
-            title={section.items[1].title}
+            title={articles[1].title}
             href='/article/[year]/[month]/[slug]'
-            as={'/'+section.items[1].slug}
+            as={'/'+articles[1].slug}
             aspectRatioDesktop={2 /1}
-            date={formatDateAbriviated(section.items[1].publishDate)}
-            author={section.items[1].authors.join(', ')}
+            date={formatDateAbriviated(articles[1].publishDate)}
+            author={articles[1].authors.map(a => a.displayName).join(', ')}
           />
         </Grid.Col>
 
-        {section.items.slice(2).map(item => (
+        {articles.slice(2).map(item => (
           <Grid.Col 
             key={item.id}
             xs={24}
@@ -96,14 +101,14 @@ function Category({
             <Card.Compact
               id={item.id}
               tag='Category'
-              imageData={imgix(item.media[0], {
+              imageData={imgix(item.media[0].url, {
                 xs: imgix.presets.sm('1:1')
               })}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
-            author={item.authors.join(', ')}
+            author={item.authors.map(a => a.displayName).join(', ')}
             />
           </Grid.Col>
         ))}
@@ -169,7 +174,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 export async function getStaticProps() {
   const initSection = await actions.getArticles({
     category: 'inside-beat',
-    limit: 20
+    limit: 80
   });
   
   return {

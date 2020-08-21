@@ -6,12 +6,49 @@ import Grid from './Grid/web';
 import { AspectRatioImage } from './AspectRatioView';
 import { ImageData } from './Image';
 import { styleHelpers } from '../utils';
+import { ReactChildren } from '../types';
+
+
+function Clickable({
+  href,
+  as,
+  onClick,
+  children,
+  style
+}: {
+  href?: string
+  as?: string
+  onClick?: () => any
+  children?: ReactChildren
+  style?: React.CSSProperties
+}) {
+  return href ? (
+    <Link
+      href={href}
+      as={as}
+    >
+      <a style={style}>
+        {children}
+      </a>
+    </Link>
+  ) : (
+    <div
+      style={{
+        ...style,
+        cursor: 'pointer'
+      }}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
+}
 
 interface CardBaseProps {
   title?: string
   tag?: string
   imageData: ImageData[]
-  href: string
+  href?: string
   as?: string
   aspectRatio?: number
   date?: string
@@ -19,6 +56,7 @@ interface CardBaseProps {
   id?: string
   style?: React.CSSProperties
   author?: string
+  onClick?: () => any
 }
 
 interface CardBaseResponsiveProps extends CardBaseProps {
@@ -36,42 +74,43 @@ function CardCompact({
   aspectRatio = 1,
   date,
   className,
-  style
+  style,
+  onClick
 }: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <Link
+    <Clickable 
       href={href}
       as={as}
+      onClick={onClick}
+      style={styles.cardLink}
     >
-      <a style={styles.cardLink}>
-        <div 
-          style={{
-            ...styles.compactCard,
-            ...style
-          }} 
-          className={className}
-        >
-          <AspectRatioImage
-            style={styles.compactCardImage}
-            aspectRatio={aspectRatio}
-            data={imageData}
-          />
-          
-          <div style={styles.compactCardBody}>
-            {tag ? <Text style={styles.tag}>{tag}</Text> : null}
-            {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
+      <div 
+        style={{
+          ...styles.compactCard,
+          ...style
+        }} 
+        className={className}
+      >
+        <AspectRatioImage
+          style={styles.compactCardImage}
+          aspectRatio={aspectRatio}
+          data={imageData}
+        />
+        
+        <div style={styles.compactCardBody}>
+          {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+          {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
 
-            <div style={styles.grow}/>
+          <div style={styles.grow}/>
 
-            <div style={{ ...styles.byline, ...styles.textMuted }}>
-              {date ? (<Text style={styles.date}>{date}</Text>) : null}
-              {author ? (<Text style={styles.author}>{author}</Text>) : null}
-            </div>
+          <div style={{ ...styles.byline, ...styles.textMuted }}>
+            {date ? (<Text style={styles.date}>{date}</Text>) : null}
+            {author ? (<Text style={styles.author}>{author}</Text>) : null}
           </div>
         </div>
-      </a>
-    </Link>
+      </div>
+    </Clickable>
   );
 }
 
@@ -85,59 +124,60 @@ function CardCompactResponsive({
   aspectRatioDesktop,
   date,
   className,
-  author
+  author,
+  onClick
 }: CardBaseResponsiveProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <Link
+    <Clickable 
       href={href}
       as={as}
+      onClick={onClick}
+      style={styles.cardLink}
     >
-      <a style={styles.cardLink}>
-        <div 
-          style={styles.compactCard} 
-          className={className}
+      <div 
+        style={styles.compactCard} 
+        className={className}
+      >
+        {/* Desktop */}
+        <Grid.Display 
+          xs={false}
+          md={true}
+          style={styles.compactCardImage}
         >
-          {/* Desktop */}
-          <Grid.Display 
-            xs={false}
-            md={true}
-            style={styles.compactCardImage}
-          >
-            <AspectRatioImage
-              aspectRatio={aspectRatioDesktop}
-              data={imageData}
-              style={{ minHeight: '100%' }}
-            />
-          </Grid.Display>
+          <AspectRatioImage
+            aspectRatio={aspectRatioDesktop}
+            data={imageData}
+            style={{ minHeight: '100%' }}
+          />
+        </Grid.Display>
 
-          {/* Mobile */}
-          <Grid.Display 
-            xs={true}
-            md={false}
-            style={styles.compactCardImage}
-          >
-            <AspectRatioImage
-              aspectRatio={aspectRatioMobile}
-              data={imageData}
-              style={{ minHeight: '100%' }}
-            />
-          </Grid.Display>
+        {/* Mobile */}
+        <Grid.Display 
+          xs={true}
+          md={false}
+          style={styles.compactCardImage}
+        >
+          <AspectRatioImage
+            aspectRatio={aspectRatioMobile}
+            data={imageData}
+            style={{ minHeight: '100%' }}
+          />
+        </Grid.Display>
 
-          <div style={styles.compactCardBody}>
-            {tag ? <Text style={styles.tag}>{tag}</Text> : null}
-            {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
-          
-            <div style={styles.grow}/>
+        <div style={styles.compactCardBody}>
+          {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+          {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
+        
+          <div style={styles.grow}/>
 
-            <div style={{ ...styles.byline, ...styles.textMuted }}>
-              {date ? (<Text style={styles.date}>{date}</Text>) : null}
-              {author ? (<Text style={styles.author}>{author}</Text>) : null}
-            </div>
+          <div style={{ ...styles.byline, ...styles.textMuted }}>
+            {date ? (<Text style={styles.date}>{date}</Text>) : null}
+            {author ? (<Text style={styles.author}>{author}</Text>) : null}
           </div>
         </div>
-      </a>
-    </Link>
+      </div>
+    </Clickable>
   );
 }
 
@@ -149,34 +189,35 @@ function CardStacked({
   as,
   aspectRatio,
   date,
-  author
+  author,
+  onClick
 }: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <Link
+    <Clickable 
       href={href}
       as={as}
+      onClick={onClick}
+      style={styles.stackedCard}
     >
-      <a style={styles.stackedCard}>
-        <AspectRatioImage
-          style={styles.stackedCardImage}
-          aspectRatio={aspectRatio}
-          data={imageData}
-        />
-        
-        <div style={styles.stackedCardBody}>
-          {tag ? <Text style={styles.tag}>{tag}</Text> : null}
-          {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={2}>{title}</Text.Truncate> : null}
+      <AspectRatioImage
+        style={styles.stackedCardImage}
+        aspectRatio={aspectRatio}
+        data={imageData}
+      />
+      
+      <div style={styles.stackedCardBody}>
+        {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+        {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={2}>{title}</Text.Truncate> : null}
 
-          <div style={styles.grow}/>
+        <div style={styles.grow}/>
 
-          <div style={{ ...styles.byline, ...styles.textMuted }}>
-            {date ? (<Text style={styles.date}>{date}</Text>) : null}
-            {author ? (<Text style={styles.author}>{author}</Text>) : null}
-          </div>
+        <div style={{ ...styles.byline, ...styles.textMuted }}>
+          {date ? (<Text style={styles.date}>{date}</Text>) : null}
+          {author ? (<Text style={styles.author}>{author}</Text>) : null}
         </div>
-      </a>
-    </Link>
+      </div>
+    </Clickable>
   );
 }
 
@@ -221,38 +262,37 @@ function CardImage({
   as,
   aspectRatio,
   date,
-  author
+  author,
+  onClick
 }: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <Link
+    <Clickable 
       href={href}
       as={as}
+      onClick={onClick}
+      style={{
+        ...styles.imageCard,
+        ...(aspectRatio ? null : {
+          flex: 1,
+          height: '100%'
+        })
+      }}
     >
-      <a 
-        style={{
-          ...styles.imageCard,
-          ...(aspectRatio ? null : {
-            flex: 1,
-            height: '100%'
-          })
-        }}
-      >
-        <AspectRatioImage
-          aspectRatio={aspectRatio}
-          data={imageData}
-        />
+      <AspectRatioImage
+        aspectRatio={aspectRatio}
+        data={imageData}
+      />
 
-        <div style={styles.imageCardOverlay}/>
-        <div style={styles.imageCardTitleWrap}>
-          {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2} style={styles.imageCardTitle}>{title}</Text.Truncate> : null}
-          <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
-            {date ? (<Text style={styles.date}>{date}</Text>) : null}
-            {author ? (<Text style={styles.author}>{author}</Text>) : null}
-          </div>
+      <div style={styles.imageCardOverlay}/>
+      <div style={styles.imageCardTitleWrap}>
+        {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2} style={styles.imageCardTitle}>{title}</Text.Truncate> : null}
+        <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
+          {date ? (<Text style={styles.date}>{date}</Text>) : null}
+          {author ? (<Text style={styles.author}>{author}</Text>) : null}
         </div>
-      </a>
-    </Link>
+      </div>
+    </Clickable>
   );
 }
 

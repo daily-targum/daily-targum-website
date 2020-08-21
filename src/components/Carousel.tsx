@@ -53,7 +53,7 @@ export function Carousel<T>({
   initialIndex = 0,
   onChange = () => {}
 }: {
-  id: string
+  id?: string
   data: T[]
   renderItem: (item: T, index: number) => ReactChildren
   keyExtractor: (item: T, index: number) => string | number
@@ -70,7 +70,7 @@ export function Carousel<T>({
   const ref = React.useRef<HTMLDivElement>(null);
   const styles = Theme.useStyleCreator(styleCreator);
   const [ width, setWidth ] = React.useState(0);
-  const index = React.useRef(initialIndex ?? 0);
+  const [index, setIndex] = React.useState(initialIndex ?? 0);
   const [ loading, setLoading ] = React.useState(true);
   const scrollTimeout = React.useRef<number | undefined>();
 
@@ -94,7 +94,7 @@ export function Carousel<T>({
 
   React.useEffect(() => {
     if (!ref.current) return;
-    ref.current.scrollLeft = index.current * width;
+    ref.current.scrollLeft = index * width;
   }, [width]);
 
   React.useEffect(() => {
@@ -119,7 +119,7 @@ export function Carousel<T>({
 
   function updateScroll(offset: number) {
     if (!ref.current) return;
-    const newIndex = clamp(0, index.current + offset, data.length - 1);
+    const newIndex = clamp(0, index + offset, data.length - 1);
     ref.current.scrollLeft = newIndex * width;
   }
 
@@ -161,9 +161,9 @@ export function Carousel<T>({
           const crntIndex = Math.round(ref.current.scrollLeft / width);
 
           scrollTimeout.current = setTimeout(() => {
-            if (crntIndex !== index.current) {
-              index.current = crntIndex;
-              onChange(index.current);
+            if (crntIndex !== index) {
+              setIndex(crntIndex);
+              onChange(crntIndex);
             }
           }, 50);
         }}
@@ -186,15 +186,20 @@ export function Carousel<T>({
         ))}
         {ListFooterComponent}
       </div>
-      <Button
-        onClick={() => updateScroll(1)}
-        direction='right'
-      />
 
-      <Button
-        direction='left'
-        onClick={() => updateScroll(-1)}
-      />
+      {index > 0 ? (
+        <Button
+          direction='left'
+          onClick={() => updateScroll(-1)}
+        />
+      ) : null}
+
+      {data[index + 1] ? (
+        <Button
+          direction='right'
+          onClick={() => updateScroll(1)}
+        />
+      ) : null}
     </div>
   );
 }

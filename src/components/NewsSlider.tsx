@@ -37,7 +37,7 @@ function Slide({
         ].join(' ')}
       >
         <AspectRatioImage
-          data={load ? imgix(article.media[0], {
+          data={load ? imgix(article.media[0].url, {
             xs: imgix.presets.sm('16:9'),
             sm: imgix.presets.md('16:9'),
             md: imgix.presets.lg('16:9'),
@@ -67,7 +67,7 @@ function Slide({
 
             <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
               <Text style={styles.date}>{formatDateAbriviated(article.publishDate)}</Text>
-              <Text style={styles.author}>{article.authors.join(' ')}</Text>
+              <Text style={styles.author}>{article.authors.map(a => a.displayName).join(', ')}</Text>
             </div>
           </div>
         </Section>

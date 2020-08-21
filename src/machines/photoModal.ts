@@ -6,17 +6,19 @@ type MachineState =
 
 type MachineContext = { 
   itemId: string;
+  initialIndex: number;
 };
 
 type MachineEvent = 
-  | { type: 'OPEN_ITEM'; itemId: string }
+  | { type: 'OPEN_ITEM'; itemId: string; initialIndex: number }
   | { type: 'CLOSE_ITEM' };
 
 export const photoModalMachine = createMachine<MachineContext, MachineEvent, MachineState>({
   id: 'horu',
   initial: 'grid',
   context: {
-    itemId: ''
+    itemId: '',
+    initialIndex: 0
   },
   states: {
     grid: {
@@ -29,7 +31,10 @@ export const photoModalMachine = createMachine<MachineContext, MachineEvent, Mac
     },
     modal: {
       on: {
-        CLOSE_ITEM: 'grid'
+        CLOSE_ITEM: {
+          target: 'grid',
+          actions: ['clearItem']
+        }
       }
     }
   }
@@ -40,14 +45,21 @@ export const photoModalMachine = createMachine<MachineContext, MachineEvent, Mac
         return {};
       }
 
-      const { itemId } = evt;
+      const { itemId, initialIndex } = evt;
       const updatedContext: Partial<MachineContext> = {};
 
       if (itemId !== undefined) {
         updatedContext.itemId = itemId;
+        updatedContext.initialIndex = initialIndex ?? 0;
       }
 
       return updatedContext;
+    }),
+    clearItem: assign<MachineContext, MachineEvent>(() => {
+      return {
+        itemId: '',
+        initialIndex: 0
+      };
     })
   },
 });

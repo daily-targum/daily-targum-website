@@ -56,7 +56,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     color: '#fff'
   },
   modal: {
-    width: 'calc(500px + 15vw)',
+    width: 'calc(600px + 18vw)',
     maxWidth: '100%',
     backgroundColor: theme.colors.surface
   },

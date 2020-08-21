@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 function Page({
   page 
 }: {
-  page?: GetPage
+  page: GetPage | null
 }) {
   const router = useRouter();
   const styles = Theme.useStyleCreator(styleCreator);
@@ -36,14 +36,14 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   }
 }));
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {  
   const page = await getPage({
     slug: processNextQueryStringParam(ctx.params?.slug)
   });
 
   return {
     props: {
-      page
+      page: page ?? null
     },
     revalidate: 60 // seconds
   }

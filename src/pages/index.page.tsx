@@ -39,21 +39,21 @@ function NewsRow({
               <Card.ImageResponsive 
                 id={item[0].id} 
                 title={item[0].title}
-                imageData={imgix(item[0].media[0], {
+                imageData={imgix(item[0].media[0].url, {
                   xs: imgix.presets.md('1:1'),
                   md: imgix.presets.md('16:9')
                 })}
                 href='/article/[year]/[month]/[slug]'
                 as={item[0].slug}
                 date={formatDateAbriviated(item[0].publishDate)}
-                author={item[0].authors.join(' ')}
+                author={item[0].authors.map(a => a.displayName).join(', ')}
               />
             ) : (
               <>
                 <Card.CompactResponsive
                   id={item[0].id} 
                   title={item[0].title}
-                  imageData={imgix(item[0].media[0], {
+                  imageData={imgix(item[0].media[0].url, {
                     xs: imgix.presets.md('1:1')
                   })}
                   href='/article/[year]/[month]/[slug]'
@@ -61,13 +61,13 @@ function NewsRow({
                   aspectRatioMobile={1}
                   aspectRatioDesktop={7/5}
                   date={formatDateAbriviated(item[0].publishDate)}
-                  author={item[0].authors.join(' ')}
+                  author={item[0].authors.map(a => a.displayName).join(', ')}
                 />
                 <Card.Spacer/>
                 <Card.CompactResponsive
                   id={item[1].id}
                   title={item[1].title}
-                  imageData={imgix(item[1].media[0], {
+                  imageData={imgix(item[1].media[0].url, {
                     xs: imgix.presets.md('1:1')
                   })}
                   href='/article/[year]/[month]/[slug]'
@@ -75,7 +75,7 @@ function NewsRow({
                   aspectRatioMobile={1}
                   aspectRatioDesktop={7/5}
                   date={formatDateAbriviated(item[1].publishDate)}
-                  author={item[1].authors.join(' ')}
+                  author={item[1].authors.map(a => a.displayName).join(', ')}
                 />
               </>
             );

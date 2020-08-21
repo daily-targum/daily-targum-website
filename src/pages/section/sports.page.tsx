@@ -18,15 +18,15 @@ function Category({
   const theme = Theme.useTheme();
 
   const [ section, setSection ] = React.useState(initSection);
-  const [ filteredItems, setFilteredItems ] = React.useState(initSection.items.slice(5));
+  const [ filteredItems, setFilteredItems ] = React.useState(initSection.items[0].articles.slice(5));
   const [ isLoading, setIsLoading ] = React.useState(false);
-  const [ tag, setTag ] = React.useState<string | null>(null);
+  const [ tag, setTag ] = React.useState('all');
 
   React.useEffect(() => {
-    if (tag) {
-      setFilteredItems(section.items.slice(5).filter(item => item.title.indexOf('Rutgers') > -1));
+    if (tag !== 'all') {
+      setFilteredItems(section.items[0].articles.slice(5).filter(item => item.subcategory === tag));
     } else {
-      setFilteredItems(section.items.slice(5));
+      setFilteredItems(section.items[0].articles.slice(5));
     }
   }, [tag]);
 
@@ -41,10 +41,13 @@ function Category({
       limit: 20,
       nextToken: section.nextToken
     });
-    setSection({
+    setSection(s => ({
       ...res,
-      items: section.items.concat(res.items)
-    });
+      items: [{
+        ...s.items[0],
+        articles: s.items[0].articles.concat(res.items[0].articles)
+      }]
+    }));
     setIsLoading(false);
   }
 
@@ -65,7 +68,7 @@ function Category({
         cols={['2fr', '1fr', '1fr']}
       >
         <CardCols 
-          items={chopArray(section.items, [1, 2, 2])}
+          items={chopArray(section.items[0].articles, [1, 2, 2])}
         >
           {(article, i) => {
             if (!article) {
@@ -76,21 +79,21 @@ function Category({
               <Card.ImageResponsive 
                 id={article[0].id}
                 title={article[0].title}
-                imageData={imgix(article[0].media[0], {
+                imageData={imgix(article[0].media[0].url, {
                   xs: imgix.presets.sm('1:1'),
                   md: imgix.presets.md('4:3')
                 })}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article[0].slug}
                 date={formatDateAbriviated(article[0].publishDate)}
-                author={article[0].authors.join(', ')}
+                author={article[0].authors.map(a => a.displayName).join(', ')}
               />
             ) : (
               <>
                 <Card.ImageResponsive
                   id={article[0].id}
                   title={article[0].title}
-                  imageData={imgix(article[0].media[0], {
+                  imageData={imgix(article[0].media[0].url, {
                     xs: imgix.presets.sm('1:1'),
                     md: imgix.presets.md('3:2')
                   })}
@@ -98,13 +101,13 @@ function Category({
                   as={'/'+article[0].slug}
                   aspectRatioDesktop={3 / 2}
                   date={formatDateAbriviated(article[0].publishDate)}
-                  author={article[0].authors.join(', ')}
+                  author={article[0].authors.map(a => a.displayName).join(', ')}
                 />
                 <Card.Spacer/>
                 <Card.ImageResponsive
                   id={article[1].id}
                   title={article[1].title}
-                  imageData={imgix(article[1].media[0], {
+                  imageData={imgix(article[1].media[0].url, {
                     xs: imgix.presets.sm('1:1'),
                     md: imgix.presets.md('3:2')
                   })}
@@ -112,7 +115,7 @@ function Category({
                   as={'/'+article[1].slug}
                   aspectRatioDesktop={3 / 2}
                   date={formatDateAbriviated(article[1].publishDate)}
-                  author={article[1].authors.join(', ')}
+                  author={article[1].authors.map(a => a.displayName).join(', ')}
                 />
               </>
             );
@@ -126,7 +129,7 @@ function Category({
       <Card.Spacer/>
       <Card.Spacer/>
       <TagBar
-        tags={['All', 'Football', 'Basketball', 'Soccer']}
+        tags={['all', ...section.subcategories]}
         value={tag}
         onChange={val => setTag(val)}
       />
@@ -145,7 +148,7 @@ function Category({
             lg={8}
           >
             <Card.StackedResponsive
-              imageData={imgix(item.media[0], {
+              imageData={imgix(item.media[0].url, {
                 xs: imgix.presets.sm('1:1'),
                 md: imgix.presets.md('16:9')
               })}
@@ -154,7 +157,7 @@ function Category({
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
               aspectRatioDesktop={16 / 9}
-              author={item.authors.join(' ')}
+              author={item.authors.map(a => a.displayName).join(', ')}
             />
           </Grid.Col>
         ))}
@@ -180,7 +183,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 export async function getStaticProps() {
   const initSection = await actions.getArticles({
     category: 'Sports',
-    limit: 20
+    limit: 50
   });
 
   return {

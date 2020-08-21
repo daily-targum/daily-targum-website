@@ -51,7 +51,7 @@ function Article({
             />
             <AspectRatioImage
               aspectRatio={16/9}
-              data={imgix(dynamicArticle.media[0], {
+              data={imgix(dynamicArticle.media[0].url, {
                 xs: imgix.presets.md('16:9'),
                 md: imgix.presets.xl('16:9')
               })}

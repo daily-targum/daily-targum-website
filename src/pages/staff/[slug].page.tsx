@@ -12,7 +12,7 @@ const img = 'https://www.w3schools.com/howto/img_avatar.png';
 function Author({
   page
 }: {
-  page: GetAuthorPage
+  page: GetAuthorPage | null
 }) {
   const router = useRouter();
   const theme = Theme.useTheme();
@@ -22,7 +22,7 @@ function Author({
     return <ActivityIndicator.Screen/>;
   }
 
-  if(page.author.length === 0) {
+  if(!page) {
     return <NotFound/>;
   }
 
@@ -70,7 +70,7 @@ function Author({
               <Card.Compact
                 style={styles.articleCard}
                 title={article.title}
-                imageData={imgix(article.media[0], {
+                imageData={imgix(article.media[0].url, {
                   xs: imgix.presets.md('1:1')
                 })}
                 href='/article/[year]/[month]/[slug]'
@@ -137,7 +137,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: { 
-      page
+      page: page ?? null
     }
   };
 };

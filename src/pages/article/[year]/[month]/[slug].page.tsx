@@ -45,7 +45,7 @@ function Article({
                 />
                 <AspectRatioImage
                   aspectRatio={16 / 9}
-                  data={imgix(article.media[0], {
+                  data={imgix(article.media[0].url, {
                     xs: imgix.presets.md('16:9'),
                     md: imgix.presets.xl('16:9')
                   })}
@@ -109,7 +109,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   }
 
   if (article?.media[0]) {
-    seo.imageSrc = article.media[0];
+    seo.imageSrc = article.media[0].url;
   }
 
   return {

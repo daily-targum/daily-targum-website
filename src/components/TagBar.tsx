@@ -10,8 +10,8 @@ export function TagBar({
   style
 }: {
   tags: string[]
-  onChange: (val: string | null) => any
-  value: string | null
+  onChange: (val: string) => any
+  value: string
   style?: React.CSSProperties
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
@@ -25,11 +25,7 @@ export function TagBar({
           }}
           key={tag}
           onClick={() => {
-            if (value !== tag) {
-              onChange(tag);
-            } else {
-              onChange(null);
-            }
+            onChange(tag);
           }}
         >
           {tag}
@@ -53,7 +49,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     display: 'flex',
     alignItems: 'center',
     fontSize: '1.3rem',
-    userSelect: 'none'
+    userSelect: 'none',
+    textTransform: 'capitalize'
   },
   tagSelected: {
     backgroundColor: theme.colors.accent

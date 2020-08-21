@@ -56,8 +56,22 @@ function ActivityIndicatorProgressiveLoader({
   onVisible: () => any
 }) {
   const [isVisible, ref] = useVisibility<HTMLDivElement>();
+  const [disabled, setDisabled] = React.useState(false);
+
   React.useEffect(() => {
-    if (isVisible) onVisible();
+    if (isVisible && !disabled) {
+      setDisabled(true);
+
+      onVisible();
+      const id = setTimeout(() => {
+        setDisabled(false);
+      }, 1000);
+
+      return () => {
+        clearTimeout(id);
+        setDisabled(false);
+      };
+    }
   }, [onVisible, isVisible]);
   return (
     <div 

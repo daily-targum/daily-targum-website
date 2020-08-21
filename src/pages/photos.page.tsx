@@ -1,11 +1,13 @@
 import React from 'react';
-import { CardCols, Card, Grid, Section, Theme, FlatList, ActivityIndicator, Modal, Carousel, Text } from '../components';
-import { chopArray } from '../shared/src/utils';
+import { CardCols, Card, Grid, Section, Theme, FlatList, ActivityIndicator, Modal, Carousel, Text, Image } from '../components';
+import { chopArray, choppedArrayRunningCount } from '../shared/src/utils';
 import { actions, GetImageGalleries, GalleryImage } from '../shared/src/client';
 import { styleHelpers, imgix } from '../utils';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { photoModalMachine, useMachine } from '../machines';
+
+const GALLERY_COLS_SHAPE = [1, 2, 2];
 
 function Gallery({
   title,
@@ -14,7 +16,7 @@ function Gallery({
 }: {
   title: string
   items: GalleryImage[]
-  handleOpen: () => any
+  handleOpen: (i: number) => any
 }) {
   const router = useRouter();
   const styles = Theme.useStyleCreator(styleCreator);
@@ -28,7 +30,7 @@ function Gallery({
     <div style={styles.section}>
       <CardCols.Header
         title={title}
-        onClick={handleOpen}
+        onClick={() => handleOpen(0)}
       />
 
       <Grid.Row 
@@ -50,8 +52,10 @@ function Gallery({
                   xs: imgix.presets.md('3:2'),
                   md: imgix.presets.lg('3:2')
                 })}
-                href=''
                 title={item[0]?.title}
+                onClick={() => handleOpen(
+                  choppedArrayRunningCount(i, GALLERY_COLS_SHAPE)
+                )}
               />
             ) : (
               <>
@@ -60,9 +64,11 @@ function Gallery({
                   imageData={imgix(item[0]?.url, {
                     xs: imgix.presets.md('3:2')
                   })}
-                  href=''
                   title={item[0]?.title}
                   aspectRatio={3 / 2}
+                  onClick={() => handleOpen(
+                    choppedArrayRunningCount(i, GALLERY_COLS_SHAPE)
+                  )}
                 />
                 <Card.Spacer/>
                 <Card.Image
@@ -70,9 +76,11 @@ function Gallery({
                   imageData={imgix(item[1]?.url, {
                     xs: imgix.presets.md('3:2')
                   })}
-                  href=''
                   title={item[1]?.title}
                   aspectRatio={3 / 2}
+                  onClick={() => handleOpen(
+                    choppedArrayRunningCount(i, GALLERY_COLS_SHAPE) + 1
+                  )}
                 />
               </>
             );
@@ -102,10 +110,11 @@ function Photos({
           renderItem={images => (
             <Gallery
               title={images.title}
-              items={images.images}
-              handleOpen={() => send({
+              items={images.media}
+              handleOpen={i => send({
                 type: 'OPEN_ITEM',
-                itemId: images.id 
+                itemId: images.id,
+                initialIndex: i
               })}
             />
           )}
@@ -125,18 +134,19 @@ function Photos({
           >
             <div style={styles.square}/>
             <Carousel
-              id={state.context.itemId}
-              data={selectedGallery?.images ?? []}
+              key={state.context.itemId}
+              data={selectedGallery?.media ?? []}
               style={styles.carousel}
               keyExtractor={item => item.id}
               renderItem={item => (
-                <div
-                  style={{
-                    ...styles.image,
-                    backgroundImage: `url(${item.url})`
-                  }}
+                <Image
+                  data={imgix(item.url, {
+                    xs: imgix.presets.md('1:1')
+                  })}
+                  style={styles.image}
                 />
               )}
+              initialIndex={state.context.initialIndex}
             />
             
           </Grid.Col>
@@ -146,7 +156,7 @@ function Photos({
             md={8}
           >
             <div style={styles.body}>
-              <Text variant='h1'>{selectedGallery?.title ?? ''}</Text>
+              <Text variant='h2'>{selectedGallery?.title ?? ''}</Text>
               <Text variant='p'>{selectedGallery?.title ?? ''}</Text>
             </div>
           </Grid.Col>

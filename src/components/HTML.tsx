@@ -28,7 +28,6 @@ export function HTML({
   html: string
 }) {
   const computedHtml = parse(xss(html), options);
-  console.log();
 
   return (
     <div>

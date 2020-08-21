@@ -57,7 +57,7 @@ export function CardCols<I>({
   children
 }: {
   items: (I | null)[],
-  children: (item: I | null, index?: number) => ReactChild
+  children: (item: I | null, index: number) => ReactChild
 }) {
   const context = Grid.useGrid();
   const colSizes = getColSizes(items.length, context.cols.length);
