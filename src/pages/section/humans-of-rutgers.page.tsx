@@ -18,6 +18,8 @@ function Category({
   const [horu, setHoru] = React.useState(initHoru);
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const selectedPost = horu.items.find(item => item.id === state.context.itemId);
+
   async function loadMore() {
     if(!horu.nextToken || isLoading) return;
     setIsLoading(true);
@@ -89,14 +91,15 @@ function Category({
           >
             <div style={styles.square}/>
             <Carousel
-              data={horu.items}
+              id={state.context.itemId}
+              data={selectedPost ? [selectedPost.photo] : []}
               style={styles.carousel}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item}
               renderItem={item => (
                 <div
                   style={{
                     ...styles.image,
-                    backgroundImage: `url(${item.photo})`
+                    backgroundImage: `url(${item})`
                   }}
                 />
               )}

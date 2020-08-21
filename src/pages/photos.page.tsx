@@ -9,12 +9,10 @@ import { photoModalMachine, useMachine } from '../machines';
 
 function Gallery({
   title,
-  id,
   items,
   handleOpen
 }: {
   title: string
-  id: string
   items: GalleryImage[]
   handleOpen: () => any
 }) {
@@ -103,7 +101,6 @@ function Photos({
           keyExtractor={index => index.id}
           renderItem={images => (
             <Gallery
-              id={images.id}
               title={images.title}
               items={images.images}
               handleOpen={() => send({
@@ -128,6 +125,7 @@ function Photos({
           >
             <div style={styles.square}/>
             <Carousel
+              id={state.context.itemId}
               data={selectedGallery?.images ?? []}
               style={styles.carousel}
               keyExtractor={item => item.id}

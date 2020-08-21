@@ -149,6 +149,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    cursor: 'pointer'
   },
   moreInLinkText: {
     marginRight: theme.spacing(0.5),

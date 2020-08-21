@@ -39,6 +39,7 @@ function Button({
 }
 
 export function Carousel<T>({
+  id,
   data, 
   renderItem, 
   keyExtractor,
@@ -52,6 +53,7 @@ export function Carousel<T>({
   initialIndex = 0,
   onChange = () => {}
 }: {
+  id: string
   data: T[]
   renderItem: (item: T, index: number) => ReactChildren
   keyExtractor: (item: T, index: number) => string | number
@@ -76,19 +78,19 @@ export function Carousel<T>({
     const refClone = ref.current;
 
     function handleResize() {
-      setWidth(ref.current?.offsetWidth ?? 0);
+      const newWidth = ref.current?.offsetWidth ?? 0;
+      if (newWidth !== width) {
+        setWidth(ref.current?.offsetWidth ?? 0);
+      }
     }
     handleResize();
     if(process.browser && refClone) {
       window.addEventListener('resize', handleResize);
-      refClone.addEventListener('resize', handleResize);
-
       return () => {
         window.removeEventListener('resize', handleResize);
-        refClone.removeEventListener('resize', handleResize);
       }
     }
-  }, [ref.current]);
+  }, [ref.current, width, id]);
 
   React.useEffect(() => {
     if (!ref.current) return;
