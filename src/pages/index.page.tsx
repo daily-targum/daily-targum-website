@@ -1,6 +1,8 @@
 import React from 'react';
 import { actions, GetHomepage, Article } from '../shared/src/client';
-import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, Text, Image, Link } from '../components';
+import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, 
+  // Text, Image, Link 
+} from '../components';
 import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../shared/src/utils';
 import { styleHelpers, imgix } from '../utils';
 
@@ -119,7 +121,7 @@ function Home({
       <Divider/>
       <Newsletter.Section/>
 
-      <Divider/>
+      {/* <Divider/>
       <Section style={styles.appSection}>
         <Grid.Row>
           <Grid.Col xs={24} md={12} style={styles.getTheApp}>
@@ -155,7 +157,7 @@ function Home({
             />
           </Grid.Col>
         </Grid.Row>
-      </Section>
+      </Section> */}
 
     </div>
   );

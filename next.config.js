@@ -92,6 +92,8 @@ module.exports = withSourceMaps({
     GOOGLE_ANALYTICS_TRACKING_ID: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
 
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+
+    ENV: process.env.ENV,
   },
   pageExtensions: ["page.tsx"],
 

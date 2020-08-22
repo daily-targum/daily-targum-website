@@ -22,7 +22,7 @@ function Banner() {
 
   return (
     <div style={styles.banner}>
-      <Text style={styles.bannerText}>We would love to hear what you think of our new website. <a href='#'>Leave Feedback</a>.</Text>
+      <Text style={styles.bannerText}>We would love to hear what you think of our new website. <Link href='https://forms.gle/Bbkf1ovgBofz6n1A7'>Leave Feedback</Link>.</Text>
     </div>
   );
 }
