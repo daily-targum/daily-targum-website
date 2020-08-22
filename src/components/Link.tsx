@@ -4,6 +4,8 @@ import DefaultLink from 'next/link';
 const internalPages = [
   '/article/[year]/[month]/[slug]',
   '/page/[slug]',
+  '/podcasts/[slug]',
+  '/section/opinions/[subcategory]',
   '/staff/[slug]'
 ].map(href => ({
   href,

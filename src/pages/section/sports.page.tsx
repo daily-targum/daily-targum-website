@@ -20,6 +20,7 @@ function Category({
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
+  const subcategories = initSection.subcategories;
   const firstFiveArticles = initSection.items[0].articles.slice(0, 5);
   const restArticles = initSection.items[0].articles.slice(5);
 
@@ -27,40 +28,9 @@ function Category({
     send({
       type: 'HYDRATE',
       articles: restArticles,
-      subsection: selectedTag
+      subcategories
     });
   }, [selectedTag]);
-
-  console.log(state.context)
-
-  // React.useEffect(() => {
-  //   if (state.context.selectedTag !== null) {
-  //     setFilteredItems(section.items[0].articles.slice(5).filter(item => item.subcategory === state.context.selectedTag));
-  //   } else {
-  //     setFilteredItems(section.items[0].articles.slice(5));
-  //   }
-  // }, [state.context.selectedTag]);
-
-  // async function loadMore() {
-  //   if(!section.nextToken || isLoading) return;
-  //   setIsLoading(true);
-
-  //   const { actions: clientActions } = await import('../../shared/src/client');
-
-  //   const res = await clientActions.getArticles({
-  //     category: 'Sports',
-  //     limit: 20,
-  //     nextToken: section.nextToken
-  //   });
-  //   setSection(s => ({
-  //     ...res,
-  //     items: [{
-  //       ...s.items[0],
-  //       articles: s.items[0].articles.concat(res.items[0].articles)
-  //     }]
-  //   }));
-  //   setIsLoading(false);
-  // }
 
   if (router.isFallback || state.context.articles === null) {
     return <ActivityIndicator.Screen/>
@@ -68,7 +38,7 @@ function Category({
 
   let selectedArticles: (Article | undefined)[];
   if (typeof selectedTag === 'string') {
-    selectedArticles = state.context.subsections?.[selectedTag] ?? [];
+    selectedArticles = state.context.subcategories?.[selectedTag] ?? [];
   } else {
     selectedArticles = state.context.articles ?? restArticles;
   }
@@ -151,7 +121,7 @@ function Category({
       <Card.Spacer/>
       <Card.Spacer/>
       <TagBar
-        tags={[...initSection.subcategories]}
+        tags={subcategories}
         value={state.context.selectedTag ?? null}
         onChange={val => {
           if (val !== null) {

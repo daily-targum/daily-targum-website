@@ -2,13 +2,14 @@ import { createMachine, assign } from '@xstate/fsm';
 import { Article } from '../shared/src/client';
 
 type MachineState =
+  | { value: 'dehydrated'; context: MachineContext }
   | { value: 'all'; context: MachineContext }
   | { value: 'tagSelected'; context: MachineContext };
 
 type MachineContext = { 
   selectedTag?: string;
   articles?: Article[];
-  subsections: {
+  subcategories: {
     [key: string]: Article[] | undefined
   }
 };
@@ -16,16 +17,16 @@ type MachineContext = {
 type MachineEvent = 
   | { type: 'SELECT_TAG'; tag: string; }
   | { type: 'UNSELECT_TAG' }
-  | { type: 'LOAD_CONTENT' }
+  | { type: 'LOAD_MORE_CONTENT' }
   | { type: 'CONTENT_LOADED' }
-  | { type: 'HYDRATE', subsection?: string, articles: Article[] };
+  | { type: 'HYDRATE', subcategories: string[], articles: Article[] };
 
 const newsSectionStates = {
   initial: 'idle',
   states: {
     idle: {
       on: {
-        LOAD_CONTENT: 'loading',
+        LOAD_MORE_CONTENT: 'loading',
       }
     },
     loading: {
@@ -38,22 +39,27 @@ const newsSectionStates = {
 
 export const sportsMachine = createMachine<MachineContext, MachineEvent, MachineState>({
   id: 'sports',
-  initial: 'all',
+  initial: 'dehydrated',
   context: {
-    subsections: {}
+    subcategories: {}
   },
   states: {
+    dehydrated: {
+      on: {
+        HYDRATE: {
+          target: 'all',
+          actions: ['hydrate']
+        }
+      }
+    },
     all: {
       on: {
         SELECT_TAG: {
           target: 'tagSelected',
           actions: ['setTag']
-        },
-        HYDRATE: {
-          target: 'all',
-          actions: ['hydrateSection']
         }
       },
+      ...newsSectionStates
     },
     tagSelected: {
       on: {
@@ -64,10 +70,6 @@ export const sportsMachine = createMachine<MachineContext, MachineEvent, Machine
         SELECT_TAG: {
           target: 'tagSelected',
           actions: ['setTag']
-        },
-        HYDRATE: {
-          target: 'all',
-          actions: ['hydrateSection']
         }
       },
       ...newsSectionStates
@@ -95,26 +97,22 @@ export const sportsMachine = createMachine<MachineContext, MachineEvent, Machine
     unsetTag: assign<MachineContext, MachineEvent>({
       selectedTag: () => undefined
     }),
-    hydrateSection: assign<MachineContext, MachineEvent>((ctx, evt) => {
+    hydrate: assign<MachineContext, MachineEvent>((ctx, evt) => {
       if (evt.type !== 'HYDRATE') {
         return {};
       }
 
-      const { articles, subsection } = evt;
+      const { articles, subcategories } = evt;
       const updatedContext: Partial<MachineContext> = {};
 
-      if (articles !== undefined) {
-        if (typeof subsection === 'string') {
-          updatedContext.subsections = {
-            ...ctx.subsections,
-            [subsection]: articles
-          }
-        }
+      updatedContext.articles = articles;
+      updatedContext.subcategories = {};
 
-        else {
-          updatedContext.articles = articles;
+      subcategories.forEach(subcategory => {
+        if (typeof updatedContext.subcategories === 'object') {
+          updatedContext.subcategories[subcategory] = articles.filter(a => a.subcategory === subcategory);
         }
-      }
+      });
       
       return {
         ...ctx,

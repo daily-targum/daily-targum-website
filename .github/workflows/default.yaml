@@ -136,6 +136,7 @@ jobs:
           vercel-org-id: ${{ secrets.ORG_ID }}  #Required
           vercel-project-id: ${{ secrets.PROJECT_ID }} #Required
           alias-domains: |
+            staging.dailytargum.com
             staging-dailytargum.now.sh
   audit:
     name: Auddit - Staging Website

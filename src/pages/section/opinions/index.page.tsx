@@ -7,9 +7,11 @@ import { styleHelpers, imgix } from '../../../utils';
 
 function Column({
   title,
+  subcategory,
   articles
 }: {
   title: string
+  subcategory: string
   articles: Article[]
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
@@ -19,8 +21,8 @@ function Column({
     <div style={styles.section}>
       <CardCols.Header
         title={title}
-        href='/section/opinions/[column]'
-        as='/section/opinions/column'
+        href='/section/opinions/[subcategory]'
+        as={`/section/opinions/${subcategory}`}
       />
 
       <Grid.Row spacing={theme.spacing(2)}>
@@ -108,6 +110,7 @@ function Category({
       {section.items.map(column => (
         <Column
           key={column.name}
+          subcategory={column.name}
           title={hyphenatedToCapitalized(column.name)}
           articles={column.articles}
         />

@@ -108,7 +108,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy - Vercel
-    needs: [test-lint, test-typecheck, test-jest]
+    needs: [test-lint, test-typecheck]
     steps:
       - uses: actions/checkout@v2
       - name: Checkout submodules
@@ -132,3 +132,5 @@ jobs:
           vercel-args: '--prod'
           vercel-org-id: ${{ secrets.ORG_ID }}  #Required
           vercel-project-id: ${{ secrets.PROJECT_ID }} #Required
+          alias-domains: |
+            beta.dailytargum.com
