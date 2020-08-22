@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { actions, GetArticles, Article } from '../../../shared/src/client';
-import { formatDateAbriviated } from '../../../shared/src/utils';
-import { Section, Theme, Text, Divider, CardCols, Card, FlatList, Grid, Banner } from '../../../components';
+import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
+import { Section, Theme, Text, Divider, CardCols, Card, FlatList, Grid, Banner, AspectRatioImage } from '../../../components';
 import { styleHelpers, imgix } from '../../../utils';
 
 function Column({
@@ -82,17 +82,23 @@ function Category({
       <Text variant='h2'>Our Columnists</Text>
       <FlatList
         data={section.columnists}
-        renderItem={(author) => (
+        renderItem={(author) => author.headshot ? (
           <Link
             href='/staff/[slug]'
             as={`/staff/${author.slug}`}
           >
             <a style={styles.columnist}>
-              <div style={styles.columnistPicture}/>
+              <AspectRatioImage
+                aspectRatio={1}
+                style={styles.columnistPicture}
+                data={imgix(author.headshot, {
+                  xs: imgix.presets.xs('1:1')
+                })}
+              />
               <Text style={styles.columnistTitle}>{author.displayName}</Text>
             </a>
           </Link>
-        )}
+        ) : null}
         keyExtractor={author => author.id}
         horizontal
       />
@@ -102,7 +108,7 @@ function Category({
       {section.items.map(column => (
         <Column
           key={column.name}
-          title={column.name}
+          title={hyphenatedToCapitalized(column.name)}
           articles={column.articles}
         />
       ))}
@@ -120,8 +126,8 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     margin: theme.spacing(6, 0, 4)
   },
   section: {
-    // marginTop: theme.spacing(4),
-    // marginBottom: theme.spacing(8)
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(8)
   },
   sectionHeader: {
     ...styleHelpers.flex('row'),
@@ -144,19 +150,18 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex(),
     alignItems: 'center',
     ...styleHelpers.hideLink(),
-    padding: theme.spacing(5, 10)
+    padding: `${theme.spacing(5)}px 2.5vw`
   },
   columnistPicture: {
     ...styleHelpers.lockHeight(120),
     ...styleHelpers.lockWidth(120),
-    backgroundColor: '#000',
-    ...styleHelpers.centerBackgroundImage(),
     borderRadius: '100%',
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
+    overflow: 'hidden'
   },
   columnistTitle: {
     ...styleHelpers.textCenter(),
-    ...styleHelpers.lockWidth(175)
+    ...styleHelpers.lockWidth(140)
   }
 }));
 

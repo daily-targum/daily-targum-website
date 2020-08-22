@@ -1,9 +1,9 @@
 import React from 'react';
 import { NextPageContext } from 'next';
-import { GetArticle, getArticlePreview } from '../../shared/src/client';
-import { SEOProps, Section, Theme, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, HTML } from '../../components';
-import NotFound from '../404.page';
-import { processNextQueryStringParam, styleHelpers, imgix } from '../../utils';
+import { GetArticle, getArticlePreview } from '../../../shared/src/client';
+import { SEOProps, Section, Theme, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, HTML } from '../../../components';
+import NotFound from '../../404.page';
+import { processNextQueryStringParam, styleHelpers, imgix } from '../../../utils';
 
 function Article({
   article,
@@ -39,10 +39,14 @@ function Article({
   return (
     <>
       <Section style={styles.page}>
-        <Grid.Row spacing={theme.spacing(4)}>
-          <Grid.Col xs={24} md={0}>
-          </Grid.Col>
-          <Grid.Col>
+        <Grid.Row 
+          spacing={theme.spacing(4)}
+          cols={12}
+        >
+          
+          <Grid.Col xs={24} md={0}/>
+
+          <Grid.Col xs={12} md={10}>
             <Text variant='h2'>{dynamicArticle.title}</Text>
             <Byline.Authors 
               authors={dynamicArticle.authors}
@@ -60,15 +64,16 @@ function Article({
             <HTML html={dynamicArticle.body}/>
           </Grid.Col>
 
-          <Grid.Col xs={0}>
+          <Grid.Col xs={0} md={2}>
             <div style={{backgroundColor: '#eee', flex: 1, display: 'flex', height: '100%'}}>
               <span>Ad</span>
             </div>
           </Grid.Col>
+
         </Grid.Row>
       </Section>
 
-      <Divider/>
+      {/* <Divider/>
       <Section style={styles.page}>
         <Grid.Row spacing={theme.spacing(4)}>
           <Grid.Col xs={24} md={0}></Grid.Col>
@@ -77,7 +82,7 @@ function Article({
           </Grid.Col>
           <Grid.Col xs={24}></Grid.Col>
         </Grid.Row>
-      </Section>
+      </Section> */}
 
       <Divider/>
       <Newsletter.Section/>

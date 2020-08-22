@@ -43,10 +43,11 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.absoluteFill(),
     position: 'fixed',
     zIndex: 2000,
-    backgroundColor: 'rgba(0,0,0,.5)',
+    backgroundColor: 'rgba(0,0,0,0.75)',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backdropFilter: 'blur(40px) contrast(20%)'
   },
   closeIcon: {
     position: 'absolute',
@@ -56,9 +57,10 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     color: '#fff'
   },
   modal: {
-    width: 'calc(600px + 18vw)',
+    width: 'calc(200px + 70vw)',
     maxWidth: '100%',
-    backgroundColor: theme.colors.surface
+    backgroundColor: theme.colors.surface,
+    boxShadow: '0 5px 25px rgba(0, 0, 0, 0.2)'
   },
   hide: {
     opacity: 0,

@@ -1,10 +1,10 @@
 import React from 'react';
-import { actions, GetArticles } from '../../shared/src/client';
-import NotFound from '../404.page';
+import { actions, GetArticles, Article } from '../../shared/src/client';
 import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
+import { sportsMachine, useMachine } from '../../machines';
 
 
 
@@ -13,50 +13,64 @@ function Category({
 }: { 
   initSection: GetArticles
 }) {
+  const [state, send] = useMachine(sportsMachine);
+  const selectedTag = state.context.selectedTag;
+
   const router = useRouter();
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
-  const [ section, setSection ] = React.useState(initSection);
-  const [ filteredItems, setFilteredItems ] = React.useState(initSection.items[0].articles.slice(5));
-  const [ isLoading, setIsLoading ] = React.useState(false);
-  const [ tag, setTag ] = React.useState('all');
+  const firstFiveArticles = initSection.items[0].articles.slice(0, 5);
+  const restArticles = initSection.items[0].articles.slice(5);
 
   React.useEffect(() => {
-    if (tag !== 'all') {
-      setFilteredItems(section.items[0].articles.slice(5).filter(item => item.subcategory === tag));
-    } else {
-      setFilteredItems(section.items[0].articles.slice(5));
-    }
-  }, [tag]);
-
-  async function loadMore() {
-    if(!section.nextToken || isLoading) return;
-    setIsLoading(true);
-
-    const { actions: clientActions } = await import('../../shared/src/client');
-
-    const res = await clientActions.getArticles({
-      category: 'Sports',
-      limit: 20,
-      nextToken: section.nextToken
+    send({
+      type: 'HYDRATE',
+      articles: restArticles,
+      subsection: selectedTag
     });
-    setSection(s => ({
-      ...res,
-      items: [{
-        ...s.items[0],
-        articles: s.items[0].articles.concat(res.items[0].articles)
-      }]
-    }));
-    setIsLoading(false);
-  }
+  }, [selectedTag]);
 
-  if (router.isFallback) {
+  console.log(state.context)
+
+  // React.useEffect(() => {
+  //   if (state.context.selectedTag !== null) {
+  //     setFilteredItems(section.items[0].articles.slice(5).filter(item => item.subcategory === state.context.selectedTag));
+  //   } else {
+  //     setFilteredItems(section.items[0].articles.slice(5));
+  //   }
+  // }, [state.context.selectedTag]);
+
+  // async function loadMore() {
+  //   if(!section.nextToken || isLoading) return;
+  //   setIsLoading(true);
+
+  //   const { actions: clientActions } = await import('../../shared/src/client');
+
+  //   const res = await clientActions.getArticles({
+  //     category: 'Sports',
+  //     limit: 20,
+  //     nextToken: section.nextToken
+  //   });
+  //   setSection(s => ({
+  //     ...res,
+  //     items: [{
+  //       ...s.items[0],
+  //       articles: s.items[0].articles.concat(res.items[0].articles)
+  //     }]
+  //   }));
+  //   setIsLoading(false);
+  // }
+
+  if (router.isFallback || state.context.articles === null) {
     return <ActivityIndicator.Screen/>
   }
 
-  if(!section) {
-    return <NotFound/>;
+  let selectedArticles: (Article | undefined)[];
+  if (typeof selectedTag === 'string') {
+    selectedArticles = state.context.subsections?.[selectedTag] ?? [];
+  } else {
+    selectedArticles = state.context.articles ?? restArticles;
   }
 
   return (
@@ -68,7 +82,7 @@ function Category({
         cols={['2fr', '1fr', '1fr']}
       >
         <CardCols 
-          items={chopArray(section.items[0].articles, [1, 2, 2])}
+          items={chopArray(firstFiveArticles, [1, 2, 2])}
         >
           {(article, i) => {
             if (!article) {
@@ -76,47 +90,55 @@ function Category({
             }
 
             return i === 0 ? (
-              <Card.ImageResponsive 
-                id={article[0].id}
-                title={article[0].title}
-                imageData={imgix(article[0].media[0].url, {
-                  xs: imgix.presets.sm('1:1'),
-                  md: imgix.presets.md('4:3')
-                })}
-                href='/article/[year]/[month]/[slug]'
-                as={'/'+article[0].slug}
-                date={formatDateAbriviated(article[0].publishDate)}
-                author={article[0].authors.map(a => a.displayName).join(', ')}
-              />
-            ) : (
-              <>
-                <Card.ImageResponsive
+              article[0] ? (
+                <Card.ImageResponsive 
                   id={article[0].id}
                   title={article[0].title}
                   imageData={imgix(article[0].media[0].url, {
                     xs: imgix.presets.sm('1:1'),
-                    md: imgix.presets.md('3:2')
+                    md: imgix.presets.md('4:3')
                   })}
                   href='/article/[year]/[month]/[slug]'
                   as={'/'+article[0].slug}
-                  aspectRatioDesktop={3 / 2}
                   date={formatDateAbriviated(article[0].publishDate)}
                   author={article[0].authors.map(a => a.displayName).join(', ')}
                 />
+              ) : null
+            ) : (
+              <>
+                {article[0] ? (
+                    <Card.ImageResponsive
+                    id={article[0].id}
+                    title={article[0].title}
+                    imageData={imgix(article[0].media[0].url, {
+                      xs: imgix.presets.sm('1:1'),
+                      md: imgix.presets.md('3:2')
+                    })}
+                    href='/article/[year]/[month]/[slug]'
+                    as={'/'+article[0].slug}
+                    aspectRatioDesktop={3 / 2}
+                    date={formatDateAbriviated(article[0].publishDate)}
+                    author={article[0].authors.map(a => a.displayName).join(', ')}
+                  />
+                ) : null}
+
                 <Card.Spacer/>
-                <Card.ImageResponsive
-                  id={article[1].id}
-                  title={article[1].title}
-                  imageData={imgix(article[1].media[0].url, {
-                    xs: imgix.presets.sm('1:1'),
-                    md: imgix.presets.md('3:2')
-                  })}
-                  href='/article/[year]/[month]/[slug]'
-                  as={'/'+article[1].slug}
-                  aspectRatioDesktop={3 / 2}
-                  date={formatDateAbriviated(article[1].publishDate)}
-                  author={article[1].authors.map(a => a.displayName).join(', ')}
-                />
+
+                {article[1] ? (
+                  <Card.ImageResponsive
+                    id={article[1].id}
+                    title={article[1].title}
+                    imageData={imgix(article[1].media[0].url, {
+                      xs: imgix.presets.sm('1:1'),
+                      md: imgix.presets.md('3:2')
+                    })}
+                    href='/article/[year]/[month]/[slug]'
+                    as={'/'+article[1].slug}
+                    aspectRatioDesktop={3 / 2}
+                    date={formatDateAbriviated(article[1].publishDate)}
+                    author={article[1].authors.map(a => a.displayName).join(', ')}
+                  />
+                ) : null}
               </>
             );
           }}
@@ -129,9 +151,22 @@ function Category({
       <Card.Spacer/>
       <Card.Spacer/>
       <TagBar
-        tags={['all', ...section.subcategories]}
-        value={tag}
-        onChange={val => setTag(val)}
+        tags={[...initSection.subcategories]}
+        value={state.context.selectedTag ?? null}
+        onChange={val => {
+          if (val !== null) {
+            send({
+              type: 'SELECT_TAG',
+              tag: val
+            });
+          }
+
+          else {
+            send({
+              type: 'UNSELECT_TAG',
+            });
+          }
+        }}
       />
       <Card.Spacer/>
       <Card.Spacer/>
@@ -140,7 +175,7 @@ function Category({
         spacing={theme.spacing(2)}
       >
         
-        {filteredItems.map(item => (
+        {selectedArticles.map(item => item ? (
           <Grid.Col 
             key={item.id}
             xs={24}
@@ -160,14 +195,14 @@ function Category({
               author={item.authors.map(a => a.displayName).join(', ')}
             />
           </Grid.Col>
-        ))}
+        ) : null)}
       </Grid.Row>
       
-      {section.nextToken ? (
+      {/* {section.nextToken ? (
         <ActivityIndicator.ProgressiveLoader 
           onVisible={loadMore}
         />
-      ) : null}
+      ) : null} */}
     </Section>
   );
 }

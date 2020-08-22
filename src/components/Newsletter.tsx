@@ -3,6 +3,7 @@ import Section from './Section';
 import Text from './Text';
 import Theme from './Theme';
 import Button from './Button';
+import Link from './Link';
 
 function NewsletterSection() {
   const styles = Theme.useStyleCreator(styleCreator);
@@ -12,7 +13,9 @@ function NewsletterSection() {
     <Section className={cng(styles.section)}>
       <div className={cng(styles.inner)}>
         <Text variant='h1' className={cng(styles.text)}>Join our newsletter</Text>
-        <Button>Subscribe</Button>
+        <Link href='http://eepurl.com/5lVdv'>
+          <Button>Subscribe</Button>
+        </Link>
       </div>
     </Section>
   );

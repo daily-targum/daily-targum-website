@@ -8,7 +8,12 @@ export function Analytics() {
 
   React.useEffect(() => {
     if (nextUtils.envIs(['production'])) {
-      ReactGA.initialize('UA-000000-01');
+
+      if (process.env.GOOGLE_ANALYTICS_TRACKING_ID !== undefined) {
+        ReactGA.initialize(process.env.GOOGLE_ANALYTICS_TRACKING_ID);
+      } else {
+        console.warn("Failed to initialize Google Analytics. Check to make sure Tracking ID isn't missing.")
+      }
     }
 
     else {

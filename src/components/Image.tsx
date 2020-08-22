@@ -9,11 +9,13 @@ export function Image({
   data,
   className,
   style,
+  altText
 }: {
   aspectRatio?: number
   data: ImageData[]
   className?: string
   style?: React.CSSProperties
+  altText?: string
 }) {
   const lastImg = data.slice(-1)[0] ?? {};
 
@@ -34,6 +36,7 @@ export function Image({
       ))}
       
       <img 
+        alt={altText}
         src={lastImg.src}
         style={{ height: 'auto', width: '100%', ...style }}
         loading='lazy'

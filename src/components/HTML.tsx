@@ -3,22 +3,33 @@ import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser';
 import xss from 'xss';
 import Text, { variants } from './Text';
 import Link from './Link';
+import Divider from './Divider';
 
 const options: HTMLReactParserOptions = {
   replace: ({ type, name, children, attribs }) => {
-    if (type === 'tag' && variants.includes(name)) {
-      return (
-        <Text variant={name}>{domToReact(children, options)}</Text>
-      );
-    }
+    if (type === 'tag') {
 
-    if (type === 'tag' && name === 'a') {
-      return (
-        <Link href={attribs.href}>
-          {domToReact(children, options)}
-        </Link>
-      );
-    }
+      if (variants.includes(name)) {
+        return (
+          <Text variant={name}>{domToReact(children, options)}</Text>
+        );
+      }
+  
+      if (name === 'a') {
+        return (
+          <Link href={attribs.href}>
+            {domToReact(children, options)}
+          </Link>
+        );
+      }
+
+      if (name === 'hr') {
+        return (
+          <Divider/>
+        );
+      }
+
+    } 
   }
 };
 

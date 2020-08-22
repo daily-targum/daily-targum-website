@@ -10,13 +10,24 @@ export function TagBar({
   style
 }: {
   tags: string[]
-  onChange: (val: string) => any
-  value: string
+  onChange: (val: string | null) => any
+  value: string | null
   style?: React.CSSProperties
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
+
   return (
     <div style={{ ...styles.tagBar, ...style }}>
+      <Text 
+        style={{
+          ...styles.tag,
+          ...(value === null ? styles.tagSelected : null)
+        }}
+        onClick={() => onChange(null)}
+      > 
+        all
+      </Text>
+
       {tags.map(tag => (
         <Text 
           style={{

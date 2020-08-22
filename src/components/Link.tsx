@@ -3,7 +3,8 @@ import DefaultLink from 'next/link';
 
 const internalPages = [
   '/article/[year]/[month]/[slug]',
-  '/page/[slug]'
+  '/page/[slug]',
+  '/staff/[slug]'
 ].map(href => ({
   href,
   regex: urlWithParamsToRegex(href)
@@ -23,10 +24,14 @@ function urlWithParamsToRegex(url: string) {
 
 export function Link({
   href,
-  children
+  children,
+  style,
+  className
 }: {
   href: string
   children: React.ReactNode
+  style?: React.CSSProperties
+  className?: string
 }) {
   let linkAs: string | undefined = undefined;
   const hrefHost = href.match(/(https{0,1}:\/\/|^)([^/]+)/)?.[2];
@@ -58,7 +63,10 @@ export function Link({
       href={href}
       as={linkAs}
     >
-      <a>
+      <a
+        style={style}
+        className={className}
+      >
         {children}
       </a>
     </DefaultLink>
@@ -67,6 +75,8 @@ export function Link({
       href={href}
       rel='noopener nofollow'
       target='_blank'
+      style={style}
+      className={className}
     >
       {children}
     </a>

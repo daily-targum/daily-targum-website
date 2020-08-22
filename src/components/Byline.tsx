@@ -3,8 +3,9 @@ import Theme from './Theme';
 import Text from './Text';
 import { formatDate } from '../shared/src/utils';
 import { Author } from '../shared/src/client';
-import { styleHelpers } from '../utils';
+import { styleHelpers, imgix } from '../utils';
 import Link from 'next/link';
+import { AspectRatioImage } from './AspectRatioView';
 
 function Authors({
   updatedAt,
@@ -28,7 +29,7 @@ function Authors({
   return (
     <>
       <div style={styles.row}>
-        {authors.map((author) => (
+        {authors.map(author => author.headshot ? (
           <Link 
             key={author.id}
             // FIX THIS: get slug from backend
@@ -36,18 +37,20 @@ function Authors({
             as={`/staff/${author.slug}`}
           >
             <a 
-              style={styles.hideLink}
+              className={cng(styles.avatar)}
               aria-label={`More articles by ${author.displayName}`}
             >
-              <div 
-                className={cng(styles.avatar)}
-                // style={{
-                //   backgroundImage: `url(${img})`
-                // }}
+              <AspectRatioImage
+                aspectRatio={1}
+                style={styles.avatar}
+                data={imgix(author.headshot, {
+                  xs: imgix.presets.xs('1:1')
+                })}
+                altText={`Author headshot for ${author.displayName}`}
               />
             </a>
           </Link>
-        ))}
+        ) : null)}
 
         <div style={styles.column}>
           <div style={styles.authors}>
@@ -68,6 +71,7 @@ function Authors({
                 {(i < authorsExceptLast.length - 1) ? (<Text style={styles.breakSpaces}>, </Text>) : null}
               </React.Fragment>
             ))}
+
             {last ? (
               <>
                 <Text style={styles.breakSpaces}> and </Text>
@@ -102,7 +106,6 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex('column')
   },
   avatar: {
-    backgroundColor: '#000',
     height: 40,
     width: 40,
     borderRadius: '50%',
@@ -110,10 +113,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     position: 'relative',
-    marginRight: theme.spacing(2),
-    [theme.mediaQuery('xs', 'sm')]: {
-      display: 'none'
-    }
+    marginRight: theme.spacing(2)
   },
   date: {
     color: theme.colors.textMuted
@@ -130,6 +130,12 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   breakSpaces: {
     whiteSpace: 'break-spaces'
+  },
+  avatarWrap: {
+    ...styleHelpers.hideLink(),
+    [theme.mediaQuery('xs', 'sm')]: {
+      display: 'none'
+    }
   }
 }));
 

@@ -4,7 +4,8 @@ import Grid from './Grid/web';
 import Section from './Section';
 import Logo from './Logo';
 import Search from './Search';
-import Link from 'next/link';
+import Link from './Link';
+import Text from './Text';
 // @ts-ignore
 import NextNprogress from './NextNProgress';
 import { useRouter } from 'next/router';
@@ -15,6 +16,16 @@ import { MdClose } from 'react-icons/md';
 import { FiMenu } from 'react-icons/fi';
 
 export const NAVBAR_HEIGHT = 60;
+
+function Banner() {
+  const styles = Theme.useStyleCreator(styleCreator);
+
+  return (
+    <div style={styles.banner}>
+      <Text style={styles.bannerText}>We would love to hear what you think of our new website. <a href='#'>Leave Feedback</a>.</Text>
+    </div>
+  );
+}
 
 
 const navbarLinks: {
@@ -48,11 +59,11 @@ const navbarLinks: {
     href: '/videos',
     as: '/videos'
   },
-  {
-    title: 'Photos',
-    href: '/photos',
-    as: '/photos'
-  },
+  // {
+  //   title: 'Photos',
+  //   href: '/photos',
+  //   as: '/photos'
+  // },
   {
     title: 'HoRU',
     href: '/section/humans-of-rutgers',
@@ -109,8 +120,7 @@ function MobileMenu() {
         ) : (
           <Link 
             key={link.as}
-            href={link.href} 
-            as={link.as}
+            href={link.href}
           >
             <a className={cng(styles.mobileLink)}>
               <span>{link.title}</span>
@@ -140,87 +150,87 @@ function DesktopNavbar() {
           showSpinner: false
         }}
       />
-      <Section 
-        className={cng(styles.navbar)}
-        style={{
-          position: mobileMenuVisible ? 'fixed' : 'sticky'
-        }}
-        styleInside={{
-          overflow: 'visible'
-        }}
-      >
-        <nav>
-          
-          <Grid.Display
-            xs={false}
-            lg={true} 
-            style={{ flex: 1 }}
-          >
-            <div style={styles.inner}>
-              <Link href='/'>
-                <a>
-                  <Logo style={styles.logo}/>
-                </a>
-              </Link>
-              
-              <div style={styles.links}>
-                {navbarLinks.filter(l => !l.mobileOnly).map(link => (
-                  <Link 
-                    key={link.as}
-                    href={link.href} 
-                    as={link.as}
-                  >
-                    <a
+
+      <div style={styles.navbarWrap}>
+        <Banner/>
+
+        <Section 
+          className={cng(styles.navbar)}
+          style={{
+            position: mobileMenuVisible ? 'fixed' : 'sticky'
+          }}
+          styleInside={{
+            overflow: 'visible'
+          }}
+        >
+          <nav>
+            <Grid.Display
+              xs={false}
+              lg={true} 
+              style={{ flex: 1 }}
+            >
+              <div style={styles.inner}>
+                <Link href='/'>
+                  <a>
+                    <Logo style={styles.logo}/>
+                  </a>
+                </Link>
+                
+                <div style={styles.links}>
+                  {navbarLinks.filter(l => !l.mobileOnly).map(link => (
+                    <Link 
+                      key={link.as}
+                      href={link.href}
                       style={{
                         ...(link.as === router.asPath) ? styles.linkActive : null,
                       }}
                       className={cng(styles.link)}
                     >
                       <span>{link.title}</span>
-                    </a>
-                  </Link>
-                ))}
+                    </Link>
+                  ))}
+                </div>
+
+                <Search.Input dark={darkNavbar}/>
               </div>
+            </Grid.Display>
 
-              <Search.Input dark={darkNavbar}/>
-            </div>
-          </Grid.Display>
+            <Grid.Display
+              xs={true}
+              lg={false}
+            >
+              <div style={styles.inner}>
+                <Link href='/'>
+                  <a>
+                    <Logo style={styles.logo}/>
+                  </a>
+                </Link>
 
-          <Grid.Display
-            xs={true}
-            lg={false}
-          >
-            <div style={styles.inner}>
-              <Link href='/'>
-                <a>
-                  <Logo style={styles.logo}/>
-                </a>
-              </Link>
-
-              <div 
-                style={{
-                  ...styles.menuIconWrap,
-                  ...styles.links
-                }}
-                onClick={() => dispatch(navigationActions.toggleMobileMenu())}
-              >
-                {mobileMenuVisible ? (
-                  <MdClose
-                    style={styles.icon}
-                    size={34}
-                  />
-                ) : (
-                  <FiMenu
-                    style={styles.icon}
-                    size={30}
-                  />
-                )}
+                <div 
+                  style={{
+                    ...styles.menuIconWrap,
+                    ...styles.links
+                  }}
+                  onClick={() => dispatch(navigationActions.toggleMobileMenu())}
+                >
+                  {mobileMenuVisible ? (
+                    <MdClose
+                      style={styles.icon}
+                      size={34}
+                    />
+                  ) : (
+                    <FiMenu
+                      style={styles.icon}
+                      size={30}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          </Grid.Display>
+            </Grid.Display>
+          </nav>        
+        </Section>
+      </div>
 
-        </nav>        
-      </Section>
       <div style={mobileMenuVisible ? styles.navbarSpacer : undefined}/>
     </>
   );
@@ -236,11 +246,26 @@ export function Navbar() {
 }
 
 const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
-  navbar: {
+  banner: {
+    ...styleHelpers.flex('row'),
+    backgroundColor: theme.colors.primary.main,
+    padding: theme.spacing(2),
+    justifyContent: 'center'
+  },
+  bannerText: {
+    color: theme.colors.primary.contrastText
+  },
+  bannerAccentText: {
+    color: theme.colors.accent
+  },
+  // navbar
+  navbarWrap: {
     position: 'sticky',
     width: '100%',
     top: 0,
     zIndex: 1000,
+  },
+  navbar: {
     backgroundColor: darkNavbar ? 'rgba(33, 32, 32, 0.92)' : 'rgba(255,255,255,0.92)',
     backdropFilter: 'saturate(180%) blur(10px)',
     '-webkit-backdrop-filter': 'saturate(180%) blur(10px)',

@@ -24,6 +24,11 @@ const imgixDefaultOptions: ImgixOptions = {
 };
 
 const presets = {
+  xs: (ar?: string) => ({
+    ...imgixDefaultOptions,
+    ar,
+    width: '150'
+  }) as const,
   sm: (ar?: string) => ({
     ...imgixDefaultOptions,
     ar,

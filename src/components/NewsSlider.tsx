@@ -12,13 +12,15 @@ function Slide({
   style,
   load
 }: {
-  article: Article,
+  article: Pick<Article, 'id' | 'title' | 'category' | 'authors' | 'media' | 'publishDate' | 'slug'>,
   className?: string,
   hide: boolean,
   style?: React.CSSProperties,
   load: boolean
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
+  const cng = Theme.useClassNameGenerator();
+
   return (
     <Link
       href='/article/[year]/[month]/[slug]'
@@ -31,10 +33,7 @@ function Slide({
           ...styles.slide,
           ...style,
         }}
-        className={[
-          className, 
-          'animate-opacity'
-        ].join(' ')}
+        className={className}
       >
         <AspectRatioImage
           data={load ? imgix(article.media[0].url, {
@@ -47,20 +46,23 @@ function Slide({
         />
         <div style={styles.slideCardImageOverlay}/>
         <Section>
-          <div style={styles.slideCardTitleWrap}>
+          <div 
+            style={{
+              ...styles.slideCardTitleWrap,
+              ...(hide ? styles.hide : null),
+            }}
+          >
             <Text 
               variant='h5'
               style={{fontWeight: 900, color: '#fff'}}
-            >NEWS</Text>
+            >
+              {article.category}
+            </Text>
             <Text.Truncate
               variant='h3' 
               numberOfLines={2} 
-              className='animate-opacity-fast'
-              style={{
-                fontWeight: 400,
-                ...styles.sliderCardTitle,
-                ...(hide ? styles.hide : null),
-              }}
+              style={{ fontWeight: 400 }}
+              className={cng(styles.sliderCardTitle)}
             >
               {article.title}
             </Text.Truncate>
@@ -79,7 +81,7 @@ function Slide({
 export function NewsSlider({
   articles
 }: {
-  articles: Article[]
+  articles: Pick<Article, 'id' | 'title' | 'category' | 'authors' | 'media' | 'publishDate' | 'slug'>[]
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   const [ index, setIndex ] = React.useState(0);
@@ -173,7 +175,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   slide: {
     ...styleHelpers.absoluteFill(),
     ...styleHelpers.flex('column'),
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    transition: `opacity ${theme.timing(15)}`
   },
   slideImage: {
     ...styleHelpers.absoluteFill()
@@ -193,11 +196,14 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     padding: theme.spacing(2),
     width: '100%',
     borderLeft: `4px solid ${theme.colors.accent}`,
-    maxWidth: 600
+    maxWidth: 600,
+    transition: `opacity ${theme.timing(5)}`
   },
   sliderCardTitle: {
     color: '#fff',
-    textAlign: 'justify'
+    [theme.mediaQuery('md')]: {
+      textAlign: 'justify'
+    }
   },
   sider: {
     height: 'calc(25vw + 180px)',
