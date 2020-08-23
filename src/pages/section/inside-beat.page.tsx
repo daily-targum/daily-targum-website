@@ -1,52 +1,35 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
-import NotFound from '../404.page';
 import { Section, Theme, Grid, ActivityIndicator, Card, Banner, SEOProps } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { useRouter } from 'next/router';
+import { articleMachine, useMachine } from '../../machines';
 
 function Category({ 
   initSection
 }: { 
   initSection: GetArticles
 }) {
+  const [state, send] = useMachine(articleMachine);
+
+  const articles = state.context.articles ?? initSection.items[0].articles;
+
+  React.useEffect(() => {
+    if (articles) {
+      send({
+        type: 'HYDRATE',
+        articles
+      });
+    }
+  }, [articles]);
+
   const router = useRouter();
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
-  const [ section, setSection ] = React.useState(initSection);
-  const [ isLoading, setIsLoading ] = React.useState(false);
-
-  async function loadMore() {
-    if(!section.nextToken || isLoading) return;
-    setIsLoading(true);
-
-    const { actions: clientActions } = await import('../../shared/src/client');
-
-    const res = await clientActions.getArticles({
-      category: 'inside-beat',
-      limit: 20,
-      nextToken: section.nextToken
-    });
-    setSection(s => ({
-      ...res,
-      items: [{
-        ...s.items[0],
-        articles: s.items[0].articles.concat(res.items[0].articles)
-      }]
-    }));
-    setIsLoading(false);
-  }
-
-  const articles = section.items[0].articles;
-
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>
-  }
-
-  if(!section) {
-    return <NotFound/>;
   }
 
   return (
@@ -114,11 +97,11 @@ function Category({
         ))}
       </Grid.Row>
 
-      {section.nextToken ? (
+      {/* {section.nextToken ? (
         <ActivityIndicator.ProgressiveLoader 
           onVisible={loadMore}
         />
-      ) : null}
+      ) : null} */}
 
     </Section>
   );
@@ -188,7 +171,7 @@ export async function getStaticProps() {
   
   return {
     props: {
-      initSection,
+      initSection: initSection ?? null,
       seo
     },
     revalidate: 60 // seconds

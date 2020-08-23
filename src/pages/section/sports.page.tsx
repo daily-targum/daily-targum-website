@@ -25,12 +25,14 @@ function Category({
   const restArticles = initSection.items[0].articles.slice(5);
 
   React.useEffect(() => {
-    send({
-      type: 'HYDRATE',
-      articles: restArticles,
-      subcategories
-    });
-  }, [selectedTag]);
+    if (restArticles) {
+      send({
+        type: 'HYDRATE',
+        articles: restArticles,
+        subcategories
+      });
+    }
+  }, [restArticles, subcategories]);
 
   if (router.isFallback || state.context.articles === null) {
     return <ActivityIndicator.Screen/>
@@ -202,7 +204,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      initSection,
+      initSection: initSection ?? null,
       seo
     },
     revalidate: 60 // seconds

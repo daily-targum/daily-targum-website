@@ -184,7 +184,7 @@ Category.getInitialProps = async () => {
   }
 
   return { 
-    initSection,
+    initSection: initSection ?? null,
     seo
   };
 };

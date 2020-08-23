@@ -167,7 +167,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      initHoru,
+      initHoru: initHoru ?? null,
       seo
     },
     revalidate: 60 // seconds

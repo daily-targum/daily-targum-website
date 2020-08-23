@@ -1,50 +1,35 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import NotFound from '../404.page';
 import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
+import { articleMachine, useMachine } from '../../machines';
 
 function News({ 
   initSection
 }: { 
   initSection: GetArticles
 }) {
+  const [state, send] = useMachine(articleMachine);
+
   const router = useRouter();
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
-  const [ section, setSection ] = React.useState(initSection);
-  const [ isLoading, setIsLoading ] = React.useState(false);
+  const articles = state.context.articles ?? initSection.items[0].articles;
 
-  async function loadMore() {
-    if (!section.nextToken || isLoading) return;
-    setIsLoading(true);
-
-    const { actions: clientActions } = await import('../../shared/src/client');
-
-    const res = await clientActions.getArticles({
-      category: 'News',
-      limit: 20,
-      nextToken: section.nextToken
-    });
-    setSection(s => ({
-      ...res,
-      items: [{
-        ...s.items[0],
-        articles: s.items[0].articles.concat(res.items[0].articles)
-      }]
-    }));
-    setIsLoading(false);
-  }
+  React.useEffect(() => {
+    if (articles) {
+      send({
+        type: 'HYDRATE',
+        articles
+      });
+    }
+  }, [articles]);
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>
-  }
-
-  if (!section) {
-    return <NotFound/>;
   }
 
   return (
@@ -54,7 +39,7 @@ function News({
       <Grid.Row spacing={theme.spacing(2.5)}>
         
         <CardCols 
-          items={section.items[0].articles.slice(0,2)}
+          items={articles.slice(0,2)}
         >
           {article => {
             if (!article) {
@@ -79,7 +64,7 @@ function News({
           }}
         </CardCols>
 
-        {section.items[0].articles.slice(2).map(item => (
+        {articles.slice(2).map(item => (
           <Grid.Col 
             key={item.id}
             xs={24}
@@ -103,11 +88,11 @@ function News({
         ))}
       </Grid.Row>
 
-      {(section.nextToken) ? (
+      {/* {(section.nextToken) ? (
         <ActivityIndicator.ProgressiveLoader 
           onVisible={loadMore}
         />
-      ) : null}
+      ) : null} */}
     </Section>
   );
 }
@@ -137,7 +122,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      initSection,
+      initSection: initSection ?? null,
       seo
     },
     revalidate: 60 // seconds

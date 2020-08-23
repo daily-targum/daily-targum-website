@@ -6,12 +6,26 @@ import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/s
 import { processNextQueryStringParam, styleHelpers, imgix } from '../../../utils';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
+import { articleMachine, useMachine } from '../../../machines';
 
 function Author({
-  articles
+  initialArticles
 }: {
-  articles: GetArticlesBySubcategory | null
+  initialArticles: GetArticlesBySubcategory | null
 }) {
+  const [state, send] = useMachine(articleMachine);
+
+  const articles = state.context.articles ?? initialArticles;
+
+  React.useEffect(() => {
+    if (articles) {
+      send({
+        type: 'HYDRATE',
+        articles
+      })
+    }
+  }, [initialArticles]);
+
   const router = useRouter();
   const theme = Theme.useTheme();
   const styles = Theme.useStyleCreator(styleCreator);
@@ -103,7 +117,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const subcategory = processNextQueryStringParam(ctx.params?.subcategory, '');
 
-  const articles = await actions.getArticlesBySubcategory({
+  const initialArticles = await actions.getArticlesBySubcategory({
     subcategory
   });
 
@@ -111,14 +125,14 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     title: `Opinions / ${hyphenatedToCapitalized(subcategory)}`
   };
 
-  const firstArticle = articles?.[0];
+  const firstArticle = initialArticles?.[0];
   if (firstArticle) {
     seo.imageSrc = firstArticle.media?.[0].url;
   }
 
   return {
     props: { 
-      articles: articles ?? null,
+      initialArticles: initialArticles ?? null,
       seo
     }
   };

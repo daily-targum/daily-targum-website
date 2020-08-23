@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetHomepage, Article } from '../shared/src/client';
-import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, 
+import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps,
   // Text, Image, Link 
 } from '../components';
 import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../shared/src/utils';
@@ -166,9 +166,17 @@ function Home({
 export async function getStaticProps() {
   const homepage = await actions.getHomepage();
 
+  const seo: SEOProps = {};
+
+  const firstArticle = homepage?.high?.[0];
+  if (firstArticle) {
+    seo.imageSrc = firstArticle.media?.[0].url;
+  }
+
   return {
     props: {
-      homepage
+      homepage,
+      seo
     },
     revalidate: 60 // seconds
   }
