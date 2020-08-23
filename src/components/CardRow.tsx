@@ -1,61 +1,68 @@
 import React from 'react';
-import { Grid, Theme } from '../components';
+import Grid from './Grid/web';
+import Theme from './Theme';
+import Text from './Text';
 import { ReactChild } from '../types';
+import { RiArrowRightLine } from 'react-icons/ri';
+import Link from 'next/link';
 
-function getColSizes(numOfCols: number): {
+function getColSizes(numOfItems: number, numOfCols: number): {
   xs?: number
   sm?: number
   md?: number
   lg?: number
 }[] {
-  const xs = 24;
+  const fullWidth = numOfCols;
+  const half = numOfCols / 2;
+  const third = numOfCols / 3;
+  const quarter = numOfCols / 4;
 
-  if (numOfCols === 1) {
+  if (Math.min(numOfItems, numOfCols) === 1) {
     return ([
-      { xs, sm: 12 },
+      { xs: fullWidth, sm: half },
       { xs: 0 },
       { xs: 0 },
       { xs: 0 }
     ]);
   } 
 
-  else if(numOfCols === 2) {
+  else if(Math.min(numOfItems, numOfCols) === 2) {
     return ([
-      { xs, md: 12 },
-      { xs, md: 12 },
+      { xs: fullWidth, md: half },
+      { xs: fullWidth, md: half },
       { xs: 0 },
       { xs: 0 }
     ]);
   }
 
-  else if(numOfCols === 3) {
+  else if(Math.min(numOfItems, numOfCols) === 3) {
     return ([
-      { xs, sm: 12, lg: 8 },
-      { xs, sm: 12, lg: 8 },
-      { xs, sm: 0, lg: 8 },
+      { xs: fullWidth, md: Math.floor(half), lg: third },
+      { xs: fullWidth, md: Math.ceil(half), lg: third },
+      { xs: fullWidth, md: 0, lg: third },
       { xs: 0 }
     ]);
   }
 
   return ([
-    { xs, sm: 12, md: 8, lg: 6 },
-    { xs, sm: 12, md: 8,  lg: 6 },
-    { xs, sm: 0, md: 8, lg: 6 },
-    { xs, sm: 0, md: 0, lg: 6 }
+    { xs: fullWidth, sm: Math.floor(half), md: third, lg: quarter },
+    { xs: fullWidth, sm: Math.ceil(half), md: third,  lg: quarter },
+    { xs: fullWidth, sm: 0, md: third, lg: quarter },
+    { xs: fullWidth, sm: 0, md: 0, lg: quarter }
   ]);
 }
 
-export function CardRow<I>({
+export function CardCols<I>({
   items,
   children
 }: {
   items: (I | null)[],
-  children: (item: I | null, index?: number) => ReactChild
+  children: (item: I | null, index: number) => ReactChild
 }) {
-  const theme = Theme.useTheme();
-  const colSizes = getColSizes(items.length);
+  const context = Grid.useGrid();
+  const colSizes = getColSizes(items.length, context.cols.length);
   return (
-    <Grid.Row spacing={theme.spacing(2)}>
+    <>
       <Grid.Col xs={colSizes[0].xs} sm={colSizes[0].sm} md={colSizes[0].md} lg={colSizes[0].lg}>
         {children(items[0], 0)}
       </Grid.Col>
@@ -66,10 +73,88 @@ export function CardRow<I>({
         {children(items[2], 2)}
       </Grid.Col>
       <Grid.Col xs={colSizes[3].xs} sm={colSizes[3].sm} md={colSizes[3].md} lg={colSizes[3].lg}>
-          {children(items[3], 3)}
-        </Grid.Col>
-    </Grid.Row>
-  )
+        {children(items[3], 3)}
+      </Grid.Col>
+    </>
+  );
 }
 
-export default CardRow;
+CardCols.Header = Header;
+function Header({
+  title,
+  href,
+  as,
+  onClick
+} : {
+  title: string
+  href?: string
+  as?: string
+  onClick?: () => any
+}) {
+  const styles = Theme.useStyleCreator(styleCreator);
+  return (
+    <div style={styles.sectionHeader}>
+      <Text variant='h3' noPadding>{title}</Text>
+
+      {href ? (
+        <Link 
+          href={href}
+          as={as}
+        >
+          <a style={styles.moreInLink}>
+            <Text 
+              variant='h4' 
+              style={styles.moreInLinkText}
+              noPadding
+            >
+              More in {title}
+            </Text>
+            <RiArrowRightLine
+              size={22}
+            />
+          </a>
+        </Link>
+      ): (
+        <div 
+          style={styles.moreInLink}
+          onClick={onClick}
+        >
+          <Text 
+            variant='h4' 
+            style={styles.moreInLinkText}
+            noPadding
+          >
+            More in {title}
+          </Text>
+          <RiArrowRightLine
+            size={22}
+          />
+        </div>
+      )}
+      
+    </div>
+  );
+}
+
+const styleCreator = Theme.makeStyleCreator(theme => ({
+  sectionHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: theme.spacing(2, 0)
+  },
+  moreInLink: {
+    textDecoration: 'none',
+    color: theme.colors.accent,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    cursor: 'pointer'
+  },
+  moreInLinkText: {
+    marginRight: theme.spacing(0.5),
+    fontWeight: 600
+  }
+}));
+
+export default CardCols;

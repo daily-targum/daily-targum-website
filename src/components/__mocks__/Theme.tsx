@@ -7,13 +7,13 @@ import { ComputedTheme } from '../../types';
 
 export function Provider({ children }: {children: React.ReactNode}) {
   return ( 
-    <ContextThemeProvider<any> theme={themes.light}>
+    <ContextThemeProvider<any> theme={themes.main}>
       {children}
     </ContextThemeProvider>
   );
 }
 
-export const useTheme = (): ComputedTheme => themes.light;
+export const useTheme = (): ComputedTheme => themes.main;
 
 export function makeStyleCreator<
   T = ComputedTheme, 
@@ -56,7 +56,7 @@ export function useStyleCreatorClassNames(
 export function withTheme(Component: any): any {
   return class WrappedComponent extends React.Component<{}, null> {
     render() {
-      return <Component {...this.props} theme={themes.light}/>;
+      return <Component {...this.props} theme={themes.main}/>;
     }
   };
 }

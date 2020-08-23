@@ -1,42 +1,50 @@
-/* eslint-disable */
 import React from 'react';
+import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser';
+import xss from 'xss';
 import Text, { variants } from './Text';
-// @ts-ignore
-import { Parser, ProcessNodeDefinitions } from 'html-to-react';
-const htmlToReactParser = new Parser();
+import Link from './Link';
+import Divider from './Divider';
 
-const preprocessingInstructions: any[] = [];
-const processingInstructions = [
-  {
-    shouldProcessNode: function (node: any) {
-      return node.type === 'tag' && variants.includes(node.name);
-    },
-    processNode: (node: any, children: any, index: any) => {
-      return (
-        <Text variant={node.name} key={index}>{children}</Text>
-      );
-    },
-  },
-  {
-    shouldProcessNode: function () {
-      return true;
-    },
-    processNode: ProcessNodeDefinitions().processDefaultNode,
-  },
-];
+const options: HTMLReactParserOptions = {
+  replace: ({ type, name, children, attribs }) => {
+    if (type === 'tag') {
 
-const isValidNode = () => true;
+      if (variants.includes(name)) {
+        return (
+          <Text variant={name}>{domToReact(children, options)}</Text>
+        );
+      }
+  
+      if (name === 'a') {
+        return (
+          <Link href={attribs.href}>
+            {domToReact(children, options)}
+          </Link>
+        );
+      }
+
+      if (name === 'hr') {
+        return (
+          <Divider/>
+        );
+      }
+
+    } 
+  }
+};
 
 export function HTML({
   html
 }: {
   html: string
 }) {
+  const computedHtml = parse(xss(html), options);
+
   return (
-    <>
-      {htmlToReactParser.parseWithInstructions(html, isValidNode, processingInstructions, preprocessingInstructions)}
-    </>
-  )
+    <div>
+      {computedHtml}
+    </div>
+  );
 }
 
 export default HTML;

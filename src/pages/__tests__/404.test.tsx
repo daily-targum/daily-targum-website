@@ -2,7 +2,7 @@ jest.mock('../../components/Theme');
 
 import React from 'react';
 import renderer from 'react-test-renderer';
-import NotFound from '../404';
+import NotFound from '../404.page';
 
 describe("<404 />", () => {
 

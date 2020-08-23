@@ -108,7 +108,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy - Vercel
-    needs: [test-lint, test-typecheck, test-jest]
+    needs: [test-lint, test-typecheck]
     steps:
       - uses: actions/checkout@v2
       - name: Checkout submodules
@@ -125,10 +125,12 @@ jobs:
         with:
           path: src/shared/node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
-      - uses: amondnet/vercel-action@v19
+      - uses: amondnet/vercel-action@v19.0.1+2
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GITHUB_TOKEN }} #Optional 
           vercel-args: '--prod'
           vercel-org-id: ${{ secrets.ORG_ID }}  #Required
           vercel-project-id: ${{ secrets.PROJECT_ID }} #Required
+          alias-domains: |
+            beta.dailytargum.com

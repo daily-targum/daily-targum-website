@@ -1,2 +1,2 @@
-export type ReactChild = React.ReactElement | null;
-export type ReactChildren = ReactChild | ReactChild[];
+export type ReactChild<T = never> = React.ReactElement | React.ReactNode | null | T;
+export type ReactChildren<T = never> = ReactChild<T> | ReactChild<T>[];

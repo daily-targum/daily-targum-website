@@ -1,52 +1,77 @@
 import React from 'react';
 import { Article } from '../shared/src/client';
-import { Theme, Section, Text } from '../components';
+import { formatDateAbriviated } from '../shared/src/utils';
+import { Theme, Section, Text, AspectRatioImage } from '../components';
 import Link from 'next/link';
-import { styles } from '../utils';
+import { styleHelpers, imgix } from '../utils';
+import { Swipeable } from 'react-swipeable'
 
 function Slide({
   article,
   className,
   hide,
-  style
+  style,
+  load
 }: {
-  article: Article,
+  article: Pick<Article, 'id' | 'title' | 'category' | 'authors' | 'media' | 'publishDate' | 'slug'>,
   className?: string,
   hide: boolean,
-  style?: React.CSSProperties
+  style?: React.CSSProperties,
+  load: boolean
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
+  const cng = Theme.useClassNameGenerator();
+
   return (
     <Link
       href='/article/[year]/[month]/[slug]'
       as={article.slug}
     >
       <a
-        className={[
-          className, 
-          hide ? classes.hide : null,
-          classes.link, 
-          classes.slideImage,
-          'animate-opacity'
-        ].join(' ')}
         style={{
+          ...(hide ? styles.hide : null),
+          ...styles.link,
+          ...styles.slide,
           ...style,
-          backgroundImage: `url(${article.media[0]}?ar=16:9&fit=crop&crop=faces,center)`
         }}
+        className={className}
       >
-        <div className={classes.slideCardImageOverlay}/>
+        <AspectRatioImage
+          data={load ? imgix(article.media[0].url, {
+            xs: imgix.presets.sm('16:9'),
+            sm: imgix.presets.md('16:9'),
+            md: imgix.presets.lg('16:9'),
+            lg: imgix.presets.xl('16:9')
+          }) : []}
+          style={styles.slideImage}
+        />
+        <div style={styles.slideCardImageOverlay}/>
         <Section>
-          <div className={classes.slideCardTitleWrap}>
+          <div 
+            style={{
+              ...styles.slideCardTitleWrap,
+              ...(hide ? styles.hide : null),
+            }}
+          >
             <Text 
-              variant='h2' 
+              variant='h5'
+              style={{fontWeight: 900, color: '#fff'}}
+            >
+              {article.category}
+            </Text>
+            <Text.Truncate
+              variant='h3' 
               numberOfLines={2} 
-              className={[
-                hide ? classes.hide : null,
-                classes.sliderCardTitle,
-                'animate-opacity-fast'
-              ].join(' ')}
-              
-            >{article.title}</Text>
+              style={{ fontWeight: 400 }}
+              className={cng(styles.sliderCardTitle)}
+            >
+              {article.title}
+            </Text.Truncate>
+
+            <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
+              <Text style={styles.date}>{formatDateAbriviated(article.publishDate)}</Text>
+              <Text style={styles.author}>{article.authors.map(a => a.displayName).join(', ')}</Text>
+            </div>
           </div>
         </Section>
       </a>
@@ -57,66 +82,96 @@ function Slide({
 export function NewsSlider({
   articles
 }: {
-  articles: Article[]
+  articles: Pick<Article, 'id' | 'title' | 'category' | 'authors' | 'media' | 'publishDate' | 'slug'>[]
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const [index, setIndex] = React.useState(0);
+  const styles = Theme.useStyleCreator(styleCreator);
+  const [ index, setIndex ] = React.useState(0);
+  const [ loaded, setLoaded ] = React.useState([true]);
+
+  // Lazy load images
+  React.useEffect(() => {
+    if (!loaded[index]) {
+      const clone = loaded.slice(0);
+      clone[index] = true;
+      setLoaded(clone);
+    }
+  }, [index]);
+
+  const incrementSlide = React.useCallback(
+    (num: number) => {
+      const updatedIndex = index + num;
+
+      if(updatedIndex > articles.length - 1) {
+        setIndex(0);
+      } 
+
+      else if (updatedIndex < 0) {
+        setIndex(articles.length - 1);
+      }
+      
+      else {
+        setIndex(updatedIndex);
+      }
+    },
+    [index, articles.length]
+  );
 
   React.useEffect(() => {
     const id = setTimeout(() => {
-      if(index < articles.length - 1) {
-        setIndex(index + 1);
-      } else {
-        setIndex(0);
-      }
+      incrementSlide(1);
     }, 10 * 1000);
+
     return () => {
       clearTimeout(id);
     }
-  }, [index, articles.length])
+  }, [index, incrementSlide])
 
   return (
-    <Section className={classes.section}>
-      <div className={classes.sider}>
+    <Swipeable 
+      style={{position: 'relative'}}
+      onSwipedLeft={() => incrementSlide(1)}
+      onSwipedRight={() => incrementSlide(-1)}
+    >
+      <div style={styles.sider}>
         {articles.map((a, i) => (
           <Slide
             key={a.id}
             article={a}
             hide={i !== index}
-            className={[
-              i !== index ? classes.hide : null,
-              classes.slide
-            ].join(' ')}
+            style={{
+              ...(i !== index ? styles.hide : null)
+            }}
+            load={loaded[i]}
           />
         ))}
       </div>
-      <div className={classes.dots}>
+      
+      <div style={styles.dots}>
         {articles.map((a, i) => (
           <div
             key={a.id}
-            className={[
-              i !== index ? classes.dotActive : null,
-              classes.dot
-            ].join(' ')}
+            style={{
+              ...styles.dot,
+              ...(i !== index ? styles.dotActive : null)
+            }}
             onClick={() => setIndex(i)}
           />
         ))}
       </div>
-    </Section>
+    </Swipeable>
   );
 }
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
-  section: {
-    backgroundColor: theme.colors.primary
-  },
   hide: {
     opacity: 0,
     pointerEvents: 'none'
   },
   dots: {
+    position: 'absolute',
     display: 'flex',
-    margin: theme.spacing(5),
+    margin: theme.spacing(3),
+    top: 0,
     left: 0,
     right: 0,
     justifyContent: 'center'
@@ -139,10 +194,14 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     textDecoration: 'none',
     color: theme.colors.text
   },
+  slide: {
+    ...styleHelpers.absoluteFill(),
+    ...styleHelpers.flex('column'),
+    justifyContent: 'flex-end',
+    transition: `opacity ${theme.timing(10)}`
+  },
   slideImage: {
-    ...styles.centerBackgroundImage(),
-    display: 'flex',
-    alignItems: 'flex-end'
+    ...styleHelpers.absoluteFill()
   },
   slideCardImageOverlay: {
     position: 'absolute',
@@ -153,28 +212,40 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.9), transparent)'
   },
   slideCardTitleWrap: {
+    ...styleHelpers.flex('column'),
     position: 'relative',
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    borderLeft: `4px solid ${theme.colors.accent}`,
+    maxWidth: 600,
+    transition: `opacity ${theme.timing(3)}`
   },
   sliderCardTitle: {
     color: '#fff',
-    textAlign: 'center',
-    maxWidth: 800
+    [theme.mediaQuery('md')]: {
+      textAlign: 'justify'
+    }
   },
   sider: {
-    // maxHeight: 400,
     height: 'calc(25vw + 180px)',
     backgroundColor: '#000',
     position: 'relative',
     overflow: 'hidden'
   },
-  slide: {
-    ...styles.absoluteFill()
+  date: {
   },
+  byline: {
+    ...styleHelpers.flex('row'),
+    width: '100%',
+    justifyContent: 'space-between'
+  },
+  author: {
+    fontStyle: 'italic'
+  },
+  contrastTextMuted: {
+    color: 'rgba(255,255,255,0.7)'
+  }
 }));
 
 export default NewsSlider;

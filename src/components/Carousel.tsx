@@ -1,45 +1,9 @@
 import React from 'react';
 import Theme from './Theme';
-import Grid from './Grid';
 import { ReactChildren } from '../types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-import { styles } from '../utils';
-
-function animateScroll(div: HTMLDivElement, x: number, callback?: () => any) {
-  const diff = x - div.scrollLeft;
-  const positiveDiff = diff >= 0;
-  const step = 2 * (positiveDiff ? 1 : -1);
-  let prev: number | null = null;
-  let cancled = false;
-
-  async function start() {
-    while(!cancled && positiveDiff ? div.scrollLeft <= x : div.scrollLeft >= x) {
-      let crnt = await animate(() => {
-        div.scrollLeft += step;
-        return div.scrollLeft;
-      }, 1);
-      if(prev !== null && crnt === prev) break;
-      prev = crnt;
-    }
-    if(!cancled && callback) {
-      callback();
-    }
-  }
-  start();
-
-  return () => {
-    cancled = true;
-  }
-}
-
-function animate<R>(fn: () => R, delay: number) {
-  return new Promise<R>((resolve) => {
-    setTimeout(() => {
-      resolve(fn());
-    }, delay);
-  });
-}
+import { styleHelpers } from '../utils';
+import { clamp } from '../shared/src/utils';
+import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
 
 function Button({
   onClick,
@@ -48,29 +12,34 @@ function Button({
   onClick: () => any
   direction: 'left' | 'right'
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <Grid.Row>
-      <Grid.Col xs={0} sm={24}>
-        <div
-          onClick={onClick}
-          className={classes.buttonWrap}
-          style={{[direction]: 0}}
-        >
-          <div className={classes.button}>
-            <FontAwesomeIcon 
-              icon={direction === 'left' ? faChevronLeft : faChevronRight}
-              size='2x'
-              color='#fff'
-            />
-          </div>
-        </div>
-      </Grid.Col>
-    </Grid.Row>
+    <div
+      onClick={onClick}
+      style={{
+        ...styles.buttonWrap,
+        [direction]: 0
+      }}
+    >
+      {direction === 'left' ? (
+        <IoIosArrowDropleftCircle
+          size={32}
+          color='#fff'
+          style={styles.icon}
+        />
+      ) : (
+        <IoIosArrowDroprightCircle
+          size={32}
+          color='#fff'
+          style={styles.icon}
+        />
+      )}
+    </div>
   )
 }
 
 export function Carousel<T>({
+  id,
   data, 
   renderItem, 
   keyExtractor,
@@ -81,8 +50,10 @@ export function Carousel<T>({
   ListFooterComponent,
   className,
   style,
-  itemWidth
+  initialIndex = 0,
+  onChange = () => {}
 }: {
+  id?: string
   data: T[]
   renderItem: (item: T, index: number) => ReactChildren
   keyExtractor: (item: T, index: number) => string | number
@@ -92,36 +63,64 @@ export function Carousel<T>({
   ListHeaderComponent?: ReactChildren
   ListFooterComponent?: ReactChildren
   className?: string
-  style?: React.CSSProperties
-  itemWidth: number
+  style?: React.CSSProperties,
+  initialIndex?: number,
+  onChange?: (index: number) => any
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
-  const animation = React.useRef<() => any>();
-  const [controlled, setControlled] = React.useState(false);
-
-  const scrollLeft = React.useRef<number | null>(null);
+  const styles = Theme.useStyleCreator(styleCreator);
+  const [ width, setWidth ] = React.useState(0);
+  const [index, setIndex] = React.useState(initialIndex ?? 0);
+  const [ loading, setLoading ] = React.useState(true);
+  const scrollTimeout = React.useRef<number | undefined>();
 
   React.useEffect(() => {
-    if(!controlled) {
-      scrollLeft.current = null;
+    const refClone = ref.current;
+
+    function handleResize() {
+      const newWidth = ref.current?.offsetWidth ?? 0;
+      if (newWidth !== width) {
+        setWidth(ref.current?.offsetWidth ?? 0);
+      }
     }
-  }, [controlled]);
+    handleResize();
+    if(process.browser && refClone) {
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      }
+    }
+  }, [ref.current, width, id]);
+
+  React.useEffect(() => {
+    if (!ref.current) return;
+    ref.current.scrollLeft = index * width;
+  }, [width]);
+
+  React.useEffect(() => {
+    if (!ref.current) return;
+
+    const newIndex = clamp(
+      0, 
+      initialIndex, 
+      data.length - 1
+    );
+    ref.current.scrollLeft = newIndex * width;
+
+    // timeout prevents scroll animation on load
+    let timeout = setTimeout(() => {
+      setLoading(false);
+    }, 50); 
+    
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, [ref.current]);
 
   function updateScroll(offset: number) {
-    setControlled(true)
-    if(animation.current) {
-      animation.current();
-    }
-    if(!ref.current) return;
-    if(!scrollLeft.current) {
-      scrollLeft.current = ref.current.scrollLeft;
-    }
-    const requestedPosition = scrollLeft.current + (itemWidth * offset);
-    scrollLeft.current = Math.round(requestedPosition / itemWidth) * itemWidth;
-    animation.current = animateScroll(ref.current, scrollLeft.current, () => {
-      setControlled(false);
-    });
+    if (!ref.current) return;
+    const newIndex = clamp(0, index + offset, data.length - 1);
+    ref.current.scrollLeft = newIndex * width;
   }
 
   if(data.length === 0) {
@@ -140,51 +139,88 @@ export function Carousel<T>({
   }
 
   return (
-    <div className={classes.carousel}>
+    <div 
+      style={{
+        ...styles.carousel,
+        ...(loading ? styles.hide : null),
+        ...style
+      }}
+      className={className}
+    >
       <div
-        className={[
-          className,
-          classes.scroll,
-          'hide-scrollbars',
-          controlled ? null : classes.snap
-        ].join(' ')}
-        style={style}
+        className={'hide-scrollbars'}
+        style={{
+          ...styles.scroll,
+          ...(loading ? null : styles.smoothScroll)
+        }}
         ref={ref}
+        onScroll={() => {
+          if (!ref.current) return;
+          clearTimeout(scrollTimeout.current);
+
+          const crntIndex = Math.round(ref.current.scrollLeft / width);
+
+          scrollTimeout.current = setTimeout(() => {
+            if (crntIndex !== index) {
+              setIndex(crntIndex);
+              onChange(crntIndex);
+            }
+          }, 50);
+        }}
       >
         {ListHeaderComponent}
         {(inverted ? data.reverse() : data)
         .map((item: any, i: number) => (
           <React.Fragment key={keyExtractor(item, i)}>
-            <div className={classes.item}>
+            <div 
+              style={{
+                ...styles.item,
+                width,
+                minWidth: width,
+                maxWidth: width
+              }}
+            >
               {renderItemWithExtras(item, i)}
             </div>
           </React.Fragment>
         ))}
         {ListFooterComponent}
       </div>
-      <Button
-        onClick={() => updateScroll(1)}
-        direction='right'
-      />
 
-      <Button
-        direction='left'
-        onClick={() => updateScroll(-1)}
-      />
+      {index > 0 ? (
+        <Button
+          direction='left'
+          onClick={() => updateScroll(-1)}
+        />
+      ) : null}
+
+      {data[index + 1] ? (
+        <Button
+          direction='right'
+          onClick={() => updateScroll(1)}
+        />
+      ) : null}
     </div>
   );
 }
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   carousel: {
-    position: 'relative'
+    position: 'relative',
+    height: '100%'
   },
   scroll: {
-    ...styles.flex('row'),
-    overflow: 'auto'
-  },
-  snap: {
+    ...styleHelpers.flex('row'),
+    overflow: 'auto',
+    flex: 1,
+    ...styleHelpers.lockHeight('100%'),
     scrollSnapType: 'x mandatory',
+    '-webkit-scroll-snap-type': 'x mandatory',
+    '-webkit-overflow-scrolling': 'touch',
+    minHeight: '100%'
+  },
+  smoothScroll: {
+    scrollBehavior: 'smooth'
   },
   buttonWrap: {
     cursor: 'pointer',
@@ -193,15 +229,19 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     position: 'absolute',
     top: 0,
     bottom: 0,
-  },
-  button: {
-    padding: theme.spacing(3, 1.5),
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    backdropFilter: 'blur(20px)'
+    padding: theme.spacing(0, 1.5),
+    height: '100%'
   },
   item: {
-    scrollSnapAlign: 'start'
+    scrollSnapAlign: 'center'
+  },
+  hide: {
+    opacity: 0
+  },
+  icon: {
+    filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.3))'
   }
 }));
 
+Carousel.Button = Button;
 export default Carousel;

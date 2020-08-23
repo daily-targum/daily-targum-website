@@ -1,6 +1,7 @@
 import React from 'react';
-import { styles } from '../utils';
+import { styleHelpers } from '../utils';
 import { ReactChildren } from '../types';
+import { ImageData, Image } from './Image';
 
 export function AspectRatioView({
   aspectRatio,
@@ -8,24 +9,33 @@ export function AspectRatioView({
   className,
   classNameInside,
   style,
-  styleInside
+  styleInside,
+  onClick
 }: {
-  aspectRatio: [number, number]
+  aspectRatio?: number
   children?: ReactChildren
   className?: string
   classNameInside?: string
   style?: React.CSSProperties
   styleInside?: React.CSSProperties
+  onClick?: () => any
 }) {
   return (
     <div 
-      style={style}
+      style={{
+        ...(aspectRatio ? null : {
+          flex: 1,
+          height: '100%'
+        }),
+        ...style
+      }}
       className={className}
+      onClick={onClick}
     >
       <div 
         className={classNameInside}
         style={{
-          ...styles.aspectRatioFullWidth(...aspectRatio),
+          ...(aspectRatio ? styleHelpers.aspectRatioFullWidth(aspectRatio) : null),
           ...styleInside
         }}
       >
@@ -37,24 +47,43 @@ export function AspectRatioView({
 
 export function AspectRatioImage({
   aspectRatio,
+  data,
   src,
   className,
   style,
+  onClick,
+  altText
 }: {
-  aspectRatio: [number, number]
-  src: string
+  aspectRatio?: number
+  data?: ImageData[]
+  src?: string
   className?: string
   style?: React.CSSProperties
+  onClick?: () => any
+  altText?: string
 }) {
   return (
     <AspectRatioView
       aspectRatio={aspectRatio}
       className={className}
       style={{
-        background: `url(${src})`,
-        ...styles.centerBackgroundImage(),
+        position: 'relative',
+        width: '100%',
         ...style
       }}
-    />
+      onClick={onClick}
+    >
+      <Image
+        style={{
+          ...styleHelpers.absoluteFill(),
+          height: '100%',
+          width: '100%',
+          objectFit: 'cover'
+        }}
+        data={data}
+        src={src}
+        altText={altText}
+      />
+    </AspectRatioView>
   );
 }

@@ -39,14 +39,28 @@ function centerBackgroundImage() {
   } as const;
 }
 
-function aspectRatioFullWidth(x: number, y: number) {
+function aspectRatioFullHeight(aspectRatio: number) {
   return {
-    width: '100%',
-    paddingTop: `${(y / x) * 100}%`
+    height: '100%',
+    paddingTop: `${100 / aspectRatio}%`
   } as const;
 }
 
-function page(theme: Theme) {
+function aspectRatioFullWidth(aspectRatio: number) {
+  return {
+    width: '100%',
+    paddingTop: `${100 / aspectRatio}%`
+  } as const;
+}
+
+function page(theme: Theme, mode: 'compact' | 'normal' = 'normal') {
+  if(mode == 'compact') {
+    return {
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2)
+    }
+  }
+  
   return {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(6)
@@ -85,14 +99,42 @@ function absoluteFill() {
   } as const;
 }
 
-export const styles = {
+function card(theme: Theme) {
+  return {
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.roundness(1),
+    overflow: 'hidden'
+  } as const;
+}
+
+function cardBody(theme: Theme) {
+  return {
+    padding: theme.spacing(2)
+  } as const;
+}
+
+function unstyle() {
+  return {
+    border: 'none',
+    outline: 'none',
+    margin: 0,
+    padding: 0,
+    backgroundColor: 'transparent'
+  } as const;
+}
+
+export const styleHelpers = {
   lockWidth,
   lockHeight,
   hideLink,
   centerBackgroundImage,
+  aspectRatioFullHeight,
   aspectRatioFullWidth,
   page,
   flex,
   textCenter,
-  absoluteFill
+  absoluteFill,
+  card,
+  cardBody,
+  unstyle
 }

@@ -1,8 +1,12 @@
-import { spacing, roundness } from '../constants/theme';
+import { spacing, roundness, mediaQuery, timing } from '../constants/theme';
 
 export interface Theme {
   colors: {
-    primary: string,
+    primary: {
+      main: string,
+      contrastText: string
+      contrastTextMuted: string
+    },
     accent: string,
     text: string,
     textMuted: string,
@@ -22,9 +26,10 @@ export interface Theme {
   /**
    * Insets set by safe area view context
    */
-  dark: boolean,
   roundness: typeof roundness,
-  spacing: typeof spacing
+  spacing: typeof spacing,
+  mediaQuery: typeof mediaQuery,
+  timing: typeof timing
 }
 
 export interface ComputedTheme extends Theme {}

@@ -1,18 +1,53 @@
 import React from 'react';
 import Theme from './Theme';
+import { ReactChildren } from '../types';
 
 export function Button({
   children,
-  onClick
+  onClick,
+  className,
+  style
 }: {
-  children: string,
-  onClick?: () => any
+  children: ReactChildren<string>
+  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => any
+  className?: string
+  style?: React.CSSProperties
 }) {
-  const classes = Theme.useStyleCreatorClassNames(styleCreator);
+  const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <div className={classes.button} onClick={onClick}>
-      <span className={classes.buttonText}>{children}</span>
+    <div 
+      className={className} 
+      style={{
+        ...styles.button,
+        ...style
+      }}
+      onClick={onClick}
+    >
+      <span style={styles.buttonText}>{children}</span>
     </div>
+  );
+}
+
+export function ButtonText({
+  children,
+  onClick,
+  style
+}: {
+  children: ReactChildren<string>
+  onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => any
+  style?: React.CSSProperties
+}) {
+  const styles = Theme.useStyleCreator(styleCreator);
+  return (
+    <span 
+      onClick={onClick}
+      style={{
+        ...styles.textButton,
+        ...style
+      }}
+    >
+      {children}
+    </span>
   );
 }
 
@@ -28,7 +63,12 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   buttonText: {
     color: '#fff',
     fontSize: '1.3rem'
+  },
+  textButton: {
+    color: theme.colors.accent,
+    cursor: 'pointer'
   }
 }));
 
+Button.Text = ButtonText;
 export default Button;
