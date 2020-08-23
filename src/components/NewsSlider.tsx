@@ -1,6 +1,6 @@
 import React from 'react';
 import { Article } from '../shared/src/client';
-import { formatDateAbriviated, clamp } from '../shared/src/utils';
+import { formatDateAbriviated } from '../shared/src/utils';
 import { Theme, Section, Text, AspectRatioImage } from '../components';
 import Link from 'next/link';
 import { styleHelpers, imgix } from '../utils';
