@@ -1,6 +1,6 @@
 import React from 'react';
 import { NextPageContext } from 'next';
-import { Section, Theme, ActivityIndicator, HTML } from '../../../components';
+import { Section, Theme, ActivityIndicator, HTML, SEOProps } from '../../../components';
 import { getPagePreview, GetPage } from '../../../shared/src/client';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
@@ -51,10 +51,16 @@ Page.getInitialProps = async (ctx: NextPageContext) => {
   const id = processNextQueryStringParam(ctx.query.id);
 
   const initialPage = await getPagePreview({ id });
+
+  const seo: SEOProps = {
+    title: initialPage?.title,
+    type: 'website'
+  };
   
   return { 
     initialPage,
-    pageId: id
+    pageId: id,
+    seo
   };
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetHoru } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Carousel, Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text } from '../../components';
+import { Carousel, Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 
@@ -156,9 +156,19 @@ export async function getStaticProps() {
     limit: 20
   });
 
+  const seo: SEOProps = {
+    title: 'Humans of Rutgers'
+  };
+
+  const firstPost = initHoru?.items?.[0];
+  if (firstPost) {
+    seo.imageSrc = firstPost.media?.[0].url;
+  }
+
   return {
     props: {
-      initHoru
+      initHoru,
+      seo
     },
     revalidate: 60 // seconds
   }

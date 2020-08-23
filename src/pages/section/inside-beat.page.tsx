@@ -2,7 +2,7 @@ import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import NotFound from '../404.page';
-import { Section, Theme, Grid, ActivityIndicator, Card, Banner } from '../../components';
+import { Section, Theme, Grid, ActivityIndicator, Card, Banner, SEOProps } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { useRouter } from 'next/router';
 
@@ -176,10 +176,20 @@ export async function getStaticProps() {
     category: 'inside-beat',
     limit: 80
   });
+
+  const seo: SEOProps = {
+    title: 'Inside Beat'
+  };
+
+  const firstArticle = initSection?.items?.[0].articles?.[0];
+  if (firstArticle) {
+    seo.imageSrc = firstArticle.media?.[0].url;
+  }
   
   return {
     props: {
-      initSection
+      initSection,
+      seo
     },
     revalidate: 60 // seconds
   }

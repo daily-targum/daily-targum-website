@@ -6,6 +6,7 @@ import { ObjectKeys } from '../shared/src/utils';
 type ImgixOptions = {
   ar?: string
   width?: string
+  height?: string
   crop?: string
   fm?: 'webp'
   q?: number
@@ -49,6 +50,16 @@ const presets = {
     ar,
     width: '1200'
   }) as const,
+  facebook: () => ({
+    ...imgixDefaultOptions,
+    height: '640',
+    width: '1200'
+  }),
+  twitter: () => ({
+    ...imgixDefaultOptions,
+    height: '120',
+    width: '120'
+  })
 };
 imgix.presets = presets;
 
@@ -93,4 +104,26 @@ export function imgix(
   });
 
   return data;
+}
+
+imgix.nonResponsive = imgixNonResponsive;
+function imgixNonResponsive(
+  src: string,
+  preset: Partial<ImgixOptions>
+) {
+  const format = 'jpg';
+
+  const { formats: _, ...rest } = preset;
+
+  return {
+    type: `image/${format}`,
+    src: `${src}?` + (
+      queryString.stringify({
+        ...rest,
+        fm: format
+      }, {
+        encode: false
+      })
+    )
+  };
 }

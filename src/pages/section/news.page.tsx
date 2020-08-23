@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner } from '../../components';
+import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
@@ -126,9 +126,19 @@ export async function getStaticProps() {
     limit: 50
   });
 
+  const seo: SEOProps = {
+    title: 'News'
+  };
+
+  const firstArticle = initSection?.items?.[0].articles?.[0];
+  if (firstArticle) {
+    seo.imageSrc = firstArticle.media?.[0].url;
+  }
+
   return {
     props: {
-      initSection
+      initSection,
+      seo
     },
     revalidate: 60 // seconds
   }

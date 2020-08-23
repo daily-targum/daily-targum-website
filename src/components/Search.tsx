@@ -84,7 +84,7 @@ const styleCreator = Theme.makeStyleCreator((theme, dark: boolean) => ({
     border: `1px solid ${dark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(0, 0, 0, 0.08)'}`,
     backgroundColor: dark ? 'transparent' : theme.colors.surface,
     // TODO: Remove this once search is working
-    visibility: 'hidden'
+    opacity: 0
   },
   searchInput: {
     ...styleHelpers.unstyle(),

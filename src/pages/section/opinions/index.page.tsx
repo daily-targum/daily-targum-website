@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { actions, GetArticles, Article } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { Section, Theme, Text, Divider, CardCols, Card, FlatList, Grid, Banner, AspectRatioImage } from '../../../components';
+import { Section, Theme, Text, Divider, CardCols, Card, FlatList, Grid, Banner, AspectRatioImage, SEOProps } from '../../../components';
 import { styleHelpers, imgix } from '../../../utils';
 
 function Column({
@@ -48,9 +48,9 @@ function Column({
 }
 
 function Category({ 
-  section
+  initSection
 }: { 
-  section: GetArticles
+  initSection: GetArticles
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
@@ -60,7 +60,7 @@ function Category({
       <Banner text='Opinions'/>
 
       <Grid.Row spacing={theme.spacing(2)}>
-        <CardCols items={section.items[0].articles.slice(0,3)}>
+        <CardCols items={initSection.items[0].articles.slice(0,3)}>
           {article => article ? (
             <Card.ImageResponsive
               id={article.id}
@@ -83,7 +83,7 @@ function Category({
       <Divider style={styles.divider}/>
       <Text variant='h2'>Our Columnists</Text>
       <FlatList
-        data={section.columnists}
+        data={initSection.columnists}
         renderItem={(author) => author.headshot ? (
           <Link
             href='/staff/[slug]'
@@ -107,7 +107,7 @@ function Category({
 
       <Divider style={styles.divider}/>
 
-      {section.items.map(column => (
+      {initSection.items.map(column => (
         <Column
           key={column.name}
           subcategory={column.name}
@@ -169,12 +169,23 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
 }));
 
 Category.getInitialProps = async () => {
-  const section = await actions.getArticles({
+  const initSection = await actions.getArticles({
     category: 'Opinions',
     limit: 4
   });
+
+  const seo: SEOProps = {
+    title: 'Opinions'
+  };
+
+  const firstArticle = initSection?.items?.[0].articles?.[0];
+  if (firstArticle) {
+    seo.imageSrc = firstArticle.media?.[0].url;
+  }
+
   return { 
-    section
+    initSection,
+    seo
   };
 };
 

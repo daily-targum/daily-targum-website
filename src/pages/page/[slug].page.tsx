@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, Theme, ActivityIndicator, HTML } from '../../components';
+import { Section, Theme, ActivityIndicator, HTML, SEOProps } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { styleHelpers, processNextQueryStringParam } from '../../utils';
@@ -37,13 +37,22 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 }));
 
 export const getStaticProps: GetStaticProps = async (ctx) => {  
+  const slug = processNextQueryStringParam(ctx.params?.slug);
+
   const page = await getPage({
-    slug: processNextQueryStringParam(ctx.params?.slug)
+    slug
   });
+
+  const seo: SEOProps = {
+    pathname: `/page/${slug}`,
+    title: page?.title,
+    type: 'website'
+  };
 
   return {
     props: {
-      page: page ?? null
+      page: page ?? null,
+      seo
     },
     revalidate: 60 // seconds
   }

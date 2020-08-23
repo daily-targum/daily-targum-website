@@ -48,13 +48,15 @@ export function AspectRatioView({
 export function AspectRatioImage({
   aspectRatio,
   data,
+  src,
   className,
   style,
   onClick,
   altText
 }: {
   aspectRatio?: number
-  data: ImageData[]
+  data?: ImageData[]
+  src?: string
   className?: string
   style?: React.CSSProperties
   onClick?: () => any
@@ -79,6 +81,7 @@ export function AspectRatioImage({
           objectFit: 'cover'
         }}
         data={data}
+        src={src}
         altText={altText}
       />
     </AspectRatioView>

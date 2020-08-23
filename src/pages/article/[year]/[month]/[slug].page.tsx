@@ -58,7 +58,7 @@ function Article({
 
           <Grid.Col xs={0} md={2}>
             <div style={{backgroundColor: '#eee', flex: 1, display: 'flex', height: '100%'}}>
-              <span>Ad</span>
+              <span>Ad placeholder</span>
             </div>
           </Grid.Col>
         </Grid.Row>
@@ -114,7 +114,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: { 
-      article,
+      article: article ?? null,
       seo
     }
   };

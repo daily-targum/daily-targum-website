@@ -1,8 +1,8 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Theme, Card, ActivityIndicator, FlatList } from '../../../components';
+import { Section, Text, Grid, Theme, Card, ActivityIndicator, FlatList, SEOProps } from '../../../components';
 import { actions, GetArticlesBySubcategory } from '../../../shared/src/client';
-import { formatDateAbriviated } from '../../../shared/src/utils';
+import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
 import { processNextQueryStringParam, styleHelpers, imgix } from '../../../utils';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
@@ -101,13 +101,25 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 }));
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
+  const subcategory = processNextQueryStringParam(ctx.params?.subcategory, '');
+
   const articles = await actions.getArticlesBySubcategory({
-    subcategory: processNextQueryStringParam(ctx.params?.subcategory, '')
+    subcategory
   });
+
+  const seo: SEOProps = {
+    title: `Opinions / ${hyphenatedToCapitalized(subcategory)}`
+  };
+
+  const firstArticle = articles?.[0];
+  if (firstArticle) {
+    seo.imageSrc = firstArticle.media?.[0].url;
+  }
 
   return {
     props: { 
-      articles: articles ?? null
+      articles: articles ?? null,
+      seo
     }
   };
 };

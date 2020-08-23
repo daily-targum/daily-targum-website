@@ -22,7 +22,7 @@ function Author({
     return <ActivityIndicator.Screen/>;
   }
 
-  if(!page) {
+  if (!page) {
     return <NotFound/>;
   }
 
@@ -134,6 +134,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     // FIX THIS: should be able to look up author by slug
     author: hyphenatedToCapitalized(processNextQueryStringParam(ctx.params?.slug, ''))
   });
+
+  // TODO: add seo
 
   return {
     props: { 

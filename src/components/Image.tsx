@@ -7,17 +7,20 @@ export type ImageData = {
 
 export function Image({
   data,
+  src,
   className,
   style,
   altText
 }: {
   aspectRatio?: number
-  data: ImageData[]
+  data?: ImageData[]
+  src?: string
   className?: string
   style?: React.CSSProperties
   altText?: string
 }) {
-  const lastImg = data.slice(-1)[0] ?? {};
+  // try and fall back to src if data isn't provided
+  const lastImg = data ? data.slice(-1)[0] ?? { src } : { src };
 
   return (
     <picture 
@@ -26,14 +29,14 @@ export function Image({
       }}
       className={className}
     >
-      {data.map(img => (
+      {data ? data.map(img => (
         <source 
           key={img.src}
           srcSet={img.src}
           type={img.type}
           media={img.media}
         />
-      ))}
+      )) : null}
       
       <img 
         alt={altText}
