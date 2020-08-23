@@ -1,9 +1,10 @@
 import React from 'react';
 import { Article } from '../shared/src/client';
-import { formatDateAbriviated } from '../shared/src/utils';
+import { formatDateAbriviated, clamp } from '../shared/src/utils';
 import { Theme, Section, Text, AspectRatioImage } from '../components';
 import Link from 'next/link';
 import { styleHelpers, imgix } from '../utils';
+import { Swipeable } from 'react-swipeable'
 
 function Slide({
   article,
@@ -87,6 +88,7 @@ export function NewsSlider({
   const [ index, setIndex ] = React.useState(0);
   const [ loaded, setLoaded ] = React.useState([true]);
 
+  // Lazy load images
   React.useEffect(() => {
     if (!loaded[index]) {
       const clone = loaded.slice(0);
@@ -95,21 +97,41 @@ export function NewsSlider({
     }
   }, [index]);
 
+  const incrementSlide = React.useCallback(
+    (num: number) => {
+      const updatedIndex = index + num;
+
+      if(updatedIndex > articles.length - 1) {
+        setIndex(0);
+      } 
+
+      else if (updatedIndex < 0) {
+        setIndex(articles.length - 1);
+      }
+      
+      else {
+        setIndex(updatedIndex);
+      }
+    },
+    [index, articles.length]
+  );
+
   React.useEffect(() => {
     const id = setTimeout(() => {
-      if(index < articles.length - 1) {
-        setIndex(index + 1);
-      } else {
-        setIndex(0);
-      }
+      incrementSlide(1);
     }, 10 * 1000);
+
     return () => {
       clearTimeout(id);
     }
-  }, [index, articles.length])
+  }, [index, incrementSlide])
 
   return (
-    <div style={{position: 'relative'}}>
+    <Swipeable 
+      style={{position: 'relative'}}
+      onSwipedLeft={() => incrementSlide(1)}
+      onSwipedRight={() => incrementSlide(-1)}
+    >
       <div style={styles.sider}>
         {articles.map((a, i) => (
           <Slide
@@ -136,7 +158,7 @@ export function NewsSlider({
           />
         ))}
       </div>
-    </div>
+    </Swipeable>
   );
 }
 
@@ -176,7 +198,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.absoluteFill(),
     ...styleHelpers.flex('column'),
     justifyContent: 'flex-end',
-    transition: `opacity ${theme.timing(15)}`
+    transition: `opacity ${theme.timing(10)}`
   },
   slideImage: {
     ...styleHelpers.absoluteFill()
@@ -197,7 +219,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     width: '100%',
     borderLeft: `4px solid ${theme.colors.accent}`,
     maxWidth: 600,
-    transition: `opacity ${theme.timing(5)}`
+    transition: `opacity ${theme.timing(3)}`
   },
   sliderCardTitle: {
     color: '#fff',

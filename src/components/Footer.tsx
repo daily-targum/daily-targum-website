@@ -4,35 +4,30 @@ import Grid from './Grid/web';
 import Section from './Section';
 import Logo from './Logo';
 import Text from './Text';
-import Link from 'next/link';
+import Link from './Link';
 import { styleHelpers } from '../utils';
 
 const links = {
   company: [
     {
       title: 'About',
-      href: '/page/[slug]',
-      as: '/page/about'
+      href: '/page/about'
     },
     {
       title: 'Donate',
-      href: '/page/[slug]',
-      as: '/page/donate'
+      href: '/page/donate'
     },
     {
       title: 'Advertise',
-      href: '/page/[slug]',
-      as: '/page/advertise'
+      href: '/page/advertise'
     },
     {
       title: 'Get Involved',
-      href: '/page/[slug]',
-      as: '/page/get-involved'
+      href: '/page/get-involved'
     },
     {
       title: 'Privacy Policy',
-      href: '/page/[slug]',
-      as: '/page/privacy-policy'
+      href: '/page/privacy-policy'
     },
   ],
   socialMedia: [
@@ -81,11 +76,11 @@ export function Footer() {
             <Text variant='h4' style={styles.title}>Company</Text>
             {links.company.map(l => (
               <Link
-                key={l.as}
+                key={l.href}
                 href={l.href}
-                as={l.as}
+                style={styles.link}
               >
-                <a style={styles.link}>{l.title}</a>
+                {l.title}
               </Link>
             ))}
           </Grid.Col>
@@ -93,37 +88,41 @@ export function Footer() {
           <Grid.Col xs={0} md={8}>
             <Text variant='h4' style={styles.title}>Social Media</Text>
             {links.socialMedia.map(l => (
-              <a 
+              <Link 
                 key={l.href} 
                 style={styles.link}
                 href={l.href}
-              >{l.title}</a>
+              >
+                {l.title}
+              </Link>
             ))}
           </Grid.Col>
 
 
           {/* Mobile */}
           <Grid.Col xs={24} md={0}>
-            <div style={styles.spacer}/>
             <Text variant='h4' style={styles.title}>Company</Text>
             {links.company.map(l => (
               <Link
-                key={l.as}
+                key={l.href}
                 href={l.href}
-                as={l.as}
+                style={styles.mobileLink}
               >
-                <a style={styles.mobileLink}>{l.title}</a>
+                {l.title}
               </Link>
             ))}
           </Grid.Col>
           <Grid.Col xs={24} md={0}>
+            <div style={styles.spacer}/>
             <Text variant='h4' style={styles.title}>Social Media</Text>
             {links.socialMedia.map(l => (
-              <a 
+              <Link 
                 key={l.href} 
                 style={styles.mobileLink}
                 href={l.href}
-              >{l.title}</a>
+              >
+                {l.title}
+              </Link>
             ))}
           </Grid.Col>
           <Grid.Col xs={24} md={0}>
@@ -174,7 +173,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.textCenter()
   },
   link: {
-    marginTop: theme.spacing(2),
+    margin: theme.spacing(1.5, 0),
     textDecoration: 'none',
     color: theme.colors.primary.contrastTextMuted,
     textAlign: 'center'
@@ -191,7 +190,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     alignItems: 'center'
   },
   spacer: {
-    height: theme.spacing(10)
+    height: theme.spacing(8)
   }
 }));
 

@@ -67,6 +67,7 @@
     "react-ga": "^3.1.2",
     "react-icons": "3.11.0",
     "react-redux": "7.2.1",
+    "react-swipeable": "^5.5.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",

@@ -31,7 +31,7 @@ function Page({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   section: {
-    ...styleHelpers.page(theme),
+    ...styleHelpers.page(theme, 'compact'),
     flex: 1
   }
 }));

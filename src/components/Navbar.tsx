@@ -121,10 +121,9 @@ function MobileMenu() {
           <Link 
             key={link.as}
             href={link.href}
+            className={cng(styles.mobileLink)}
           >
-            <a className={cng(styles.mobileLink)}>
-              <span>{link.title}</span>
-            </a>
+            <span>{link.title}</span>
           </Link>
         ))}
       </div>
@@ -152,7 +151,7 @@ function DesktopNavbar() {
       />
 
       <div style={styles.navbarWrap}>
-        <Banner/>
+        {!mobileMenuVisible ? <Banner/> : null}
 
         <Section 
           className={cng(styles.navbar)}
@@ -201,9 +200,7 @@ function DesktopNavbar() {
             >
               <div style={styles.inner}>
                 <Link href='/'>
-                  <a>
-                    <Logo style={styles.logo}/>
-                  </a>
+                  <Logo style={styles.logo}/>
                 </Link>
 
                 <div 
@@ -253,7 +250,8 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
     justifyContent: 'center'
   },
   bannerText: {
-    color: theme.colors.primary.contrastText
+    color: theme.colors.primary.contrastText,
+    textAlign: 'center'
   },
   bannerAccentText: {
     color: theme.colors.accent
