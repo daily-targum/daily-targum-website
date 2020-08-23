@@ -150,8 +150,15 @@ function DesktopNavbar() {
         }}
       />
 
-      <div style={styles.navbarWrap}>
-        {!mobileMenuVisible ? <Banner/> : null}
+      <div 
+        style={{
+          ...styles.navbarWrap,
+          ...(mobileMenuVisible ? {
+            position: 'fixed'
+          } : null)
+        }}
+      >
+        <Banner/>
 
         <Section 
           className={cng(styles.navbar)}
@@ -352,6 +359,7 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
     position: 'fixed',
     backgroundColor: darkNavbar ? theme.colors.primary.main : theme.colors.surface,
     paddingLeft: theme.spacing(2.5),
+    paddingTop: NAVBAR_HEIGHT,
     zIndex: 999,
     justifyContent: 'center'
   },
