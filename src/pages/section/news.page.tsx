@@ -4,29 +4,21 @@ import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, SEOPro
 import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
-import { articleMachine, useMachine } from '../../machines';
+import { useArticles } from '../../machines';
 
 function News({ 
-  initSection
+  initialArticles
 }: { 
-  initSection: GetArticles
+  initialArticles: GetArticles
 }) {
-  const [state, send] = useMachine(articleMachine);
+  const { articles, loadMore } = useArticles({ 
+    initialArticles,
+    category: 'inside-beat'
+  });
 
   const router = useRouter();
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
-
-  const articles = state.context.articles ?? initSection.items[0].articles;
-
-  React.useEffect(() => {
-    if (articles) {
-      send({
-        type: 'HYDRATE',
-        articles
-      });
-    }
-  }, [articles]);
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>
@@ -88,11 +80,9 @@ function News({
         ))}
       </Grid.Row>
 
-      {/* {(section.nextToken) ? (
-        <ActivityIndicator.ProgressiveLoader 
-          onVisible={loadMore}
-        />
-      ) : null} */}
+      <ActivityIndicator.ProgressiveLoader 
+        onVisible={loadMore}
+      />
     </Section>
   );
 }
@@ -106,23 +96,23 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 }));
 
 export async function getStaticProps() {
-  const initSection = await actions.getArticles({
+  const initialArticles = await actions.getArticles({
     category: 'News',
-    limit: 50
+    limit: 20
   });
 
   const seo: SEOProps = {
     title: 'News'
   };
 
-  const firstArticle = initSection?.items?.[0].articles?.[0];
+  const firstArticle = initialArticles?.items?.[0].articles?.[0];
   if (firstArticle) {
     seo.imageSrc = firstArticle.media?.[0].url;
   }
 
   return {
     props: {
-      initSection: initSection ?? null,
+      initialArticles: initialArticles ?? null,
       seo
     },
     revalidate: 60 // seconds

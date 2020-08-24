@@ -4,37 +4,119 @@ import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar
 import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
-import { sportsMachine, useMachine } from '../../machines';
+import { sportsMachine } from '../../machines';
+import { useMachine } from '@xstate/react';
 
 
 
 function Category({ 
-  initSection
+  initialArticles
 }: { 
-  initSection: GetArticles
+  initialArticles: GetArticles
 }) {
-  const [state, send] = useMachine(sportsMachine);
-  const selectedTag = state.context.selectedTag;
-
   const router = useRouter();
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
-  const subcategories = initSection.subcategories;
-  const firstFiveArticles = initSection.items[0].articles.slice(0, 5);
-  const restArticles = initSection.items[0].articles.slice(5);
+  const [state, send] = useMachine(sportsMachine);
+  const selectedTag = state.context.selectedTag;
+
+  const subcategories = initialArticles.subcategories;
+  const firstFiveArticles = initialArticles.items[0].articles.slice(0, 5);
+  const restArticles = initialArticles.items[0].articles.slice(5);
+
+
+  const articles = restArticles;
 
   React.useEffect(() => {
-    if (restArticles) {
+    if (articles) {
       send({
         type: 'HYDRATE',
-        articles: restArticles,
+        articles,
         subcategories
       });
     }
-  }, [restArticles, subcategories]);
+  }, [send]);
 
-  if (router.isFallback || state.context.articles === null) {
+  // request more content for pagination
+  React.useEffect(() => {
+    const parentState = typeof state.value === "object" ? Object.keys(state.value)[0] : state.value;
+    const cancledRef = { cancled: false };
+
+    if (parentState === 'all' || parentState === 'tagSelected') {
+
+      if (selectedTag) {
+        const lastArticle = state.context.subcategories?.[selectedTag]?.slice(-1)[0];
+
+        actions.getArticlesBySubcategory({
+          subcategory: selectedTag,
+          lastEvaluatedKey: lastArticle?.id,
+          lastPublishDate: lastArticle?.publishDate
+        })
+        .then(newArticles => {
+          if (!cancledRef.cancled) {
+            if (newArticles && newArticles.length > 0) {
+              send({
+                type: 'CONTENT_LOADED',
+                articles: newArticles
+              });
+            }
+    
+            else {
+              send({
+                type: 'OUT_OF_CONTENT'
+              });
+            }
+          }
+        });
+      }
+
+      else {
+        const lastArticle = state.context.articles?.slice(-1)[0];
+        if (!lastArticle) return;
+
+        actions.getArticles({
+          category: 'Sports',
+          lastEvaluatedKey: lastArticle.id,
+          lastPublishDate: lastArticle.publishDate
+        })
+        .then(res => {
+          if (!cancledRef.cancled) {
+            const newArticles = res.items?.[0]?.articles ?? [];
+    
+            if (newArticles && newArticles.length > 0) {
+              send({
+                type: 'CONTENT_LOADED',
+                articles: newArticles
+              });
+            }
+    
+            else {
+              send({
+                type: 'OUT_OF_CONTENT'
+              });
+            }
+          }
+        });
+      }
+      
+    }
+
+    return () => {
+      cancledRef.cancled = true;
+    }
+  }, [state.value, send, selectedTag, state.context]);
+
+  const loadMore = React.useCallback(
+    () => send({
+      type: 'LOAD_MORE_CONTENT'
+    }),
+    [send]
+  );
+
+
+
+  if (router.isFallback) {
     return <ActivityIndicator.Screen/>
   }
 
@@ -170,11 +252,10 @@ function Category({
         ) : null)}
       </Grid.Row>
       
-      {/* {section.nextToken ? (
-        <ActivityIndicator.ProgressiveLoader 
-          onVisible={loadMore}
-        />
-      ) : null} */}
+      <ActivityIndicator.ProgressiveLoader 
+        key={selectedTag}
+        onVisible={loadMore}
+      />
     </Section>
   );
 }
@@ -188,23 +269,23 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 }));
 
 export async function getStaticProps() {
-  const initSection = await actions.getArticles({
+  const initialArticles = await actions.getArticles({
     category: 'Sports',
-    limit: 50
+    limit: 100
   });
 
   const seo: SEOProps = {
     title: 'Sports'
   };
 
-  const firstArticle = initSection?.items?.[0].articles?.[0];
+  const firstArticle = initialArticles?.items?.[0].articles?.[0];
   if (firstArticle) {
     seo.imageSrc = firstArticle.media?.[0].url;
   }
 
   return {
     props: {
-      initSection: initSection ?? null,
+      initialArticles: initialArticles ?? null,
       seo
     },
     revalidate: 60 // seconds

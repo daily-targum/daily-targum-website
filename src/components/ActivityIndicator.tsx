@@ -73,6 +73,7 @@ function ActivityIndicatorProgressiveLoader({
       };
     }
   }, [onVisible, isVisible]);
+  
   return (
     <div 
       ref={ref}

@@ -1,13 +1,11 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Section, Text, Grid, Theme, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList } from '../../components';
-import { getAuthorPage, GetAuthorPage } from '../../shared/src/client';
-import { hyphenatedToCapitalized, formatDateAbriviated } from '../../shared/src/utils';
+import { actions, GetAuthorPage } from '../../shared/src/client';
+import { formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, styleHelpers, imgix } from '../../utils';
 import NotFound from '../404.page';
 import { useRouter } from 'next/router';
-
-const img = 'https://www.w3schools.com/howto/img_avatar.png';
 
 function Author({
   page
@@ -35,28 +33,34 @@ function Author({
         <Grid.Col xs={0} md={6} lg={5}>
           <div style={styles.authorCard}>
             <Text.Br/>
-            <AspectRatioImage
-              data={imgix(img, {
-                xs: imgix.presets.sm('1:1')
-              })}
-              aspectRatio={1}
-              style={styles.avatar}
-            />
-            <Text variant='h3'>{page.author[0].displayName}</Text>
+            {page.author.headshot ? (
+              <AspectRatioImage
+                data={imgix(page.author.headshot, {
+                  xs: imgix.presets.sm('1:1')
+                })}
+                aspectRatio={1}
+                style={styles.avatar}
+              />
+            ) : null}
+            <Text variant='h3'>{page.author.displayName}</Text>
             <Text variant='p'>Bio goes here.</Text>
           </div>
         </Grid.Col>
 
         <Grid.Col xs={24} md={0}>
-          <Card.Compact
-            href='#'
-            style={styles.articleCard}
-            title={page.author[0].displayName}
-            imageData={imgix(img, {
-              xs: imgix.presets.sm('1:1')
-            })}
-            aspectRatio={3 /2}
-          />
+          {page.author.headshot ? (
+            <Card.Compact
+              href='#'
+              style={styles.articleCard}
+              title={page.author.displayName}
+              imageData={imgix(page.author.headshot ?? '', {
+                xs: imgix.presets.sm('1:1')
+              })}
+              aspectRatio={3 /2}
+            />
+          ) : (
+            <Text variant='h3'>{page.author.displayName}</Text>
+          )}
 
           <Card.Spacer/>
           <Divider/>
@@ -112,7 +116,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   avatar: {
     ...styleHelpers.lockWidth('50%'),
     marginBottom: theme.spacing(2),
-    borderRadius: '100%'
+    borderRadius: '100%',
+    overflow: 'hidden'
   },
   avatarMobile: {
     ...styleHelpers.lockWidth('30%'),
@@ -130,9 +135,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 }));
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const page = await getAuthorPage({
-    // FIX THIS: should be able to look up author by slug
-    author: hyphenatedToCapitalized(processNextQueryStringParam(ctx.params?.slug, ''))
+  const page = await actions.getAuthorBySlug({
+    slug: processNextQueryStringParam(ctx.params?.slug, '')
   });
 
   // TODO: add seo

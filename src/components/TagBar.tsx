@@ -59,7 +59,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
-    fontSize: '1.3rem',
+    fontSize: '1.1rem',
     userSelect: 'none',
     textTransform: 'capitalize'
   },

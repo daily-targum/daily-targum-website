@@ -4,25 +4,17 @@ import { formatDateAbriviated } from '../../shared/src/utils';
 import { Section, Theme, Grid, ActivityIndicator, Card, Banner, SEOProps } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { useRouter } from 'next/router';
-import { articleMachine, useMachine } from '../../machines';
+import { useArticles } from '../../machines';
 
 function Category({ 
-  initSection
+  initialArticles
 }: { 
-  initSection: GetArticles
+  initialArticles: GetArticles
 }) {
-  const [state, send] = useMachine(articleMachine);
-
-  const articles = state.context.articles ?? initSection.items[0].articles;
-
-  React.useEffect(() => {
-    if (articles) {
-      send({
-        type: 'HYDRATE',
-        articles
-      });
-    }
-  }, [articles]);
+  const { articles, loadMore } = useArticles({ 
+    initialArticles,
+    category: 'inside-beat'
+  });
 
   const router = useRouter();
   const styles = Theme.useStyleCreator(styleCreator);
@@ -97,11 +89,9 @@ function Category({
         ))}
       </Grid.Row>
 
-      {/* {section.nextToken ? (
-        <ActivityIndicator.ProgressiveLoader 
-          onVisible={loadMore}
-        />
-      ) : null} */}
+      <ActivityIndicator.ProgressiveLoader 
+        onVisible={loadMore}
+      />
 
     </Section>
   );
@@ -155,23 +145,23 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 }));
 
 export async function getStaticProps() {
-  const initSection = await actions.getArticles({
+  const initialArticles = await actions.getArticles({
     category: 'inside-beat',
-    limit: 80
+    limit: 20
   });
 
   const seo: SEOProps = {
     title: 'Inside Beat'
   };
 
-  const firstArticle = initSection?.items?.[0].articles?.[0];
+  const firstArticle = initialArticles?.items?.[0].articles?.[0];
   if (firstArticle) {
     seo.imageSrc = firstArticle.media?.[0].url;
   }
   
   return {
     props: {
-      initSection: initSection ?? null,
+      initialArticles: initialArticles ?? null,
       seo
     },
     revalidate: 60 // seconds

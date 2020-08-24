@@ -21,8 +21,7 @@ function Column({
     <div style={styles.section}>
       <CardCols.Header
         title={title}
-        href='/section/opinions/[subcategory]'
-        as={`/section/opinions/${subcategory}`}
+        href={`/section/opinions/${subcategory}`}
       />
 
       <Grid.Row spacing={theme.spacing(2)}>
