@@ -171,18 +171,18 @@ jobs:
         uses: jakejarvis/lighthouse-action@master
         with:
           url: https://staging-dailytargum.now.sh/videos
-      - name: Audit photos page
-        uses: jakejarvis/lighthouse-action@master
-        with:
-          url: https://staging-dailytargum.now.sh/photos
+      # - name: Audit photos page
+      #   uses: jakejarvis/lighthouse-action@master
+      #   with:
+      #     url: https://staging-dailytargum.now.sh/photos
       - name: Audit HoRU page
         uses: jakejarvis/lighthouse-action@master
         with:
           url: https://staging-dailytargum.now.sh/section/humans-of-rutgers
-      - name: Audit podcast page
-        uses: jakejarvis/lighthouse-action@master
-        with:
-          url: https://staging-dailytargum.now.sh/podcasts/targum-tea
+      # - name: Audit podcast page
+      #   uses: jakejarvis/lighthouse-action@master
+      #   with:
+      #     url: https://staging-dailytargum.now.sh/podcasts/targum-tea
       - name: Upload results as an artifact
         uses: actions/upload-artifact@master
         with:
