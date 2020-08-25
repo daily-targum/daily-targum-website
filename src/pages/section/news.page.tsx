@@ -98,7 +98,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 export async function getStaticProps() {
   const initialArticles = await actions.getArticles({
     category: 'News',
-    limit: 20
+    limit: 50
   });
 
   const seo: SEOProps = {

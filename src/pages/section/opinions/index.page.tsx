@@ -4,6 +4,7 @@ import { actions, GetArticles, Article } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
 import { Section, Theme, Text, Divider, CardCols, Card, FlatList, Grid, Banner, AspectRatioImage, SEOProps } from '../../../components';
 import { styleHelpers, imgix } from '../../../utils';
+import { GetStaticProps } from 'next';
 
 function Column({
   title,
@@ -73,7 +74,7 @@ function Category({
               as={'/'+article.slug}
               aspectRatioDesktop={16 / 9}
               date={formatDateAbriviated(article.publishDate)}
-              author={article.authors.join(', ')}
+              author={article.authors.map(a => a.displayName).join(', ')}
             />
           ) : null}
         </CardCols>
@@ -167,7 +168,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   }
 }));
 
-Category.getInitialProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const initSection = await actions.getArticles({
     category: 'Opinions',
     limit: 4
@@ -183,8 +184,10 @@ Category.getInitialProps = async () => {
   }
 
   return { 
-    initSection: initSection ?? null,
-    seo
+    props: {
+      initSection: initSection ?? null,
+      seo
+    }
   };
 };
 

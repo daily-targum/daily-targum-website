@@ -1,11 +1,12 @@
 import React from 'react';
-import { Video, Section, Theme, CardCols, Grid, Divider, Text, Navbar } from '../components';
+import { Video, Section, Theme, CardCols, Card, Grid, Divider, Text, Navbar } from '../components';
 import { useSelector, useDispatch } from '../store';
 import { videoActions } from '../store/ducks/video';
 import { podcastActions } from '../store/ducks/podcast';
-import { styleHelpers } from '../utils';
+import { styleHelpers, imgix } from '../utils';
 import { InferGetStaticPropsType } from 'next';
 import { actions } from '../shared/src/client';
+import { formatDateAbriviated } from '../shared/src/utils';
 
 function Videos({
   playlists
@@ -68,12 +69,14 @@ function Videos({
 
                 <CardCols items={playlist.media}>
                   {video => video ? (
-                    <div 
-                      style={{
-                        backgroundColor: '#999',
-                        ...styleHelpers.aspectRatioFullWidth(16/9),
-                        cursor: 'pointer'
-                      }}
+                    <Card.Stacked
+                      imageData={imgix(video.thumbnail, {
+                        xs: imgix.presets.md('16:9')
+                      })}
+                      dark={true}
+                      aspectRatio={16/9}
+                      title={video.title}
+                      date={formatDateAbriviated(video.createdAt)}
                       onClick={() => {
                         dispatch(videoActions.loadVideo({
                           ...video,

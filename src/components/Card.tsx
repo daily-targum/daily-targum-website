@@ -57,6 +57,7 @@ interface CardBaseProps {
   style?: React.CSSProperties
   author?: string
   onClick?: () => any
+  dark?: boolean
 }
 
 interface CardBaseResponsiveProps extends CardBaseProps {
@@ -190,7 +191,8 @@ function CardStacked({
   aspectRatio,
   date,
   author,
-  onClick
+  onClick,
+  dark
 }: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
@@ -206,9 +208,22 @@ function CardStacked({
         data={imageData}
       />
       
-      <div style={styles.stackedCardBody}>
+      <div 
+        style={{
+          ...styles.stackedCardBody,
+          ...(dark ? styles.cardBodyTextDark : null)
+        }}
+      >
         {tag ? <Text style={styles.tag}>{tag}</Text> : null}
-        {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={2}>{title}</Text.Truncate> : null}
+        {title ? (
+          <Text.Truncate 
+            variant='h4' 
+            htmlTag='h1' 
+            numberOfLines={2}
+          >
+            {title}
+          </Text.Truncate>
+        ) : null}
 
         <div style={styles.grow}/>
 
@@ -358,13 +373,14 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex('column'),
     ...styleHelpers.cardBody(theme),
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'flex-start'
   },
   compactCardBody: {
     ...styleHelpers.flex('column'),
     ...styleHelpers.cardBody(theme),
     flex: 1,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    overflow: 'hidden'
   },
   imageCard: {
     ...styleHelpers.card(theme),
@@ -414,6 +430,8 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     flex: 1
   },
   date: {
+    marginRight: theme.spacing(2),
+    whiteSpace: 'nowrap',
   },
   spacer: {
     height: theme.spacing(2.5)
@@ -424,7 +442,10 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     justifyContent: 'space-between'
   },
   author: {
-    fontStyle: 'italic'
+    fontStyle: 'italic',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden'
   },
   textMuted: {
     color: theme.colors.textMuted
@@ -434,6 +455,10 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   },
   grow: {
     flex: 1
+  },
+  // dark theme
+  cardBodyTextDark: {
+    color: theme.colors.primary.contrastText
   }
 }));
 
