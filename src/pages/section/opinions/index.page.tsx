@@ -187,7 +187,8 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       initSection: initSection ?? null,
       seo
-    }
+    },
+    revalidate: 60 // seconds
   };
 };
 
