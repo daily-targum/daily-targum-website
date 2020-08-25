@@ -6,7 +6,7 @@ import Grid from './Grid/web';
 import { AspectRatioImage } from './AspectRatioView';
 import { ImageData } from './Image';
 import { styleHelpers } from '../utils';
-import { ReactChildren } from '../types';
+import { ReactChildren, ReactChild } from '../types';
 
 
 function Clickable({
@@ -58,6 +58,7 @@ interface CardBaseProps {
   author?: string
   onClick?: () => any
   dark?: boolean
+  Overlay?: ReactChild
 }
 
 interface CardBaseResponsiveProps extends CardBaseProps {
@@ -192,7 +193,8 @@ function CardStacked({
   date,
   author,
   onClick,
-  dark
+  dark,
+  Overlay
 }: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
@@ -202,11 +204,14 @@ function CardStacked({
       onClick={onClick}
       style={styles.stackedCard}
     >
-      <AspectRatioImage
-        style={styles.stackedCardImage}
-        aspectRatio={aspectRatio}
-        data={imageData}
-      />
+      <div style={{ position: 'relative' }}>
+        <AspectRatioImage
+          style={styles.stackedCardImage}
+          aspectRatio={aspectRatio}
+          data={imageData}
+        />
+        {Overlay}
+      </div>
       
       <div 
         style={{
@@ -463,7 +468,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
 }));
 
 const comparisonFn = function(prevProps: any, nextProps: any) {
-  return prevProps.id === nextProps.id;
+  return prevProps.id && prevProps.id === nextProps.id;
 };
 
 export const Card = {

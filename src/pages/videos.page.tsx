@@ -6,7 +6,41 @@ import { podcastActions } from '../store/ducks/podcast';
 import { styleHelpers, imgix } from '../utils';
 import { InferGetStaticPropsType } from 'next';
 import { actions } from '../shared/src/client';
-import { formatDateAbriviated } from '../shared/src/utils';
+import { formatDateAbriviated, secondsToTimeCode } from '../shared/src/utils';
+import { IoMdPause, IoMdPlay } from 'react-icons/io';
+
+function Overlay({
+  duration,
+  playing,
+  selected
+}: {
+  duration: number
+  playing: boolean
+  selected: boolean
+}) {
+  const styles = Theme.useStyleCreator(styleCreator);
+  const cng = Theme.useClassNameGenerator();
+
+  return (
+    <div style={styles.overlay}>
+      {selected ? (
+        playing ? (
+          <IoMdPause size={45} color='#fff'/>
+        ) : (
+          <IoMdPlay size={45} color='#fff'/>
+        )
+      ) : (
+        <div 
+          style={styles.overlay} 
+          className={cng(styles.showOnHover)}
+        >
+          <IoMdPlay size={45} color='#fff'/>
+        </div>
+      )}
+      <Text style={styles.timeCode}>{secondsToTimeCode(duration)}</Text>
+    </div>
+  );
+}
 
 function Videos({
   playlists
@@ -78,12 +112,29 @@ function Videos({
                       title={video.title}
                       date={formatDateAbriviated(video.createdAt)}
                       onClick={() => {
-                        dispatch(videoActions.loadVideo({
-                          ...video,
-                          src: video.url
-                        }));
-                        dispatch(videoActions.setPlayState('play'))
+                        if (src === video.url) {
+                          if (playState === 'play') {
+                            dispatch(videoActions.setPlayState('pause'));
+                          } else {
+                            dispatch(videoActions.setPlayState('play'));
+                          }
+                        }
+
+                        else {
+                          dispatch(videoActions.loadVideo({
+                            ...video,
+                            src: video.url
+                          }));
+                          dispatch(videoActions.setPlayState('play'));
+                        }
                       }}
+                      Overlay={
+                        <Overlay
+                          duration={video.duration}
+                          playing={playState === 'play'}
+                          selected={src === video.url}
+                        />
+                      }
                     />
                   ) : null}
                 </CardCols>
@@ -128,6 +179,30 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   text: {
     color: theme.colors.primary.contrastText
+  },
+  timeCode: {
+    position: 'absolute',
+    bottom: theme.spacing(1),
+    right: theme.spacing(1),
+    color: theme.colors.primary.contrastText,
+    padding: theme.spacing(1),
+    backgroundColor: theme.colors.primary.main,
+    borderRadius: theme.roundness(1),
+    fontSize: '0.8rem',
+    opacity: 0.8
+  },
+  overlay: {
+    ...styleHelpers.absoluteFill(),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  showOnHover: {
+    opacity: 0,
+    transition: `opacity ${theme.timing(0.5)}`,
+    ':hover': {
+      opacity: 1
+    }
   }
 }));
 
