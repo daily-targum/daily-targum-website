@@ -4,7 +4,7 @@ import Theme from './Theme';
 import Text from './Text';
 import { ReactChild } from '../types';
 import { RiArrowRightLine } from 'react-icons/ri';
-import Link from 'next/link';
+import Link from './Link';
 
 function getColSizes(numOfItems: number, numOfCols: number): {
   xs?: number
@@ -83,12 +83,10 @@ CardCols.Header = Header;
 function Header({
   title,
   href,
-  as,
   onClick
 } : {
   title: string
   href?: string
-  as?: string
   onClick?: () => any
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
@@ -99,20 +97,18 @@ function Header({
       {href ? (
         <Link 
           href={href}
-          as={as}
+          style={styles.moreInLink}
         >
-          <a style={styles.moreInLink}>
-            <Text 
-              variant='h4' 
-              style={styles.moreInLinkText}
-              noPadding
-            >
-              More in {title}
-            </Text>
-            <RiArrowRightLine
-              size={22}
-            />
-          </a>
+          <Text 
+            variant='h4' 
+            style={styles.moreInLinkText}
+            noPadding
+          >
+            More in {title}
+          </Text>
+          <RiArrowRightLine
+            size={22}
+          />
         </Link>
       ): (
         <div 
@@ -153,7 +149,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   moreInLinkText: {
     marginRight: theme.spacing(0.5),
-    fontWeight: 600
+    fontWeight: 600,
+    whiteSpace: 'nowrap'
   }
 }));
 

@@ -6,25 +6,19 @@ import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/s
 import { processNextQueryStringParam, styleHelpers, imgix } from '../../../utils';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
-import { articleMachine, useMachine } from '../../../machines';
+import { useArticles } from '../../../machines';
 
 function Author({
-  initialArticles
+  initialArticles,
+  subcategory
 }: {
   initialArticles: GetArticlesBySubcategory | null
+  subcategory: string
 }) {
-  const [state, send] = useMachine(articleMachine);
-
-  const articles = state.context.articles ?? initialArticles;
-
-  React.useEffect(() => {
-    if (articles) {
-      send({
-        type: 'HYDRATE',
-        articles
-      })
-    }
-  }, [initialArticles]);
+  const { articles, loadMore } = useArticles({
+    initialArticles,
+    subcategory
+  });
 
   const router = useRouter();
   const theme = Theme.useTheme();
@@ -66,9 +60,9 @@ function Author({
             )}
             ItemSeparatorComponent={<Card.Spacer/>}
           />
-          {/* <ActivityIndicator.ProgressiveLoader
-            onVisible={() => console.log('implement progressive load')}
-          /> */}
+          <ActivityIndicator.ProgressiveLoader
+            onVisible={loadMore}
+          />
         </Grid.Col>
 
       </Grid.Row>
@@ -118,7 +112,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const subcategory = processNextQueryStringParam(ctx.params?.subcategory, '');
 
   const initialArticles = await actions.getArticlesBySubcategory({
-    subcategory
+    subcategory,
+    limit: 50
   });
 
   const seo: SEOProps = {
@@ -133,6 +128,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: { 
       initialArticles: initialArticles ?? null,
+      subcategory,
       seo
     }
   };

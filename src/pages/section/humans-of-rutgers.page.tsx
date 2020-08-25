@@ -153,7 +153,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 
 export async function getStaticProps() {
   const initHoru = await actions.getHoru({
-    limit: 20
+    limit: 50
   });
 
   const seo: SEOProps = {

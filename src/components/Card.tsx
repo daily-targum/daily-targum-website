@@ -6,7 +6,7 @@ import Grid from './Grid/web';
 import { AspectRatioImage } from './AspectRatioView';
 import { ImageData } from './Image';
 import { styleHelpers } from '../utils';
-import { ReactChildren } from '../types';
+import { ReactChildren, ReactChild } from '../types';
 
 
 function Clickable({
@@ -57,6 +57,8 @@ interface CardBaseProps {
   style?: React.CSSProperties
   author?: string
   onClick?: () => any
+  dark?: boolean
+  Overlay?: ReactChild
 }
 
 interface CardBaseResponsiveProps extends CardBaseProps {
@@ -190,7 +192,9 @@ function CardStacked({
   aspectRatio,
   date,
   author,
-  onClick
+  onClick,
+  dark,
+  Overlay
 }: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
@@ -200,15 +204,31 @@ function CardStacked({
       onClick={onClick}
       style={styles.stackedCard}
     >
-      <AspectRatioImage
-        style={styles.stackedCardImage}
-        aspectRatio={aspectRatio}
-        data={imageData}
-      />
+      <div style={{ position: 'relative' }}>
+        <AspectRatioImage
+          style={styles.stackedCardImage}
+          aspectRatio={aspectRatio}
+          data={imageData}
+        />
+        {Overlay}
+      </div>
       
-      <div style={styles.stackedCardBody}>
+      <div 
+        style={{
+          ...styles.stackedCardBody,
+          ...(dark ? styles.cardBodyTextDark : null)
+        }}
+      >
         {tag ? <Text style={styles.tag}>{tag}</Text> : null}
-        {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={2}>{title}</Text.Truncate> : null}
+        {title ? (
+          <Text.Truncate 
+            variant='h4' 
+            htmlTag='h1' 
+            numberOfLines={2}
+          >
+            {title}
+          </Text.Truncate>
+        ) : null}
 
         <div style={styles.grow}/>
 
@@ -358,13 +378,14 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex('column'),
     ...styleHelpers.cardBody(theme),
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'flex-start'
   },
   compactCardBody: {
     ...styleHelpers.flex('column'),
     ...styleHelpers.cardBody(theme),
     flex: 1,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    overflow: 'hidden'
   },
   imageCard: {
     ...styleHelpers.card(theme),
@@ -414,6 +435,8 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     flex: 1
   },
   date: {
+    marginRight: theme.spacing(2),
+    whiteSpace: 'nowrap',
   },
   spacer: {
     height: theme.spacing(2.5)
@@ -424,7 +447,10 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     justifyContent: 'space-between'
   },
   author: {
-    fontStyle: 'italic'
+    fontStyle: 'italic',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden'
   },
   textMuted: {
     color: theme.colors.textMuted
@@ -434,11 +460,15 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   },
   grow: {
     flex: 1
+  },
+  // dark theme
+  cardBodyTextDark: {
+    color: theme.colors.primary.contrastText
   }
 }));
 
 const comparisonFn = function(prevProps: any, nextProps: any) {
-  return prevProps.id === nextProps.id;
+  return prevProps.id && prevProps.id === nextProps.id;
 };
 
 export const Card = {

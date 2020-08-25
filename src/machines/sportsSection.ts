@@ -1,4 +1,4 @@
-import { createMachine, assign } from '@xstate/fsm';
+import { createMachine, assign } from 'xstate';
 import { Article } from '../shared/src/client';
 
 type MachineState =
@@ -18,22 +18,32 @@ type MachineEvent =
   | { type: 'SELECT_TAG'; tag: string; }
   | { type: 'UNSELECT_TAG' }
   | { type: 'LOAD_MORE_CONTENT' }
-  | { type: 'CONTENT_LOADED' }
-  | { type: 'HYDRATE', subcategories: string[], articles: Article[] };
+  | { type: 'CONTENT_LOADED'; articles: Article[] }
+  | { type: 'HYDRATE', subcategories: string[], articles: Article[] }
+  | { type: 'OUT_OF_CONTENT' };
 
 const newsSectionStates = {
   initial: 'idle',
   states: {
     idle: {
       on: {
-        LOAD_MORE_CONTENT: 'loading',
+        LOAD_MORE_CONTENT: {
+          target: 'loading'
+        },
       }
     },
     loading: {
       on: {
-        CONTENT_LOADED: 'idle'
+        CONTENT_LOADED: {
+          target: 'idle',
+          actions: ['registerMoreArticles']
+        },
+        OUT_OF_CONTENT: {
+          target: 'outOfContent'
+        }
       }
-    }
+    },
+    outOfContent: {}
   }
 };
 
@@ -57,7 +67,7 @@ export const sportsMachine = createMachine<MachineContext, MachineEvent, Machine
         SELECT_TAG: {
           target: 'tagSelected',
           actions: ['setTag']
-        }
+        },
       },
       ...newsSectionStates
     },
@@ -113,6 +123,41 @@ export const sportsMachine = createMachine<MachineContext, MachineEvent, Machine
           updatedContext.subcategories[subcategory] = articles.filter(a => a.subcategory === subcategory);
         }
       });
+      
+      return {
+        ...ctx,
+        ...updatedContext
+      };
+    }),
+    registerMoreArticles: assign<MachineContext, MachineEvent>((ctx, evt) => {
+      if (evt.type !== 'CONTENT_LOADED') {
+        return {};
+      }
+
+      console.log('CONTENT_LOADED')
+
+      const { articles } = evt;
+      const { selectedTag } = ctx;
+      const updatedContext: Partial<MachineContext> = {};
+
+      if (typeof selectedTag === 'string') {
+        updatedContext.subcategories = {
+          ...ctx.subcategories,
+          [selectedTag]: [
+            ...(ctx.subcategories?.[selectedTag] ?? []),
+            ...articles
+          ]
+        };
+      }
+
+      else {
+        updatedContext.articles = [
+          ...(ctx.articles ?? []),
+          ...articles
+        ]
+      }
+
+      console.log(updatedContext)
       
       return {
         ...ctx,
