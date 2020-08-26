@@ -4,7 +4,7 @@ import Text from './Text';
 import { formatDate } from '../shared/src/utils';
 import { Author } from '../shared/src/client';
 import { styleHelpers, imgix } from '../utils';
-import Link from 'next/link';
+import Link from './Link';
 import { AspectRatioImage } from './AspectRatioView';
 
 function Authors({
@@ -32,23 +32,19 @@ function Authors({
         {authors.map(author => author.headshot ? (
           <Link 
             key={author.id}
-            // FIX THIS: get slug from backend
-            href={'/staff/[slug]'}
-            as={`/staff/${author.slug}`}
+            href={`/staff/${author.slug}`}
+            className={cng(styles.avatar)}
+            // FIX THIS: does aria-label work as expected
+            aria-label={`More articles by ${author.displayName}`}
           >
-            <a 
-              className={cng(styles.avatar)}
-              aria-label={`More articles by ${author.displayName}`}
-            >
-              <AspectRatioImage
-                aspectRatio={1}
-                style={styles.avatar}
-                data={imgix(author.headshot, {
-                  xs: imgix.presets.xs('1:1')
-                })}
-                altText={`Author headshot for ${author.displayName}`}
-              />
-            </a>
+            <AspectRatioImage
+              aspectRatio={1}
+              style={styles.avatar}
+              data={imgix(author.headshot, {
+                xs: imgix.presets.xs('1:1')
+              })}
+              altText={`Author headshot for ${author.displayName}`}
+            />
           </Link>
         ) : null)}
 
@@ -57,16 +53,11 @@ function Authors({
             {authorsExceptLast.map((author, i) => (
               <React.Fragment key={author.id}>
                 <Link 
-                  // FIX THIS: get slug from backend
-                  href={'/staff/[slug]'}
-                  as={`/staff/${author.slug}`}
+                  href={`/staff/${author.slug}`}
+                  style={styles.hideLink}
+                  aria-label={`More articles by ${author.displayName}`}
                 >
-                  <a 
-                    style={styles.hideLink}
-                    aria-label={`More articles by ${author.displayName}`}
-                  >
-                    <Text style={styles.author}>{author.displayName}</Text>
-                  </a>
+                  <Text style={styles.author}>{author.displayName}</Text>
                 </Link>
                 {(i < authorsExceptLast.length - 1) ? (<Text style={styles.breakSpaces}>, </Text>) : null}
               </React.Fragment>
@@ -76,13 +67,10 @@ function Authors({
               <>
                 <Text style={styles.breakSpaces}> and </Text>
                 <Link 
-                  // FIX THIS: get slug from backend
-                  href={'/staff/[slug]'}
-                  as={`/staff/${last.slug}`}
+                  href={`/staff/${last.slug}`}
+                  style={styles.hideLink}
                 >
-                  <a style={styles.hideLink}>
-                    <Text style={styles.author}>{last.displayName}</Text>
-                  </a>
+                  <Text style={styles.author}>{last.displayName}</Text>
                 </Link>
               </>
             ) : null}

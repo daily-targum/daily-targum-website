@@ -2,7 +2,7 @@ import React from 'react';
 import { Article } from '../shared/src/client';
 import { formatDateAbriviated } from '../shared/src/utils';
 import { Theme, Section, Text, AspectRatioImage } from '../components';
-import Link from 'next/link';
+import Link from './Link';
 import { styleHelpers, imgix } from '../utils';
 import { Swipeable } from 'react-swipeable'
 
@@ -24,57 +24,53 @@ function Slide({
 
   return (
     <Link
-      href='/article/[year]/[month]/[slug]'
-      as={article.slug}
+      href={'/'+article.slug}
+      style={{
+        ...(hide ? styles.hide : null),
+        ...styles.link,
+        ...styles.slide,
+        ...style,
+      }}
+      className={className}
     >
-      <a
-        style={{
-          ...(hide ? styles.hide : null),
-          ...styles.link,
-          ...styles.slide,
-          ...style,
-        }}
-        className={className}
-      >
-        <AspectRatioImage
-          data={load ? imgix(article.media[0].url, {
-            xs: imgix.presets.sm('16:9'),
-            sm: imgix.presets.md('16:9'),
-            md: imgix.presets.lg('16:9'),
-            lg: imgix.presets.xl('16:9')
-          }) : []}
-          style={styles.slideImage}
-        />
-        <div style={styles.slideCardImageOverlay}/>
-        <Section>
-          <div 
-            style={{
-              ...styles.slideCardTitleWrap,
-              ...(hide ? styles.hide : null),
-            }}
+      <AspectRatioImage
+        data={load ? imgix(article.media[0].url, {
+          xs: imgix.presets.sm('16:9'),
+          sm: imgix.presets.md('16:9'),
+          md: imgix.presets.lg('16:9'),
+          lg: imgix.presets.xl('16:9')
+        }) : []}
+        style={styles.slideImage}
+      />
+      <div style={styles.slideCardImageOverlay}/>
+      <Section>
+        <div 
+          style={{
+            ...styles.slideCardTitleWrap,
+            ...(hide ? styles.hide : null),
+          }}
+        >
+          <Text 
+            variant='h5'
+            style={{fontWeight: 900, color: '#fff'}}
           >
-            <Text 
-              variant='h5'
-              style={{fontWeight: 900, color: '#fff'}}
-            >
-              {article.category}
-            </Text>
-            <Text.Truncate
-              variant='h3' 
-              numberOfLines={2} 
-              style={{ fontWeight: 400 }}
-              className={cng(styles.sliderCardTitle)}
-            >
-              {article.title}
-            </Text.Truncate>
+            {article.category}
+          </Text>
+          <Text.Truncate
+            variant='h3' 
+            numberOfLines={2} 
+            style={{ fontWeight: 400 }}
+            className={cng(styles.sliderCardTitle)}
+          >
+            {article.title}
+          </Text.Truncate>
 
-            <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
-              <Text style={styles.date}>{formatDateAbriviated(article.publishDate)}</Text>
-              <Text style={styles.author}>{article.authors.map(a => a.displayName).join(', ')}</Text>
-            </div>
+          <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
+            <Text style={styles.date}>{formatDateAbriviated(article.publishDate)}</Text>
+            <Text style={styles.author}>{article.authors.map(a => a.displayName).join(', ')}</Text>
           </div>
-        </Section>
-      </a>
+        </div>
+      </Section>
     </Link>
   );
 }

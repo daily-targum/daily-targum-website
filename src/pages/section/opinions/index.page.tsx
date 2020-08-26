@@ -1,8 +1,7 @@
 import React from 'react';
-import Link from 'next/link';
 import { actions, GetArticles, CompactArticle } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { Section, Theme, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel } from '../../../components';
+import { Section, Theme, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel, Link } from '../../../components';
 import { styleHelpers, imgix } from '../../../utils';
 import { GetStaticProps } from 'next';
 
@@ -86,19 +85,17 @@ function Category({
         data={initSection.columnists}
         renderItem={(author) => author.headshot ? (
           <Link
-            href='/staff/[slug]'
-            as={`/staff/${author.slug}`}
+            href={`/staff/${author.slug}`}
+            style={styles.columnist}
           >
-            <a style={styles.columnist}>
-              <AspectRatioImage
-                aspectRatio={1}
-                style={styles.columnistPicture}
-                data={imgix(author.headshot, {
-                  xs: imgix.presets.xs('1:1')
-                })}
-              />
-              <Text style={styles.columnistTitle}>{author.displayName}</Text>
-            </a>
+            <AspectRatioImage
+              aspectRatio={1}
+              style={styles.columnistPicture}
+              data={imgix(author.headshot, {
+                xs: imgix.presets.xs('1:1')
+              })}
+            />
+            <Text style={styles.columnistTitle}>{author.displayName}</Text>
           </Link>
         ) : null}
         keyExtractor={author => author.id}
