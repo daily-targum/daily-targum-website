@@ -145,46 +145,57 @@ jobs:
     steps:
       - name: Audit home page
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: http://staging-dailytargum.now.sh/
+          url: https://staging.dailytargum.com/
       - name: Audit news section
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: https://staging-dailytargum.now.sh/section/news
+          url: https://staging.dailytargum.com/section/news
       - name: Audit sports section
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: https://staging-dailytargum.now.sh/section/sports
+          url: https://staging.dailytargum.com/section/sports
       - name: Audit opinions section
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: https://staging-dailytargum.now.sh/section/opinions
+          url: https://staging.dailytargum.com/section/opinions
       - name: Audit inside beat section
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: https://staging-dailytargum.now.sh/section/inside-beat
+          url: https://staging.dailytargum.com/section/inside-beat
       - name: Audit dynamic page (privacy policy)
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: https://staging-dailytargum.now.sh/page/privacy-policy
+          url: https://staging.dailytargum.com/page/privacy-policy
       - name: Audit videos page
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: https://staging-dailytargum.now.sh/videos
+          url: https://staging.dailytargum.com/videos
       - name: Audit photos page
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: https://staging-dailytargum.now.sh/photos
+          url: https://staging.dailytargum.com/photos
       - name: Audit HoRU page
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: https://staging-dailytargum.now.sh/section/humans-of-rutgers
+          url: https://staging.dailytargum.com/section/humans-of-rutgers
       - name: Audit podcast page
         uses: jakejarvis/lighthouse-action@master
+        continue-on-error: true
         with:
-          url: https://staging-dailytargum.now.sh/podcasts/targum-tea
+          url: https://staging.dailytargum.com/podcasts/targum-tea
       - name: Upload results as an artifact
         uses: actions/upload-artifact@master
+        continue-on-error: true
         with:
           name: report
           path: './report'

@@ -11,11 +11,11 @@ import { IoMdPause, IoMdPlay } from 'react-icons/io';
 
 function Overlay({
   duration,
-  playing,
+  playState,
   selected
 }: {
   duration: number
-  playing: boolean
+  playState: string
   selected: boolean
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
@@ -23,8 +23,8 @@ function Overlay({
 
   return (
     <div style={styles.overlay}>
-      {selected ? (
-        playing ? (
+      {(selected && playState !== 'stop') ? (
+        playState === 'play' ? (
           <IoMdPause size={45} color='#fff'/>
         ) : (
           <IoMdPlay size={45} color='#fff'/>
@@ -131,7 +131,7 @@ function Videos({
                       Overlay={
                         <Overlay
                           duration={video.duration}
-                          playing={playState === 'play'}
+                          playState={playState}
                           selected={src === video.url}
                         />
                       }

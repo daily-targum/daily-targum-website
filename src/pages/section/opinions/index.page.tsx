@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { actions, GetArticles, CompactArticle } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { Section, Theme, Text, Divider, CardCols, Card, FlatList, Grid, Banner, AspectRatioImage, SEOProps } from '../../../components';
+import { Section, Theme, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel } from '../../../components';
 import { styleHelpers, imgix } from '../../../utils';
 import { GetStaticProps } from 'next';
 
@@ -82,7 +82,7 @@ function Category({
 
       <Divider style={styles.divider}/>
       <Text variant='h2'>Our Columnists</Text>
-      <FlatList
+      <Carousel
         data={initSection.columnists}
         renderItem={(author) => author.headshot ? (
           <Link
@@ -102,7 +102,6 @@ function Category({
           </Link>
         ) : null}
         keyExtractor={author => author.id}
-        horizontal
       />
 
       <Divider style={styles.divider}/>

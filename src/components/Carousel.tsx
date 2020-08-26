@@ -5,6 +5,14 @@ import { styleHelpers } from '../utils';
 import { clamp } from '../shared/src/utils';
 import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
 
+function useHookWithRefCallback<T>(init: T) {
+  const [rect, setRect] = React.useState(init);
+  const ref = React.useCallback((node: T) => {
+    setRect(node);
+  }, []);
+  return [rect, ref] as const;
+}
+
 function Button({
   onClick,
   direction
@@ -38,21 +46,7 @@ function Button({
   )
 }
 
-export function Carousel<T>({
-  id,
-  data, 
-  renderItem, 
-  keyExtractor,
-  inverted = false,
-  ItemSeparatorComponent,
-  ListEmptyComponent,
-  ListHeaderComponent,
-  ListFooterComponent,
-  className,
-  style,
-  initialIndex = 0,
-  onChange = () => {}
-}: {
+interface CarouselBase<T> {
   id?: string
   data: T[]
   renderItem: (item: T, index: number) => ReactChildren
@@ -65,47 +59,54 @@ export function Carousel<T>({
   className?: string
   style?: React.CSSProperties,
   initialIndex?: number,
-  onChange?: (index: number) => any
-}) {
-  const ref = React.useRef<HTMLDivElement>(null);
+  onChange?: (index: number) => any,
+  width?: number
+}
+
+interface CarouselProps<T> extends CarouselBase<T> {
+  forwardRef?: ((instance: HTMLDivElement | null) => void) | null
+}
+
+export function Carousel<T>({
+  data, 
+  renderItem, 
+  keyExtractor,
+  inverted = false,
+  ItemSeparatorComponent,
+  ListEmptyComponent,
+  ListHeaderComponent,
+  ListFooterComponent,
+  className,
+  style,
+  initialIndex = 0,
+  onChange = () => {},
+  width = 200,
+  forwardRef
+}: CarouselProps<T>) {
+  const [ div, internalRef ] = useHookWithRefCallback<HTMLDivElement | null>(null);
   const styles = Theme.useStyleCreator(styleCreator);
-  const [ width, setWidth ] = React.useState(0);
   const [index, setIndex] = React.useState(initialIndex ?? 0);
   const [ loading, setLoading ] = React.useState(true);
   const scrollTimeout = React.useRef<number | undefined>();
 
   React.useEffect(() => {
-    const refClone = ref.current;
-
-    function handleResize() {
-      const newWidth = ref.current?.offsetWidth ?? 0;
-      if (newWidth !== width) {
-        setWidth(ref.current?.offsetWidth ?? 0);
-      }
-    }
-    handleResize();
-    if(process.browser && refClone) {
-      window.addEventListener('resize', handleResize);
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      }
-    }
-  }, [ref.current, width, id]);
-
-  React.useEffect(() => {
-    if (!ref.current) return;
-    ref.current.scrollLeft = index * width;
+    if (!div) return;
+    div.scrollLeft = index * width;
   }, [width]);
 
   React.useEffect(() => {
-    if (!ref.current) return;
+    if (forwardRef) {
+      forwardRef(div);
+    }
+
+    if (!div) return;
 
     const newIndex = clamp(
       0, 
       initialIndex, 
       data.length - 1
     );
-    ref.current.scrollLeft = newIndex * width;
+    div.scrollLeft = newIndex * width;
 
     // timeout prevents scroll animation on load
     let timeout = setTimeout(() => {
@@ -115,12 +116,12 @@ export function Carousel<T>({
     return () => {
       clearTimeout(timeout);
     }
-  }, [ref.current]);
+  }, [div]);
 
   function updateScroll(offset: number) {
-    if (!ref.current) return;
+    if (!div) return;
     const newIndex = clamp(0, index + offset, data.length - 1);
-    ref.current.scrollLeft = newIndex * width;
+    div.scrollLeft = newIndex * width;
   }
 
   if(data.length === 0) {
@@ -153,12 +154,12 @@ export function Carousel<T>({
           ...styles.scroll,
           ...(loading ? null : styles.smoothScroll)
         }}
-        ref={ref}
+        ref={internalRef}
         onScroll={() => {
-          if (!ref.current) return;
+          if (!div) return;
           clearTimeout(scrollTimeout.current);
 
-          const crntIndex = Math.round(ref.current.scrollLeft / width);
+          const crntIndex = Math.round(div.scrollLeft / width);
 
           scrollTimeout.current = setTimeout(() => {
             if (crntIndex !== index) {
@@ -204,6 +205,38 @@ export function Carousel<T>({
   );
 }
 
+Carousel.Responsive = CarouselResponsive;
+function CarouselResponsive<T>({
+  ...props
+}: CarouselBase<T>) {
+  const [ width, setWidth ] = React.useState(0);
+  const [ div, ref ] = useHookWithRefCallback<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    function handleResize() {
+      const newWidth = div?.offsetWidth ?? 0;
+      if (newWidth !== width) {
+        setWidth(div?.offsetWidth ?? 0);
+      }
+    }
+    handleResize();
+    if(process.browser && div) {
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      }
+    }
+  }, [div, width]);
+
+  return (
+    <Carousel
+      width={width}
+      forwardRef={ref}
+      {...props}
+    />
+  )
+}
+
 const styleCreator = Theme.makeStyleCreator(theme => ({
   carousel: {
     position: 'relative',
@@ -233,7 +266,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     height: '100%'
   },
   item: {
-    scrollSnapAlign: 'center'
+    scrollSnapAlign: 'start'
   },
   hide: {
     opacity: 0

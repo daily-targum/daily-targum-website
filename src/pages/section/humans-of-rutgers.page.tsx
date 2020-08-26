@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetHoru } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Carousel, Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps } from '../../components';
+import { Carousel, Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 
@@ -91,7 +91,7 @@ function Category({
             md={16}
           >
             <div style={styles.square}/>
-            <Carousel
+            <Carousel.Responsive
               id={state.context.itemId}
               data={selectedPost?.media ?? []}
               style={styles.carousel}
@@ -114,7 +114,9 @@ function Category({
           >
             <div style={styles.body}>
               <Text variant='h1'>{horu.items[0].title}</Text>
-              <Text variant='p'>{horu.items[0].description}</Text>
+              <HTML
+                html={horu.items[0].quote}
+              />
             </div>
           </Grid.Col>
 
@@ -142,7 +144,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.absoluteFill()
   },
   body: {
-    padding: theme.spacing(3)
+    padding: theme.spacing(4)
   },
   image: {
     width: '100%',
