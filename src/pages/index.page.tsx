@@ -1,5 +1,5 @@
 import React from 'react';
-import { actions, GetHomepage, Article } from '../shared/src/client';
+import { actions, GetHomepage, CompactArticle } from '../shared/src/client';
 import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps,
   // Text, Image, Link 
 } from '../components';
@@ -18,7 +18,7 @@ function NewsRow({
 }: {
   id: string,
   title: string,
-  category: Article[]
+  category: CompactArticle[]
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();

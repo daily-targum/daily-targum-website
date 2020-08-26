@@ -1,5 +1,5 @@
 import React from 'react';
-import { actions, GetArticles, Article } from '../../shared/src/client';
+import { actions, GetArticles, CompactArticle } from '../../shared/src/client';
 import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
@@ -120,7 +120,7 @@ function Category({
     return <ActivityIndicator.Screen/>
   }
 
-  let selectedArticles: (Article | undefined)[];
+  let selectedArticles: (CompactArticle | undefined)[];
   if (typeof selectedTag === 'string') {
     selectedArticles = state.context.subcategories?.[selectedTag] ?? [];
   } else {

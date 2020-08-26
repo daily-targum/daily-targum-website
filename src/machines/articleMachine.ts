@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMachine, assign } from '@xstate/fsm';
-import { actions, GetArticles, GetArticlesBySubcategory, Article } from '../shared/src/client';
+import { actions, GetArticles, GetArticlesBySubcategory, CompactArticle } from '../shared/src/client';
 import { useMachine } from '@xstate/react/lib/fsm';
 
 type MachineState =
@@ -10,13 +10,13 @@ type MachineState =
   | { value: 'outOfContent'; context: MachineContext };
 
 type MachineContext = { 
-  articles?: Article[];
+  articles?: CompactArticle[];
 };
 
 type MachineEvent = 
   | { type: 'LOAD_MORE_CONTENT' }
-  | { type: 'HYDRATE', articles: Article[] }
-  | { type: 'CONTENT_LOADED', articles: Article[] }
+  | { type: 'HYDRATE', articles: CompactArticle[] }
+  | { type: 'CONTENT_LOADED', articles: CompactArticle[] }
   | { type: 'OUT_OF_CONTENT' };
 
 export const articleMachine = createMachine<MachineContext, MachineEvent, MachineState>({
@@ -90,7 +90,7 @@ export function useArticles({
   category,
   subcategory
 }: UseArticle): {
-  articles: Article[]
+  articles: CompactArticle[]
   loadMore: () => any
 } {
   const [state, send] = useMachine(articleMachine);

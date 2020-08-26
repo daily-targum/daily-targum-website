@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { actions, GetArticles, Article } from '../../../shared/src/client';
+import { actions, GetArticles, CompactArticle } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
 import { Section, Theme, Text, Divider, CardCols, Card, FlatList, Grid, Banner, AspectRatioImage, SEOProps } from '../../../components';
 import { styleHelpers, imgix } from '../../../utils';
@@ -13,7 +13,7 @@ function Column({
 }: {
   title: string
   subcategory: string
-  articles: Article[]
+  articles: CompactArticle[]
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();

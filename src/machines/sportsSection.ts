@@ -1,5 +1,5 @@
 import { createMachine, assign } from 'xstate';
-import { Article } from '../shared/src/client';
+import { CompactArticle } from '../shared/src/client';
 
 type MachineState =
   | { value: 'dehydrated'; context: MachineContext }
@@ -8,9 +8,9 @@ type MachineState =
 
 type MachineContext = { 
   selectedTag?: string;
-  articles?: Article[];
+  articles?: CompactArticle[];
   subcategories: {
-    [key: string]: Article[] | undefined
+    [key: string]: CompactArticle[] | undefined
   }
 };
 
@@ -18,8 +18,8 @@ type MachineEvent =
   | { type: 'SELECT_TAG'; tag: string; }
   | { type: 'UNSELECT_TAG' }
   | { type: 'LOAD_MORE_CONTENT' }
-  | { type: 'CONTENT_LOADED'; articles: Article[] }
-  | { type: 'HYDRATE', subcategories: string[], articles: Article[] }
+  | { type: 'CONTENT_LOADED'; articles: CompactArticle[] }
+  | { type: 'HYDRATE', subcategories: string[], articles: CompactArticle[] }
   | { type: 'OUT_OF_CONTENT' };
 
 const newsSectionStates = {
