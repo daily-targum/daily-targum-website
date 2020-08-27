@@ -34,7 +34,7 @@ function Slide({
       className={className}
     >
       <AspectRatioImage
-        data={load ? imgix(article.media[0].url, {
+        data={load ? imgix(article.media[0]?.url ?? '', {
           xs: imgix.presets.sm('16:9'),
           sm: imgix.presets.md('16:9'),
           md: imgix.presets.lg('16:9'),

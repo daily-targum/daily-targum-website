@@ -41,7 +41,7 @@ function NewsRow({
               <Card.ImageResponsive 
                 id={item[0].id} 
                 title={item[0].title}
-                imageData={imgix(item[0].media[0].url, {
+                imageData={imgix(item[0].media[0]?.url ?? '', {
                   xs: imgix.presets.md('1:1'),
                   md: imgix.presets.md('16:9')
                 })}
@@ -55,7 +55,7 @@ function NewsRow({
                 <Card.CompactResponsive
                   id={item[0].id} 
                   title={item[0].title}
-                  imageData={imgix(item[0].media[0].url, {
+                  imageData={imgix(item[0].media[0]?.url ?? '', {
                     xs: imgix.presets.md('1:1')
                   })}
                   href='/article/[year]/[month]/[slug]'
@@ -69,7 +69,7 @@ function NewsRow({
                 <Card.CompactResponsive
                   id={item[1].id}
                   title={item[1].title}
-                  imageData={imgix(item[1].media[0].url, {
+                  imageData={imgix(item[1].media[0]?.url ?? '', {
                     xs: imgix.presets.md('1:1')
                   })}
                   href='/article/[year]/[month]/[slug]'
@@ -169,8 +169,8 @@ export async function getStaticProps() {
   const seo: SEOProps = {};
 
   const firstArticle = homepage?.high?.[0];
-  if (firstArticle) {
-    seo.imageSrc = firstArticle.media?.[0].url;
+  if (firstArticle?.media?.[0]?.url) {
+    seo.imageSrc = firstArticle.media[0].url;
   }
 
   return {

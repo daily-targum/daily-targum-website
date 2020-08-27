@@ -42,7 +42,7 @@ function News({
               <Card.ImageResponsive
                 id={article.id}
                 title={article.title}
-                imageData={imgix(article.media[0].url, {
+                imageData={imgix(article.media[0]?.url ?? '', {
                   xs: imgix.presets.sm('1:1'),
                   md: imgix.presets.lg('4:3')
                 })}
@@ -65,7 +65,7 @@ function News({
           >
             <Card.StackedResponsive
               id={item.id}
-              imageData={imgix(item.media[0].url, {
+              imageData={imgix(item.media[0]?.url ?? '', {
                 xs: imgix.presets.sm('1:1'),
                 md: imgix.presets.md('4:3')
               })}
@@ -106,8 +106,8 @@ export async function getStaticProps() {
   };
 
   const firstArticle = initialArticles?.items?.[0].articles?.[0];
-  if (firstArticle) {
-    seo.imageSrc = firstArticle.media?.[0].url;
+  if (firstArticle?.media?.[0]?.url) {
+    seo.imageSrc = firstArticle.media[0].url;
   }
 
   return {

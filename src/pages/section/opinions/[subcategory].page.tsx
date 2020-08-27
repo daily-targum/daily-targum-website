@@ -49,7 +49,7 @@ function Author({
               <Card.Compact
                 style={styles.articleCard}
                 title={article.title}
-                imageData={imgix(article.media[0].url, {
+                imageData={imgix(article.media[0]?.url ?? '', {
                   xs: imgix.presets.md('1:1')
                 })}
                 href='/article/[year]/[month]/[slug]'
@@ -121,8 +121,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   };
 
   const firstArticle = initialArticles?.[0];
-  if (firstArticle) {
-    seo.imageSrc = firstArticle.media?.[0].url;
+  if (firstArticle?.media?.[0]?.url) {
+    seo.imageSrc = firstArticle.media[0].url;
   }
 
   return {

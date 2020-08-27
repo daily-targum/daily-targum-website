@@ -74,7 +74,7 @@ function Author({
               <Card.Compact
                 style={styles.articleCard}
                 title={article.title}
-                imageData={imgix(article.media[0].url, {
+                imageData={imgix(article.media[0]?.url ?? '', {
                   xs: imgix.presets.md('1:1')
                 })}
                 href='/article/[year]/[month]/[slug]'

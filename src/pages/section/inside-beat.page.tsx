@@ -36,7 +36,7 @@ function Category({
           <Card.StackedResponsive
             id={articles[0].id}
             tag='Category'
-            imageData={imgix(articles[0].media[0].url, {
+            imageData={imgix(articles[0].media[0]?.url ?? '', {
               xs: imgix.presets.sm('1:1'),
               md: imgix.presets.md('2:1')
             })}
@@ -53,7 +53,7 @@ function Category({
           <Card.StackedResponsive
             id={articles[1].id}
             tag='Category'
-            imageData={imgix(articles[1].media[0].url, {
+            imageData={imgix(articles[1].media[0]?.url ?? '', {
               xs: imgix.presets.sm('1:1'),
               md: imgix.presets.md('2:1')
             })}
@@ -76,7 +76,7 @@ function Category({
             <Card.Compact
               id={item.id}
               tag='Category'
-              imageData={imgix(item.media[0].url, {
+              imageData={imgix(item.media[0]?.url ?? '', {
                 xs: imgix.presets.sm('1:1')
               })}
               title={item.title}
@@ -155,8 +155,8 @@ export async function getStaticProps() {
   };
 
   const firstArticle = initialArticles?.items?.[0].articles?.[0];
-  if (firstArticle) {
-    seo.imageSrc = firstArticle.media?.[0].url;
+  if (firstArticle?.media?.[0]?.url) {
+    seo.imageSrc = firstArticle.media[0].url;
   }
   
   return {

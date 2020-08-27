@@ -30,7 +30,7 @@ function Column({
             <Card.StackedResponsive 
               id={article.id}
               title={article.title}
-              imageData={imgix(article.media[0].url, {
+              imageData={imgix(article.media[0]?.url ?? '', {
                 xs: imgix.presets.sm('1:1'),
                 md: imgix.presets.md('16:9')
               })}
@@ -65,7 +65,7 @@ function Category({
               id={article.id}
               tag='Column'
               title={article.title}
-              imageData={imgix(article.media[0].url, {
+              imageData={imgix(article.media[0]?.url ?? '', {
                 xs: imgix.presets.sm('1:1'),
                 md: imgix.presets.md('16:9')
               })}
@@ -175,8 +175,8 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 
   const firstArticle = initSection?.items?.[0].articles?.[0];
-  if (firstArticle) {
-    seo.imageSrc = firstArticle.media?.[0].url;
+  if (firstArticle?.media?.[0]?.url) {
+    seo.imageSrc = firstArticle.media[0].url;
   }
 
   return { 

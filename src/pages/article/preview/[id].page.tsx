@@ -55,7 +55,7 @@ function Article({
             />
             <AspectRatioImage
               aspectRatio={16/9}
-              src={dynamicArticle.media[0].url}
+              src={dynamicArticle.media[0]?.url ?? ''}
             />
             <Br/>
             <HTML html={dynamicArticle.body}/>
