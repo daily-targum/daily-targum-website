@@ -14,13 +14,12 @@ export function Modal({
   children: ReactChildren
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
+  const cng = Theme.useClassNameGenerator();
 
   return (
     <div
-      style={{
-        ...styles.backdrop,
-        ...(open ? null : styles.hide)
-      }}
+      style={open ? undefined : styles.hide}
+      className={cng(styles.backdrop)}
       onClick={handleClose}
     >
       <IoMdClose
@@ -47,7 +46,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backdropFilter: 'blur(40px) contrast(20%)'
+    backdropFilter: 'blur(40px) contrast(20%)',
+    '-webkit-backdrop-filter': 'blur(40px) contrast(20%)'
   },
   closeIcon: {
     position: 'absolute',

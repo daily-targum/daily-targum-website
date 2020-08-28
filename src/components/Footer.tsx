@@ -158,7 +158,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   footer: {
     padding: theme.spacing(8, 0, 4),
-    backgroundColor: theme.colors.primary.main
+    backgroundColor: theme.colors.primary.main,
+    paddingBottom: 'env(safe-area-inset-bottom)',
   },
   copyright: {
     ...styleHelpers.flex(),

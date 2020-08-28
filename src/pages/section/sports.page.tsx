@@ -73,6 +73,7 @@ function Category({
 
       else {
         const lastArticle = state.context.articles?.slice(-1)[0];
+        console.log(lastArticle)
         if (!lastArticle) return;
 
         actions.getArticles({

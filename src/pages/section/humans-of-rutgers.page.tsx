@@ -106,8 +106,8 @@ function Category({
                   data={imgix(item.url, {
                     xs: imgix.presets.sm('1:1'),
                     sm: imgix.presets.md('1:1'),
-                    md: imgix.presets.lg('1:1', ['pjpg, jpg']),
-                    xl: imgix.presets.xl('1:1', ['pjpg, jpg'])
+                    md: imgix.presets.lg('1:1', ['pjpg', 'jpg']),
+                    xl: imgix.presets.xl('1:1', ['pjpg', 'jpg'])
                   })}
                 />
               )}
