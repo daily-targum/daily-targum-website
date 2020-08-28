@@ -14,4 +14,5 @@ export interface State {
   title?: string
   description?: string
   persist: boolean
+  thumbnail?: string
 }

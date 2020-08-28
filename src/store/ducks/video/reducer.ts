@@ -35,6 +35,7 @@ export default function reducer(state = initialState, action: any): State {
         src: action.payload.src,
         title: action.payload.title,
         description: action.payload.description,
+        thumbnail: action.payload.thumbnail,
         position: 0,
         duration: 0,
         playState: 'stop'

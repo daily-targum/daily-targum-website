@@ -17,10 +17,11 @@ export function Page({
     <Div100vh>
       <div
         style={{
-          backgroundColor: darkNavbar ? theme.colors.primary.main : theme.colors.surface,
+          backgroundColor: theme.colors.surface,
           minHeight: '100%',
           ...styleHelpers.flex('column')
         }}
+        className={darkNavbar ? 'dark-mode' : undefined}
       >
         {children}
       </div>

@@ -100,7 +100,6 @@ function Category({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
-    backgroundColor: theme.colors.background,
     flex: 1
   },
   tag: {

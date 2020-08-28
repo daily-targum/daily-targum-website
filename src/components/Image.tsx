@@ -47,3 +47,5 @@ export function Image({
     </picture>
   );
 }
+
+export default Image;

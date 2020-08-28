@@ -134,8 +134,6 @@ export const sportsMachine = createMachine<MachineContext, MachineEvent, Machine
         return {};
       }
 
-      console.log('CONTENT_LOADED')
-
       const { articles } = evt;
       const { selectedTag } = ctx;
       const updatedContext: Partial<MachineContext> = {};
@@ -156,8 +154,6 @@ export const sportsMachine = createMachine<MachineContext, MachineEvent, Machine
           ...articles
         ]
       }
-
-      console.log(updatedContext)
       
       return {
         ...ctx,

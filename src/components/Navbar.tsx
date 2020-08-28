@@ -133,7 +133,7 @@ function MobileMenu() {
 
 function DesktopNavbar() {
   const darkNavbar = useSelector(s => s.navigation.darkNavbar);
-  const styles = Theme.useStyleCreator(styleCreator, darkNavbar);
+  const styles = Theme.useStyleCreator(styleCreator);
   const cng = Theme.useClassNameGenerator();
   const theme = Theme.useTheme();
   const router = useRouter();
@@ -157,6 +157,7 @@ function DesktopNavbar() {
             position: 'fixed'
           } : null)
         }}
+        className={darkNavbar ? 'dark-mode' : undefined}
       >
         <Banner/>
 
@@ -249,10 +250,10 @@ export function Navbar() {
   );
 }
 
-const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
+const styleCreator = Theme.makeStyleCreator(theme => ({
   banner: {
     ...styleHelpers.flex('row'),
-    backgroundColor: theme.colors.primary.main,
+    backgroundColor: '#000',
     padding: theme.spacing(2),
     justifyContent: 'center'
   },
@@ -271,7 +272,7 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
     zIndex: 1000,
   },
   navbar: {
-    backgroundColor: darkNavbar ? 'rgba(33, 32, 32, 0.92)' : 'rgba(255,255,255,0.92)',
+    backgroundColor: theme.colors.navbar,
     backdropFilter: 'saturate(180%) blur(10px)',
     '-webkit-backdrop-filter': 'saturate(180%) blur(10px)',
     borderBottomStyle: 'solid',
@@ -300,7 +301,7 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
     width: 175,
     height: 'auto',
     marginTop: 8,
-    color: darkNavbar ? theme.colors.primary.contrastText : theme.colors.text,
+    color: theme.colors.text,
   },
   logoDT: {
     width: 40,
@@ -315,7 +316,7 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
   },
   link: {
     textDecoration: 'none',
-    color: darkNavbar ? theme.colors.primary.contrastText : theme.colors.text,
+    color: theme.colors.text,
     margin: theme.spacing(0, 1),
     padding: theme.spacing(1), 
     height: NAVBAR_HEIGHT,
@@ -335,7 +336,7 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
   mobileLink: {
     ...styleHelpers.hideLink(),
     fontSize: 'calc(18px + 2vw)',
-    color: darkNavbar ? theme.colors.primary.contrastText : theme.colors.text,
+    color: theme.colors.text,
     marginBottom: theme.spacing(3),
     cursor: 'pointer',
     ':hover': {
@@ -357,14 +358,14 @@ const styleCreator = Theme.makeStyleCreator((theme, darkNavbar: boolean) => ({
     ...styleHelpers.flex(),
     ...styleHelpers.absoluteFill(),
     position: 'fixed',
-    backgroundColor: darkNavbar ? theme.colors.primary.main : theme.colors.surface,
+    backgroundColor: theme.colors.surface,
     paddingLeft: theme.spacing(2.5),
     paddingTop: NAVBAR_HEIGHT,
     zIndex: 999,
     justifyContent: 'center'
   },
   icon: {
-    color: darkNavbar ? theme.colors.primary.contrastText : theme.colors.text
+    color: theme.colors.text
   }
 }));
 

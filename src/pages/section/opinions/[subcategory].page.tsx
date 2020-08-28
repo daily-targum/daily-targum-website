@@ -38,7 +38,7 @@ function Author({
         spacing={theme.spacing(2)}
       >
         <Grid.Col xs={24} md={6} lg={5}>
-          <Text variant='h3'>Optinions / Subsection</Text>
+          <Text variant='h3'>Optinions / {hyphenatedToCapitalized(subcategory)}</Text>
         </Grid.Col>
 
         <Grid.Col xs={24} md={18} lg={14}>
@@ -73,7 +73,6 @@ function Author({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
-    backgroundColor: theme.colors.background,
     flex: 1
   },
   authorCard: {

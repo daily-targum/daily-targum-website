@@ -2,6 +2,7 @@
   --primary-color: #050505;
   --primary-contrastText-color: #ffffff;
   --primary-contrastTextMuted-color: rgba(255,255,255,0.8);
+  --navbar-color: rgba(255,255,255,0.92);
 
   --accent-color: #cc0033;
   --text-color: #000;
@@ -15,15 +16,49 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark Mode */
-  }
+  /* Dark Mode */
+  /* :root {
+    --primary-color: #1b1b1b;
+    --primary-contrastText-color: #ffffff;
+    --primary-contrastTextMuted-color: rgba(255,255,255,0.8);
+    --navbar-color: rgba(33, 32, 32, 0.92);
+
+    --accent-color: #f70737;
+    --text-color: #fff;
+    --text-muted-color: #555555;
+    --spinner-color: #bbb;
+    --background-color: #1b1b1b;
+    --surface-color: rgb(0, 0, 0);
+    --divider-color: rgba(255, 255, 255, 0.12);
+    --touchable-highlight-color: #eee;
+    --button-color: #eee;
+  } */
+}
+
+.dark-mode { 
+  --primary-color: #2c2c2c;
+  --primary-contrastText-color: #ffffff;
+  --primary-contrastTextMuted-color: rgba(255,255,255,0.8);
+  --navbar-color: rgba(33, 32, 32, 0.92);
+
+  --accent-color: #f70737;
+  --text-color: #fff;
+  --text-muted-color: #555555;
+  --spinner-color: #bbb;
+  --background-color: #131313;
+  --surface-color: rgb(0, 0, 0);
+  --divider-color: rgba(255, 255, 255, 0.12);
+  --touchable-highlight-color: #eee;
+  --button-color: #eee;
+
+  color: var(--text-color);
 }
 
 html,
 body {
   padding: 0;
   margin: 0;
+  color: var(--text-color);
 }
 
 * {

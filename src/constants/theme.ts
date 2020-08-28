@@ -66,7 +66,8 @@ const main: Theme = {
     surface: 'var(--surface-color)',
     divider: 'var(--divider-color)',
     touchableHighlight: 'var(--touchable-highlight-color)',
-    button: 'var(--button-color)'
+    button: 'var(--button-color)',
+    navbar: 'var(--navbar-color)'
   },
   font: {
     light: '',

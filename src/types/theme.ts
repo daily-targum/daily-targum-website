@@ -15,7 +15,8 @@ export interface Theme {
     surface: string,
     divider: string,
     touchableHighlight: string,
-    button: string
+    button: string,
+    navbar: string
   },
   font: {
     light: string,

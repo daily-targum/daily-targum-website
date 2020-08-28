@@ -40,18 +40,21 @@ export function setPersist(persist: boolean) {
 export function loadVideo({
   src,
   title,
-  description
+  description,
+  thumbnail
 }: {
   src: string
   title: string
   description: string
+  thumbnail: string
 }) {
   return {
     type: types.VIDEO_SET_VIDEO,
     payload: {
       src,
       title,
-      description
+      description,
+      thumbnail
     }
   };
 }

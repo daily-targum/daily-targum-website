@@ -5,6 +5,9 @@ import { Carousel, Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Ba
 import { styleHelpers, imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 
+/** THIS IS A HACK! */
+const MemoizedAspectRatioImage = React.memo(AspectRatioImage, () => true);
+
 function Category({ 
   initHoru
 }: { 
@@ -27,7 +30,7 @@ function Category({
     const { actions: clientActions } = await import('../../shared/src/client');
 
     const res = await clientActions.getHoru({
-      limit: 20,
+      limit: 50,
       nextToken: horu.nextToken
     });
     setHoru({
@@ -51,10 +54,11 @@ function Category({
             <Grid.Col 
               key={item.id}
               xs={24}
+              sm={12}
               md={8}
               xl={6}
             >
-              <AspectRatioImage
+              <MemoizedAspectRatioImage
                 data={imgix(item.media[0].url, {
                   xs: imgix.presets.md('1:1')
                 })}
@@ -97,11 +101,14 @@ function Category({
               style={styles.carousel}
               keyExtractor={item => item.id}
               renderItem={item => (
-                <div
-                  style={{
-                    ...styles.image,
-                    backgroundImage: `url(${item.url})`
-                  }}
+                <AspectRatioImage
+                  aspectRatio={1/1}
+                  data={imgix(item.url, {
+                    xs: imgix.presets.sm('1:1'),
+                    sm: imgix.presets.md('1:1'),
+                    md: imgix.presets.lg('1:1', ['pjpg, jpg']),
+                    xl: imgix.presets.xl('1:1', ['pjpg, jpg'])
+                  })}
                 />
               )}
             />
@@ -129,7 +136,6 @@ function Category({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
-    backgroundColor: theme.colors.background,
     flex: 1
   },
   post: {
@@ -145,11 +151,6 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   body: {
     padding: theme.spacing(4)
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    ...styleHelpers.centerBackgroundImage()
   }
 }));
 

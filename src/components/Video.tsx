@@ -4,8 +4,9 @@ import { videoActions } from '../store/ducks/video';
 import Theme from './Theme';
 import Text from './Text';
 import Button from './Button';
-import { styleHelpers } from '../utils';
-import { IoMdClose } from 'react-icons/io';
+import Image from './Image';
+import { styleHelpers, imgix } from '../utils';
+import { IoMdClose, IoMdPlay } from 'react-icons/io';
 
 function Player({
   style,
@@ -17,9 +18,12 @@ function Player({
   const ref = React.useRef<HTMLVideoElement>(null);
   const dispatch = useDispatch();
   const src = useSelector(s => s.video.src);
+  const thumbnail = useSelector(s => s.video.thumbnail);
   const position = useSelector(s => s.video.position);
   const playState = useSelector(s => s.video.playState);
   const styles = Theme.useStyleCreator(styleCreator);
+  const cng = Theme.useClassNameGenerator();
+  const isStopped = playState === 'stop';
 
 
   // Master
@@ -108,12 +112,11 @@ function Player({
 
   }, [slave, position, playState]);
 
-
   return (
     <div style={styles.videoWrap}>
       <video 
         key={src}
-        controls
+        controls={!isStopped}
         style={{
           ...styles.video,
           ...style
@@ -123,6 +126,28 @@ function Player({
       >
         <source src={src} type="video/mp4"/>
       </video>
+
+      {(isStopped && thumbnail) ? (
+        <Image
+          style={styles.thumbnail}
+          data={imgix(thumbnail, {
+            xs: imgix.presets.lg('16:9')
+          })}
+        />
+      ) : null}
+
+      {playState !== 'play' ? (
+        <div 
+          className={cng(styles.videoOverlay)}
+          onClick={() => {
+            if (ref.current) {
+              ref.current.play();
+            }
+          }}
+        >
+          <IoMdPlay size={80} color='#fff'/>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -224,7 +249,22 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.flex('column')
   },
   text: {
-    color: theme.colors.primary.contrastText
+    color: theme.colors.text
+  },
+  thumbnail: {
+    ...styleHelpers.absoluteFill()
+  },
+  videoOverlay: {
+    ...styleHelpers.absoluteFill(),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    opacity: 0,
+    transition: `opacity ${theme.timing(0.5)}`,
+    ':hover': {
+      opacity: 1
+    },
+    cursor: 'pointer'
   }
 }));
 

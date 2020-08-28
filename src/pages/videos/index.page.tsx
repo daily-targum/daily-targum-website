@@ -1,12 +1,12 @@
 import React from 'react';
-import { Video, Section, Theme, CardCols, Card, Grid, Divider, Text, Navbar } from '../components';
-import { useSelector, useDispatch } from '../store';
-import { videoActions } from '../store/ducks/video';
-import { podcastActions } from '../store/ducks/podcast';
-import { styleHelpers, imgix } from '../utils';
+import { Video, Section, Theme, CardCols, Card, Grid, Divider, Text, Navbar } from '../../components';
+import { useSelector, useDispatch } from '../../store';
+import { videoActions } from '../../store/ducks/video';
+import { podcastActions } from '../../store/ducks/podcast';
+import { styleHelpers, imgix } from '../../utils';
 import { InferGetStaticPropsType } from 'next';
-import { actions } from '../shared/src/client';
-import { formatDateAbriviated, secondsToTimeCode } from '../shared/src/utils';
+import { actions } from '../../shared/src/client';
+import { formatDateAbriviated, secondsToTimeCode } from '../../shared/src/utils';
 import { IoMdPause, IoMdPlay } from 'react-icons/io';
 
 function Overlay({
@@ -25,16 +25,16 @@ function Overlay({
     <div style={styles.overlay}>
       {(selected && playState !== 'stop') ? (
         playState === 'play' ? (
-          <IoMdPause size={45} color='#fff'/>
+          <IoMdPause size={80} color='#fff'/>
         ) : (
-          <IoMdPlay size={45} color='#fff'/>
+          <IoMdPlay size={80} color='#fff'/>
         )
       ) : (
         <div 
           style={styles.overlay} 
           className={cng(styles.showOnHover)}
         >
-          <IoMdPlay size={45} color='#fff'/>
+          <IoMdPlay size={80} color='#fff'/>
         </div>
       )}
       <Text style={styles.timeCode}>{secondsToTimeCode(duration)}</Text>
@@ -47,6 +47,7 @@ function Videos({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
 
   const dispatch = useDispatch();
+  const darkNavbar = useSelector(s => s.navigation.darkNavbar);
   const playState = useSelector(s => s.video.playState);
   const persist = useSelector(s => s.video.persist);
   const styles = Theme.useStyleCreator(styleCreator);
@@ -80,7 +81,10 @@ function Videos({
   }, [src, playState]);
 
   return (
-    <div style={styles.backdrop}>
+    <div 
+      style={styles.backdrop}
+      className={darkNavbar ? 'dark-mode' : undefined}
+    >
       <div style={styles.page}>
 
         <main>
@@ -96,7 +100,12 @@ function Videos({
 
           {playlists.items.map(playlist => (
             <Section key={playlist.id}>
-              <Text variant='h2' style={styles.text} noPadding>{playlist.title}</Text>
+              
+              <CardCols.Header
+                title={playlist.title}
+                href={`/videos/${playlist.slug}`}
+              />
+
               <div style={styles.spacer}/>
 
               <Grid.Row spacing={theme.spacing(2)}>
@@ -107,7 +116,6 @@ function Videos({
                       imageData={imgix(video.thumbnail, {
                         xs: imgix.presets.md('16:9')
                       })}
-                      dark={true}
                       aspectRatio={16/9}
                       title={video.title}
                       date={formatDateAbriviated(video.createdAt)}
@@ -163,12 +171,10 @@ export const getStaticProps = async () => {
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   backdrop: {
-    backgroundColor: theme.colors.primary.main,
     flex: 1
   },
   page: {
-    ...styleHelpers.page(theme),
-    backgroundColor: theme.colors.primary.main
+    ...styleHelpers.page(theme)
   },
   divider: {
     backgroundColor: 'rgba(255,255,255,0.1)',
@@ -178,7 +184,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     height: theme.spacing(4)
   },
   text: {
-    color: theme.colors.primary.contrastText
+    color: theme.colors.text
   },
   timeCode: {
     position: 'absolute',

@@ -145,7 +145,6 @@ export function useArticles({
           lastPublishDate: lastArticle?.publishDate
         })
         .then(newArticles => {
-          console.log(newArticles)
           if (newArticles && newArticles.length > 0) {
             send({
               type: 'CONTENT_LOADED',

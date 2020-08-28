@@ -25,28 +25,33 @@ const imgixDefaultOptions: ImgixOptions = {
 };
 
 const presets = {
-  xs: (ar?: string) => ({
+  xs: (ar?: string, formats?: string[]) => ({
     ...imgixDefaultOptions,
+    formats: formats ?? imgixDefaultOptions.formats,
     ar,
     width: '150'
   }) as const,
-  sm: (ar?: string) => ({
+  sm: (ar?: string, formats?: string[]) => ({
     ...imgixDefaultOptions,
+    formats: formats ?? imgixDefaultOptions.formats,
     ar,
     width: '250'
   }) as const,
-  md: (ar?: string) => ({
+  md: (ar?: string, formats?: string[]) => ({
     ...imgixDefaultOptions,
+    formats: formats ?? imgixDefaultOptions.formats,
     ar,
     width: '500'
   }) as const,
-  lg: (ar?: string) => ({
+  lg: (ar?: string, formats?: string[]) => ({
     ...imgixDefaultOptions,
+    formats: formats ?? imgixDefaultOptions.formats,
     ar,
     width: '700'
   }) as const,
-  xl: (ar?: string) => ({
+  xl: (ar?: string, formats?: string[]) => ({
     ...imgixDefaultOptions,
+    formats: formats ?? imgixDefaultOptions.formats,
     ar,
     width: '1200'
   }) as const,

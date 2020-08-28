@@ -57,7 +57,6 @@ interface CardBaseProps {
   style?: React.CSSProperties
   author?: string
   onClick?: () => any
-  dark?: boolean
   Overlay?: ReactChild
 }
 
@@ -193,7 +192,6 @@ function CardStacked({
   date,
   author,
   onClick,
-  dark,
   Overlay
 }: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
@@ -215,8 +213,7 @@ function CardStacked({
       
       <div 
         style={{
-          ...styles.stackedCardBody,
-          ...(dark ? styles.cardBodyTextDark : null)
+          ...styles.stackedCardBody
         }}
       >
         {tag ? <Text style={styles.tag}>{tag}</Text> : null}
@@ -460,10 +457,6 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   },
   grow: {
     flex: 1
-  },
-  // dark theme
-  cardBodyTextDark: {
-    color: theme.colors.primary.contrastText
   }
 }));
 

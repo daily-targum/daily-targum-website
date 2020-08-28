@@ -83,16 +83,20 @@ CardCols.Header = Header;
 function Header({
   title,
   href,
-  onClick
+  onClick,
 } : {
   title: string
   href?: string
   onClick?: () => any
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
+
   return (
     <div style={styles.sectionHeader}>
-      <Text variant='h3' noPadding>{title}</Text>
+      <Text 
+        variant='h3' 
+        noPadding
+      >{title}</Text>
 
       {href ? (
         <Link 
@@ -150,7 +154,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   moreInLinkText: {
     marginRight: theme.spacing(0.5),
     fontWeight: 600,
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    color: theme.colors.accent
   }
 }));
 

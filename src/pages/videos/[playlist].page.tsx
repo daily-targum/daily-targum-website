@@ -1,17 +1,20 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Theme, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList } from '../../components';
-import { actions, GetAuthorPage } from '../../shared/src/client';
+import { Section, Text, Grid, Theme, Card, ActivityIndicator, FlatList, SEOProps } from '../../components';
+import { actions, GetPlaylist } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, styleHelpers, imgix } from '../../utils';
 import NotFound from '../404.page';
 import { useRouter } from 'next/router';
+import { videoActions } from '../../store/ducks/video';
+import { useDispatch } from '../../store';
 
 function Author({
-  page
+  initialVideos
 }: {
-  page: GetAuthorPage | null
+  initialVideos: GetPlaylist | null
 }) {
+  const dispatch = useDispatch();
   const router = useRouter();
   const theme = Theme.useTheme();
   const styles = Theme.useStyleCreator(styleCreator);
@@ -20,7 +23,7 @@ function Author({
     return <ActivityIndicator.Screen/>;
   }
 
-  if (!page) {
+  if (!initialVideos) {
     return <NotFound/>;
   }
 
@@ -29,64 +32,37 @@ function Author({
       <Grid.Row 
         spacing={theme.spacing(2)}
       >
-
-        <Grid.Col xs={0} md={6} lg={5}>
-          <div style={styles.authorCard}>
-            <Text.Br/>
-            {page.author.headshot ? (
-              <AspectRatioImage
-                data={imgix(page.author.headshot, {
-                  xs: imgix.presets.sm('1:1')
-                })}
-                aspectRatio={1}
-                style={styles.avatar}
-              />
-            ) : null}
-            <Text variant='h3'>{page.author.displayName}</Text>
-            <Text variant='p'>Bio goes here.</Text>
-          </div>
-        </Grid.Col>
-
-        <Grid.Col xs={24} md={0}>
-          {page.author.headshot ? (
-            <Card.Compact
-              href='#'
-              style={styles.articleCard}
-              title={page.author.displayName}
-              imageData={imgix(page.author.headshot ?? '', {
-                xs: imgix.presets.sm('1:1')
-              })}
-              aspectRatio={3 /2}
-            />
-          ) : (
-            <Text variant='h3'>{page.author.displayName}</Text>
-          )}
-
-          <Card.Spacer/>
-          <Divider/>
+        <Grid.Col xs={24} md={6} lg={5}>
+          <Text variant='h3'>Videos / {initialVideos.title}</Text>
         </Grid.Col>
 
         <Grid.Col xs={24} md={18} lg={14}>
           <FlatList
-            data={page.articles}
+            data={initialVideos.media}
             keyExtractor={article => article.id}
-            renderItem={article => (
+            renderItem={video => (
               <Card.Compact
                 style={styles.articleCard}
-                title={article.title}
-                imageData={imgix(article.media[0]?.url ?? '', {
+                title={video.title}
+                imageData={imgix(video.thumbnail ?? '', {
                   xs: imgix.presets.md('1:1')
                 })}
-                href='/article/[year]/[month]/[slug]'
-                as={'/'+article.slug}
                 aspectRatio={3 / 2}
-                date={formatDateAbriviated(article.publishDate)}
+                date={formatDateAbriviated(video.createdAt)}
+                onClick={() => {
+                  dispatch(videoActions.loadVideo({
+                    ...video,
+                    src: video.url
+                  }));
+                  dispatch(videoActions.setPlayState('play'));
+                  router.push('/videos');
+                }}
               />
             )}
             ItemSeparatorComponent={<Card.Spacer/>}
           />
           {/* <ActivityIndicator.ProgressiveLoader
-            onVisible={() => console.log('implement progressive load')}
+            onVisible={loadMore}
           /> */}
         </Grid.Col>
 
@@ -115,8 +91,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   avatar: {
     ...styleHelpers.lockWidth('50%'),
     marginBottom: theme.spacing(2),
-    borderRadius: '100%',
-    overflow: 'hidden'
+    borderRadius: '100%'
   },
   avatarMobile: {
     ...styleHelpers.lockWidth('30%'),
@@ -134,15 +109,26 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 }));
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const page = await actions.getAuthorBySlug({
-    slug: processNextQueryStringParam(ctx.params?.slug, '')
+  const slug = processNextQueryStringParam(ctx.params?.playlist, '');
+
+  const initialVideos = await actions.getPlaylist({
+    slug
   });
 
-  // TODO: add seo
+  const seo: SEOProps = {
+    title: `Videos / ${initialVideos.title}`
+  };
+
+  const firstVideo = initialVideos?.media[0];
+  if (firstVideo.thumbnail) {
+    seo.imageSrc = firstVideo.thumbnail;
+  }
 
   return {
     props: { 
-      page: page ?? null
+      initialVideos: initialVideos ?? null,
+      slug,
+      seo
     }
   };
 };
