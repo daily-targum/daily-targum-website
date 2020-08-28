@@ -69,9 +69,10 @@ const presets = {
 imgix.presets = presets;
 
 type ImgData = {
-  src: string,
-  type: string,
+  src: string
+  type: string
   media: string
+  width: number
 }
 
 export function imgix(
@@ -101,6 +102,7 @@ export function imgix(
           encode: false
         })
       ),
+      width: +(rest.width ?? 0),
       media: `(min-width: ${breakPoints[breakPoint]}px)`
     }));
 
