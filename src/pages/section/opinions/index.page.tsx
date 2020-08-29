@@ -65,7 +65,7 @@ function Category({
           {article => article ? (
             <Card.ImageResponsive
               id={article.id}
-              tag='Column'
+              tag={hyphenatedToCapitalized(article.subcategory)}
               title={article.title}
               imageData={imgix(article.media[0]?.url ?? '', {
                 xs: imgix.presets.sm('1:1'),

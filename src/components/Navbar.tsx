@@ -74,12 +74,12 @@ const navbarLinks: {
   //   href: '/podcasts/[slug]',
   //   as: '/podcasts/targum-tea'
   // },
-  {
-    title: 'Search',
-    href: '/search',
-    as: '/search',
-    mobileOnly: true
-  }
+  // {
+  //   title: 'Search',
+  //   href: '/search',
+  //   as: '/search',
+  //   mobileOnly: true
+  // }
 ]
 
 function MobileMenu() {

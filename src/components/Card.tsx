@@ -280,7 +280,8 @@ function CardImage({
   aspectRatio,
   date,
   author,
-  onClick
+  onClick,
+  tag
 }: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
   return (
@@ -302,7 +303,16 @@ function CardImage({
       />
 
       <div style={styles.imageCardOverlay}/>
-      <div style={styles.imageCardTitleWrap}>
+      <div style={styles.imageCardTitleWrap} className='dark-mode'>
+        {tag ? (
+          <Text 
+            variant='h5'
+            style={{fontWeight: 900}}
+          >
+            {tag}
+          </Text>
+        ) : null}
+
         {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2} style={styles.imageCardTitle}>{title}</Text.Truncate> : null}
         <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
           {date ? (<Text style={styles.date}>{date}</Text>) : null}
@@ -386,6 +396,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   },
   imageCard: {
     ...styleHelpers.card(theme),
+    ...styleHelpers.hideLink(),
     border: 'none',
     height: '100%',
     display: 'flex',
@@ -414,6 +425,7 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     marginBottom: theme.spacing(1)
   },
   imageCardTitleWrap: {
+    ...styleHelpers.flex('column'),
     position: 'absolute',
     bottom: 0,
     padding: theme.spacing(2),
