@@ -104,8 +104,7 @@ function Category({
                 <AspectRatioImage
                   aspectRatio={1/1}
                   data={imgix(item.url, {
-                    xs: imgix.presets.sm('1:1'),
-                    sm: imgix.presets.md('1:1'),
+                    xs: imgix.presets.md('1:1'),
                     md: imgix.presets.lg('1:1', ['pjpg', 'jpg']),
                     xl: imgix.presets.xl('1:1', ['pjpg', 'jpg'])
                   })}
@@ -115,15 +114,18 @@ function Category({
             
           </Grid.Col>
 
+
           <Grid.Col
             xs={24}
             md={8}
           >
             <div style={styles.body}>
-              <Text variant='h1'>{horu.items[0].title}</Text>
-              <HTML
-                html={horu.items[0].quote}
-              />
+              <Text variant='h1'>{selectedPost?.title}</Text>
+              {selectedPost?.quote ? (
+                <HTML
+                  html={selectedPost.quote}
+                />
+              ) : null}
             </div>
           </Grid.Col>
 
@@ -146,7 +148,6 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.aspectRatioFullWidth(1)
   },
   carousel: {
-    // ...styleHelpers.aspectRatioFullWidth(1),
     ...styleHelpers.absoluteFill()
   },
   body: {

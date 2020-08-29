@@ -55,7 +55,7 @@ export function SEO({
 
   return (
     <>
-      <title>{title ? (title+' | ') : ''}{BASE.siteName}</title>
+      <title>{formatTitle(title)}</title>
       <meta name="description" content={description} />
 
       {/* Twitter */}
@@ -79,4 +79,9 @@ export function SEO({
       <meta property="fb:app_id" content={BASE.facebookAppId} />
     </>
   );
+}
+
+SEO.formatTitle = formatTitle;
+function formatTitle(title?: string) {
+  return `${title ? (title+' | ') : ''}${BASE.siteName}`
 }

@@ -13,7 +13,7 @@ function News({
 }) {
   const { articles, loadMore } = useArticles({ 
     initialArticles,
-    category: 'inside-beat'
+    category: 'News'
   });
 
   const router = useRouter();

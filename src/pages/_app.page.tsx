@@ -1,8 +1,9 @@
 import React from 'react';
 import { AppProps } from 'next/app';
-import { Navbar, Theme, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics } from '../components';
+import { Navbar, Theme, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO } from '../components';
 import { Provider as ReduxProvider } from '../store';
 import '../styles.css';
+import { Helmet } from "react-helmet";
 
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
@@ -34,12 +35,17 @@ function App({
   pageProps, 
   err
 }: CustomAppProps) {
+  const seo = pageProps.seo ?? {};
 
   return (
     <ReduxProvider>
       <Grid.Provider>
         <Theme.Provider>
           <Page>
+            <Helmet>
+              <title>{SEO.formatTitle(seo.title)}</title>
+            </Helmet>
+
             <Analytics/>
 
             <Navbar/>

@@ -35,7 +35,7 @@ function Category({
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
             id={articles[0].id}
-            tag='Category'
+            // tag='Category'
             imageData={imgix(articles[0].media[0]?.url ?? '', {
               xs: imgix.presets.sm('1:1'),
               md: imgix.presets.md('2:1')
@@ -52,7 +52,7 @@ function Category({
         <Grid.Col xs={24} md={12}>
           <Card.StackedResponsive
             id={articles[1].id}
-            tag='Category'
+            // tag='Category'
             imageData={imgix(articles[1].media[0]?.url ?? '', {
               xs: imgix.presets.sm('1:1'),
               md: imgix.presets.md('2:1')
@@ -75,7 +75,7 @@ function Category({
           >
             <Card.Compact
               id={item.id}
-              tag='Category'
+              // tag='Category'
               imageData={imgix(item.media[0]?.url ?? '', {
                 xs: imgix.presets.sm('1:1')
               })}

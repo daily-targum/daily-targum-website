@@ -47,8 +47,10 @@ function Column({
 }
 
 function Category({ 
+  featured,
   initSection
 }: { 
+  featured: CompactArticle[],
   initSection: GetArticles
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
@@ -59,7 +61,7 @@ function Category({
       <Banner text='Opinions'/>
 
       <Grid.Row spacing={theme.spacing(2)}>
-        <CardCols items={initSection.items[0].articles.slice(0,3)}>
+        <CardCols items={featured}>
           {article => article ? (
             <Card.ImageResponsive
               id={article.id}
@@ -169,6 +171,12 @@ export const getStaticProps: GetStaticProps = async () => {
     limit: 4
   });
 
+  let featured: CompactArticle[] = [];
+  initSection.items.forEach(item => {
+    featured.push(...item.articles);
+  });
+  featured.sort((a, b) => b.publishDate - a.publishDate);
+
   const seo: SEOProps = {
     title: 'Opinions'
   };
@@ -180,6 +188,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return { 
     props: {
+      featured: featured.slice(0, 3),
       initSection: initSection ?? null,
       seo
     },

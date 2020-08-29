@@ -206,7 +206,8 @@ function Category({
       <Card.Spacer/>
       <Card.Spacer/>
       <TagBar
-        tags={subcategories}
+        // THIS IS A HACK
+        tags={subcategories.map(t => t.replace(/s-/g, "'s ")).sort()}
         value={state.context.selectedTag ?? null}
         onChange={val => {
           if (val !== null) {

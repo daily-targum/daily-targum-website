@@ -43,7 +43,7 @@ function Author({
               />
             ) : null}
             <Text variant='h3'>{page.author.displayName}</Text>
-            <Text variant='p'>Bio goes here.</Text>
+            <Text variant='p'>{page.author.bio}</Text>
           </div>
         </Grid.Col>
 
@@ -98,6 +98,7 @@ function Author({
 const styleCreator = Theme.makeStyleCreator(theme => ({
   page: {
     ...styleHelpers.page(theme, 'compact'),
+    backgroundColor: theme.colors.background,
     flex: 1
   },
   authorCard: {

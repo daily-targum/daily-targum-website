@@ -3,6 +3,7 @@ import Theme from './Theme';
 import { styleHelpers } from '../utils';
 import { IoMdClose } from 'react-icons/io';
 import { ReactChildren } from '../types';
+import Div100vh from 'react-div-100vh';
 
 export function Modal({
   open = false,
@@ -27,12 +28,14 @@ export function Modal({
         size={30}
         onClick={handleClose}
       />
-      <div
-        style={styles.modal}
-        onClick={e => e.stopPropagation()}
-      >
-        {children}
-      </div>
+      <Div100vh className={cng(styles.div100)}>
+        <div
+          style={styles.modal}
+          onClick={e => e.stopPropagation()}
+        >
+          {children}
+        </div>
+      </Div100vh>
     </div>
   );
 }
@@ -49,16 +52,22 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     backdropFilter: 'blur(40px) contrast(20%)',
     '-webkit-backdrop-filter': 'blur(40px) contrast(20%)'
   },
+  div100: {
+    ...styleHelpers.flex('column'),
+    justifyContent: 'center',
+    overflow: 'auto',
+    width: 'calc(200px + 70vw)',
+    maxWidth: '100%'
+  },
   closeIcon: {
     position: 'absolute',
     top: theme.spacing(2),
     right: theme.spacing(2),
     cursor: 'pointer',
-    color: '#fff'
+    color: '#fff',
+    zIndex: 2001
   },
   modal: {
-    width: 'calc(200px + 70vw)',
-    maxWidth: '100%',
     backgroundColor: theme.colors.surface,
     boxShadow: '0 5px 25px rgba(0, 0, 0, 0.2)'
   },

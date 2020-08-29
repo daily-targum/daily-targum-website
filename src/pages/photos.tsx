@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardCols, Card, Grid, Section, Theme, FlatList, ActivityIndicator, Modal, Carousel, Text, Image } from '../components';
+import { CardCols, Card, Grid, Section, Theme, FlatList, ActivityIndicator, Modal, Carousel, Text, Image, SEOProps } from '../components';
 import { chopArray, choppedArrayRunningCount } from '../shared/src/utils';
 import { actions, GetImageGalleries, GalleryImage } from '../shared/src/client';
 import { styleHelpers, imgix } from '../utils';
@@ -197,9 +197,14 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
 export const getStaticProps: GetStaticProps = async () => {
   const imageGalleries = await actions.getImageGalleries();
 
+  const seo: SEOProps = {
+    title: 'Photos'
+  }
+
   return {
     props: { 
-      imageGalleries
+      imageGalleries,
+      seo
     }
   };
 };

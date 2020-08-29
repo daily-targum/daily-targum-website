@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Theme, Card, ActivityIndicator, FlatList, SEOProps } from '../../components';
+import { Section, Text, Grid, Theme, Card, ActivityIndicator, FlatList, SEOProps, Navbar } from '../../components';
 import { actions, GetPlaylist } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, styleHelpers, imgix } from '../../utils';
@@ -18,6 +18,8 @@ function Author({
   const router = useRouter();
   const theme = Theme.useTheme();
   const styles = Theme.useStyleCreator(styleCreator);
+
+  Navbar.useDynamicHeader();
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
@@ -45,9 +47,9 @@ function Author({
                 style={styles.articleCard}
                 title={video.title}
                 imageData={imgix(video.thumbnail ?? '', {
-                  xs: imgix.presets.md('1:1')
+                  xs: imgix.presets.md('16:9')
                 })}
-                aspectRatio={3 / 2}
+                aspectRatio={16/9}
                 date={formatDateAbriviated(video.createdAt)}
                 onClick={() => {
                   dispatch(videoActions.loadVideo({
@@ -116,7 +118,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   });
 
   const seo: SEOProps = {
-    title: `Videos / ${initialVideos.title}`
+    title: initialVideos.title
   };
 
   const firstVideo = initialVideos?.media[0];

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Article } from '../shared/src/client';
-import { formatDateAbriviated } from '../shared/src/utils';
+import { CompactArticle } from '../shared/src/client';
+import { formatDateAbriviated, hyphenatedToCapitalized } from '../shared/src/utils';
 import { Theme, Section, Text, AspectRatioImage } from '../components';
 import Link from './Link';
 import { styleHelpers, imgix } from '../utils';
@@ -13,14 +13,13 @@ function Slide({
   style,
   load
 }: {
-  article: Pick<Article, 'id' | 'title' | 'category' | 'authors' | 'media' | 'publishDate' | 'slug'>,
+  article: CompactArticle,
   className?: string,
   hide: boolean,
   style?: React.CSSProperties,
   load: boolean
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
-  const cng = Theme.useClassNameGenerator();
 
   return (
     <Link
@@ -52,23 +51,26 @@ function Slide({
         >
           <Text 
             variant='h5'
-            style={{fontWeight: 900, color: '#fff'}}
+            style={{fontWeight: 900}}
           >
-            {article.category}
+            {hyphenatedToCapitalized(article.category)}
           </Text>
           <Text.Truncate
             variant='h3' 
             numberOfLines={2} 
             style={{ fontWeight: 400 }}
-            className={cng(styles.sliderCardTitle)}
           >
             {article.title}
           </Text.Truncate>
 
-          <div style={{ ...styles.byline, ...styles.contrastTextMuted }}>
-            <Text style={styles.date}>{formatDateAbriviated(article.publishDate)}</Text>
-            <Text style={styles.author}>{article.authors.map(a => a.displayName).join(', ')}</Text>
-          </div>
+          <Text 
+            style={{ 
+              ...styles.byline, 
+              ...styles.contrastTextMuted 
+            }}
+          >
+            {formatDateAbriviated(article.publishDate)} - <Text style={styles.author}>{article.authors.map(a => a.displayName).join(', ')}</Text>
+          </Text>
         </div>
       </Section>
     </Link>
@@ -78,7 +80,7 @@ function Slide({
 export function NewsSlider({
   articles
 }: {
-  articles: Pick<Article, 'id' | 'title' | 'category' | 'authors' | 'media' | 'publishDate' | 'slug'>[]
+  articles: CompactArticle[]
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   const [ index, setIndex ] = React.useState(0);
@@ -128,7 +130,10 @@ export function NewsSlider({
       onSwipedLeft={() => incrementSlide(1)}
       onSwipedRight={() => incrementSlide(-1)}
     >
-      <div style={styles.sider}>
+      <div 
+        style={styles.sider}
+        className='dark-mode'
+      >
         {articles.map((a, i) => (
           <Slide
             key={a.id}
@@ -217,24 +222,13 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     maxWidth: 600,
     transition: `opacity ${theme.timing(3)}`
   },
-  sliderCardTitle: {
-    color: '#fff',
-    [theme.mediaQuery('md')]: {
-      textAlign: 'justify'
-    }
-  },
   sider: {
     height: 'calc(25vw + 180px)',
     backgroundColor: '#000',
     position: 'relative',
     overflow: 'hidden'
   },
-  date: {
-  },
   byline: {
-    ...styleHelpers.flex('row'),
-    width: '100%',
-    justifyContent: 'space-between'
   },
   author: {
     fontStyle: 'italic'

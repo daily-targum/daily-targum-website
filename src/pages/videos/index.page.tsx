@@ -1,5 +1,5 @@
 import React from 'react';
-import { Video, Section, Theme, CardCols, Card, Grid, Divider, Text, Navbar } from '../../components';
+import { Video, Section, Theme, CardCols, Card, Grid, Divider, Text, Navbar, SEOProps } from '../../components';
 import { useSelector, useDispatch } from '../../store';
 import { videoActions } from '../../store/ducks/video';
 import { podcastActions } from '../../store/ducks/podcast';
@@ -168,9 +168,14 @@ function Videos({
 export const getStaticProps = async () => {
   const playlists = await actions.getPlaylists();
 
+  const seo: SEOProps = {
+    title: 'Videos'
+  };
+
   return {
     props: {
-      playlists
+      playlists,
+      seo
     },
     revalidate: 60 // seconds
   }
