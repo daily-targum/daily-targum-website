@@ -275,6 +275,8 @@ export async function getStaticProps() {
     limit: 100
   });
 
+  console.log(initialArticles.items[0].articles[44])
+
   const seo: SEOProps = {
     title: 'Sports'
   };

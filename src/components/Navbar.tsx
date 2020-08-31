@@ -6,6 +6,7 @@ import Logo from './Logo';
 import Search from './Search';
 import Link from './Link';
 import Text from './Text';
+import scrollLock from 'scroll-lock';
 // @ts-ignore
 import NextNprogress from './NextNProgress';
 import { useRouter } from 'next/router';
@@ -95,6 +96,14 @@ function MobileMenu() {
       dispatch(navigationActions.closeMobileMenu());
     }
   }, [router.pathname]);
+
+  React.useEffect(() => {
+    if (isVisible) {
+      scrollLock.disablePageScroll();
+    } else {
+      scrollLock.enablePageScroll();
+    }
+  }, [isVisible]);
 
   return (
     <Grid.Display

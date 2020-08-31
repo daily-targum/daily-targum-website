@@ -14,6 +14,7 @@ function Category({
   initHoru: GetHoru
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
+  const cng = Theme.useClassNameGenerator();
   const theme = Theme.useTheme();
 
   const [state, send] = useMachine(photoModalMachine);
@@ -88,11 +89,12 @@ function Category({
         handleClose={() => send({
           type: 'CLOSE_ITEM'
         })}
+        overflow='auto'
       >
         <Grid.Row>
           <Grid.Col
             xs={24}
-            md={16}
+            md={14}
           >
             <div style={styles.square}/>
             <Carousel.Responsive
@@ -117,9 +119,9 @@ function Category({
 
           <Grid.Col
             xs={24}
-            md={8}
+            md={10}
           >
-            <div style={styles.body}>
+            <div className={cng(styles.body)}>
               <Text variant='h1'>{selectedPost?.title}</Text>
               {selectedPost?.quote ? (
                 <HTML
@@ -151,7 +153,13 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     ...styleHelpers.absoluteFill()
   },
   body: {
-    padding: theme.spacing(4)
+    padding: theme.spacing(4),
+    [theme.mediaQuery('md')]: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      overflow: 'auto'
+    }
   }
 }));
 

@@ -3,19 +3,33 @@ import Theme from './Theme';
 import { styleHelpers } from '../utils';
 import { IoMdClose } from 'react-icons/io';
 import { ReactChildren } from '../types';
-import Div100vh from 'react-div-100vh';
+import scrollLock from 'scroll-lock';
 
 export function Modal({
   open = false,
   handleClose,
-  children
+  children,
+  overflow = 'hidden'
 }: {
   open: boolean
   handleClose: () => any
   children: ReactChildren
+  overflow?: string
 }) {
   const styles = Theme.useStyleCreator(styleCreator);
   const cng = Theme.useClassNameGenerator();
+
+  React.useEffect(() => {
+    if (open) {
+      scrollLock.disablePageScroll();
+    } else {
+      scrollLock.enablePageScroll();
+    }
+
+    return () => {
+      scrollLock.enablePageScroll();
+    }
+  }, [open]);
 
   return (
     <div
@@ -28,14 +42,17 @@ export function Modal({
         size={30}
         onClick={handleClose}
       />
-      <Div100vh className={cng(styles.div100)}>
+      <div style={styles.div100}>
         <div
-          style={styles.modal}
+          style={{
+            ...styles.modal,
+            overflow
+          }}
           onClick={e => e.stopPropagation()}
         >
           {children}
         </div>
-      </Div100vh>
+      </div>
     </div>
   );
 }
@@ -55,8 +72,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   div100: {
     ...styleHelpers.flex('column'),
     justifyContent: 'center',
-    overflow: 'auto',
-    width: 'calc(200px + 70vw)',
+    maxHeight: '90vh',
+    width: 'calc(750px + 30vw)',
     maxWidth: '100%'
   },
   closeIcon: {
@@ -69,7 +86,9 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   },
   modal: {
     backgroundColor: theme.colors.surface,
-    boxShadow: '0 5px 25px rgba(0, 0, 0, 0.2)'
+    boxShadow: '0 5px 25px rgba(0, 0, 0, 0.2)',
+    maxHeight: '100%',
+    minHeight: 0
   },
   hide: {
     opacity: 0,
