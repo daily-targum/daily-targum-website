@@ -6,7 +6,8 @@ const internalPages = [
   '/page/[slug]',
   '/podcasts/[slug]',
   '/section/opinions/[subcategory]',
-  '/staff/[slug]'
+  '/staff/[slug]',
+  '/videos/[playlist]'
 ].map(href => ({
   href,
   regex: urlWithParamsToRegex(href)
