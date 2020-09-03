@@ -1,11 +1,10 @@
 import React from 'react';
-import { actions, GetArticles, CompactArticle } from '../../shared/src/client';
-import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps } from '../../components';
+import { actions, GetArticles } from '../../shared/src/client';
+import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text } from '../../components';
 import { styleHelpers, imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
-import { sportsMachine } from '../../machines';
-import { useMachine } from '@xstate/react';
+import { useSports } from '../../machines';
 
 
 
@@ -18,114 +17,23 @@ function Category({
   const styles = Theme.useStyleCreator(styleCreator);
   const theme = Theme.useTheme();
 
-  const [state, send] = useMachine(sportsMachine);
-  const selectedTag = state.context.selectedTag;
-
   const subcategories = initialArticles.subcategories;
   const firstFiveArticles = initialArticles.items[0].articles.slice(0, 5);
   const restArticles = initialArticles.items[0].articles.slice(5);
 
-
-  const articles = restArticles;
-
-  React.useEffect(() => {
-    if (articles) {
-      send({
-        type: 'HYDRATE',
-        articles,
-        subcategories
-      });
-    }
-  }, [send]);
-
-  // request more content for pagination
-  React.useEffect(() => {
-    const parentState = typeof state.value === "object" ? Object.keys(state.value)[0] : state.value;
-    const cancledRef = { cancled: false };
-
-    if (parentState === 'all' || parentState === 'tagSelected') {
-
-      if (selectedTag) {
-        const lastArticle = state.context.subcategories?.[selectedTag]?.slice(-1)[0];
-
-        actions.getArticlesBySubcategory({
-          subcategory: selectedTag,
-          lastEvaluatedKey: lastArticle?.id,
-          lastPublishDate: lastArticle?.publishDate
-        })
-        .then(newArticles => {
-          if (!cancledRef.cancled) {
-            if (newArticles && newArticles.length > 0) {
-              send({
-                type: 'CONTENT_LOADED',
-                articles: newArticles
-              });
-            }
-    
-            else {
-              send({
-                type: 'OUT_OF_CONTENT'
-              });
-            }
-          }
-        });
-      }
-
-      else {
-        const lastArticle = state.context.articles?.slice(-1)[0];
-        console.log(lastArticle)
-        if (!lastArticle) return;
-
-        actions.getArticles({
-          category: 'Sports',
-          lastEvaluatedKey: lastArticle.id,
-          lastPublishDate: lastArticle.publishDate
-        })
-        .then(res => {
-          if (!cancledRef.cancled) {
-            const newArticles = res.items?.[0]?.articles ?? [];
-    
-            if (newArticles && newArticles.length > 0) {
-              send({
-                type: 'CONTENT_LOADED',
-                articles: newArticles
-              });
-            }
-    
-            else {
-              send({
-                type: 'OUT_OF_CONTENT'
-              });
-            }
-          }
-        });
-      }
-      
-    }
-
-    return () => {
-      cancledRef.cancled = true;
-    }
-  }, [state.value, send, selectedTag, state.context]);
-
-  const loadMore = React.useCallback(
-    () => send({
-      type: 'LOAD_MORE_CONTENT'
-    }),
-    [send]
-  );
-
-
+  const { 
+    selectedArticles, 
+    loadMore, 
+    outOfContent,
+    selectedTag,
+    setSelectedTag
+  } = useSports({
+    initialArticles: restArticles,
+    subcategories
+  })
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>
-  }
-
-  let selectedArticles: (CompactArticle | undefined)[];
-  if (typeof selectedTag === 'string') {
-    selectedArticles = state.context.subcategories?.[selectedTag] ?? [];
-  } else {
-    selectedArticles = state.context.articles ?? restArticles;
   }
 
   return (
@@ -207,22 +115,9 @@ function Category({
       <Card.Spacer/>
       <TagBar
         // THIS IS A HACK
-        tags={subcategories.map(t => t.replace(/s-/g, "'s ")).sort()}
-        value={state.context.selectedTag ?? null}
-        onChange={val => {
-          if (val !== null) {
-            send({
-              type: 'SELECT_TAG',
-              tag: val
-            });
-          }
-
-          else {
-            send({
-              type: 'UNSELECT_TAG',
-            });
-          }
-        }}
+        tags={subcategories.sort()}
+        value={selectedTag}
+        onChange={setSelectedTag}
       />
       <Card.Spacer/>
       <Card.Spacer/>
@@ -254,10 +149,16 @@ function Category({
         ) : null)}
       </Grid.Row>
       
-      <ActivityIndicator.ProgressiveLoader 
-        key={selectedTag}
-        onVisible={loadMore}
-      />
+      {!outOfContent ? (
+        <ActivityIndicator.ProgressiveLoader 
+          key={selectedTag}
+          onVisible={loadMore}
+        />
+      ) : (
+        <Text style={{textAlign: 'center', display: 'block'}}>
+          No {selectedArticles.length === 0 ? 'more ' : ''}articles.
+        </Text>
+      )}
     </Section>
   );
 }
@@ -274,8 +175,6 @@ export async function getStaticProps() {
     category: 'Sports',
     limit: 100
   });
-
-  console.log(initialArticles.items[0].articles[44])
 
   const seo: SEOProps = {
     title: 'Sports'

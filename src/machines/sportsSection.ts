@@ -1,5 +1,7 @@
+import React from 'react';
 import { createMachine, assign } from 'xstate';
-import { CompactArticle } from '../shared/src/client';
+import { useMachine } from '@xstate/react';
+import { actions, CompactArticle } from '../shared/src/client';
 
 type MachineState =
   | { value: 'dehydrated'; context: MachineContext }
@@ -162,3 +164,135 @@ export const sportsMachine = createMachine<MachineContext, MachineEvent, Machine
     })
   }
 });
+
+type UseSports= {
+  initialArticles: CompactArticle[];
+  subcategories: string[];
+}
+
+export function useSports({
+  initialArticles,
+  subcategories
+}: UseSports) {
+  const [state, send] = useMachine(sportsMachine);
+  const selectedTag = state.context.selectedTag;
+
+  React.useEffect(() => {
+    if (initialArticles) {
+      send({
+        type: 'HYDRATE',
+        articles: initialArticles,
+        subcategories
+      });
+    }
+  }, [send]);
+
+  // request more content for pagination
+  React.useEffect(() => {
+    const parentState = typeof state.value === "object" ? Object.keys(state.value)[0] : state.value;
+    const cancledRef = { cancled: false };
+
+    if (parentState === 'all' || parentState === 'tagSelected') {
+
+      if (selectedTag) {
+        console.log(selectedTag)
+        const lastArticle = state.context.subcategories?.[selectedTag]?.slice(-1)[0];
+
+        actions.getArticlesBySubcategory({
+          subcategory: selectedTag,
+          lastEvaluatedKey: lastArticle?.id,
+          lastPublishDate: lastArticle?.publishDate
+        })
+        .then(newArticles => {
+          if (!cancledRef.cancled) {
+            if (newArticles && newArticles.length > 0) {
+              send({
+                type: 'CONTENT_LOADED',
+                articles: newArticles
+              });
+            }
+    
+            else {
+              send({
+                type: 'OUT_OF_CONTENT'
+              });
+            }
+          }
+        });
+      }
+
+      else {
+        const lastArticle = state.context.articles?.slice(-1)[0];
+        if (!lastArticle) return;
+
+        actions.getArticles({
+          category: 'Sports',
+          lastEvaluatedKey: lastArticle.id,
+          lastPublishDate: lastArticle.publishDate
+        })
+        .then(res => {
+          if (!cancledRef.cancled) {
+            const newArticles = res.items?.[0]?.articles ?? [];
+    
+            if (newArticles && newArticles.length > 0) {
+              send({
+                type: 'CONTENT_LOADED',
+                articles: newArticles
+              });
+            }
+    
+            else {
+              send({
+                type: 'OUT_OF_CONTENT'
+              });
+            }
+          }
+        });
+      }
+      
+    }
+
+    return () => {
+      cancledRef.cancled = true;
+    }
+  }, [state.value, send, selectedTag, state.context]);
+
+  const loadMore = React.useCallback(
+    () => send({
+      type: 'LOAD_MORE_CONTENT'
+    }),
+    [send]
+  );
+
+  const outOfContent = ['all.outOfContent', 'tagSelected.outOfContent'].some(
+    state.matches
+  )
+
+  let selectedArticles: (CompactArticle | undefined)[];
+  if (typeof selectedTag === 'string') {
+    selectedArticles = state.context.subcategories?.[selectedTag] ?? [];
+  } else {
+    selectedArticles = state.context.articles ?? initialArticles;
+  }
+
+  return {
+    selectedArticles,
+    loadMore,
+    outOfContent,
+    selectedTag: state.context.selectedTag ?? null,
+    setSelectedTag: (val: string | null) => {
+      if (val !== null) {
+        send({
+          type: 'SELECT_TAG',
+          tag: val
+        });
+      }
+
+      else {
+        send({
+          type: 'UNSELECT_TAG',
+        });
+      }
+    }
+  }
+}

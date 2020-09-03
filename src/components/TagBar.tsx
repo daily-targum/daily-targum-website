@@ -39,7 +39,7 @@ export function TagBar({
             onChange(tag);
           }}
         >
-          {tag}
+          {tag.replace(/s-/g, "'s ")}
         </Text>
       ))}
     </div>
@@ -48,7 +48,9 @@ export function TagBar({
 
 const styleCreator = Theme.makeStyleCreator(theme => ({
   tagBar: {
-    ...styleHelpers.flex('row')
+    ...styleHelpers.flex('row'),
+    overflowX: 'auto',
+    paddingBottom: theme.spacing(2)
   },
   tag: {
     color: '#fff',
@@ -61,7 +63,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     alignItems: 'center',
     fontSize: '1.1rem',
     userSelect: 'none',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+    whiteSpace: 'nowrap'
   },
   tagSelected: {
     backgroundColor: theme.colors.accent
