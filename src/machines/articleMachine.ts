@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMachine, assign } from '@xstate/fsm';
-import { actions, GetArticles, GetArticlesBySubcategory, CompactArticle } from '../shared/src/client';
+import { GetArticles, GetArticlesBySubcategory, CompactArticle } from '../shared/src/client';
 import { useMachine } from '@xstate/react/lib/fsm';
 
 type MachineState =
@@ -114,53 +114,58 @@ export function useArticles({
   React.useEffect(() => {
     if (state.value === 'loading' && lastArticle) {
 
-      if (category) {
-        actions.getArticles({
-          category,
-          lastEvaluatedKey: lastArticle.id,
-          lastPublishDate: lastArticle.publishDate
-        })
-        .then(res => {
-          const newArticles = res.items?.[0]?.articles ?? [];
-  
-          if (newArticles && newArticles.length > 0) {
-            send({
-              type: 'CONTENT_LOADED',
-              articles: newArticles
-            });
-          }
-  
-          else {
-            send({
-              type: 'OUT_OF_CONTENT'
-            });
-          }
-        });  
+      async function load() {
+        const { actions } = await import('../shared/src/client');
+
+        if (category) {
+          actions.getArticles({
+            category,
+            lastEvaluatedKey: lastArticle.id,
+            lastPublishDate: lastArticle.publishDate
+          })
+          .then(res => {
+            const newArticles = res.items?.[0]?.articles ?? [];
+    
+            if (newArticles && newArticles.length > 0) {
+              send({
+                type: 'CONTENT_LOADED',
+                articles: newArticles
+              });
+            }
+    
+            else {
+              send({
+                type: 'OUT_OF_CONTENT'
+              });
+            }
+          });  
+        }
+
+        else if (subcategory) {
+          actions.getArticlesBySubcategory({
+            subcategory,
+            lastEvaluatedKey: lastArticle?.id,
+            lastPublishDate: lastArticle?.publishDate
+          })
+          .then(newArticles => {
+            if (newArticles && newArticles.length > 0) {
+              send({
+                type: 'CONTENT_LOADED',
+                articles: newArticles
+              });
+            }
+    
+            else {
+              send({
+                type: 'OUT_OF_CONTENT'
+              });
+            }
+          });
+        }
+
       }
 
-      else if (subcategory) {
-        actions.getArticlesBySubcategory({
-          subcategory,
-          lastEvaluatedKey: lastArticle?.id,
-          lastPublishDate: lastArticle?.publishDate
-        })
-        .then(newArticles => {
-          if (newArticles && newArticles.length > 0) {
-            send({
-              type: 'CONTENT_LOADED',
-              articles: newArticles
-            });
-          }
-  
-          else {
-            send({
-              type: 'OUT_OF_CONTENT'
-            });
-          }
-        });
-      }
-
-      
+      load();
     }
   }, [state.value, lastArticle, send]);
 

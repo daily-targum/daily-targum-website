@@ -1,7 +1,7 @@
 import React from 'react';
 import { createMachine, assign } from 'xstate';
 import { useMachine } from '@xstate/react';
-import { actions, CompactArticle } from '../shared/src/client';
+import { CompactArticle } from '../shared/src/client';
 
 type MachineState =
   | { value: 'dehydrated'; context: MachineContext }
@@ -194,62 +194,66 @@ export function useSports({
 
     if (parentState === 'all' || parentState === 'tagSelected') {
 
-      if (selectedTag) {
-        console.log(selectedTag)
-        const lastArticle = state.context.subcategories?.[selectedTag]?.slice(-1)[0];
+      async function load() {
+        const { actions } = await import('../shared/src/client');
 
-        actions.getArticlesBySubcategory({
-          subcategory: selectedTag,
-          lastEvaluatedKey: lastArticle?.id,
-          lastPublishDate: lastArticle?.publishDate
-        })
-        .then(newArticles => {
-          if (!cancledRef.cancled) {
-            if (newArticles && newArticles.length > 0) {
-              send({
-                type: 'CONTENT_LOADED',
-                articles: newArticles
-              });
-            }
-    
-            else {
-              send({
-                type: 'OUT_OF_CONTENT'
-              });
-            }
-          }
-        });
-      }
-
-      else {
-        const lastArticle = state.context.articles?.slice(-1)[0];
-        if (!lastArticle) return;
-
-        actions.getArticles({
-          category: 'Sports',
-          lastEvaluatedKey: lastArticle.id,
-          lastPublishDate: lastArticle.publishDate
-        })
-        .then(res => {
-          if (!cancledRef.cancled) {
-            const newArticles = res.items?.[0]?.articles ?? [];
-    
-            if (newArticles && newArticles.length > 0) {
-              send({
-                type: 'CONTENT_LOADED',
-                articles: newArticles
-              });
-            }
-    
-            else {
-              send({
-                type: 'OUT_OF_CONTENT'
-              });
-            }
-          }
-        });
-      }
+        if (selectedTag) {
+          const lastArticle = state.context.subcategories?.[selectedTag]?.slice(-1)[0];
+  
+          actions.getArticlesBySubcategory({
+            subcategory: selectedTag,
+            lastEvaluatedKey: lastArticle?.id,
+            lastPublishDate: lastArticle?.publishDate
+          })
+          .then(newArticles => {
+            if (!cancledRef.cancled) {
+              if (newArticles && newArticles.length > 0) {
+                send({
+                  type: 'CONTENT_LOADED',
+                  articles: newArticles
+                });
+              }
       
+              else {
+                send({
+                  type: 'OUT_OF_CONTENT'
+                });
+              }
+            }
+          });
+        }
+  
+        else {
+          const lastArticle = state.context.articles?.slice(-1)[0];
+          if (!lastArticle) return;
+  
+          actions.getArticles({
+            category: 'Sports',
+            lastEvaluatedKey: lastArticle.id,
+            lastPublishDate: lastArticle.publishDate
+          })
+          .then(res => {
+            if (!cancledRef.cancled) {
+              const newArticles = res.items?.[0]?.articles ?? [];
+      
+              if (newArticles && newArticles.length > 0) {
+                send({
+                  type: 'CONTENT_LOADED',
+                  articles: newArticles
+                });
+              }
+      
+              else {
+                send({
+                  type: 'OUT_OF_CONTENT'
+                });
+              }
+            }
+          });
+        }
+      }
+
+      load();
     }
 
     return () => {

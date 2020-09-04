@@ -60,6 +60,9 @@ export default class MyDocument extends Document<{
           <meta name="msapplication-TileColor" content="#ffffff"/>
           <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
           <meta name="theme-color" content="#ffffff"/>
+
+          <link rel="preconnect" href="https://www.google-analytics.com/"/>
+          <link rel="preconnect" href="https://dailytargum.imgix.net/"/>
         </Head>
 
         <body>

@@ -145,6 +145,9 @@ jobs:
     steps:
       - name: Create Report Dir
         run: mkdir ./report
+      - name: Debug
+        continue-on-error: true
+        run: echo "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
       - name: Run Lighthouse
         uses: foo-software/lighthouse-check-action@master
         continue-on-error: true
