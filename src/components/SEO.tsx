@@ -1,5 +1,6 @@
 import React from 'react';
 import { imgix } from '../utils';
+import Head from 'next/head';
 
 const BASE = {
   siteName: 'The Daily Targum',
@@ -19,25 +20,25 @@ export type SEOProps = {
   siteName?: string
 };
 
-export function Podcast({
-  audioFile,
-  player
-}: {
-  audioFile: string
-  player: string
-}) {
-  return (
-    <>
-      <meta property="og:audio" content={audioFile} />
-      <meta property="og:audio:type" content='audio/vnd.facebook.bridge' />
-      <meta property="og:type" content='music.song' />
+// export function Podcast({
+//   audioFile,
+//   player
+// }: {
+//   audioFile: string
+//   player: string
+// }) {
+//   return (
+//     <>
+//       <meta property="og:audio" content={audioFile} />
+//       <meta property="og:audio:type" content='audio/vnd.facebook.bridge' />
+//       <meta property="og:type" content='music.song' />
 
-      <meta property="twitter:player" content={player} />
-      <meta property="twitter:player:width" content='500px' />
-      <meta property="twitter:player:width" content='200px' />
-    </>
-  );
-}
+//       <meta property="twitter:player" content={player} />
+//       <meta property="twitter:player:width" content='500px' />
+//       <meta property="twitter:player:width" content='200px' />
+//     </>
+//   );
+// }
 
 export function SEO({
   title,
@@ -54,7 +55,7 @@ export function SEO({
 }: SEOProps) {
 
   return (
-    <>
+    <Head>
       <title>{formatTitle(title)}</title>
       <meta name="description" content={description} />
 
@@ -77,7 +78,7 @@ export function SEO({
       <meta property="fb:image:alt" content={imageAlt} />
       <meta property="og:description" content={description} />
       <meta property="fb:app_id" content={BASE.facebookAppId} />
-    </>
+    </Head>
   );
 }
 

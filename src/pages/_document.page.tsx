@@ -1,7 +1,6 @@
 import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import Document, { Head, Main, NextScript } from 'next/document';
-import { SEO } from '../components';
 import { ReactChildren } from '../types';
 import { ServerStyleSheet as ContextStyleSheet } from 'react-context-theming/lib/web';
 
@@ -39,8 +38,6 @@ export default class MyDocument extends Document<{
   }
 
   render() {
-    const seo = this.props.__NEXT_DATA__.props?.pageProps?.seo || {};
-
     return (
       <html lang='en'>
         <Head>
@@ -63,8 +60,6 @@ export default class MyDocument extends Document<{
           <meta name="msapplication-TileColor" content="#ffffff"/>
           <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
           <meta name="theme-color" content="#ffffff"/>
-
-          <SEO {...seo} />
         </Head>
 
         <body>

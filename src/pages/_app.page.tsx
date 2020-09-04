@@ -3,7 +3,6 @@ import { AppProps } from 'next/app';
 import { Navbar, Theme, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO } from '../components';
 import { Provider as ReduxProvider } from '../store';
 import '../styles.css';
-import { Helmet } from "react-helmet";
 
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
@@ -38,26 +37,25 @@ function App({
   const seo = pageProps.seo ?? {};
 
   return (
-    <ReduxProvider>
-      <Grid.Provider>
-        <Theme.Provider>
-          <Page>
-            <Helmet>
-              <title>{SEO.formatTitle(seo.title)}</title>
-            </Helmet>
+    <>
+      <SEO {...seo}/>
+      <ReduxProvider>
+        <Grid.Provider>
+          <Theme.Provider>
+            <Page>
+              <Analytics/>
 
-            <Analytics/>
+              <Navbar/>
+              <Component {...pageProps} err={err}/>
+              <Footer/>
 
-            <Navbar/>
-            <Component {...pageProps} err={err}/>
-            <Footer/>
-
-            <PodcastPlayerBar/>
-            <Video.PersistentPlayer/>
-          </Page>
-        </Theme.Provider>
-      </Grid.Provider>
-    </ReduxProvider>
+              <PodcastPlayerBar/>
+              <Video.PersistentPlayer/>
+            </Page>
+          </Theme.Provider>
+        </Grid.Provider>
+      </ReduxProvider>
+    </>
   );
 
 }
