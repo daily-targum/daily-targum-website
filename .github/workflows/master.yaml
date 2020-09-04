@@ -134,64 +134,16 @@ jobs:
           vercel-project-id: ${{ secrets.PROJECT_ID }} #Required
           alias-domains: |
             beta.dailytargum.com
-  audit:
-    name: Auddit - Staging Website
+  lighthouse-check:
+    name: Auddit - Lighthouse
     runs-on: ubuntu-latest
     needs: deploy-vercel
     steps:
-      - name: Audit home page
-        uses: jakejarvis/lighthouse-action@master
+      - uses: actions/checkout@master
+      - run: npm install
+      - name: Run Lighthouse
+        uses: foo-software/lighthouse-check-action@master
         continue-on-error: true
         with:
-          url: https://beta.dailytargum.com/
-      - name: Audit news section
-        uses: jakejarvis/lighthouse-action@master
-        continue-on-error: true
-        with:
-          url: https://beta.dailytargum.com/section/news
-      - name: Audit sports section
-        uses: jakejarvis/lighthouse-action@master
-        continue-on-error: true
-        with:
-          url: https://beta.dailytargum.com/section/sports
-      - name: Audit opinions section
-        uses: jakejarvis/lighthouse-action@master
-        continue-on-error: true
-        with:
-          url: https://beta.dailytargum.com/section/opinions
-      - name: Audit inside beat section
-        uses: jakejarvis/lighthouse-action@master
-        continue-on-error: true
-        with:
-          url: https://beta.dailytargum.com/section/inside-beat
-      - name: Audit dynamic page (privacy policy)
-        uses: jakejarvis/lighthouse-action@master
-        continue-on-error: true
-        with:
-          url: https://beta.dailytargum.com/page/privacy-policy
-      - name: Audit videos page
-        uses: jakejarvis/lighthouse-action@master
-        continue-on-error: true
-        with:
-          url: https://beta.dailytargum.com/videos
-      - name: Audit photos page
-        uses: jakejarvis/lighthouse-action@master
-        continue-on-error: true
-        with:
-          url: https://beta.dailytargum.com/photos
-      - name: Audit HoRU page
-        uses: jakejarvis/lighthouse-action@master
-        continue-on-error: true
-        with:
-          url: https://beta.dailytargum.com/section/humans-of-rutgers
-      - name: Audit podcast page
-        uses: jakejarvis/lighthouse-action@master
-        continue-on-error: true
-        with:
-          url: https://beta.dailytargum.com/podcasts/targum-tea
-      - name: Upload results as an artifact
-        uses: actions/upload-artifact@master
-        continue-on-error: true
-        with:
-          name: report
-          path: './report'
+          accessToken: ${{ secrets.GITHUB_TOKEN }} #Optional 
+          urls: 'https://beta.dailytargum.com/,https://beta.dailytargum.com/section/news,https://beta.dailytargum.com/section/sports,https://beta.dailytargum.com/section/opinions,https://beta.dailytargum.com/section/inside-beat,https://beta.dailytargum.com/page/privacy-policy,https://beta.dailytargum.com/videos,https://beta.dailytargum.com/section/humans-of-rutgers'
