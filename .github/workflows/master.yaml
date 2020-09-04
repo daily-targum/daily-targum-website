@@ -146,10 +146,10 @@ jobs:
           accessToken: ${{ secrets.GITHUB_TOKEN }} #Optional 
           urls: 'https://beta.dailytargum.com/,https://beta.dailytargum.com/section/news,https://beta.dailytargum.com/section/sports,https://beta.dailytargum.com/section/opinions,https://beta.dailytargum.com/section/inside-beat,https://beta.dailytargum.com/page/privacy-policy,https://beta.dailytargum.com/videos,https://beta.dailytargum.com/section/humans-of-rutgers'
           commentUrl: https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments
-          outputDirectory: ./report
+          outputDirectory: /tmp/artifacts
       - name: Upload results as an artifact
         uses: actions/upload-artifact@master
         continue-on-error: true
         with:
           name: report
-          path: './report'
+          path: '/tmp/artifacts'

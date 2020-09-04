@@ -150,10 +150,10 @@ jobs:
           accessToken: ${{ secrets.GITHUB_TOKEN }} #Optional 
           urls: 'https://staging.dailytargum.com/,https://staging.dailytargum.com/section/news,https://staging.dailytargum.com/section/sports,https://staging.dailytargum.com/section/opinions,https://staging.dailytargum.com/section/inside-beat,https://staging.dailytargum.com/page/privacy-policy,https://staging.dailytargum.com/videos,https://staging.dailytargum.com/section/humans-of-rutgers'
           commentUrl: https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments
-          outputDirectory: ./report
+          outputDirectory: /tmp/artifacts
       - name: Upload results as an artifact
         uses: actions/upload-artifact@master
         continue-on-error: true
         with:
           name: report
-          path: './report'
+          path: '/tmp/artifacts'
