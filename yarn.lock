@@ -2231,6 +2231,13 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@next/bundle-analyzer@^9.5.3":
+  version "9.5.3"
+  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-9.5.3.tgz#8e10c80eda02a03c6716037699fc3d29c75c5fe4"
+  integrity sha512-/kxp8HFHtcA3pWKgPdnQFSUIkZytbbn7IQ70h9v6hApEhGy2na7WofRpAqkjK1o8jxQYTLqDxFFda6A9SClq2A==
+  dependencies:
+    webpack-bundle-analyzer "3.6.1"
+
 "@next/react-dev-overlay@9.4.1":
   version "9.4.1"
   resolved "https://registry.yarnpkg.com/@next/react-dev-overlay/-/react-dev-overlay-9.4.1.tgz#79bcabd7bb2fcd0219b6b452456014bf93bd7c50"
@@ -5708,6 +5715,11 @@ execa@^4.0.0:
     onetime "^5.1.0"
     signal-exit "^3.0.2"
     strip-final-newline "^2.0.0"
+
+exenv@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
 
 exit@^0.1.2:
   version "0.1.2"
@@ -10044,10 +10056,10 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-context-theming@^1.0.0-alpha.837:
-  version "1.0.0-alpha.837"
-  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.837.tgz#b46ce09716eb3d6e4b75701351e18e12d98180f9"
-  integrity sha512-Eo6OOD5fvBKauPBHUZHTAgp+gDKg2Qy9XgFxzFNZzdJ5MWml8CVp/0ue0fVeod3GqBunbmmpQOL+Ovxm58MmjQ==
+react-context-theming@^1.0.0-alpha.838:
+  version "1.0.0-alpha.838"
+  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.838.tgz#f74eabfefaed8dcef73430fcd813c3331160ea47"
+  integrity sha512-wptHdfkPFumIBezhWPVQWtdrv7E1qkvHv9YrlYeUnjNcls/n0O0IHnCjUqSmOSu+RzA8H4Es1Zu7NgWprS/20Q==
   dependencies:
     autoprefixer "9.8.5"
     react-native "0.62.2"
@@ -10160,6 +10172,13 @@ react-refresh@^0.4.0:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.4.3.tgz#966f1750c191672e76e16c2efa569150cc73ab53"
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
+
+react-scrolllock@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-scrolllock/-/react-scrolllock-5.0.1.tgz#da1cfb7b6d55c86ae41dbad5274b778c307752b7"
+  integrity sha512-poeEsjnZAlpA6fJlaNo4rZtcip2j6l5mUGU/SJe1FFlicEudS943++u7ZSdA7lk10hoyYK3grOD02/qqt5Lxhw==
+  dependencies:
+    exenv "^1.2.2"
 
 react-swipeable@^5.5.1:
   version "5.5.1"
@@ -11938,6 +11957,11 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
+use-scrollock@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/use-scrollock/-/use-scrollock-1.0.6.tgz#1e3181de8e1c6751815ec9eaffcc24819be8df45"
+  integrity sha512-99WGFU/8HiKq9Ho4zw72hpM+rsvLSVkR7JeHPnPgnCCRk14TqVuKIguZfByAJuFWEU6a0OWtzxD+rgOZQXcrow==
+
 use-subscription@1.4.1, use-subscription@^1.0.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/use-subscription/-/use-subscription-1.4.1.tgz#edcbcc220f1adb2dd4fa0b2f61b6cc308e620069"
@@ -12129,6 +12153,25 @@ webidl-conversions@^6.0.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-6.1.0.tgz#9111b4d7ea80acd40f5270d666621afa78b69514"
   integrity sha512-qBIvFLGiBpLjfwmYAaHPXsn+ho5xZnGvyGvsarywGNc8VyQJUMHJ8OBKGGrPER0okBeMDaan4mNBlgBROxuI8w==
+
+webpack-bundle-analyzer@3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.6.1.tgz#bdb637c2304424f2fbff9a950c7be42a839ae73b"
+  integrity sha512-Nfd8HDwfSx1xBwC+P8QMGvHAOITxNBSvu/J/mCJvOwv+G4VWkU7zir9SSenTtyCi0LnVtmsc7G5SZo1uV+bxRw==
+  dependencies:
+    acorn "^7.1.1"
+    acorn-walk "^7.1.1"
+    bfj "^6.1.1"
+    chalk "^2.4.1"
+    commander "^2.18.0"
+    ejs "^2.6.1"
+    express "^4.16.3"
+    filesize "^3.6.1"
+    gzip-size "^5.0.0"
+    lodash "^4.17.15"
+    mkdirp "^0.5.1"
+    opener "^1.5.1"
+    ws "^6.0.0"
 
 webpack-bundle-analyzer@^3.8.0:
   version "3.8.0"

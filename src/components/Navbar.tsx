@@ -6,13 +6,13 @@ import Logo from './Logo';
 import Search from './Search';
 import Link from './Link';
 import Text from './Text';
-import scrollLock from 'scroll-lock';
+// import scrollLock from 'scroll-lock';
 // @ts-ignore
 import NextNprogress from './NextNProgress';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from '../store';
 import { navigationActions } from '../store/ducks/navigation';
-import { styleHelpers } from '../utils';
+import { styleHelpers, useScrollock } from '../utils';
 import { MdClose } from 'react-icons/md';
 import { FiMenu } from 'react-icons/fi';
 
@@ -91,19 +91,17 @@ function MobileMenu() {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const { toggleScrollock } = useScrollock();
+
+  React.useEffect(() => {
+    toggleScrollock(isVisible)
+  }, [isVisible]);
+
   React.useEffect(() => {
     if (isVisible) {
       dispatch(navigationActions.closeMobileMenu());
     }
   }, [router.pathname]);
-
-  React.useEffect(() => {
-    if (isVisible) {
-      scrollLock.disablePageScroll();
-    } else {
-      scrollLock.enablePageScroll();
-    }
-  }, [isVisible]);
 
   return (
     <Grid.Display

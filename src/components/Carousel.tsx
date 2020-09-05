@@ -221,7 +221,7 @@ function CarouselResponsive<T>({
     }
     handleResize();
     if(process.browser && div) {
-      window.addEventListener('resize', handleResize);
+      window.addEventListener('resize', handleResize, { passive: true });
       return () => {
         window.removeEventListener('resize', handleResize);
       }

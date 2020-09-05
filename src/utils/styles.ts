@@ -103,7 +103,8 @@ function card(theme: Theme) {
   return {
     backgroundColor: theme.colors.surface,
     borderRadius: theme.roundness(1),
-    overflow: 'hidden'
+    overflow: 'hidden',
+    position: 'relative'
   } as const;
 }
 

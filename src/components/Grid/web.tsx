@@ -18,6 +18,7 @@ export interface RowProps {
   spacing?: number
   className?: string
   cols?: string[] | number
+  reverse?: boolean
 }
 
 export interface DisplayProps extends Partial<types.BreakPoints<boolean>> {
@@ -48,7 +49,8 @@ function Row({
   spacing = 0, 
   children, 
   style, 
-  className
+  className,
+  reverse = false
 }: RowProps) {
   const context = {
     ...contextExports.defaultContextValue,
@@ -74,6 +76,7 @@ function Row({
           gridTemplateColumns: (cols || context.cols).join(' '),
           gridGap: spacing+'px',
           flex: 1,
+          direction: reverse ? 'rtl' : undefined,
           ...style
         }}
       >

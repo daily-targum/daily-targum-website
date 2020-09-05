@@ -1,4 +1,6 @@
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 
 
 // Use the hidden-source-map option when you don't want the source maps to be
@@ -23,16 +25,12 @@ const COMMIT_SHA =
   VERCEL_GITLAB_COMMIT_SHA ||
   VERCEL_BITBUCKET_COMMIT_SHA;
 
-module.exports = withSourceMaps({
+module.exports = withBundleAnalyzer(withSourceMaps({
   serverRuntimeConfig: {
     rootDir: __dirname,
   },
   webpack: (config, options) => {
     config.plugins.push(new options.webpack.IgnorePlugin(/\/__tests__\//));
-
-    // config.plugins.push(new BundleAnalyzerPlugin({
-    //   analyzerMode: 'static'
-    // }));
 
     // In `pages/_app.js`, Sentry is imported from @sentry/browser. While
     // @sentry/node will run in a Node.js environment. @sentry/node will use
@@ -111,4 +109,4 @@ module.exports = withSourceMaps({
       }
     ]
   },
-});
+}));

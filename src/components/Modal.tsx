@@ -1,9 +1,9 @@
 import React from 'react';
 import Theme from './Theme';
-import { styleHelpers } from '../utils';
+import { styleHelpers, useScrollock } from '../utils';
 import { IoMdClose } from 'react-icons/io';
 import { ReactChildren } from '../types';
-import scrollLock from 'scroll-lock';
+
 
 export function Modal({
   open = false,
@@ -19,16 +19,10 @@ export function Modal({
   const styles = Theme.useStyleCreator(styleCreator);
   const cng = Theme.useClassNameGenerator();
 
-  React.useEffect(() => {
-    if (open) {
-      scrollLock.disablePageScroll();
-    } else {
-      scrollLock.enablePageScroll();
-    }
+  const { toggleScrollock } = useScrollock();
 
-    return () => {
-      scrollLock.enablePageScroll();
-    }
+  React.useEffect(() => {
+    toggleScrollock(open)
   }, [open]);
 
   return (
@@ -42,16 +36,14 @@ export function Modal({
         size={30}
         onClick={handleClose}
       />
-      <div style={styles.div100}>
-        <div
-          style={{
-            ...styles.modal,
-            overflow
-          }}
-          onClick={e => e.stopPropagation()}
-        >
-          {children}
-        </div>
+      <div
+        style={{
+          ...styles.modal,
+          overflow
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        {children}
       </div>
     </div>
   );
@@ -69,13 +61,6 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     backdropFilter: 'blur(40px) contrast(20%)',
     '-webkit-backdrop-filter': 'blur(40px) contrast(20%)'
   },
-  div100: {
-    ...styleHelpers.flex('column'),
-    justifyContent: 'center',
-    maxHeight: '90vh',
-    width: 'calc(750px + 30vw)',
-    maxWidth: '100%'
-  },
   closeIcon: {
     position: 'absolute',
     top: theme.spacing(2),
@@ -87,8 +72,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
   modal: {
     backgroundColor: theme.colors.surface,
     boxShadow: '0 5px 25px rgba(0, 0, 0, 0.2)',
-    maxHeight: '100%',
-    minHeight: 0
+    maxHeight: '90vh',
+    width: 'calc(750px + 30vw)',
   },
   hide: {
     opacity: 0,

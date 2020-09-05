@@ -76,7 +76,6 @@ function Input({
 
 const styleCreator = Theme.makeStyleCreator((theme, dark: boolean) => ({
   searchWrap: {
-    position: 'relative',
     height: '2rem',
     ...styleHelpers.lockWidth(175),
     ...styleHelpers.card(theme),

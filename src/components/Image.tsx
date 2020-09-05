@@ -11,13 +11,15 @@ export function Image({
   src,
   className,
   style,
-  altText
+  altText,
+  styleOutside
 }: {
   aspectRatio?: number
   data?: ImageData[]
   src?: string
   className?: string
   style?: React.CSSProperties
+  styleOutside?: React.CSSProperties
   altText?: string
 }) {
   // try and fall back to src if data isn't provided
@@ -30,7 +32,8 @@ export function Image({
   return (
     <picture 
       style={{
-        display: 'flex'
+        display: 'flex',
+        ...styleOutside
       }}
       className={className}
     >

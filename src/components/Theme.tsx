@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme as defaultUseTheme, Context } from 'react-context-theming/lib/index';
 import * as WebTheming from 'react-context-theming/lib/web';
-import { StyleCreatorFunction, GenerateStylesFunction, NamedStyles, Provider as ContextThemeProvider, useClassGenerator } from 'react-context-theming/lib/web';
+import { StyleCreatorFunction, GenerateStylesFunction, NamedStyles, Provider as ContextThemeProvider, useClassNameGenerator } from 'react-context-theming/lib/web';
 import { themes } from '../constants';
 import { ComputedTheme } from '../types';
 
@@ -61,6 +61,6 @@ export const Theme = {
   useStyleCreator,
   withStyleCreator,
   withTheme,
-  useClassNameGenerator: useClassGenerator
+  useClassNameGenerator
 };
 export default Theme;

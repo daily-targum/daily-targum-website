@@ -1,6 +1,6 @@
 import React from 'react';
 import { styleHelpers } from '../utils';
-import { ReactChildren } from '../types';
+import { ReactChildren, ReactChild } from '../types';
 import { ImageData, Image } from './Image';
 
 export function AspectRatioView({
@@ -52,7 +52,8 @@ export function AspectRatioImage({
   className,
   style,
   onClick,
-  altText
+  altText,
+  Overlay
 }: {
   aspectRatio?: number
   data?: ImageData[]
@@ -61,29 +62,40 @@ export function AspectRatioImage({
   style?: React.CSSProperties
   onClick?: () => any
   altText?: string
+  Overlay?: ReactChild
 }) {
   return (
-    <AspectRatioView
-      aspectRatio={aspectRatio}
-      className={className}
+    <div 
       style={{
-        position: 'relative',
+        ...(aspectRatio ? null : {
+          flex: 1,
+          position: 'relative',
+          height: '100%'
+        }),
         width: '100%',
         ...style
       }}
+      className={className}
       onClick={onClick}
     >
       <Image
+        styleOutside={{
+          ...(aspectRatio ? {
+            ...styleHelpers.aspectRatioFullWidth(aspectRatio),
+            position: 'relative'
+          } : null),
+        }}
         style={{
           ...styleHelpers.absoluteFill(),
           height: '100%',
           width: '100%',
-          objectFit: 'cover'
+          objectFit: 'cover',
         }}
         data={data}
         src={src}
         altText={altText}
       />
-    </AspectRatioView>
+      {Overlay}
+    </div>
   );
 }

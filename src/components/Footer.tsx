@@ -52,13 +52,41 @@ const links = {
 
 export function Footer() {
   const styles = Theme.useStyleCreator(styleCreator);
+  const cng = Theme.useClassNameGenerator();
 
   return (
     <Section style={styles.footer}>
       <footer>
 
-        <Grid.Row>
-          <Grid.Col xs={0} md={8}>
+        <Grid.Row reverse>
+
+          <Grid.Col xs={24} md={8} style={styles.col}>
+            <Text variant='h4' style={styles.title}>Social Media</Text>
+            {links.socialMedia.map(l => (
+              <Link 
+                key={l.href} 
+                className={cng(styles.link)}
+                href={l.href}
+              >
+                {l.title}
+              </Link>
+            ))}
+          </Grid.Col>
+
+          <Grid.Col xs={24} md={8} style={styles.col}>
+            <Text variant='h4' style={styles.title}>Company</Text>
+            {links.company.map(l => (
+              <Link
+                key={l.href}
+                className={cng(styles.link)}
+                href={l.href}
+              >
+                {l.title}
+              </Link>
+            ))}
+          </Grid.Col>
+
+          <Grid.Col xs={24} md={8} style={styles.col}>
             <div style={styles.centerHorizontally}>
               <Text.Br/>
               <Text.Br/>
@@ -66,77 +94,12 @@ export function Footer() {
                 color='#fff'
                 style={styles.logo}
               />
-              <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
+              <Link href="https://www.contentful.com/">
                 <img src="/powered-by-contentful.svg" alt="Powered by Contentful" loading='lazy' style={styles.sublogo}/>
-              </a>
+              </Link>
             </div>
           </Grid.Col>
-          
-          <Grid.Col xs={0} md={8}>
-            <Text variant='h4' style={styles.title}>Company</Text>
-            {links.company.map(l => (
-              <Link
-                key={l.href}
-                href={l.href}
-                style={styles.link}
-              >
-                {l.title}
-              </Link>
-            ))}
-          </Grid.Col>
 
-          <Grid.Col xs={0} md={8}>
-            <Text variant='h4' style={styles.title}>Social Media</Text>
-            {links.socialMedia.map(l => (
-              <Link 
-                key={l.href} 
-                style={styles.link}
-                href={l.href}
-              >
-                {l.title}
-              </Link>
-            ))}
-          </Grid.Col>
-
-
-          {/* Mobile */}
-          <Grid.Col xs={24} md={0}>
-            <Text variant='h4' style={styles.title}>Company</Text>
-            {links.company.map(l => (
-              <Link
-                key={l.href}
-                href={l.href}
-                style={styles.mobileLink}
-              >
-                {l.title}
-              </Link>
-            ))}
-          </Grid.Col>
-          <Grid.Col xs={24} md={0}>
-            <div style={styles.spacer}/>
-            <Text variant='h4' style={styles.title}>Social Media</Text>
-            {links.socialMedia.map(l => (
-              <Link 
-                key={l.href} 
-                style={styles.mobileLink}
-                href={l.href}
-              >
-                {l.title}
-              </Link>
-            ))}
-          </Grid.Col>
-          <Grid.Col xs={24} md={0}>
-            <div style={styles.centerHorizontally}>
-              <div style={styles.spacer}/>
-              <Logo 
-                color='#fff'
-                style={styles.logo}
-              />
-              <a href="https://www.contentful.com/" rel="noreferrer" target="_blank">
-                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" loading='lazy' style={styles.logo}/>
-              </a>
-            </div>
-          </Grid.Col>
         </Grid.Row>
         <Text style={styles.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
       
@@ -157,41 +120,38 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     marginBottom: theme.spacing(3)
   },
   footer: {
-    padding: theme.spacing(8, 0, 4),
-    backgroundColor: theme.colors.primary.main,
-    paddingBottom: 'env(safe-area-inset-bottom)',
+    padding: theme.spacing(5, 0),
+    backgroundColor: theme.colors.primary.main
   },
   copyright: {
     ...styleHelpers.flex(),
     ...styleHelpers.textCenter(),
     color: theme.colors.primary.contrastTextMuted,
     fontSize: '0.8rem',
-    marginTop: theme.spacing(10),
-    fontWeight: 300
+    fontWeight: 300,
+    paddingBottom: 'env(safe-area-inset-bottom)',
+    marginTop: theme.spacing(4)
   },
   title: {
     color: theme.colors.primary.contrastText,
     ...styleHelpers.textCenter()
   },
   link: {
-    margin: theme.spacing(1.5, 0),
+    margin: theme.spacing(2, 0),
     textDecoration: 'none',
     color: theme.colors.primary.contrastTextMuted,
-    textAlign: 'center'
-  },
-  mobileLink: {
-    margin: theme.spacing(3.5, 0, 2),
-    textDecoration: 'none',
-    color: theme.colors.primary.contrastTextMuted,
-    textAlign: 'center'
+    textAlign: 'center',
+    [theme.mediaQuery('xs', 'md')]: {
+      margin: theme.spacing(2.75, 0),
+    }
   },
   centerHorizontally: {
     ...styleHelpers.flex('column'),
     textAlign: 'center',
     alignItems: 'center'
   },
-  spacer: {
-    height: theme.spacing(8)
+  col: {
+    margin: theme.spacing(3, 0)
   }
 }));
 
