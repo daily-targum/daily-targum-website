@@ -160,7 +160,7 @@ jobs:
         uses: actions/upload-artifact@master
         continue-on-error: true
         with:
-          name: report
+          name: lighthouse
           path: './report'
   webpack-analyzer:
     name: Auddit - Webpack Analyzer
@@ -184,8 +184,17 @@ jobs:
           key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
       - name: Yarn Analyze
         run: yarn analyze
+        env:
+          AWS_APPSYNC_URL: ${{ secrets.AWS_APPSYNC_URL }}
+          AWS_APPSYNC_REGION: ${{ secrets.AWS_APPSYNC_REGION }}
+          AWS_APPSYNC_API_KEY: ${{ secrets.AWS_APPSYNC_API_KEY }}
+          CONTENTFUL_SPACE: ${{ secrets.CONTENTFUL_SPACE }}
+          CONTENTFUL_ACCESS_TOKEN_DRAFTS: ${{ secrets.CONTENTFUL_ACCESS_TOKEN_DRAFTS }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
       - name: Upload results as an artifact
         uses: actions/upload-artifact@master
         with:
-          name: report
+          name: webpack-analysis
           path: '.next/analyze/'
