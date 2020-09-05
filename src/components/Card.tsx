@@ -460,7 +460,11 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     height: theme.spacing(2.5)
   },
   byline: {
-    color: theme.colors.textMuted
+    color: theme.colors.textMuted,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    width: '100%'
   },
   author: {
     fontStyle: 'italic',

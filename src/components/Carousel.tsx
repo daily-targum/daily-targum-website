@@ -85,6 +85,7 @@ export function Carousel<T>({
 }: CarouselProps<T>) {
   const [ div, internalRef ] = useHookWithRefCallback<HTMLDivElement | null>(null);
   const styles = Theme.useStyleCreator(styleCreator);
+  const cng = Theme.useClassNameGenerator();
   const [index, setIndex] = React.useState(initialIndex ?? 0);
   const [ loading, setLoading ] = React.useState(true);
   const scrollTimeout = React.useRef<number | undefined>();
@@ -149,11 +150,8 @@ export function Carousel<T>({
       className={className}
     >
       <div
-        className={'hide-scrollbars'}
-        style={{
-          ...styles.scroll,
-          ...(loading ? null : styles.smoothScroll)
-        }}
+        className={`hide-scrollbars ${cng(styles.scroll)}`}
+        style={loading ? undefined : styles.smoothScroll}
         ref={internalRef}
         onScroll={() => {
           if (!div) return;
