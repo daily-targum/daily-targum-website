@@ -9,7 +9,7 @@ export type ImageData = {
 export function Image({
   data,
   src,
-  className,
+  classNameOutside,
   style,
   altText,
   styleOutside
@@ -17,7 +17,7 @@ export function Image({
   aspectRatio?: number
   data?: ImageData[]
   src?: string
-  className?: string
+  classNameOutside?: string
   style?: React.CSSProperties
   styleOutside?: React.CSSProperties
   altText?: string
@@ -35,7 +35,7 @@ export function Image({
         display: 'flex',
         ...styleOutside
       }}
-      className={className}
+      className={classNameOutside}
     >
       {data ? data.map(img => (
         <source 

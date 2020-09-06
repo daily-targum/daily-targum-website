@@ -73,23 +73,16 @@ exports[`<404 /> renders correctly 1`] = `
             Object {
               "backgroundColor": "var(--accent-color)",
               "borderRadius": 5,
+              "color": "#fff",
               "cursor": "pointer",
+              "fontSize": "1.3rem",
               "padding": 10,
               "paddingLeft": 40,
               "paddingRight": 40,
             }
           }
         >
-          <span
-            style={
-              Object {
-                "color": "#fff",
-                "fontSize": "1.3rem",
-              }
-            }
-          >
-            Go to Home
-          </span>
+          Go to Home
         </div>
       </a>
     </div>

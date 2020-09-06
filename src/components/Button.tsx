@@ -23,7 +23,7 @@ export function Button({
       }}
       onClick={onClick}
     >
-      <span style={styles.buttonText}>{children}</span>
+     {children}
     </div>
   );
 }
@@ -58,9 +58,7 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     paddingLeft: theme.spacing(8),
     backgroundColor: theme.colors.accent,
     borderRadius: theme.roundness(1),
-    cursor: 'pointer'
-  },
-  buttonText: {
+    cursor: 'pointer',
     color: '#fff',
     fontSize: '1.3rem'
   },

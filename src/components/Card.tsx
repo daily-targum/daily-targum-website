@@ -200,6 +200,7 @@ function CardStacked({
   Overlay
 }: CardBaseProps) {
   const styles = Theme.useStyleCreator(styleCreator);
+
   return (
     <Clickable 
       href={href}
@@ -248,34 +249,93 @@ function CardStacked({
 export function CardStackedResponsive({
   aspectRatioMobile,
   aspectRatioDesktop,
-  ...rest
+  title,
+  tag,
+  imageData,
+  href,
+  as,
+  aspectRatio,
+  date,
+  author,
+  onClick,
+  Overlay
 }: CardBaseResponsiveProps) {
-  return (
-    <>
-      {/* Desktop */}
-      <Grid.Display 
-        xs={false}
-        md={true}
-        style={{ flex: 1 }}
-      >
-        <CardStacked
-          {...rest}
-          aspectRatio={aspectRatioDesktop ?? rest.aspectRatio}
-        />
-      </Grid.Display>
+  const styles = Theme.useStyleCreator(styleCreator);
+  const theme = Theme.useTheme();
+  const cng = Theme.useClassNameGenerator();
 
-      {/* Mobile */}
-      <Grid.Display 
-        xs={true}
-        md={false}
-      >
-        <CardCompact
-          {...rest}
-          aspectRatio={aspectRatioMobile ?? rest.aspectRatio}
-        />
-      </Grid.Display>
-    </>
+  const imageStyle = {
+    ...styleHelpers.aspectRatioFullWidth(aspectRatioDesktop ?? aspectRatio),
+    [theme.mediaQuery('xs', 'md')]: {
+      ...styleHelpers.aspectRatioFullWidth(aspectRatioMobile ?? aspectRatio ?? 1),
+    }
+  }
+
+  return (
+    <Clickable 
+      href={href}
+      as={as}
+      onClick={onClick}
+      className={cng(styles.stackedCardResponsive)}
+    >
+      <AspectRatioImage
+        className={cng(styles.stackedCardImageResponsive)}
+        classNameInside={cng(imageStyle)}
+        data={imageData}
+        Overlay={Overlay}
+      />
+      
+      <div style={styles.stackedCardBody}>
+        {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+        {title ? (
+          <Text.Truncate 
+            variant='h4' 
+            htmlTag='h1' 
+            numberOfLines={2}
+          >
+            {title}
+          </Text.Truncate>
+        ) : null}
+
+        <div style={styles.grow}/>
+
+        <Text style={styles.byline}>
+          {date} 
+          {(date && author) ? ' - ' : null}
+          {author ? (
+            <Text style={styles.author}>{author}</Text>
+          ) : null}
+        </Text>
+      </div>
+    </Clickable>
   )
+
+  // return (
+  //   <>
+  //     {/* Desktop */}
+  //     <Grid.Display 
+  //       xs={false}
+  //       md={true}
+  //       style={{ flex: 1 }}
+  //     >
+  //       <CardStacked
+  //         {...rest}
+  //         aspectRatio={aspectRatioDesktop ?? rest.aspectRatio}
+  //       />
+  //     </Grid.Display>
+
+  //     {/* Mobile */}
+  //     <Grid.Display 
+  //       xs={true}
+  //       md={false}
+  //     >
+  //       <CardCompact
+  //         {...rest}
+  //         aspectRatio={aspectRatioMobile ?? rest.aspectRatio}
+  //       />
+  //     </Grid.Display>
+  //   </>
+  // )
 }
 
 function CardImage({
@@ -302,14 +362,14 @@ function CardImage({
           height: '100%'
         })
       }}
+      className='dark-mode'
     >
       <AspectRatioImage
         aspectRatio={aspectRatio}
         data={imageData}
       />
 
-      <div style={styles.imageCardOverlay}/>
-      <div style={styles.imageCardTitleWrap} className='dark-mode'>
+      <div style={styles.imageCardTitleWrap}>
         {tag ? (
           <Text 
             variant='h5'
@@ -418,14 +478,6 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     display: 'flex',
     ...styleHelpers.centerBackgroundImage()
   },
-  imageCardOverlay: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.7), transparent)'
-  },
   imageCardTitle: {
     color: '#fff'
   },
@@ -435,10 +487,15 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   },
   imageCardTitleWrap: {
     ...styleHelpers.flex('column'),
+    justifyContent: 'flex-end',
     position: 'absolute',
+    top: 0,
+    right: 0,
     bottom: 0,
+    left: 0,
     padding: theme.spacing(2),
-    width: '100%'
+    width: '100%',
+    background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.7), transparent)'
   },
   tag: {
     display: 'flex',
@@ -480,6 +537,24 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
   },
   grow: {
     flex: 1
+  },
+
+
+  // stacked responsive
+  stackedCardResponsive: {
+    ...styleHelpers.hideLink(),
+    ...styleHelpers.flex('column'),
+    flex: 1,
+    height: '100%',
+    [theme.mediaQuery('xs', 'md')]: {
+      flexDirection: 'row'
+    }
+  },
+  stackedCardImageResponsive: {
+    ...styleHelpers.card(theme),
+    [theme.mediaQuery('xs', 'md')]: {
+      ...styleHelpers.lockWidth('40%'),
+    }
   }
 }));
 

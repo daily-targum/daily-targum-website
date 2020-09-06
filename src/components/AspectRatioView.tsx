@@ -53,13 +53,17 @@ export function AspectRatioImage({
   style,
   onClick,
   altText,
-  Overlay
+  Overlay,
+  styleInside,
+  classNameInside
 }: {
   aspectRatio?: number
   data?: ImageData[]
   src?: string
   className?: string
+  classNameInside?: string
   style?: React.CSSProperties
+  styleInside?: React.CSSProperties
   onClick?: () => any
   altText?: string
   Overlay?: ReactChild
@@ -68,9 +72,7 @@ export function AspectRatioImage({
     <div 
       style={{
         ...(aspectRatio ? null : {
-          flex: 1,
-          position: 'relative',
-          height: '100%'
+          position: 'relative'
         }),
         width: '100%',
         ...style
@@ -84,7 +86,9 @@ export function AspectRatioImage({
             ...styleHelpers.aspectRatioFullWidth(aspectRatio),
             position: 'relative'
           } : null),
+          ...styleInside
         }}
+        classNameOutside={classNameInside}
         style={{
           ...styleHelpers.absoluteFill(),
           height: '100%',

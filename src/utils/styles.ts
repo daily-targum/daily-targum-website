@@ -46,10 +46,12 @@ function aspectRatioFullHeight(aspectRatio: number) {
   } as const;
 }
 
-function aspectRatioFullWidth(aspectRatio: number) {
-  return {
+function aspectRatioFullWidth(aspectRatio?: number) {
+  return typeof aspectRatio === 'number' ? {
     width: '100%',
     paddingTop: `${100 / aspectRatio}%`
+  } : {
+    
   } as const;
 }
 
