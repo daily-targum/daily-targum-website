@@ -44,7 +44,7 @@ function News({
                 title={article.title}
                 imageData={imgix(article.media[0]?.url ?? '', {
                   xs: imgix.presets.sm('1:1'),
-                  md: imgix.presets.lg('4:3')
+                  md: imgix.presets.lg('16:9')
                 })}
                 href='/article/[year]/[month]/[slug]'
                 as={'/'+article.slug}
@@ -67,7 +67,7 @@ function News({
               id={item.id}
               imageData={imgix(item.media[0]?.url ?? '', {
                 xs: imgix.presets.sm('1:1'),
-                md: imgix.presets.md('4:3')
+                md: imgix.presets.md('16:9')
               })}
               title={item.title}
               href='/article/[year]/[month]/[slug]'
