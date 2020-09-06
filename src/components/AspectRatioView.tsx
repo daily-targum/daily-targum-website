@@ -71,8 +71,9 @@ export function AspectRatioImage({
   return (
     <div 
       style={{
-        ...(aspectRatio ? null : {
-          position: 'relative'
+        ...(aspectRatio !== undefined ? null : {
+          position: 'relative',
+          height: '100%'
         }),
         width: '100%',
         ...style

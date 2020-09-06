@@ -6,7 +6,6 @@ import Logo from './Logo';
 import Search from './Search';
 import Link from './Link';
 import Text from './Text';
-// import scrollLock from 'scroll-lock';
 // @ts-ignore
 import NextNprogress from './NextNProgress';
 import { useRouter } from 'next/router';
@@ -32,55 +31,49 @@ function Banner() {
 const navbarLinks: {
   title: string
   href: string
-  as: string,
   mobileOnly?: boolean
 }[] = [
   {
     title: 'News',
-    href: '/section/news',
-    as: '/section/news'
+    href: '/section/news'
   },
   {
     title: 'Sports',
-    href: '/section/sports',
-    as: '/section/sports'
+    href: '/section/sports'
   },
   {
     title: 'Opinions',
-    href: '/section/opinions',
-    as: '/section/opinions'
+    href: '/section/opinions'
   },
   {
     title: 'Inside Beat',
-    href: '/section/inside-beat',
-    as: '/section/inside-beat'
+    href: '/section/inside-beat'
   },
   {
     title: 'Videos',
-    href: '/videos',
-    as: '/videos'
+    href: '/videos'
   },
   // {
   //   title: 'Photos',
-  //   href: '/photos',
-  //   as: '/photos'
+  //   href: '/photos'
   // },
   {
     title: 'HoRU',
-    href: '/section/humans-of-rutgers',
-    as: '/section/humans-of-rutgers'
+    href: '/section/humans-of-rutgers'
   },
   // {
   //   title: 'Podcasts',
-  //   href: '/podcasts/[slug]',
-  //   as: '/podcasts/targum-tea'
+  //   href: '/podcasts/targum-tea'
   // },
   // {
   //   title: 'Search',
   //   href: '/search',
-  //   as: '/search',
   //   mobileOnly: true
-  // }
+  // },
+  {
+    title: 'About',
+    href: '/page/about'
+  }
 ]
 
 function MobileMenu() {
@@ -115,9 +108,9 @@ function MobileMenu() {
           pointerEvents: isVisible ? undefined : 'none'
         }}
       >
-        {navbarLinks.map(link => (link.as === router.asPath) ? (
+        {navbarLinks.map(link => (link.href === router.asPath) ? (
           <span 
-            key={link.as}
+            key={link.href}
             style={styles.linkActive}
             className={cng(styles.mobileLink)}
             onClick={() => dispatch(navigationActions.closeMobileMenu())}
@@ -126,7 +119,6 @@ function MobileMenu() {
           </span>
         ) : (
           <Link 
-            key={link.as}
             href={link.href}
             className={cng(styles.mobileLink)}
           >
@@ -193,10 +185,9 @@ function DesktopNavbar() {
                 <div style={styles.links}>
                   {navbarLinks.filter(l => !l.mobileOnly).map(link => (
                     <Link 
-                      key={link.as}
                       href={link.href}
                       style={{
-                        ...(link.as === router.asPath) ? styles.linkActive : null,
+                        ...(link.href === router.asPath) ? styles.linkActive : null,
                       }}
                       className={cng(styles.link)}
                     >

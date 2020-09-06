@@ -26,7 +26,8 @@ function Button({
       onClick={onClick}
       style={{
         ...styles.buttonWrap,
-        [direction]: 0
+        [direction]: 0,
+        justifyContent: direction === 'left' ? 'flex-start' : 'flex-end'
       }}
     >
       {direction === 'left' ? (
@@ -68,6 +69,7 @@ interface CarouselProps<T> extends CarouselBase<T> {
 }
 
 export function Carousel<T>({
+  id,
   data, 
   renderItem, 
   keyExtractor,
@@ -96,12 +98,14 @@ export function Carousel<T>({
   }, [width]);
 
   React.useEffect(() => {
+    setLoading(true);
     if (forwardRef) {
       forwardRef(div);
     }
 
     if (!div) return;
 
+    setIndex(initialIndex);
     const newIndex = clamp(
       0, 
       initialIndex, 
@@ -117,7 +121,7 @@ export function Carousel<T>({
     return () => {
       clearTimeout(timeout);
     }
-  }, [div]);
+  }, [div, id]);
 
   function updateScroll(offset: number) {
     if (!div) return;
@@ -261,7 +265,8 @@ const styleCreator = Theme.makeStyleCreator(theme => ({
     top: 0,
     bottom: 0,
     padding: theme.spacing(0, 1.5),
-    height: '100%'
+    height: '100%',
+    width: '25%'
   },
   item: {
     scrollSnapAlign: 'start'

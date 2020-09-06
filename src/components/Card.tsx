@@ -261,15 +261,7 @@ export function CardStackedResponsive({
   Overlay
 }: CardBaseResponsiveProps) {
   const styles = Theme.useStyleCreator(styleCreator);
-  const theme = Theme.useTheme();
   const cng = Theme.useClassNameGenerator();
-
-  const imageStyle = {
-    ...styleHelpers.aspectRatioFullWidth(aspectRatioDesktop ?? aspectRatio),
-    [theme.mediaQuery('xs', 'md')]: {
-      ...styleHelpers.aspectRatioFullWidth(aspectRatioMobile ?? aspectRatio ?? 1),
-    }
-  }
 
   return (
     <Clickable 
@@ -278,12 +270,35 @@ export function CardStackedResponsive({
       onClick={onClick}
       className={cng(styles.stackedCardResponsive)}
     >
-      <AspectRatioImage
-        className={cng(styles.stackedCardImageResponsive)}
-        classNameInside={cng(imageStyle)}
-        data={imageData}
-        Overlay={Overlay}
-      />
+      <>
+        {/* Desktop */}
+        <Grid.Display 
+          xs={false}
+          md={true}
+          style={{ flex: 1 }}
+        >
+          <AspectRatioImage
+            style={styles.image}
+            aspectRatio={aspectRatioDesktop ?? aspectRatio}
+            data={imageData}
+            Overlay={Overlay}
+          />
+        </Grid.Display>
+
+        {/* Mobile */}
+        <Grid.Display 
+          xs={true}
+          md={false}
+          style={styles.compactCardImage}
+        >
+          <AspectRatioImage
+            style={styles.image}
+            aspectRatio={aspectRatioMobile ?? aspectRatio ?? 1}
+            data={imageData}
+            Overlay={Overlay}
+          />
+        </Grid.Display>
+      </>
       
       <div style={styles.stackedCardBody}>
         {tag ? <Text style={styles.tag}>{tag}</Text> : null}
@@ -308,34 +323,7 @@ export function CardStackedResponsive({
         </Text>
       </div>
     </Clickable>
-  )
-
-  // return (
-  //   <>
-  //     {/* Desktop */}
-  //     <Grid.Display 
-  //       xs={false}
-  //       md={true}
-  //       style={{ flex: 1 }}
-  //     >
-  //       <CardStacked
-  //         {...rest}
-  //         aspectRatio={aspectRatioDesktop ?? rest.aspectRatio}
-  //       />
-  //     </Grid.Display>
-
-  //     {/* Mobile */}
-  //     <Grid.Display 
-  //       xs={true}
-  //       md={false}
-  //     >
-  //       <CardCompact
-  //         {...rest}
-  //         aspectRatio={aspectRatioMobile ?? rest.aspectRatio}
-  //       />
-  //     </Grid.Display>
-  //   </>
-  // )
+  );
 }
 
 function CardImage({
@@ -539,6 +527,10 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     flex: 1
   },
 
+  image: {
+    ...styleHelpers.card(theme),
+  },
+
 
   // stacked responsive
   stackedCardResponsive: {
@@ -548,12 +540,6 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     height: '100%',
     [theme.mediaQuery('xs', 'md')]: {
       flexDirection: 'row'
-    }
-  },
-  stackedCardImageResponsive: {
-    ...styleHelpers.card(theme),
-    [theme.mediaQuery('xs', 'md')]: {
-      ...styleHelpers.lockWidth('40%'),
     }
   }
 }));
