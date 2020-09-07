@@ -119,6 +119,7 @@ function MobileMenu() {
           </span>
         ) : (
           <Link 
+            key={link.href}
             href={link.href}
             className={cng(styles.mobileLink)}
           >
@@ -185,6 +186,7 @@ function DesktopNavbar() {
                 <div style={styles.links}>
                   {navbarLinks.filter(l => !l.mobileOnly).map(link => (
                     <Link 
+                      key={link.href}
                       href={link.href}
                       style={{
                         ...(link.href === router.asPath) ? styles.linkActive : null,
