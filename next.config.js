@@ -1,3 +1,4 @@
+const path = require('path')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -28,6 +29,9 @@ const COMMIT_SHA =
 module.exports = withBundleAnalyzer(withSourceMaps({
   serverRuntimeConfig: {
     rootDir: __dirname,
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'src', 'styles')],
   },
   webpack: (config, options) => {
     config.plugins.push(new options.webpack.IgnorePlugin(/\/__tests__\//));

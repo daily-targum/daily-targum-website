@@ -1,0 +1,16 @@
+@use 'styleHelpers';
+@use 'theme';
+
+.section {
+  @include styleHelpers.flex('column');
+  width: 100%;
+  align-items: center;
+  padding-right: theme.spacing(2);
+  padding-left: theme.spacing(2);
+}
+
+.inside {
+  width: 100%;
+  max-width: calc(1000px + 22vw);
+  overflow-x: hidden;
+}

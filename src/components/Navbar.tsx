@@ -11,18 +11,18 @@ import NextNprogress from './NextNProgress';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from '../store';
 import { navigationActions } from '../store/ducks/navigation';
-import { styleHelpers, useScrollock } from '../utils';
+import { useScrollock } from '../utils';
 import { MdClose } from 'react-icons/md';
 import { FiMenu } from 'react-icons/fi';
+import styles from './Navbar.module.scss';
+import cn from 'classnames';
 
 export const NAVBAR_HEIGHT = 60;
 
 function Banner() {
-  const styles = Theme.useStyleCreator(styleCreator);
-
   return (
-    <div style={styles.banner}>
-      <Text style={styles.bannerText}>We would love to hear what you think of the new website. <Link href='https://docs.google.com/forms/d/e/1FAIpQLSe70rAwuC9-K1hmOhSnH9L2iLmb7IfWspcvLDBGVHl_Z-QpkQ/viewform'>Leave Feedback</Link>.</Text>
+    <div className={styles.banner}>
+      <Text className={styles.bannerText}>We would love to hear what you think of the new website. <Link href='https://docs.google.com/forms/d/e/1FAIpQLSe70rAwuC9-K1hmOhSnH9L2iLmb7IfWspcvLDBGVHl_Z-QpkQ/viewform'>Leave Feedback</Link>.</Text>
     </div>
   );
 }
@@ -77,10 +77,7 @@ const navbarLinks: {
 ]
 
 function MobileMenu() {
-  const darkNavbar = useSelector(s => s.navigation.darkNavbar);
   const isVisible = useSelector(s => s.navigation.mobileMenuVisible);
-  const styles = Theme.useStyleCreator(styleCreator, darkNavbar);
-  const cng = Theme.useClassNameGenerator();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -102,8 +99,8 @@ function MobileMenu() {
       lg={false}
     >
       <div
+        className={styles.mobileMenu}
         style={{
-          ...styles.mobileMenu,
           opacity: +isVisible,
           pointerEvents: isVisible ? undefined : 'none'
         }}
@@ -111,8 +108,7 @@ function MobileMenu() {
         {navbarLinks.map(link => (link.href === router.asPath) ? (
           <span 
             key={link.href}
-            style={styles.linkActive}
-            className={cng(styles.mobileLink)}
+            className={cn(styles.mobileLink, styles.linkActive)}
             onClick={() => dispatch(navigationActions.closeMobileMenu())}
           >
             <span>{link.title}</span>
@@ -121,7 +117,7 @@ function MobileMenu() {
           <Link 
             key={link.href}
             href={link.href}
-            className={cng(styles.mobileLink)}
+            className={styles.mobileLink}
           >
             <span>{link.title}</span>
           </Link>
@@ -133,8 +129,6 @@ function MobileMenu() {
 
 function DesktopNavbar() {
   const darkNavbar = useSelector(s => s.navigation.darkNavbar);
-  const styles = Theme.useStyleCreator(styleCreator);
-  const cng = Theme.useClassNameGenerator();
   const theme = Theme.useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -151,18 +145,22 @@ function DesktopNavbar() {
       />
 
       <div 
+        className={cn(
+          styles.navbarWrap,
+          {
+            ['dark-mode']: darkNavbar
+          }
+        )}
         style={{
-          ...styles.navbarWrap,
           ...(mobileMenuVisible ? {
             position: 'fixed'
           } : null)
         }}
-        className={darkNavbar ? 'dark-mode' : undefined}
       >
         <Banner/>
 
         <Section 
-          className={cng(styles.navbar)}
+          className={styles.navbar}
           style={{
             position: mobileMenuVisible ? 'fixed' : 'sticky'
           }}
@@ -176,29 +174,31 @@ function DesktopNavbar() {
               lg={true} 
               style={{ flex: 1 }}
             >
-              <div style={styles.inner}>
+              <div className={styles.inner}>
                 <Link href='/'>
                   <a>
-                    <Logo style={styles.logo}/>
+                    <Logo className={styles.logo}/>
                   </a>
                 </Link>
                 
-                <div style={styles.links}>
+                <div className={styles.links}>
                   {navbarLinks.filter(l => !l.mobileOnly).map(link => (
                     <Link 
                       key={link.href}
                       href={link.href}
-                      style={{
-                        ...(link.href === router.asPath) ? styles.linkActive : null,
-                      }}
-                      className={cng(styles.link)}
+                      className={cn(
+                        styles.link,
+                        {
+                          [styles.linkActive]: link.href === router.asPath
+                        }
+                      )}
                     >
                       <span>{link.title}</span>
                     </Link>
                   ))}
                 </div>
 
-                <Search.Input dark={darkNavbar}/>
+                <Search.Input/>
               </div>
             </Grid.Display>
 
@@ -206,26 +206,26 @@ function DesktopNavbar() {
               xs={true}
               lg={false}
             >
-              <div style={styles.inner}>
+              <div className={styles.inner}>
                 <Link href='/'>
-                  <Logo style={styles.logo}/>
+                  <Logo className={styles.logo}/>
                 </Link>
 
-                <div 
-                  style={{
-                    ...styles.menuIconWrap,
-                    ...styles.links
-                  }}
+                <div
+                  className={cn(
+                    styles.menuIconWrap,
+                    styles.links
+                  )}
                   onClick={() => dispatch(navigationActions.toggleMobileMenu())}
                 >
                   {mobileMenuVisible ? (
                     <MdClose
-                      style={styles.icon}
+                      className={styles.icon}
                       size={34}
                     />
                   ) : (
                     <FiMenu
-                      style={styles.icon}
+                      className={styles.icon}
                       size={30}
                     />
                   )}
@@ -236,7 +236,7 @@ function DesktopNavbar() {
         </Section>
       </div>
 
-      <div style={mobileMenuVisible ? styles.navbarSpacer : undefined}/>
+      <div className={mobileMenuVisible ? styles.navbarSpacer : undefined}/>
     </>
   );
 }
@@ -249,125 +249,6 @@ export function Navbar() {
     </>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  banner: {
-    ...styleHelpers.flex('row'),
-    backgroundColor: '#000',
-    padding: theme.spacing(2),
-    justifyContent: 'center'
-  },
-  bannerText: {
-    color: theme.colors.primary.contrastText,
-    textAlign: 'center'
-  },
-  bannerAccentText: {
-    color: theme.colors.accent
-  },
-  // navbar
-  navbarWrap: {
-    position: 'sticky',
-    width: '100%',
-    top: 0,
-    zIndex: 1000,
-  },
-  navbar: {
-    backgroundColor: theme.colors.navbar,
-    backdropFilter: 'saturate(180%) blur(10px)',
-    '-webkit-backdrop-filter': 'saturate(180%) blur(10px)',
-    borderBottomStyle: 'solid',
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.divider,
-    height: NAVBAR_HEIGHT,
-    overflow: 'visible'
-  },
-  navbarSpacer: {
-    height: NAVBAR_HEIGHT
-  },
-  inner: {
-    display: 'flex',
-    flex: 1,
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: NAVBAR_HEIGHT
-  },
-  noPadding: {
-    padding: 0,
-    margin: 0
-  },
-  logo: {
-    width: 175,
-    height: 'auto',
-    marginTop: 8,
-    color: theme.colors.text,
-  },
-  logoDT: {
-    width: 40,
-    height: 'auto',
-    marginTop: 8
-  },
-  links: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  link: {
-    textDecoration: 'none',
-    color: theme.colors.text,
-    margin: theme.spacing(0, 1),
-    padding: theme.spacing(1), 
-    height: NAVBAR_HEIGHT,
-    alignItems: 'center',
-    display: 'flex',
-    borderWidth: 0,
-    borderBottomWidth: 2,
-    borderTopWidth: 2,
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-    transition: `border-bottom-color ${theme.timing(1)}, opacity ${theme.timing(1)}`,
-    ':hover': {
-      color: theme.colors.accent,
-      borderBottomColor: theme.colors.accent
-    }
-  },
-  mobileLink: {
-    ...styleHelpers.hideLink(),
-    fontSize: 'calc(18px + 2vw)',
-    color: theme.colors.text,
-    marginBottom: theme.spacing(3),
-    cursor: 'pointer',
-    ':hover': {
-      color: theme.colors.accent,
-      borderBottomColor: theme.colors.accent
-    }
-  },
-  linkActive: {
-    color: theme.colors.accent,
-    borderBottomColor: theme.colors.accent
-  },
-  menuIconWrap: {
-    fontSize: '1.6em',
-    cursor: 'pointer',
-    // make icon easier to click
-    paddingLeft: 20
-  },
-  mobileMenu: {
-    ...styleHelpers.flex(),
-    ...styleHelpers.absoluteFill(),
-    position: 'fixed',
-    backgroundColor: theme.colors.surface,
-    paddingLeft: theme.spacing(2.5),
-    paddingTop: NAVBAR_HEIGHT,
-    zIndex: 999,
-    justifyContent: 'center'
-  },
-  icon: {
-    color: theme.colors.text
-  }
-}));
 
 export function useDynamicHeader() {
   const dispatch = useDispatch();

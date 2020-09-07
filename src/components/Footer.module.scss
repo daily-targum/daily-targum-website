@@ -1,0 +1,56 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.logo {
+  width: 180px;
+  height: auto;
+  margin-bottom: theme.spacing(3);
+}
+
+.sublogo {
+  width: 140;
+  height: auto;
+  margin-bottom: theme.spacing(3);
+}
+
+.footer {
+  padding: theme.spacing(5, 0);
+  background-color: theme.color('primary_main');
+}
+
+.copyright {
+  @include styleHelpers.flex('column');
+  color: theme.color('parimary_contrastTextMuted');
+  font-size: 0.8rem;
+  font-weight: 300;
+  padding-bottom: env(safe-area-inset-bottom);
+  margin-top: theme.spacing(4);
+  text-align: center;
+  justify-content: center;
+}
+
+.title {
+  color: theme.color('primary_contrastText');
+  text-align: center;
+}
+
+.link {
+  margin: theme.spacing(2, 0);
+  text-decoration: none;
+  color: theme.color('primary_contrastTextMuted');
+  text-align: center;
+
+  @include theme.mediaQuery('xs', 'md') {
+    margin: theme.spacing(2.75, 0);
+  }
+}
+
+.centerHorizontally {
+  @include styleHelpers.flex('column');
+  text-align: center;
+  align-items: center;
+}
+
+.col {
+  margin: theme.spacing(3, 0);
+}

@@ -1,0 +1,62 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.searchWrap {
+  @include styleHelpers.lockWidth(175px);
+  @include styleHelpers.card();
+  height: 2rem;
+  margin-left: theme.spacing(2.5);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: theme.color('surface');
+  // TODO: Remove this once search is working
+  opacity: 0;
+}
+
+.searchInput {
+  @include styleHelpers.unstyle();
+  margin: theme.spacing(0, 0.5);
+  height: 100%;
+  min-width: 0;
+  width: auto;
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: theme.color('text');
+}
+
+.searchPlaceholder {
+  font-size: 1rem;
+  line-height: 1rem;
+  color: theme.color('text');
+  margin: theme.spacing(0, 0.5);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0.7;
+}
+
+.searchIcon {
+  @include styleHelpers.lockWidth(18px);
+  color: theme.color('text');
+  opacity: 0.7;
+}
+
+.searchRow {
+  @include styleHelpers.absoluteFill();
+  @include styleHelpers.flex('row');
+  align-items: center;
+  justify-content: center;
+  padding: theme.spacing(0, 1);
+}
+
+.hide {
+  opacity: 0;
+}
+
+.touchTransparent {
+  pointer-events: none;
+}
+
+.clickable {
+  cursor: pointer;
+}

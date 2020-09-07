@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from '../store';
 import { videoActions } from '../store/ducks/video';
-import Theme from './Theme';
 import Text from './Text';
 import Button from './Button';
 import Image from './Image';
-import { styleHelpers, imgix } from '../utils';
+import { imgix } from '../utils';
 import { IoMdClose, IoMdPlay } from 'react-icons/io';
+import styles from './Video.module.scss';
 
 function Player({
   style,
@@ -21,8 +21,6 @@ function Player({
   const thumbnail = useSelector(s => s.video.thumbnail);
   const position = useSelector(s => s.video.position);
   const playState = useSelector(s => s.video.playState);
-  const styles = Theme.useStyleCreator(styleCreator);
-  const cng = Theme.useClassNameGenerator();
   const isStopped = playState === 'stop';
 
 
@@ -113,14 +111,12 @@ function Player({
   }, [slave, position, playState]);
 
   return (
-    <div style={styles.videoWrap}>
+    <div className={styles.videoWrap}>
       <video 
         key={src}
         controls={!isStopped}
-        style={{
-          ...styles.video,
-          ...style
-        }}
+        className={styles.video}
+        style={style}
         ref={ref}
         playsInline={true}
       >
@@ -129,7 +125,7 @@ function Player({
 
       {(isStopped && thumbnail) ? (
         <Image
-          style={styles.thumbnail}
+          className={styles.thumbnail}
           data={imgix(thumbnail, {
             xs: imgix.presets.lg('16:9')
           })}
@@ -138,7 +134,7 @@ function Player({
 
       {playState !== 'play' ? (
         <div 
-          className={cng(styles.videoOverlay)}
+          className={styles.videoOverlay}
           onClick={() => {
             if (ref.current) {
               ref.current.play();
@@ -155,20 +151,19 @@ function Player({
 function PersistentPlayer() {
   const persist = useSelector(s => s.video.persist);
   const src = useSelector(s => s.video.src);
-  const styles = Theme.useStyleCreator(styleCreator);
   const dispatch = useDispatch();
 
   return (
     <div 
+      className={styles.persistentPlayerWrap}
       style={{
-        ...styles.persistentPlayerWrap,
         display: (!persist || !src) ? 'none' : 'flex'
       }}
     >
       <IoMdClose
         color='#fff'
         size={24}
-        style={styles.closeIcon}
+        className={styles.closeIcon}
         onClick={() => {
           dispatch(videoActions.setPlayState('pause'));
           dispatch(videoActions.setPersist(false));
@@ -184,24 +179,23 @@ function PersistentPlayer() {
 function Description() {
   const title = useSelector(s => s.video.title);
   const description = useSelector(s => s.video.description);
-  const styles = Theme.useStyleCreator(styleCreator);
   const [expanded, setExpanded] = React.useState(false);
 
   return (
     <div 
-      style={styles.description}
+      className={styles.description}
     >
       <Text 
         variant='h2' 
         htmlTag='h1'
-        style={styles.text}
+        className={styles.text}
       >
         {title||''}
       </Text>
       <Text.Truncate 
         variant='p' 
         htmlTag='p'
-        style={styles.text}
+        className={styles.text}
         numberOfLines={expanded ? 0 : 3}
       >
         {description||''}
@@ -215,58 +209,6 @@ function Description() {
     </div>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  videoWrap: {
-    ...styleHelpers.aspectRatioFullWidth(16/9),
-    position: 'relative'
-  },
-  video: {
-    ...styleHelpers.absoluteFill(),
-    objectFit: 'fill',
-    height: '100%',
-    width: '100%'
-  },
-  persistentPlayerWrap: {
-    ...styleHelpers.card(theme),
-    width: 'calc(150px + 12vw)',
-    zIndex: 1000,
-    position: 'fixed',
-    bottom: 10,
-    right: 10,
-    boxShadow: '0px 2px 11px #0000004d'
-  },
-  closeIcon: {
-    position: 'absolute',
-    top: theme.spacing(1),
-    right: theme.spacing(1),
-    zIndex: 1001,
-    cursor: 'pointer',
-    color: '#fff'
-  },
-  description: {
-    padding: theme.spacing(4, 0),
-    ...styleHelpers.flex('column')
-  },
-  text: {
-    color: theme.colors.text
-  },
-  thumbnail: {
-    ...styleHelpers.absoluteFill()
-  },
-  videoOverlay: {
-    ...styleHelpers.absoluteFill(),
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    opacity: 0,
-    transition: `opacity ${theme.timing(0.5)}`,
-    ':hover': {
-      opacity: 1
-    },
-    cursor: 'pointer'
-  }
-}));
 
 export const Video = {
   Player,

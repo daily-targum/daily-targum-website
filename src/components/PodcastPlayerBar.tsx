@@ -5,12 +5,10 @@ import Grid from './Grid/web';
 import Text from './Text';
 import { IoIosPlay, IoIosPause } from 'react-icons/io';
 import { GrForwardTen, GrBackTen } from 'react-icons/gr';
-import { styleHelpers } from '../utils';
 import { clamp, secondsToTimeCode } from '../shared/src/utils';
 import { useSelector, useDispatch } from '../store';
 import { podcastActions } from '../store/ducks/podcast';
-
-const HEIGHT = 50;
+import styles from './PodcastPlayerBar.module.scss';
 
 function ProgressBar({
   progress
@@ -46,7 +44,6 @@ export function PodcastPlayerBar() {
   const position = useSelector(s => s.podcast.position);
   const episode = useSelector(s => s.podcast.episode);
   const persist = useSelector(s => s.podcast.persist);
-  const styles = Theme.useStyleCreator(styleCreator);
 
   const visible = episode && persist;
 
@@ -64,9 +61,9 @@ export function PodcastPlayerBar() {
 
   return visible ? (
     <>
-      <div style={styles.spacer}/>
+      <div className={styles.spacer}/>
       <Section 
-        style={styles.section}
+        className={styles.section}
         styleInside={{
           overflow: 'visible'
         }}
@@ -75,56 +72,56 @@ export function PodcastPlayerBar() {
 
           {/* Desktop */}
           <Grid.Col xs={0} md={6}>
-            <div style={styles.row}>
+            <div className={styles.row}>
               <GrBackTen
                 size={20}
-                style={styles.icon}
+                className={styles.icon}
                 onClick={() => skip(-10)}
               />
               {playState !== 'play' ? (
                 <IoIosPlay
                   size={22}
                   onClick={play}
-                  style={styles.icon}
+                  className={styles.icon}
                 />
               ) : (
                 <IoIosPause
                   size={22}
                   onClick={pause}
-                  style={styles.icon}
+                  className={styles.icon}
                 />
               )}
               <GrForwardTen
                 size={20}
-                style={styles.icon}
+                className={styles.icon}
                 onClick={() => skip(10)}
               />
             </div>
           </Grid.Col>
 
           <Grid.Col xs={0} md={12}>
-            <div style={styles.row}>
+            <div className={styles.row}>
               <span
-                style={styles.time}
+                className={styles.time}
               >{secondsToTimeCode(position)}</span>
               <ProgressBar
                 progress={clamp(0, 100 * position / duration, 100)}
               />
               <span
-                style={styles.time}
+                className={styles.time}
               >{secondsToTimeCode(duration)}</span>
             </div>
           </Grid.Col>
 
           <Grid.Col xs={0} md={6} style={{alignItems: 'flex-end'}}>
-            <div style={styles.row}>
+            <div className={styles.row}>
               <div
+                className={styles.coverImage}
                 style={{
-                  ...styles.coverImage,
                   backgroundImage: `url(${episode?.coverArt})`
                 }}
               />
-              <div style={styles.col}>
+              <div className={styles.col}>
                 <Text>{episode?.show || ''}</Text>
                 <Text>{episode?.title || ''}</Text>
               </div>
@@ -133,8 +130,8 @@ export function PodcastPlayerBar() {
 
           {/* Mobile */}
           <Grid.Col xs={8} md={0}>
-            <div style={styles.row}>
-              <div style={styles.col}>
+            <div className={styles.row}>
+              <div className={styles.col}>
                 <Text>{episode?.show || ''}</Text>
                 <Text>{episode?.title || ''}</Text>
               </div>
@@ -142,36 +139,36 @@ export function PodcastPlayerBar() {
           </Grid.Col>
           
           <Grid.Col xs={8} md={0} style={{alignItems: 'center'}}>
-            <div style={styles.row}>
+            <div className={styles.row}>
               <GrBackTen
                 size={20}
-                style={styles.icon}
+                className={styles.icon}
                 onClick={() => skip(-10)}
               />
               {playState !== 'play' ? (
                 <IoIosPlay
                   size={22}
                   onClick={play}
-                  style={styles.icon}
+                  className={styles.icon}
                 />
               ) : (
                 <IoIosPause
                   size={22}
                   onClick={pause}
-                  style={styles.icon}
+                  className={styles.icon}
                 />
               )}
               <GrForwardTen
                 size={20}
-                style={styles.icon}
+                className={styles.icon}
                 onClick={() => skip(10)}
               />
             </div>
           </Grid.Col>
 
           <Grid.Col xs={8} md={0} style={{alignItems: 'flex-end'}}>
-            <div style={styles.row}>
-              <span style={styles.time} >
+            <div className={styles.row}>
+              <span className={styles.time} >
                 {secondsToTimeCode(position)} / {secondsToTimeCode(duration)}
               </span>
             </div>
@@ -184,52 +181,5 @@ export function PodcastPlayerBar() {
     </>
   ) : null;
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  spacer: {
-    ...styleHelpers.lockHeight(HEIGHT),
-  },
-  section: {
-    position: 'fixed',
-    right: 0,
-    bottom: 0,
-    left: 0,
-    ...styleHelpers.lockHeight(HEIGHT),
-    justifyContent: 'center',
-    borderTop: `1px solid ${theme.colors.divider}`,
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    backdropFilter: 'saturate(180%) blur(10px)',
-  },
-  inside: {
-    ...styleHelpers.flex('row'),
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  row: {
-    ...styleHelpers.flex('row'),
-    alignItems: 'center',
-    ...styleHelpers.lockHeight(HEIGHT)
-  },
-  col: {
-    ...styleHelpers.flex('column'),
-  },
-  icon: {
-    marginRight: theme.spacing(2),
-    cursor: 'pointer'
-  },
-  time: {
-    padding: theme.spacing(0, 2),
-    textAlign: 'center',
-    minWidth: 80
-  },
-  coverImage: {
-    ...styleHelpers.lockWidth(HEIGHT - 10),
-    ...styleHelpers.lockHeight(HEIGHT - 10),
-    ...styleHelpers.centerBackgroundImage()
-  },
-  centerHorizontally: {
-    alignItems: 'center'
-  }
-}));
 
 export default PodcastPlayerBar;

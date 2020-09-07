@@ -11,6 +11,7 @@ export function Image({
   src,
   classNameOutside,
   style,
+  className,
   altText,
   styleOutside
 }: {
@@ -18,6 +19,7 @@ export function Image({
   data?: ImageData[]
   src?: string
   classNameOutside?: string
+  className?: string
   style?: React.CSSProperties
   styleOutside?: React.CSSProperties
   altText?: string
@@ -53,6 +55,7 @@ export function Image({
         sizes={sizes}
         style={{ height: 'auto', width: '100%', ...style }}
         loading='lazy'
+        className={className}
       />
     </picture>
   );

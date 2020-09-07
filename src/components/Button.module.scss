@@ -1,0 +1,16 @@
+@use 'styleHelpers';
+@use 'theme';
+
+.button {
+  padding: theme.spacing(2, 8);
+  background-color: theme.color("accent_main");
+  border-radius: theme.roundness();
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.textButton {
+  color: theme.color("accent_main");
+  cursor: pointer;
+}

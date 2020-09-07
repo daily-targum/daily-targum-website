@@ -1,0 +1,62 @@
+@use 'styleHelpers';
+@use 'theme';
+
+.videoWrap {
+  @include styleHelpers.aspectRatioFullWidth(16/9);
+  position: relative;
+} 
+
+.video {
+  @include styleHelpers.absoluteFill();
+  object-fit: fill;
+  height: 100%;
+  width: 100%;
+}
+
+
+
+.persistentPlayerWrap {
+  @include styleHelpers.card();
+  width: calc(150px + 12vw);
+  z-index: 1000;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  box-shadow: 0px 2px 11px #0000004d;
+}
+
+.closeIcon {
+  position: absolute;
+  top: theme.spacing(1);
+  right: theme.spacing(1);
+  z-index: 1001;
+  cursor: pointer;
+  color: #fff;
+}
+
+.description {
+  @include styleHelpers.flex('column');
+  padding: theme.spacing(4, 0);
+}
+
+.text {
+  color: theme.color('text');
+}
+
+.thumbnail {
+  @include styleHelpers.absoluteFill();
+}
+
+.videoOverlay {
+  @include styleHelpers.absoluteFill();
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity theme.timing(0.5);
+  cursor: pointer;
+  
+  &:hover {
+    opacity: 1;
+  }
+}

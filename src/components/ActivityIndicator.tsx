@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 import { useVisibility } from '../utils';
-import Theme from './Theme';
+
+import styles from './ActivityIndicator.module.scss';
+import cn from 'classnames';
 
 function Spinner() {
-  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <div 
-      className='animation-preset-spin'
-      style={styles.spinner}
+      className={cn('animation-preset-spin', styles.spinner)}
     />
   )
 }
@@ -27,24 +27,8 @@ export function ActivityIndicator() {
 }
 
 function ActivityIndicatorScreen() {
-  let { colors } = Theme.useTheme();
-
   return (
-    <div
-      style={{
-        display: 'flex',
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-        
-        backgroundColor: colors.surface,
-        zIndex: 500,
-      }}
-    >
+    <div className={styles.screen}>
       <ActivityIndicator />
     </div>
   );
@@ -77,26 +61,12 @@ function ActivityIndicatorProgressiveLoader({
   return (
     <div 
       ref={ref}
-      style={{
-        padding: 20,
-        display: 'flex',
-        justifyContent: 'center'
-      }}
+      className={styles.progressiveLoader}
     >
       <Spinner />
     </div>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  spinner: {
-    border: `3px solid rgba(0,0,0,0.1)`,
-    borderTop: `3px solid ${theme.colors.text}`,
-    borderRadius: '50%',
-    width: 30,
-    height: 30
-  }
-}));
 
 ActivityIndicator.Screen = ActivityIndicatorScreen;
 ActivityIndicator.ProgressiveLoader = ActivityIndicatorProgressiveLoader;

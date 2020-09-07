@@ -1,10 +1,11 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, Theme, ActivityIndicator, HTML, SEOProps } from '../../components';
+import { Section, ActivityIndicator, HTML, SEOProps } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { styleHelpers, processNextQueryStringParam } from '../../utils';
+import { processNextQueryStringParam } from '../../utils';
 import { useRouter } from 'next/router';
+import styles from './page.module.scss';
 
 function Page({
   page 
@@ -12,14 +13,13 @@ function Page({
   page: GetPage | null
 }) {
   const router = useRouter();
-  const styles = Theme.useStyleCreator(styleCreator);
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
   }
 
   return page?.content ? (
-    <Section style={styles.section}>
+    <Section className={styles.page}>
       <main>
         <HTML html={page.content}/>
       </main>
@@ -28,13 +28,6 @@ function Page({
     <NotFound/>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  section: {
-    ...styleHelpers.page(theme, 'compact'),
-    flex: 1
-  }
-}));
 
 export const getStaticProps: GetStaticProps = async (ctx) => {  
   const slug = processNextQueryStringParam(ctx.params?.slug);

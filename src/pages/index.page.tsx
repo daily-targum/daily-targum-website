@@ -61,7 +61,6 @@ function NewsRow({
                   href='/article/[year]/[month]/[slug]'
                   as={item[0].slug}
                   aspectRatioMobile={1}
-                  aspectRatioDesktop={7/5}
                   date={formatDateAbriviated(item[0].publishDate)}
                   author={item[0].authors.map(a => a.displayName).join(', ')}
                 />
@@ -75,7 +74,6 @@ function NewsRow({
                   href='/article/[year]/[month]/[slug]'
                   as={item[1].slug}
                   aspectRatioMobile={1}
-                  aspectRatioDesktop={7/5}
                   date={formatDateAbriviated(item[1].publishDate)}
                   author={item[1].authors.map(a => a.displayName).join(', ')}
                 />

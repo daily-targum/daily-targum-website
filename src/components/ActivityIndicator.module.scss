@@ -1,0 +1,28 @@
+@use 'theme';
+
+.spinner {
+  border: 3px solid rgba(0,0,0,0.1);
+  border-top: 3px solid theme.color('text');
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.screen {
+  display: flex;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: theme.color('surface');
+  z-index: 500;
+}
+
+.progressiveLoader {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}

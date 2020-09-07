@@ -1,6 +1,6 @@
 import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ReactChildren } from '../types';
 import { ServerStyleSheet as ContextStyleSheet } from 'react-context-theming/lib/web';
 
@@ -39,7 +39,7 @@ export default class MyDocument extends Document<{
 
   render() {
     return (
-      <html lang='en'>
+      <Html lang='en'>
         <Head>
           {this.props.styles}
 
@@ -69,7 +69,7 @@ export default class MyDocument extends Document<{
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

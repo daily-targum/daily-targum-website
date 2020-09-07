@@ -1,0 +1,68 @@
+@function roundness($multiplier: 1) {
+  @return (6 * $multiplier) + px;
+}
+
+@function spacing($multipliers...) {
+  $output: "";
+
+  @each $multiplier in $multipliers {
+    $output: #{$output} ((6 * $multiplier) + px);
+  }
+
+  @return $output;
+}
+
+@function color($color) {
+  $computed: "var(--colors-" + $color + ")";
+  @return #{$computed};
+}
+
+@function breakpointToNumber($breakpoint) {
+  @if $breakpoint == 'xs' {
+    @return 0;
+  }
+
+  @else if $breakpoint == 'sm' {
+    @return 576px;
+  }
+
+  @else if $breakpoint == 'md' {
+    @return 768px;
+  }
+
+  @else if $breakpoint == 'lg' {
+    @return 991px;
+  }
+
+  @else if $breakpoint == 'xl' {
+    @return 1200px;
+  }
+
+  @else if $breakpoint == 'xxl' {
+    @return 1600px;
+  }
+}
+
+@function buildMediaQuery($lower: null, $upper: null) {
+  $query: "only screen";
+
+  @if $lower != null {
+    $query: $query + " and (min-width: " + breakpointToNumber($lower)  + ")";
+  }
+
+  @if $upper != null {
+    $query: $query + " and (max-width: " + breakpointToNumber($upper) + ")";
+  }
+
+  @return $query;
+}
+
+@mixin mediaQuery($lower: null, $upper: null) {
+  @media #{buildMediaQuery($lower, $upper)} {
+    @content; 
+  }
+}
+
+@function timing($multiplier: 1) {
+  @return 0.2 * $multiplier;
+}

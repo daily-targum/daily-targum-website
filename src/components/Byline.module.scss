@@ -1,0 +1,58 @@
+@use 'styleHelpers';
+@use 'theme';
+
+// breakSpaces: {
+//   whiteSpace: 'break-spaces'
+// },
+// avatarWrap: {
+//   ...styleHelpers.hideLink(),
+//   [theme.mediaQuery('xs', 'sm')]: {
+//     display: 'none'
+//   }
+// }
+
+
+.row {
+  @include styleHelpers.flex('row');
+  align-items: center;
+  margin: theme.spacing(2, 0);
+}
+
+.column {
+  @include styleHelpers.flex('column');
+}
+
+.avatar {
+  @include styleHelpers.centerBackgroundImage();
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  margin-right: theme.spacing(2);
+
+  @include theme.mediaQuery('xs', 'sm') {
+    display: none;
+  };
+}
+
+.date {
+  color: theme.color('textMuted');
+}
+
+.author {
+  color: theme.color('accent_main');
+}
+
+.authors {
+  @include styleHelpers.flex('row');
+  margin-bottom: theme.spacing(0.4);
+}
+
+.hideLink {
+  @include styleHelpers.hideLink();
+}
+
+.breakSpaces {
+  white-space: break-spaces;
+}

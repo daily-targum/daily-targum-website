@@ -1,0 +1,85 @@
+@use 'theme';
+
+@mixin lockWidth($width) {
+  min-width: $width;
+  width: $width;
+  max-width: $width;
+}
+
+@mixin lockHeight($width) {
+  min-height: $width;
+  height: $width;
+  max-height: $width;
+}
+
+@mixin hideLink {
+  text-decoration: none;
+  color: unset;
+}
+
+@mixin aspectRatioFullHeight($aspectRatio) {
+  height: 100%;
+  padding-top: percentage(100 / $aspectRatio);
+}
+
+@mixin aspectRatioFullWidth($aspectRatio) {
+  width: 100%;
+  padding-top: percentage(100 / $aspectRatio);
+}
+
+@mixin card {
+  background-color: var(--colors-surface);
+  border-radius: theme.roundness();
+  overflow: hidden;
+  position: relative;
+}
+
+@mixin flex($direction: 'column') {
+  display: flex;
+  flex-direction: #{$direction};
+}
+
+@mixin centerBackgroundImage {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@mixin absoluteFill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@mixin page {
+  padding-top: theme.spacing(4);
+  padding-bottom: theme.spacing(6);
+  flex: 1;
+}
+
+@mixin pageCompact {
+  padding-top: theme.spacing(2);
+  padding-bottom: theme.spacing(2);
+  flex: 1;
+}
+
+@mixin card {
+  background-color: theme.color('surface');
+  border-radius: theme.roundness(1);
+  overflow: hidden;
+  position: relative;
+}
+
+@mixin cardBody {
+  padding: theme.spacing(2);
+}
+
+@mixin unstyle {
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
-import { makeStyleCreator, useStyleCreator } from './Theme'
 import { ReactChildren } from '../types';
+import styles from './Section.module.scss';
+import cn from 'classnames';
 
 export function Section({
   children,
@@ -15,42 +16,19 @@ export function Section({
   classNameInside?: string,
   styleInside?: React.CSSProperties,
 }) {
-  const styles = useStyleCreator(styleCreator);
   return (
     <div 
-      style={{
-        ...styles.section,
-        ...style
-      }} 
-      className={className}
+      className={cn(className, styles.section)}
+      style={style} 
     >
       <div 
-        style={{
-          ...styles.inside,
-          ...styleInside
-        }} 
-        className={classNameInside}
+        style={styleInside} 
+        className={cn(classNameInside, styles.inside)}
       >
         {children}
       </div>
     </div>
   );
 }
-
-const styleCreator = makeStyleCreator(theme => ({
-  section: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingRight: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-  },
-  inside: {
-    width: '100%',
-    maxWidth: 'calc(1000px + 22vw)',
-    overflowX: 'hidden'
-  }
-}));
 
 export default Section;

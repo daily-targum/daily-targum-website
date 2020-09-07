@@ -1,6 +1,6 @@
 import React from 'react';
-import Theme from './Theme';
 import { ReactChildren } from '../types';
+import styles from './Button.module.scss';
 
 export function Button({
   children,
@@ -13,12 +13,13 @@ export function Button({
   className?: string
   style?: React.CSSProperties
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <div 
-      className={className} 
+      className={[
+        className,
+        styles.button
+      ]. join(' ')} 
       style={{
-        ...styles.button,
         ...style
       }}
       onClick={onClick}
@@ -37,12 +38,11 @@ export function ButtonText({
   onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => any
   style?: React.CSSProperties
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <span 
       onClick={onClick}
+      className={styles.textButton}
       style={{
-        ...styles.textButton,
         ...style
       }}
     >
@@ -50,23 +50,6 @@ export function ButtonText({
     </span>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  button: {
-    padding: theme.spacing(2),
-    paddingRight: theme.spacing(8),
-    paddingLeft: theme.spacing(8),
-    backgroundColor: theme.colors.accent,
-    borderRadius: theme.roundness(1),
-    cursor: 'pointer',
-    color: '#fff',
-    fontSize: '1.3rem'
-  },
-  textButton: {
-    color: theme.colors.accent,
-    cursor: 'pointer'
-  }
-}));
 
 Button.Text = ButtonText;
 export default Button;
