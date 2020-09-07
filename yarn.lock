@@ -10008,10 +10008,10 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-context-theming@^1.0.0-alpha.841:
-  version "1.0.0-alpha.841"
-  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.841.tgz#55e46d12c5aa12f70ac3fd97a1a9aaebdcb011b2"
-  integrity sha512-GqNrpEZOt7F69C16BC1ISh53BqtQeKG31/WKulClZmOAIwTLT5bzs8N/o7BqZPEl8c/gcO8xRsT/jAE0m1+H5Q==
+react-context-theming@^1.0.0-alpha.842:
+  version "1.0.0-alpha.842"
+  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.842.tgz#b6e9a50d24f34ae0e0a055d973b6b63b09b238e0"
+  integrity sha512-khfrLlolhskWfWUOYUlANYdSc5S4kkHxLFHRTiz6Uq78pUxgzPBALFdHvFVQgYCewMj0qAr8J7ncRInviVFYVw==
   dependencies:
     react-native "0.62.2"
 
@@ -10130,10 +10130,9 @@ react-scrolllock@^5.0.1:
   dependencies:
     exenv "^1.2.2"
 
-react-swipeable@^5.5.1:
+"react-swipeable@github:FormidableLabs/react-swipeable#pull/184/head":
   version "5.5.1"
-  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-5.5.1.tgz#48ae6182deaf62f21d4b87469b60281dbd7c4a76"
-  integrity sha512-EQObuU3Qg3JdX3WxOn5reZvOSCpU4fwpUAs+NlXSN3y+qtsO2r8VGkVnOQzmByt3BSYj9EWYdUOUfi7vaMdZZw==
+  resolved "https://codeload.github.com/FormidableLabs/react-swipeable/tar.gz/cb41ce53692778e49f6cd233d76386aa87c8cbc4"
   dependencies:
     prop-types "^15.6.2"
 
