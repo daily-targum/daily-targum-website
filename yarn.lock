@@ -10008,10 +10008,10 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-context-theming@^1.0.0-alpha.840:
-  version "1.0.0-alpha.840"
-  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.840.tgz#38f03d3bce393e9425aa16600e3a36fe4f4330c3"
-  integrity sha512-bgy2VZI7zMr5M4uGPVxAFbQdLbz92SlsC3qBYk+Z6uahJsPYc8mzPraIr0l8pDS0lavG6GTV0Fdk3UpCoWpARw==
+react-context-theming@^1.0.0-alpha.841:
+  version "1.0.0-alpha.841"
+  resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.841.tgz#55e46d12c5aa12f70ac3fd97a1a9aaebdcb011b2"
+  integrity sha512-GqNrpEZOt7F69C16BC1ISh53BqtQeKG31/WKulClZmOAIwTLT5bzs8N/o7BqZPEl8c/gcO8xRsT/jAE0m1+H5Q==
   dependencies:
     react-native "0.62.2"
 
