@@ -2,7 +2,6 @@ import React from 'react';
 import { ReactChildren } from '../types';
 import styles from './Text.module.scss';
 import cn from 'classnames';
-import styled from 'styled-components';
 
 export type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
 export const variants: Variant[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span'];
@@ -40,10 +39,6 @@ function TextBase({
       return <span {...props} />
   }
 }
-
-const TruncateTextBase: any = styled(TextBase)`
-  -webkit-line-clamp: ${props => props.numberOfLines ?? ''};
-`;
 
 interface TextProps extends TextBaseProps {
   noPadding?: boolean;
@@ -95,7 +90,7 @@ function Truncate({
   onClick
 }: TrunkcateTextProps) {
   return (
-    <TruncateTextBase
+    <TextBase
       numberOfLines={numberOfLines}
       htmlTag={htmlTag}
       className={cn(
@@ -108,6 +103,8 @@ function Truncate({
       )}
       onClick={onClick}
       style={{
+        // @ts-ignore
+        '--text-numberOfLines': numberOfLines,
         ...(lockNumberOfLines && (numberOfLines !== undefined) && variant) ? {
           minHeight: (1.2 * numberOfLines) + 'em'
         } : null,
@@ -115,7 +112,7 @@ function Truncate({
       }}
     >
       {children}
-    </TruncateTextBase>
+    </TextBase>
   );
 }
 

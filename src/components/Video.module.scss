@@ -2,7 +2,7 @@
 @use 'theme';
 
 .videoWrap {
-  @include styleHelpers.aspectRatioFullWidth(16/9);
+  @include styleHelpers.aspectRatioFullWidth(1.7);
   position: relative;
 } 
 

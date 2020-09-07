@@ -20,7 +20,7 @@
 
 .copyright {
   @include styleHelpers.flex('column');
-  color: theme.color('parimary_contrastTextMuted');
+  color: theme.color('primary_contrastTextMuted');
   font-size: 0.8rem;
   font-weight: 300;
   padding-bottom: env(safe-area-inset-bottom);

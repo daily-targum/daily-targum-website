@@ -459,7 +459,8 @@ const styleCreator =  Theme.makeStyleCreator(theme => ({
     display: 'flex',
     alignItems: 'flex-end',
     position: 'relative',
-    ...styleHelpers.centerBackgroundImage()
+    ...styleHelpers.centerBackgroundImage(),
+    width: '100%'
   },
   backgroundImgae: {
     height: '100%',

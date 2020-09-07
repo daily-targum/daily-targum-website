@@ -67,6 +67,22 @@
   --touchable-highlight-color: #eee;
   --button-color: #eee;
 
+
+  
+  /* NEW COLORS */
+  --colors-primary_main: #2c2c2c;
+  --colors-primary_contrastText: #ffffff;
+  --colors-primary_contrastTextMuted: rgba(255,255,255,0.8);
+  --colors-accent_main: #f70737;
+  --colors-divider: rgba(255, 255, 255, 0.12);
+
+  --colors-text: #fff;
+  --colors-textMuted: #b9b9b9;
+
+  --colors-surface: #000;
+
+  --colors-navbar: rgba(33, 32, 32, 0.92);
+
   color: var(--text-color);
 }
 

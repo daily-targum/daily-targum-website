@@ -1,0 +1,68 @@
+@use 'theme';
+
+.row {
+  display: grid;
+  flex: 1;
+}
+
+.col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  @include theme.mediaQuery('xs', 'sm') {
+    display: var(--gridDisplay-xs);
+    grid-column-end: span var(--gridWidth-xs);
+  }
+
+  @include theme.mediaQuery('sm', 'md') {
+    display: var(--gridDisplay-sm);
+    grid-column-end: span var(--gridWidth-sm);
+  }
+
+  @include theme.mediaQuery('md', 'lg') {
+    display: var(--gridDisplay-md);
+    grid-column-end: span var(--gridWidth-md);
+  }
+
+  @include theme.mediaQuery('lg', 'xl') {
+    display: var(--gridDisplay-lg);
+    grid-column-end: span var(--gridWidth-lg);
+  }
+
+  @include theme.mediaQuery('xl', 'xxl') {
+    display: var(--gridDisplay-xl);
+    grid-column-end: span var(--gridWidth-xl);
+  }
+
+  @include theme.mediaQuery('xxl') {
+    display: var(--gridDisplay-xxl);
+    grid-column-end: span var(--gridWidth-xxl);
+  }
+}
+
+.display {
+  @include theme.mediaQuery('xs', 'sm') {
+    display: var(--gridDisplay-xs);
+  }
+
+  @include theme.mediaQuery('sm', 'md') {
+    display: var(--gridDisplay-sm);
+  }
+
+  @include theme.mediaQuery('md', 'lg') {
+    display: var(--gridDisplay-md);
+  }
+
+  @include theme.mediaQuery('lg', 'xl') {
+    display: var(--gridDisplay-lg);
+  }
+
+  @include theme.mediaQuery('xl', 'xxl') {
+    display: var(--gridDisplay-xl);
+  }
+
+  @include theme.mediaQuery('xxl') {
+    display: var(--gridDisplay-xxl);
+  }
+}

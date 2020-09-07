@@ -1,42 +1,10 @@
 import React from 'react';
-import { ServerStyleSheet } from 'styled-components';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ReactChildren } from '../types';
-import { ServerStyleSheet as ContextStyleSheet } from 'react-context-theming/lib/web';
 
 export default class MyDocument extends Document<{
   styles: ReactChildren
 }> {
-  static async getInitialProps(ctx: any) {
-    const sheet = new ServerStyleSheet();
-    const sheet2 = new ContextStyleSheet();
-    const originalRenderPage = ctx.renderPage;
-
-    try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          enhanceApp: (App: any) => (props: any) =>
-            sheet.collectStyles(
-              sheet2.collectStyles(<App {...props} />)
-            ),
-        })
-
-      const initialProps = await Document.getInitialProps(ctx)
-      return {
-        ...initialProps,
-        styles: (
-          <>
-            {initialProps.styles}
-            {sheet2.getStyleElement()}
-            {sheet.getStyleElement()}
-          </>
-        ),
-      }
-    } finally {
-      sheet.seal()
-    }
-  }
-
   render() {
     return (
       <Html lang='en'>

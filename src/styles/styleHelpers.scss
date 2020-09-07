@@ -19,12 +19,12 @@
 
 @mixin aspectRatioFullHeight($aspectRatio) {
   height: 100%;
-  padding-top: percentage(100 / $aspectRatio);
+  padding-top: 100% / $aspectRatio;
 }
 
 @mixin aspectRatioFullWidth($aspectRatio) {
   width: 100%;
-  padding-top: percentage(100 / $aspectRatio);
+  padding-top: 100% / $aspectRatio;
 }
 
 @mixin card {

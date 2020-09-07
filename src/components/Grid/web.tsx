@@ -3,8 +3,8 @@ import * as types from './types';
 import { Context, defaultContextValue } from './context';
 import { computeBreakpoints, getBreakpoint } from './utils';
 import * as contextExports from './context';
-import * as Styles from './styles';
-import { breakPoints } from './config';
+import styles from './styles.module.scss';
+import cn from 'classnames';
 
 export interface ColProps extends Partial<types.BreakPoints<number>> {
   style?: React.CSSProperties
@@ -32,15 +32,27 @@ function Col(props: ColProps) {
   const { xs, sm, md, lg, xl, xxl, style, children, className } = props;
   const computedBreakpoints = computeBreakpoints({ xs, sm, md, lg, xl, xxl });
 
+  const vars: any = {};
+  Object.keys(computedBreakpoints).forEach(breakpoint => {
+    // @ts-ignore
+    vars[`--gridWidth-${breakpoint}`] = computedBreakpoints[breakpoint];
+    // @ts-ignore
+    vars[`--gridDisplay-${breakpoint}`] = computedBreakpoints[breakpoint] === 0 ? 'none' : 'flex';
+  });
+
   return (
-    <Styles.Col 
-      className={className}
-      computedBreakPoints={computedBreakpoints} 
-      style={style}
-      breakPoints={breakPoints}
+    <div 
+      style={{
+        ...vars,
+        ...style
+      }}
+      className={cn(
+        className,
+        styles.col
+      )}
     >
       {children}
-    </Styles.Col>
+    </div>
   );
 }
 
@@ -70,12 +82,13 @@ function Row({
       }}
     >
       <div 
-        className={className} 
+        className={cn(
+          className,
+          styles.row
+        )} 
         style={{
-          display: 'grid',
           gridTemplateColumns: (cols || context.cols).join(' '),
           gridGap: spacing+'px',
-          flex: 1,
           direction: reverse ? 'rtl' : undefined,
           ...style
         }}
@@ -92,16 +105,27 @@ function Display({
   style,
   ...rest
 }: DisplayProps) {
-  const computedBreakPoints = computeBreakpoints(rest);
+  const computedBreakpoints = computeBreakpoints(rest);
+
+  const vars: any = {};
+  Object.keys(computedBreakpoints).forEach(breakpoint => {
+    // @ts-ignore
+    vars[`--gridDisplay-${breakpoint}`] = computedBreakpoints[breakpoint] ? 'flex' : 'none';
+  });
+
   return (
-    <Styles.Display
-      computedBreakPoints={computedBreakPoints}
-      breakPoints={breakPoints}
-      className={className}
-      style={style}
+    <div
+      className={cn(
+        className,
+        styles.display
+      )}
+      style={{
+        ...vars,
+        ...style
+      }}
     >
       {children}
-    </Styles.Display>
+    </div>
   )
 }
 
