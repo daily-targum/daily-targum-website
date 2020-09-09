@@ -1,0 +1,32 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.page {
+  @include styleHelpers.pageCompact();
+  flex: 1;
+}
+
+.section {
+  @include styleHelpers.lockWidth(100%);
+  margin-top: theme.spacing(4);
+  margin-bottom: theme.spacing(8);
+}
+
+
+.square {
+  @include styleHelpers.aspectRatioFullWidth(1);
+}
+
+.carousel {
+  @include styleHelpers.absoluteFill();
+}
+
+.body {
+  padding: theme.spacing(3);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  @include styleHelpers.centerBackgroundImage();
+}

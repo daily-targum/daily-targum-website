@@ -1,0 +1,43 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.page {
+  @include styleHelpers.pageCompact();
+  flex: 1;
+}
+
+.authorCard {
+  @include styleHelpers.flex('column');
+  align-items: center;
+  @include styleHelpers.card();
+  padding: theme.spacing(1);
+}
+
+.authorCardMobile {
+  @include styleHelpers.flex('row');
+  align-items: center;
+  @include styleHelpers.card();
+  margin-bottom: theme.spacing(2);
+}
+
+.avatar {
+  @include styleHelpers.lockWidth(50%);
+  margin-bottom: theme.spacing(2);
+  border-radius: 100%;
+}
+
+.avatarMobile {
+  @include styleHelpers.lockWidth(30%);
+  margin-bottom: theme.spacing(2);
+}
+
+.articleCard {
+  @include styleHelpers.card();
+  padding: 0;
+}
+
+.authorCardMobileBody {
+  @include styleHelpers.flex('column');
+  flex: 1;
+  align-items: center;
+}

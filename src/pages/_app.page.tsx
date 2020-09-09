@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppProps } from 'next/app';
-import { Navbar, Theme, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO } from '../components';
+import { Navbar, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO } from '../components';
 import { Provider as ReduxProvider } from '../store';
 import '../styles.css';
 
@@ -41,18 +41,16 @@ function App({
       <SEO {...seo}/>
       <ReduxProvider>
         <Grid.Provider>
-          <Theme.Provider>
-            <Page>
-              <Analytics/>
+          <Page>
+            <Analytics/>
 
-              <Navbar/>
-              <Component {...pageProps} err={err}/>
-              <Footer/>
+            <Navbar/>
+            <Component {...pageProps} err={err}/>
+            <Footer/>
 
-              <PodcastPlayerBar/>
-              <Video.PersistentPlayer/>
-            </Page>
-          </Theme.Provider>
+            <PodcastPlayerBar/>
+            <Video.PersistentPlayer/>
+          </Page>
         </Grid.Provider>
       </ReduxProvider>
     </>

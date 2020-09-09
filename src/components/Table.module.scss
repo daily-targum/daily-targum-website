@@ -1,0 +1,6 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.cell {
+  padding: theme.spacing(2);
+}

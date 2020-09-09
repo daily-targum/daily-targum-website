@@ -1,10 +1,12 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps } from '../../components';
-import { styleHelpers, imgix } from '../../utils';
+import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps } from '../../components';
+import { imgix } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../machines';
+import { theme } from '../../constants';
+import styles from './news.module.scss';
 
 function News({ 
   initialArticles
@@ -17,15 +19,13 @@ function News({
   });
 
   const router = useRouter();
-  const styles = Theme.useStyleCreator(styleCreator);
-  const theme = Theme.useTheme();
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>
   }
 
   return (
-    <Section style={styles.page}>
+    <Section className={styles.page}>
       <Banner text='News'/>
 
       <Grid.Row spacing={theme.spacing(2.5)}>
@@ -51,6 +51,7 @@ function News({
                 date={formatDateAbriviated(article.publishDate)}
                 aspectRatioDesktop={16 / 9}
                 author={article.authors.map(a => a.displayName).join(', ')}
+                altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
               />
             );
           }}
@@ -75,6 +76,7 @@ function News({
               date={formatDateAbriviated(item.publishDate)}
               aspectRatioDesktop={16 / 9}
               author={item.authors.map(a => a.displayName).join(', ')}
+              altText={item.media[0]?.altText ?? item.media[0]?.description ?? undefined}
             />
           </Grid.Col>
         ))}
@@ -86,13 +88,6 @@ function News({
     </Section>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: {
-    ...styleHelpers.page(theme, 'compact'),
-    flex: 1
-  }
-}));
 
 export async function getStaticProps() {
   const initialArticles = await actions.getArticles({

@@ -2,6 +2,8 @@ import React from 'react';
 import { styleHelpers } from '../utils';
 import { ReactChildren, ReactChild } from '../types';
 import { ImageData, Image } from './Image';
+import styles from './AspectRatioView.module.scss';
+import cn from 'classnames';
 
 export function AspectRatioView({
   aspectRatio,
@@ -71,14 +73,15 @@ export function AspectRatioImage({
   return (
     <div 
       style={{
-        ...(aspectRatio !== undefined ? null : {
-          position: 'relative',
-          height: '100%'
-        }),
         width: '100%',
         ...style
       }}
-      className={className}
+      className={cn(
+        className,
+        {
+          [styles.grow]: aspectRatio === undefined
+        }
+      )}
       onClick={onClick}
     >
       <Image
@@ -90,11 +93,9 @@ export function AspectRatioImage({
           ...styleInside
         }}
         classNameOutside={classNameInside}
+        className={styles.image}
         style={{
-          ...styleHelpers.absoluteFill(),
-          height: '100%',
-          width: '100%',
-          objectFit: 'cover',
+          height: '100%'
         }}
         data={data}
         src={src}

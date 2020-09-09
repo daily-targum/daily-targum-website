@@ -1,0 +1,46 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.page {
+  background-color: theme.color('surface');
+  flex: 1;
+}
+
+.mainSection {
+  padding-bottom: theme.spacing(6);
+}
+
+.newsRow {
+  margin-top: calc(#{theme.spacing(3)} + 1vw);
+  margin-bottom: calc(#{theme.spacing(4)} + 1vw);
+}
+
+.divider {
+  margin-bottom: theme.spacing(2.5);
+}
+
+.appSection {
+  padding-top: theme.spacing(5);
+  background-color: theme.color('background');
+}
+
+.appStoreRow {
+  @include styleHelpers.flex('row');
+  align-items: center;
+}
+
+.appStoreBadge {
+  @include styleHelpers.lockHeight(45);
+  margin: theme.spacing(1);
+}
+
+.getTheApp {
+  align-items: center;
+  justify-content: center;
+  padding: theme.spacing(0, 0, 6);
+}
+
+.appScreenShot {
+  width: auto;
+  height: calc(300px + 3vw);
+}

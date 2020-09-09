@@ -1,6 +1,5 @@
 import React from 'react';
 import Section from './Section';
-import Theme from './Theme';
 import Grid from './Grid/web';
 import Text from './Text';
 import { IoIosPlay, IoIosPause } from 'react-icons/io';
@@ -9,13 +8,13 @@ import { clamp, secondsToTimeCode } from '../shared/src/utils';
 import { useSelector, useDispatch } from '../store';
 import { podcastActions } from '../store/ducks/podcast';
 import styles from './PodcastPlayerBar.module.scss';
+import { theme } from '../constants';
 
 function ProgressBar({
   progress
 }: {
   progress: number
 }) {
-  const theme = Theme.useTheme();
   return (
     <div
       style={{

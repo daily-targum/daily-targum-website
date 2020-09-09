@@ -1,0 +1,23 @@
+@use 'styleHelpers';
+@use 'theme';
+
+.sectionHeader {
+  @include styleHelpers.flex('row');
+  justify-content: space-between;
+  margin: theme.spacing(2, 0);
+}
+
+.moreInLink {
+  @include styleHelpers.flex('row');
+  text-decoration: none;
+  color: theme.color('accent_main');
+  align-items: center;
+  cursor: pointer;
+}
+
+.moreInLinkText {
+  margin-right: theme.spacing(0.5);
+  font-weight: 600;
+  white-space: nowrap;
+  color: theme.color('accent_main');
+}

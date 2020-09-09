@@ -1,0 +1,19 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.section {
+  padding-top: theme.spacing(8);
+  padding-bottom: theme.spacing(8);
+  flex: 1;
+  justify-content: center;
+}
+
+.sectionInside {
+  @include styleHelpers.flex('column');
+  align-items: center;
+}
+
+.textWrap {
+  @include styleHelpers.flex('column');
+  align-items: flex-start;
+}

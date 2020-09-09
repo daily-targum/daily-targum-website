@@ -1,10 +1,12 @@
 import React from 'react';
 import { actions, GetHomepage, CompactArticle } from '../shared/src/client';
-import { Section, Theme, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps,
+import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps,
   // Text, Image, Link 
 } from '../components';
 import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../shared/src/utils';
-import { styleHelpers, imgix } from '../utils';
+import { imgix } from '../utils';
+import styles from './index.module.scss';
+import { theme } from '../constants';
 
 interface Section {
   id: string,
@@ -20,18 +22,15 @@ function NewsRow({
   title: string,
   category: CompactArticle[]
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
-  const theme = Theme.useTheme();
-
   return (
-    <div style={styles.newsRow}>
+    <div className={styles.newsRow}>
 
       <CardCols.Header
         title={title}
         href={`/section/${id}`}
       />
 
-      <Divider style={styles.divider}/>
+      <Divider className={styles.divider}/>
 
       <Grid.Row spacing={theme.spacing(2.5)}>
         <CardCols items={chopArray(category, [1, 2, 2])}>
@@ -49,6 +48,7 @@ function NewsRow({
                 as={item[0].slug}
                 date={formatDateAbriviated(item[0].publishDate)}
                 author={item[0].authors.map(a => a.displayName).join(', ')}
+                altText={item[0].media[0]?.altText ?? item[0].media[0]?.description ?? undefined}
               />
             ) : (
               <>
@@ -63,6 +63,7 @@ function NewsRow({
                   aspectRatioMobile={1}
                   date={formatDateAbriviated(item[0].publishDate)}
                   author={item[0].authors.map(a => a.displayName).join(', ')}
+                  altText={item[0].media[0]?.altText ?? item[0].media[0]?.description ?? undefined}
                 />
                 <Card.Spacer/>
                 <Card.CompactResponsive
@@ -76,6 +77,7 @@ function NewsRow({
                   aspectRatioMobile={1}
                   date={formatDateAbriviated(item[1].publishDate)}
                   author={item[1].authors.map(a => a.displayName).join(', ')}
+                  altText={item[1].media[0]?.altText ?? item[1].media[0]?.description ?? undefined}
                 />
               </>
             );
@@ -95,13 +97,12 @@ function Home({
 }: { 
   homepage: GetHomepage
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <div style={styles.page}>
+    <div className={styles.page}>
 
       <main>
         <NewsSlider articles={homepage.high}/>
-        <Section style={styles.mainSection}>
+        <Section className={styles.mainSection}>
           {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category) => (
             <React.Fragment
               key={category}
@@ -179,76 +180,5 @@ export async function getStaticProps() {
     revalidate: 60 // seconds
   }
 };
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: {
-    backgroundColor: theme.colors.surface,
-    flex: 1
-  },
-  mainSection: {
-    paddingBottom: theme.spacing(6)
-  },
-  newsRow: {
-    marginTop: `calc(${theme.spacing(3)}px + 1vw)`,
-    marginBottom: `calc(${theme.spacing(4)}px + 1vw)`,
-  },
-  sectionHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
-  },
-  moreInLink: {
-    textDecoration: 'none',
-    color: theme.colors.accent,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  moreInLinkText: {
-    marginRight: theme.spacing(1),
-    fontWeight: 600
-  },
-  aspectRadio: {
-    paddingTop: '56.25%'
-  },
-  slider: {
-    height: 400,
-    position: 'relative'
-  },
-  slide: {
-    height: 400,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
-  },
-  appSection: {
-    paddingTop: theme.spacing(5),
-    backgroundColor: theme.colors.background
-  },
-  appStoreRow: {
-    ...styleHelpers.flex('row'),
-    alignItems: 'center'
-  },
-  appStoreBadge: {
-    ...styleHelpers.lockHeight(45),
-    margin: theme.spacing(1)
-  },
-  getTheApp: {
-    alignItems: 'center', 
-    justifyContent: 'center',
-    padding: theme.spacing(0, 0, 6)
-  },
-  appScreenShot: {
-    width: 'auto',
-    height: 'calc(300px + 3vw)'
-  },
-  divider: {
-    marginBottom: theme.spacing(2.5)
-  }
-}));
 
 export default Home;

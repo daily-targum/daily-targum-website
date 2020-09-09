@@ -1,0 +1,27 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.page {
+  flex: 1;
+}
+
+.section {
+  @include styleHelpers.pageCompact();
+}
+
+.coverImage {
+  @include styleHelpers.card();
+}
+
+.description {
+  @include styleHelpers.flex('column');
+  align-items: flex-start;
+  justify-content: center;
+  padding: theme.spacing(2);
+  flex: 1;
+}
+
+.centerHorizontally {
+  @include styleHelpers.flex('row');
+  justify-content: center;
+}

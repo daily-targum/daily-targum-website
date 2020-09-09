@@ -1,0 +1,8 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.page {
+  @include styleHelpers.flex('column');
+  background-color: theme.color('surface');
+  min-height: 100%;
+}

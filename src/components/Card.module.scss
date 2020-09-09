@@ -1,0 +1,118 @@
+@use 'theme';
+@use 'styleHelpers';
+
+
+// Card Base
+.cardBase {
+  @include styleHelpers.hideLink();
+  flex: 1;
+}
+
+.cardBaseImage {
+  @include styleHelpers.card();
+}
+
+.cardBodyBase {
+  @include styleHelpers.flex('column');
+  @include styleHelpers.cardBody();
+  flex: 1;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.tag {
+  display: flex;
+  color: #fff;
+  background-color: theme.color('accent');
+  padding: theme.spacing(0.5, 1);
+  margin-bottom: theme.spacing(1);
+}
+
+.grow {
+  flex: 1;
+}
+
+.byline {
+  color: theme.color('textMuted');
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.author {
+  font-style: italic;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.spacer {
+  height: theme.spacing(2.5);
+}
+
+
+// Compact Card
+.compactCard {
+  @extend .cardBase;
+  @include styleHelpers.flex('row');
+}
+
+.compactCardImage {
+  @extend .cardBaseImage;
+  @include styleHelpers.lockWidth(40%);
+}
+
+.compactCardBody {
+  @extend .cardBodyBase;
+}
+
+
+// Stacked Card
+.stackedCard {
+  @extend .cardBase;
+  @include styleHelpers.flex('column');
+  height: 100%;
+}
+
+.stackedCardImage {
+  @extend .cardBaseImage;
+}
+
+.stackedCardBody {
+  @extend .cardBodyBase;
+}
+
+
+// Stacked Card Responsive
+.stackedCardResponsive {
+  @extend .cardBase;
+  @include styleHelpers.flex('column');
+  height: 100%;
+
+  @include theme.mediaQuery('xs', 'md') {
+    flex-direction: row;
+  }
+}
+
+// Image Card
+.imageCard {
+  @extend .cardBase;
+  @include styleHelpers.card();
+  border: none;
+  height: 100%;
+  @include styleHelpers.flex('column');
+  align-items: flex-end;
+  position: relative;
+  @include styleHelpers.centerBackgroundImage();
+  width: 100%;
+}
+
+.imageCardTitleWrap {
+  @include styleHelpers.flex('column');
+  justify-content: flex-end;
+  @include styleHelpers.absoluteFill();
+  padding: theme.spacing(2);
+  width: 100%;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), transparent);
+}

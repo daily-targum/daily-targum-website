@@ -1,11 +1,13 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Theme, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList } from '../../components';
+import { Section, Text, Grid, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList } from '../../components';
 import { actions, GetAuthorPage } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
-import { processNextQueryStringParam, styleHelpers, imgix } from '../../utils';
+import { processNextQueryStringParam, imgix } from '../../utils';
 import NotFound from '../404.page';
 import { useRouter } from 'next/router';
+import styles from './[slug].module.scss';
+import { theme } from '../../constants';
 
 function Author({
   page
@@ -13,8 +15,6 @@ function Author({
   page: GetAuthorPage | null
 }) {
   const router = useRouter();
-  const theme = Theme.useTheme();
-  const styles = Theme.useStyleCreator(styleCreator);
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
@@ -25,13 +25,11 @@ function Author({
   }
 
   return (
-    <Section style={styles.page}>
-      <Grid.Row 
-        spacing={theme.spacing(2)}
-      >
+    <Section className={styles.page}>
+      <Grid.Row spacing={theme.spacing(2)}>
 
         <Grid.Col xs={0} md={6} lg={5}>
-          <div style={styles.authorCard}>
+          <div className={styles.authorCard}>
             <Text.Br/>
             {page.author.headshot ? (
               <AspectRatioImage
@@ -39,7 +37,7 @@ function Author({
                   xs: imgix.presets.sm('1:1')
                 })}
                 aspectRatio={1}
-                style={styles.avatar}
+                className={styles.avatar}
               />
             ) : null}
             <Text variant='h3'>{page.author.displayName}</Text>
@@ -51,7 +49,7 @@ function Author({
           {page.author.headshot ? (
             <Card.Compact
               href='#'
-              style={styles.articleCard}
+              className={styles.articleCard}
               title={page.author.displayName}
               imageData={imgix(page.author.headshot ?? '', {
                 xs: imgix.presets.sm('1:1')
@@ -72,7 +70,7 @@ function Author({
             keyExtractor={article => article.id}
             renderItem={article => (
               <Card.Compact
-                style={styles.articleCard}
+                className={styles.articleCard}
                 title={article.title}
                 imageData={imgix(article.media[0]?.url ?? '', {
                   xs: imgix.presets.md('1:1')
@@ -94,45 +92,6 @@ function Author({
     </Section>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: {
-    ...styleHelpers.page(theme, 'compact'),
-    backgroundColor: theme.colors.background,
-    flex: 1
-  },
-  authorCard: {
-    ...styleHelpers.flex('column'),
-    alignItems: 'center',
-    ...styleHelpers.card(theme),
-    padding: theme.spacing(1)
-  },
-  authorCardMobile: {
-    ...styleHelpers.flex('row'),
-    alignItems: 'center',
-    ...styleHelpers.card(theme),
-    marginBottom: theme.spacing(2)
-  },
-  avatar: {
-    ...styleHelpers.lockWidth('50%'),
-    marginBottom: theme.spacing(2),
-    borderRadius: '100%',
-    overflow: 'hidden'
-  },
-  avatarMobile: {
-    ...styleHelpers.lockWidth('30%'),
-    marginBottom: theme.spacing(2)
-  },
-  articleCard: {
-    ...styleHelpers.card(theme),
-    padding: 0
-  },
-  authorCardMobileBody: {
-    ...styleHelpers.flex('column'),
-    flex: 1,
-    alignItems: 'center'
-  }
-}));
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const page = await actions.getAuthorBySlug({

@@ -1,0 +1,15 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.page {
+  @include styleHelpers.pageCompact();
+  background-color: theme.color('background');
+  flex: 1;
+}
+
+.authorCard {
+  @include styleHelpers.flex('column');
+  align-items: center;
+  @include styleHelpers.card();
+  padding: theme.spacing(1);
+}

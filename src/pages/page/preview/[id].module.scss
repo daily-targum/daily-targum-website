@@ -1,0 +1,6 @@
+@use 'styleHelpers';
+
+.section {
+  @include styleHelpers.page();
+  flex: 1;
+}

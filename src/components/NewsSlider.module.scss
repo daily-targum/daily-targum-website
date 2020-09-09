@@ -1,0 +1,73 @@
+@use 'styleHelpers';
+@use 'theme';
+
+.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.slider {
+  height: calc(25vw + 180px);
+  background-color: #000;
+  position: relative;
+  overflow: hidden;
+}
+
+.dots {
+  display: flex;
+  margin: theme.spacing(3);
+  @include styleHelpers.absoluteFill();
+  justify-content: center;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  margin: theme.spacing(0, 1);
+  border-radius: 100%;
+  border-width: 2px;
+  border-color: #fff;
+  border-style: solid;
+  cursor: pointer;
+}
+
+.dotActive {
+  background-color: #fff;
+}
+
+.slide {
+  @include styleHelpers.hideLink();
+  @include styleHelpers.absoluteFill();
+  @include styleHelpers.flex('column');
+  justify-content: flex-end;
+  transition: opacity theme.timing(10);
+}
+
+.slideImage {
+  @include styleHelpers.absoluteFill();
+  position: absolute !important;
+}
+
+.slideCardImageOverlay {
+  @include styleHelpers.absoluteFill();
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9), transparent);
+}
+
+.slideCardTitleWrap {
+  @include styleHelpers.flex('column');
+  position: relative;
+  margin-bottom: theme.spacing(3);
+  padding: theme.spacing(2);
+  width: 100%;
+  border-left: 4px solid theme.color('accent_main');
+  max-width: 600px;
+  transition: opacity theme.timing(3);
+}
+
+.byline {
+  color: theme.color('textMuted');
+}
+
+.author {
+  font-style: italic;
+}

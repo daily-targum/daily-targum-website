@@ -1,0 +1,30 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.page {
+  @include styleHelpers.pageCompact();
+  flex: 1;
+}
+
+.post {
+  cursor: pointer;
+}
+
+.square {
+  @include styleHelpers.aspectRatioFullWidth(1);
+}
+
+.carousel {
+  @include styleHelpers.absoluteFill();
+}
+
+.body {
+  padding: theme.spacing(4);
+
+  @include theme.mediaQuery('md') {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+  }
+}

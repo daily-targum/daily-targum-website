@@ -1,10 +1,12 @@
 import React from 'react';
 import { CompactArticle } from '../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../shared/src/utils';
-import { Theme, Section, Text, AspectRatioImage } from '../components';
+import { Section, Text, AspectRatioImage } from '../components';
 import Link from './Link';
-import { styleHelpers, imgix } from '../utils';
+import { imgix } from '../utils';
 import { Swipeable } from 'react-swipeable'
+import styles from './NewsSlider.module.scss';
+import cn from 'classnames';
 
 function Slide({
   article,
@@ -19,18 +21,17 @@ function Slide({
   style?: React.CSSProperties,
   load: boolean
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
-
   return (
     <Link
       href={'/'+article.slug}
-      style={{
-        ...(hide ? styles.hide : null),
-        ...styles.link,
-        ...styles.slide,
-        ...style,
-      }}
-      className={className}
+      style={style}
+      className={cn(
+        className,
+        styles.slide,
+        {
+          [styles.hide]: hide
+        }
+      )}
     >
       <AspectRatioImage
         data={load ? imgix(article.media[0]?.url ?? '', {
@@ -39,15 +40,17 @@ function Slide({
           md: imgix.presets.lg('16:9'),
           lg: imgix.presets.xl('16:9')
         }) : []}
-        style={styles.slideImage}
+        className={styles.slideImage}
       />
-      <div style={styles.slideCardImageOverlay}/>
+      <div className={styles.slideCardImageOverlay}/>
       <Section>
         <div 
-          style={{
-            ...styles.slideCardTitleWrap,
-            ...(hide ? styles.hide : null),
-          }}
+          className={cn(
+            styles.slideCardTitleWrap,
+            {
+              [styles.hide]: hide
+            }
+          )}
         >
           <Text 
             variant='h5'
@@ -63,13 +66,8 @@ function Slide({
             {article.title}
           </Text.Truncate>
 
-          <Text 
-            style={{ 
-              ...styles.byline, 
-              ...styles.contrastTextMuted 
-            }}
-          >
-            {formatDateAbriviated(article.publishDate)} - <Text style={styles.author}>{article.authors.map(a => a.displayName).join(', ')}</Text>
+          <Text className={styles.byline}>
+            {formatDateAbriviated(article.publishDate)} - <Text className={styles.author}>{article.authors.map(a => a.displayName).join(', ')}</Text>
           </Text>
         </div>
       </Section>
@@ -82,7 +80,6 @@ export function NewsSlider({
 }: {
   articles: CompactArticle[]
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
   const [ index, setIndex ] = React.useState(0);
   const [ loaded, setLoaded ] = React.useState([true]);
 
@@ -131,30 +128,34 @@ export function NewsSlider({
       onSwipedRight={() => incrementSlide(-1)}
     >
       <div 
-        style={styles.sider}
-        className='dark-mode'
+        className={cn(
+          'dark-mode',
+          styles.slider
+        )}
       >
         {articles.map((a, i) => (
           <Slide
             key={a.id}
             article={a}
             hide={i !== index}
-            style={{
-              ...(i !== index ? styles.hide : null)
-            }}
+            className={cn({
+              [styles.hide]: i !== index
+            })}
             load={loaded[i]}
           />
         ))}
       </div>
       
-      <div style={styles.dots}>
+      <div className={styles.dots}>
         {articles.map((a, i) => (
           <div
             key={a.id}
-            style={{
-              ...styles.dot,
-              ...(i !== index ? styles.dotActive : null)
-            }}
+            className={cn(
+              styles.dot,
+              {
+                [styles.dotActive]: i !== index
+              }
+            )}
             onClick={() => setIndex(i)}
           />
         ))}
@@ -162,80 +163,5 @@ export function NewsSlider({
     </Swipeable>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  hide: {
-    opacity: 0,
-    pointerEvents: 'none'
-  },
-  dots: {
-    position: 'absolute',
-    display: 'flex',
-    margin: theme.spacing(3),
-    top: 0,
-    left: 0,
-    right: 0,
-    justifyContent: 'center'
-  },
-  dot: {
-    height: 10,
-    width: 10,
-    marginRight: theme.spacing(1),
-    marginLeft: theme.spacing(1),
-    borderRadius: '100%',
-    borderWidth: 2,
-    borderColor: '#fff',
-    borderStyle: 'solid',
-    cursor: 'pointer'
-  },
-  dotActive: {
-    backgroundColor: '#fff'
-  },
-  link: {
-    textDecoration: 'none',
-    color: theme.colors.text
-  },
-  slide: {
-    ...styleHelpers.absoluteFill(),
-    ...styleHelpers.flex('column'),
-    justifyContent: 'flex-end',
-    transition: `opacity ${theme.timing(10)}`
-  },
-  slideImage: {
-    ...styleHelpers.absoluteFill()
-  },
-  slideCardImageOverlay: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.9), transparent)'
-  },
-  slideCardTitleWrap: {
-    ...styleHelpers.flex('column'),
-    position: 'relative',
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing(2),
-    width: '100%',
-    borderLeft: `4px solid ${theme.colors.accent}`,
-    maxWidth: 600,
-    transition: `opacity ${theme.timing(3)}`
-  },
-  sider: {
-    height: 'calc(25vw + 180px)',
-    backgroundColor: '#000',
-    position: 'relative',
-    overflow: 'hidden'
-  },
-  byline: {
-  },
-  author: {
-    fontStyle: 'italic'
-  },
-  contrastTextMuted: {
-    color: 'rgba(255,255,255,0.7)'
-  }
-}));
 
 export default NewsSlider;

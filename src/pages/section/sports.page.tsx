@@ -1,11 +1,12 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import { Section, Theme, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text } from '../../components';
-import { styleHelpers, imgix } from '../../utils';
+import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text } from '../../components';
+import { imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
 import { useSports } from '../../machines';
-
+import styles from './sports.module.scss';
+import { theme } from '../../constants';
 
 
 function Category({ 
@@ -14,8 +15,6 @@ function Category({
   initialArticles: GetArticles
 }) {
   const router = useRouter();
-  const styles = Theme.useStyleCreator(styleCreator);
-  const theme = Theme.useTheme();
 
   const subcategories = initialArticles.subcategories;
   const firstFiveArticles = initialArticles.items[0].articles.slice(0, 5);
@@ -37,7 +36,7 @@ function Category({
   }
 
   return (
-    <Section style={styles.page}>
+    <Section className={styles.page}>
       <Banner text='Sports'/>
 
       <Grid.Row 
@@ -65,6 +64,7 @@ function Category({
                   as={'/'+article[0].slug}
                   date={formatDateAbriviated(article[0].publishDate)}
                   author={article[0].authors.map(a => a.displayName).join(', ')}
+                  altText={article[0].media[0]?.altText ?? article[0].media[0]?.description ?? undefined}
                 />
               ) : null
             ) : (
@@ -82,6 +82,7 @@ function Category({
                     aspectRatioDesktop={3 / 2}
                     date={formatDateAbriviated(article[0].publishDate)}
                     author={article[0].authors.map(a => a.displayName).join(', ')}
+                    altText={article[0].media[0]?.altText ?? article[0].media[0]?.description ?? undefined}
                   />
                 ) : null}
 
@@ -100,6 +101,7 @@ function Category({
                     aspectRatioDesktop={3 / 2}
                     date={formatDateAbriviated(article[1].publishDate)}
                     author={article[1].authors.map(a => a.displayName).join(', ')}
+                    altText={article[1].media[0]?.altText ?? article[1].media[0]?.description ?? undefined}
                   />
                 ) : null}
               </>
@@ -144,6 +146,7 @@ function Category({
               date={formatDateAbriviated(item.publishDate)}
               aspectRatioDesktop={16 / 9}
               author={item.authors.map(a => a.displayName).join(', ')}
+              altText={item.media[0]?.altText ?? item.media[0]?.description ?? undefined}
             />
           </Grid.Col>
         ) : null)}
@@ -162,13 +165,6 @@ function Category({
     </Section>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: {
-    ...styleHelpers.page(theme, 'compact'),
-    flex: 1
-  }
-}));
 
 export async function getStaticProps() {
   const initialArticles = await actions.getArticles({

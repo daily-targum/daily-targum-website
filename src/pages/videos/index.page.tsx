@@ -1,13 +1,16 @@
 import React from 'react';
-import { Video, Section, Theme, CardCols, Card, Grid, Divider, Text, Navbar, SEOProps } from '../../components';
+import { Video, Section, CardCols, Card, Grid, Divider, Text, Navbar, SEOProps } from '../../components';
 import { useSelector, useDispatch } from '../../store';
 import { videoActions } from '../../store/ducks/video';
 import { podcastActions } from '../../store/ducks/podcast';
-import { styleHelpers, imgix } from '../../utils';
+import { imgix } from '../../utils';
 import { InferGetStaticPropsType } from 'next';
 import { actions } from '../../shared/src/client';
 import { formatDateAbriviated, secondsToTimeCode } from '../../shared/src/utils';
 import { IoMdPause, IoMdPlay } from 'react-icons/io';
+import styles from './index.module.scss';
+import { theme } from '../../constants';
+import cn from 'classnames';
 
 function Overlay({
   duration,
@@ -18,11 +21,8 @@ function Overlay({
   playState: string
   selected: boolean
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
-  const cng = Theme.useClassNameGenerator();
-
   return (
-    <div style={styles.overlay}>
+    <div className={styles.overlay}>
       {(selected && playState !== 'stop') ? (
         playState === 'play' ? (
           <IoMdPause size={80} color='#fff'/>
@@ -31,13 +31,15 @@ function Overlay({
         )
       ) : (
         <div 
-          style={styles.overlay} 
-          className={cng(styles.showOnHover)}
+          className={cn(
+            styles.overlay, 
+            styles.showOnHover
+          )}
         >
           <IoMdPlay size={80} color='#fff'/>
         </div>
       )}
-      <Text style={styles.timeCode}>{secondsToTimeCode(duration)}</Text>
+      <Text className={styles.timeCode}>{secondsToTimeCode(duration)}</Text>
     </div>
   );
 }
@@ -50,8 +52,6 @@ function Videos({
   const darkNavbar = useSelector(s => s.navigation.darkNavbar);
   const playState = useSelector(s => s.video.playState);
   const persist = useSelector(s => s.video.persist);
-  const styles = Theme.useStyleCreator(styleCreator);
-  const theme = Theme.useTheme();
 
   const src = useSelector(s => s.video.src);
 
@@ -89,10 +89,14 @@ function Videos({
 
   return (
     <div 
-      style={styles.backdrop}
-      className={darkNavbar ? 'dark-mode' : undefined}
+      className={cn(
+        styles.backdrop,
+        {
+          ['dark-mode']: darkNavbar
+        }
+      )}
     >
-      <div style={styles.page}>
+      <div className={styles.page}>
 
         <main>
           <Section>
@@ -100,9 +104,9 @@ function Videos({
 
             <Video.Description/>
 
-            <div style={styles.spacer}/>
-            <Divider style={styles.divider}/>
-            <div style={styles.spacer}/>
+            <div className={styles.spacer}/>
+            <Divider className={styles.divider}/>
+            <div className={styles.spacer}/>
           </Section>
 
           {playlists.items.map(playlist => (
@@ -113,7 +117,7 @@ function Videos({
                 href={`/videos/${playlist.slug}`}
               />
 
-              <div style={styles.spacer}/>
+              <div className={styles.spacer}/>
 
               <Grid.Row spacing={theme.spacing(2)}>
 
@@ -160,7 +164,7 @@ function Videos({
         </main>
 
       </div>
-      <Divider style={styles.divider}/>
+      <Divider className={styles.divider}/>
     </div>
   );
 }
@@ -180,48 +184,5 @@ export const getStaticProps = async () => {
     revalidate: 60 // seconds
   }
 };
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  backdrop: {
-    flex: 1
-  },
-  page: {
-    ...styleHelpers.page(theme)
-  },
-  divider: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    // margin: theme.spacing(4, 0)
-  },
-  spacer: {
-    height: theme.spacing(4)
-  },
-  text: {
-    color: theme.colors.text
-  },
-  timeCode: {
-    position: 'absolute',
-    bottom: theme.spacing(1),
-    right: theme.spacing(1),
-    color: theme.colors.primary.contrastText,
-    padding: theme.spacing(1),
-    backgroundColor: theme.colors.primary.main,
-    borderRadius: theme.roundness(1),
-    fontSize: '0.8rem',
-    opacity: 0.8
-  },
-  overlay: {
-    ...styleHelpers.absoluteFill(),
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  showOnHover: {
-    opacity: 0,
-    transition: `opacity ${theme.timing(0.5)}`,
-    ':hover': {
-      opacity: 1
-    }
-  }
-}));
 
 export default Videos;

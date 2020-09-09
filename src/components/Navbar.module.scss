@@ -16,7 +16,7 @@ $HEIGHT: 60px;
 }
 
 .bannerAccentText {
-  color: theme.color('accent');
+  color: theme.color('accent_main');
 }
 
 .navbarWrap {
@@ -78,14 +78,14 @@ $HEIGHT: 60px;
   align-items: center;
   display: flex;
   border-width: 0;
-  border-bottom-width: 2;
-  border-top-width: 2;
+  border-bottom-width: 2px;
+  border-top-width: 2px;
   border-color: transparent;
   border-style: solid;
   transition: border-bottom-color theme.timing(1), opacity theme.timing(1);
   
   &:hover {
-    color: theme.color('accent');
+    color: theme.color('accent_main');
     border-bottom-color: theme.color('accent');
   }
 }
@@ -98,14 +98,14 @@ $HEIGHT: 60px;
   cursor: pointer;
 
   &:hover {
-    color: theme.color('accent');
-    border-bottom-color: theme.color('accent');
+    color: theme.color('accent_main');
+    border-bottom-color: theme.color('accent_main');
   }
 }
 
 .linkActive {
-  color: theme.color('accent');
-  border-bottom-color: theme.color('accent');
+  color: theme.color('accent_main');
+  border-bottom-color: theme.color('accent_main');
 }
 
 .menuIconWrap {

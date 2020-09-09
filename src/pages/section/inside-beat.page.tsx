@@ -1,10 +1,12 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
-import { Section, Theme, Grid, ActivityIndicator, Card, Banner, SEOProps } from '../../components';
-import { styleHelpers, imgix } from '../../utils';
+import { Section, Grid, ActivityIndicator, Card, Banner, SEOProps } from '../../components';
+import { imgix } from '../../utils';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../machines';
+import styles from './inside-beat.module.scss';
+import { theme } from '../../constants';
 
 function Category({ 
   initialArticles
@@ -17,15 +19,13 @@ function Category({
   });
 
   const router = useRouter();
-  const styles = Theme.useStyleCreator(styleCreator);
-  const theme = Theme.useTheme();
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>
   }
 
   return (
-    <Section style={styles.page}>
+    <Section className={styles.page}>
       <Banner 
         text='Inside'
         accentText='Beat'
@@ -46,6 +46,7 @@ function Category({
             aspectRatioDesktop={2 / 1}
             date={formatDateAbriviated(articles[0].publishDate)}
             author={articles[0].authors.map(a => a.displayName).join(', ')}
+            altText={articles[0].media[0]?.altText ?? articles[0].media[0]?.description ?? undefined}
           />
         </Grid.Col>
 
@@ -63,6 +64,7 @@ function Category({
             aspectRatioDesktop={2 /1}
             date={formatDateAbriviated(articles[1].publishDate)}
             author={articles[1].authors.map(a => a.displayName).join(', ')}
+            altText={articles[1].media[0]?.altText ?? articles[1].media[0]?.description ?? undefined}
           />
         </Grid.Col>
 
@@ -83,7 +85,8 @@ function Category({
               href='/article/[year]/[month]/[slug]'
               as={'/'+item.slug}
               date={formatDateAbriviated(item.publishDate)}
-            author={item.authors.map(a => a.displayName).join(', ')}
+              author={item.authors.map(a => a.displayName).join(', ')}
+              altText={item.media[0]?.altText ?? item.media[0]?.description ?? undefined}
             />
           </Grid.Col>
         ))}
@@ -96,52 +99,6 @@ function Category({
     </Section>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: {
-    ...styleHelpers.page(theme, 'compact'),
-    flex: 1
-  },
-  tag: {
-    color: '#fff',
-    backgroundColor: theme.colors.accent,
-    padding: theme.spacing(0.5, 1),
-    marginBottom: theme.spacing(1),
-  },
-  // all cards
-  cardBody: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.colors.surface,
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start'
-  },
-  // cmall cards
-  cardSmall: {
-    ...styleHelpers.hideLink(),
-    display: 'flex',
-    flexDirection: 'row',
-    marginBottom: theme.spacing(2),
-  },
-  cardSmallImage: {
-    height: 170,
-    ...styleHelpers.lockWidth(170),
-    ...styleHelpers.centerBackgroundImage(),
-  },
-  // medium cards
-  cardMedium: {
-    ...styleHelpers.hideLink(),
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: theme.spacing(2),
-  },
-  cardMediumImage: {
-    height: 250,
-    ...styleHelpers.aspectRatioFullWidth(4 / 1),
-    ...styleHelpers.centerBackgroundImage(),
-  }
-}));
 
 export async function getStaticProps() {
   const initialArticles = await actions.getArticles({

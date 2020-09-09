@@ -1,5 +1,4 @@
 import React from 'react';
-import Theme from './Theme';
 import Grid from './Grid/web';
 import Section from './Section';
 import Logo from './Logo';
@@ -16,12 +15,18 @@ import { MdClose } from 'react-icons/md';
 import { FiMenu } from 'react-icons/fi';
 import styles from './Navbar.module.scss';
 import cn from 'classnames';
+import { theme } from '../constants';
 
 export const NAVBAR_HEIGHT = 60;
 
 function Banner() {
   return (
-    <div className={styles.banner}>
+    <div 
+      className={cn(
+        styles.banner,
+        'dark-mode'
+      )}
+    >
       <Text className={styles.bannerText}>We would love to hear what you think of the new website. <Link href='https://docs.google.com/forms/d/e/1FAIpQLSe70rAwuC9-K1hmOhSnH9L2iLmb7IfWspcvLDBGVHl_Z-QpkQ/viewform'>Leave Feedback</Link>.</Text>
     </div>
   );
@@ -129,7 +134,6 @@ function MobileMenu() {
 
 function DesktopNavbar() {
   const darkNavbar = useSelector(s => s.navigation.darkNavbar);
-  const theme = Theme.useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
   const mobileMenuVisible = useSelector(s => s.navigation.mobileMenuVisible);

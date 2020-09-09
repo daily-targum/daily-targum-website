@@ -1,11 +1,13 @@
 import React from 'react';
-import { CardCols, Card, Grid, Section, Theme, FlatList, ActivityIndicator, Modal, Carousel, Text, Image, SEOProps } from '../components';
+import { CardCols, Card, Grid, Section, FlatList, ActivityIndicator, Modal, Carousel, Text, Image, SEOProps } from '../components';
 import { chopArray, choppedArrayRunningCount } from '../shared/src/utils';
 import { actions, GetImageGalleries, GalleryImage } from '../shared/src/client';
-import { styleHelpers, imgix } from '../utils';
+import { imgix } from '../utils';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { photoModalMachine, useMachine } from '../machines';
+import styles from './photos.module.scss';
+import { theme } from '../constants';
 
 const GALLERY_COLS_SHAPE = [1, 2, 2];
 
@@ -19,15 +21,13 @@ function Gallery({
   handleOpen: (i: number) => any
 }) {
   const router = useRouter();
-  const styles = Theme.useStyleCreator(styleCreator);
-  const theme = Theme.useTheme();
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
   }
 
   return (
-    <div style={styles.section}>
+    <div className={styles.section}>
       <CardCols.Header
         title={title}
         onClick={() => handleOpen(0)}
@@ -96,14 +96,13 @@ function Photos({
 }: {
   imageGalleries: GetImageGalleries
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
   const [state, send] = useMachine(photoModalMachine);
 
   const selectedGallery = imageGalleries.find(gallery => gallery.id === state.context.itemId);
 
   return (
     <>
-      <Section style={styles.page}>
+      <Section className={styles.page}>
         <FlatList
           data={imageGalleries}
           keyExtractor={index => index.id}
@@ -132,18 +131,18 @@ function Photos({
             xs={24}
             md={16}
           >
-            <div style={styles.square}/>
+            <div className={styles.square}/>
             <Carousel
               key={state.context.itemId}
               data={selectedGallery?.media ?? []}
-              style={styles.carousel}
+              className={styles.carousel}
               keyExtractor={item => item.id}
               renderItem={item => (
                 <Image
                   data={imgix(item.url, {
                     xs: imgix.presets.md('1:1')
                   })}
-                  style={styles.image}
+                  className={styles.image}
                 />
               )}
               initialIndex={state.context.initialIndex}
@@ -155,7 +154,7 @@ function Photos({
             xs={24}
             md={8}
           >
-            <div style={styles.body}>
+            <div className={styles.body}>
               <Text variant='h2'>{selectedGallery?.title ?? ''}</Text>
               <Text variant='p'>{selectedGallery?.title ?? ''}</Text>
             </div>
@@ -166,33 +165,6 @@ function Photos({
     </>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: {
-    ...styleHelpers.page(theme, 'compact'),
-    flex: 1
-  },
-  section: {
-    ...styleHelpers.lockWidth('100%'),
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(8)
-  },
-  // modal
-  square: {
-    ...styleHelpers.aspectRatioFullWidth(1)
-  },
-  carousel: {
-    ...styleHelpers.absoluteFill()
-  },
-  body: {
-    padding: theme.spacing(3)
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    ...styleHelpers.centerBackgroundImage()
-  }
-}));
 
 export const getStaticProps: GetStaticProps = async () => {
   const imageGalleries = await actions.getImageGalleries();

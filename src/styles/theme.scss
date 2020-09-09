@@ -6,7 +6,7 @@
   $output: "";
 
   @each $multiplier in $multipliers {
-    $output: #{$output} ((6 * $multiplier) + px);
+    $output: #{$output} ((5 * $multiplier) + px);
   }
 
   @return $output;
@@ -64,5 +64,5 @@
 }
 
 @function timing($multiplier: 1) {
-  @return 0.2 * $multiplier;
+  @return (0.2 * $multiplier) * 1s;
 }

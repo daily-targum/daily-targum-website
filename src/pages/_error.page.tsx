@@ -4,10 +4,12 @@ import * as Sentry from '@sentry/node';
 import { ErrorProps } from 'next/error';
 import { NextPageContext } from 'next';
 
-import { Section, Theme, Text, Button } from '../components';
-import { styleHelpers, nextUtils } from '../utils';
+import { Section, Text, Button } from '../components';
+import { nextUtils } from '../utils';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+
+import styles from './_error.module.scss';
 
 interface CustomErrorProps extends ErrorProps {
   hasGetInitialPropsRun: boolean
@@ -19,7 +21,6 @@ function ErrorPage({
   hasGetInitialPropsRun, 
   err 
 }: CustomErrorProps) {
-  const styles = Theme.useStyleCreator(styleCreator);
   const canGoBack = nextUtils.useCanGoBack();
   const router = useRouter();
 
@@ -34,10 +35,10 @@ function ErrorPage({
 
   return (
     <Section 
-      style={styles.section}
-      styleInside={styles.sectionInside}
+      className={styles.section}
+      classNameInside={styles.sectionInside}
     >
-      <div style={styles.textWrap}>
+      <div className={styles.textWrap}>
         <Text variant='h1' htmlTag='h1'>Something Went Wrong.</Text>
         <Text variant='p'>Sorry, it's us, not you.</Text>
         {canGoBack ? (
@@ -58,23 +59,6 @@ function ErrorPage({
     </Section>
   )
 };
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  section: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-    flex: 1,
-    justifyContent: 'center'
-  },
-  sectionInside: {
-    ...styleHelpers.flex('column'),
-    alignItems: 'center'
-  },
-  textWrap: {
-    ...styleHelpers.flex('column'),
-    alignItems: 'flex-start'
-  }
-}));
 
 ErrorPage.getInitialProps = async (ctx: NextPageContext) => {
   const { res, err, asPath } = ctx;

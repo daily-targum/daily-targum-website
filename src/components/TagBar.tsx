@@ -1,7 +1,7 @@
 import React from 'react';
-import Theme from './Theme';
-import { styleHelpers } from '../utils';
 import Text from './Text';
+import styles from './TagBar.module.scss';
+import cn from 'classnames';
 
 export function TagBar({
   tags,
@@ -14,15 +14,18 @@ export function TagBar({
   value: string | null
   style?: React.CSSProperties
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
-
   return (
-    <div style={{ ...styles.tagBar, ...style }}>
+    <div 
+      className={styles.tagBar}
+      style={style}
+    >
       <Text 
-        style={{
-          ...styles.tag,
-          ...(value === null ? styles.tagSelected : null)
-        }}
+        className={cn(
+          styles.tag,
+          {
+            [styles.tagSelected]: value === null
+          }
+        )}
         onClick={() => onChange(null)}
       > 
         all
@@ -30,10 +33,12 @@ export function TagBar({
 
       {tags.map(tag => (
         <Text 
-          style={{
-            ...styles.tag,
-            ...(tag === value ? styles.tagSelected : null)
-          }}
+          className={cn(
+            styles.tag,
+            {
+              [styles.tagSelected]: tag === value
+            }
+          )}
           key={tag}
           onClick={() => {
             onChange(tag);
@@ -45,28 +50,3 @@ export function TagBar({
     </div>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  tagBar: {
-    ...styleHelpers.flex('row'),
-    overflowX: 'auto',
-    paddingBottom: theme.spacing(2)
-  },
-  tag: {
-    color: '#fff',
-    backgroundColor: '#999',
-    padding: theme.spacing(1, 2),
-    marginRight: theme.spacing(1),
-    borderRadius: theme.roundness(1),
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '1.1rem',
-    userSelect: 'none',
-    textTransform: 'capitalize',
-    whiteSpace: 'nowrap'
-  },
-  tagSelected: {
-    backgroundColor: theme.colors.accent
-  }
-}));

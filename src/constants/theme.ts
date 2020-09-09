@@ -84,3 +84,5 @@ const main: Theme = {
 export const themes = {
   main
 }
+
+export const theme = main;

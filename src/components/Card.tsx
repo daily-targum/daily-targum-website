@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import Theme from './Theme';
 import Text from './Text';
 import Grid from './Grid/web';
 import { AspectRatioImage } from './AspectRatioView';
 import { ImageData } from './Image';
-import { styleHelpers } from '../utils';
 import { ReactChildren, ReactChild } from '../types';
+import styles from './Card.module.scss';
+import cn from 'classnames';
 
 
 function Clickable({
@@ -61,6 +61,7 @@ interface CardBaseProps {
   author?: string
   onClick?: () => any
   Overlay?: ReactChild
+  altText?: string
 }
 
 interface CardBaseResponsiveProps extends CardBaseProps {
@@ -79,38 +80,35 @@ function CardCompact({
   date,
   className,
   style,
+  altText,
   onClick
 }: CardBaseProps) {
-  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Clickable 
       href={href}
       as={as}
       onClick={onClick}
-      style={{
-        ...styles.cardLink,
-        ...styles.compactCard,
-        ...style
-      }}
-      className={className}
+      style={style}
+      className={cn(className, styles.compactCard)}
     >
       <AspectRatioImage
-        style={styles.compactCardImage}
+        className={styles.compactCardImage}
         aspectRatio={aspectRatio}
         data={imageData}
+        altText={altText}
       />
       
-      <div style={styles.compactCardBody}>
-        {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+      <div className={styles.compactCardBody}>
+        {tag ? <Text className={styles.tag}>{tag}</Text> : null}
         {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
 
-        <div style={styles.grow}/>
+        <div className={styles.grow}/>
 
-        <Text style={styles.byline}>
+        <Text className={styles.byline}>
           {date} 
           {(date && author) ? ' - ' : null}
           {author ? (
-            <Text style={styles.author}>{author}</Text>
+            <Text className={styles.author}>{author}</Text>
           ) : null}
         </Text>
       </div>
@@ -129,30 +127,27 @@ function CardCompactResponsive({
   date,
   className,
   author,
+  altText,
   onClick
 }: CardBaseResponsiveProps) {
-  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Clickable 
       href={href}
       as={as}
       onClick={onClick}
-      style={{
-        ...styles.cardLink,
-        ...styles.compactCard
-      }}
-      className={className}
+      className={cn(className, styles.compactCard)}
     >
       {/* Desktop */}
       <Grid.Display 
         xs={false}
         md={true}
-        style={styles.compactCardImage}
+        className={styles.compactCardImage}
       >
         <AspectRatioImage
           aspectRatio={aspectRatioDesktop}
           data={imageData}
           style={{ minHeight: '100%' }}
+          altText={altText}
         />
       </Grid.Display>
 
@@ -160,26 +155,27 @@ function CardCompactResponsive({
       <Grid.Display 
         xs={true}
         md={false}
-        style={styles.compactCardImage}
+        className={styles.compactCardImage}
       >
         <AspectRatioImage
           aspectRatio={aspectRatioMobile}
           data={imageData}
           style={{ minHeight: '100%' }}
+          altText={altText}
         />
       </Grid.Display>
 
-      <div style={styles.compactCardBody}>
-        {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+      <div className={styles.compactCardBody}>
+        {tag ? <Text className={styles.tag}>{tag}</Text> : null}
         {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
       
-        <div style={styles.grow}/>
+        <div className={styles.grow}/>
 
-        <Text style={styles.byline}>
+        <Text className={styles.byline}>
           {date} 
           {(date && author) ? ' - ' : null}
           {author ? (
-            <Text style={styles.author}>{author}</Text>
+            <Text className={styles.author}>{author}</Text>
           ) : null}
         </Text>
       </div>
@@ -197,30 +193,28 @@ function CardStacked({
   date,
   author,
   onClick,
+  altText,
   Overlay
 }: CardBaseProps) {
-  const styles = Theme.useStyleCreator(styleCreator);
-
   return (
     <Clickable 
       href={href}
       as={as}
       onClick={onClick}
-      style={styles.stackedCard}
+      className={styles.stackedCard}
     >
       <AspectRatioImage
-        style={styles.stackedCardImage}
+        className={styles.stackedCardImage}
         aspectRatio={aspectRatio}
         data={imageData}
         Overlay={Overlay}
+        altText={altText}
       />
       
       <div 
-        style={{
-          ...styles.stackedCardBody
-        }}
+        className={styles.stackedCardBody}
       >
-        {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+        {tag ? <Text className={styles.tag}>{tag}</Text> : null}
         {title ? (
           <Text.Truncate 
             variant='h4' 
@@ -231,13 +225,13 @@ function CardStacked({
           </Text.Truncate>
         ) : null}
 
-        <div style={styles.grow}/>
+        <div className={styles.grow}/>
 
-        <Text style={styles.byline}>
+        <Text className={styles.byline}>
           {date} 
           {(date && author) ? ' - ' : null}
           {author ? (
-            <Text style={styles.author}>{author}</Text>
+            <Text className={styles.author}>{author}</Text>
           ) : null}
         </Text>
       </div>
@@ -258,17 +252,15 @@ export function CardStackedResponsive({
   date,
   author,
   onClick,
+  altText,
   Overlay
 }: CardBaseResponsiveProps) {
-  const styles = Theme.useStyleCreator(styleCreator);
-  const cng = Theme.useClassNameGenerator();
-
   return (
     <Clickable 
       href={href}
       as={as}
       onClick={onClick}
-      className={cng(styles.stackedCardResponsive)}
+      className={styles.stackedCardResponsive}
     >
       <>
         {/* Desktop */}
@@ -278,10 +270,11 @@ export function CardStackedResponsive({
           style={{ flex: 1 }}
         >
           <AspectRatioImage
-            style={styles.image}
+            className={styles.cardBaseImage}
             aspectRatio={aspectRatioDesktop ?? aspectRatio}
             data={imageData}
             Overlay={Overlay}
+            altText={altText}
           />
         </Grid.Display>
 
@@ -289,19 +282,20 @@ export function CardStackedResponsive({
         <Grid.Display 
           xs={true}
           md={false}
-          style={styles.compactCardImage}
+          className={styles.compactCardImage}
         >
           <AspectRatioImage
-            style={styles.image}
+            className={styles.cardBaseImage}
             aspectRatio={aspectRatioMobile ?? aspectRatio ?? 1}
             data={imageData}
             Overlay={Overlay}
+            altText={altText}
           />
         </Grid.Display>
       </>
       
-      <div style={styles.stackedCardBody}>
-        {tag ? <Text style={styles.tag}>{tag}</Text> : null}
+      <div className={styles.stackedCardBody}>
+        {tag ? <Text className={styles.tag}>{tag}</Text> : null}
         {title ? (
           <Text.Truncate 
             variant='h4' 
@@ -312,13 +306,13 @@ export function CardStackedResponsive({
           </Text.Truncate>
         ) : null}
 
-        <div style={styles.grow}/>
+        <div className={styles.grow}/>
 
-        <Text style={styles.byline}>
+        <Text className={styles.byline}>
           {date} 
           {(date && author) ? ' - ' : null}
           {author ? (
-            <Text style={styles.author}>{author}</Text>
+            <Text className={styles.author}>{author}</Text>
           ) : null}
         </Text>
       </div>
@@ -335,29 +329,29 @@ function CardImage({
   date,
   author,
   onClick,
+  altText,
   tag
 }: CardBaseProps) {
-  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <Clickable 
       href={href}
       as={as}
       onClick={onClick}
       style={{
-        ...styles.imageCard,
         ...(aspectRatio ? null : {
           flex: 1,
           height: '100%'
         })
       }}
-      className='dark-mode'
+      className={cn('dark-mode', styles.imageCard)}
     >
       <AspectRatioImage
         aspectRatio={aspectRatio}
         data={imageData}
+        altText={altText}
       />
 
-      <div style={styles.imageCardTitleWrap}>
+      <div className={styles.imageCardTitleWrap}>
         {tag ? (
           <Text 
             variant='h5'
@@ -367,12 +361,12 @@ function CardImage({
           </Text>
         ) : null}
 
-        {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2} style={styles.imageCardTitle}>{title}</Text.Truncate> : null}
-        <Text style={styles.byline}>
+        {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2}>{title}</Text.Truncate> : null}
+        <Text className={styles.byline}>
           {date} 
           {(date && author) ? ' - ' : null}
           {author ? (
-            <Text style={styles.author}>{author}</Text>
+            <Text className={styles.author}>{author}</Text>
           ) : null}
         </Text>
       </div>
@@ -414,136 +408,10 @@ function CardImageResponsive({
 }
 
 function CardSpacer() {
-  const styles = Theme.useStyleCreator(styleCreator);
   return (
-    <div style={styles.spacer}/>
+    <div className={styles.spacer}/>
   )
 }
-
-const styleCreator =  Theme.makeStyleCreator(theme => ({  
-  stackedCard: {
-    ...styleHelpers.hideLink(),
-    ...styleHelpers.flex(),
-    flex: 1,
-    height: '100%'
-  },
-  compactCard: {
-    ...styleHelpers.flex('row'),
-    flex: 1
-  },
-  compactCardImage: {
-    ...styleHelpers.lockWidth('40%'),
-    ...styleHelpers.card(theme)
-  },
-  stackedCardImage: {
-    ...styleHelpers.card(theme)
-  },
-  stackedCardBody: {
-    ...styleHelpers.flex('column'),
-    ...styleHelpers.cardBody(theme),
-    flex: 1,
-    alignItems: 'flex-start'
-  },
-  compactCardBody: {
-    ...styleHelpers.flex('column'),
-    ...styleHelpers.cardBody(theme),
-    flex: 1,
-    alignItems: 'flex-start',
-    overflow: 'hidden'
-  },
-  imageCard: {
-    ...styleHelpers.card(theme),
-    ...styleHelpers.hideLink(),
-    border: 'none',
-    height: '100%',
-    display: 'flex',
-    alignItems: 'flex-end',
-    position: 'relative',
-    ...styleHelpers.centerBackgroundImage(),
-    width: '100%'
-  },
-  backgroundImgae: {
-    height: '100%',
-    display: 'flex',
-    ...styleHelpers.centerBackgroundImage()
-  },
-  imageCardTitle: {
-    color: '#fff'
-  },
-  imageCardSubtitle: {
-    color: 'rgba(255,255,255,0.7)',
-    marginBottom: theme.spacing(1)
-  },
-  imageCardTitleWrap: {
-    ...styleHelpers.flex('column'),
-    justifyContent: 'flex-end',
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    padding: theme.spacing(2),
-    width: '100%',
-    background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.7), transparent)'
-  },
-  tag: {
-    display: 'flex',
-    color: '#fff',
-    backgroundColor: theme.colors.accent,
-    padding: theme.spacing(0.5, 1),
-    marginBottom: theme.spacing(1),
-  },
-  cardLink: {
-    ...styleHelpers.hideLink(),
-    display: 'flex',
-    flex: 1
-  },
-  date: {
-    marginRight: theme.spacing(2),
-    whiteSpace: 'nowrap',
-  },
-  spacer: {
-    height: theme.spacing(2.5)
-  },
-  byline: {
-    color: theme.colors.textMuted,
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    width: '100%'
-  },
-  author: {
-    fontStyle: 'italic',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden'
-  },
-  textMuted: {
-    color: theme.colors.textMuted
-  },
-  contrastTextMuted: {
-    color: 'rgba(255,255,255,0.7)'
-  },
-  grow: {
-    flex: 1
-  },
-
-  image: {
-    ...styleHelpers.card(theme),
-  },
-
-
-  // stacked responsive
-  stackedCardResponsive: {
-    ...styleHelpers.hideLink(),
-    ...styleHelpers.flex('column'),
-    flex: 1,
-    height: '100%',
-    [theme.mediaQuery('xs', 'md')]: {
-      flexDirection: 'row'
-    }
-  }
-}));
 
 const comparisonFn = function(prevProps: any, nextProps: any) {
   return prevProps.id && prevProps.id === nextProps.id;

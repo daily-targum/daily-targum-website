@@ -1,12 +1,14 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Theme, Card, ActivityIndicator, FlatList, SEOProps } from '../../../components';
+import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps } from '../../../components';
 import { actions, GetArticlesBySubcategory } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { processNextQueryStringParam, styleHelpers, imgix } from '../../../utils';
+import { processNextQueryStringParam, imgix } from '../../../utils';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../../machines';
+import { theme } from '../../../constants';
+import styles from './[subcategory].module.scss';
 
 function Author({
   initialArticles,
@@ -21,8 +23,6 @@ function Author({
   });
 
   const router = useRouter();
-  const theme = Theme.useTheme();
-  const styles = Theme.useStyleCreator(styleCreator);
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
@@ -33,7 +33,7 @@ function Author({
   }
 
   return (
-    <Section style={styles.page}>
+    <Section className={styles.page}>
       <Grid.Row 
         spacing={theme.spacing(2)}
       >
@@ -47,7 +47,7 @@ function Author({
             keyExtractor={article => article.id}
             renderItem={article => (
               <Card.Compact
-                style={styles.articleCard}
+                className={styles.articleCard}
                 title={article.title}
                 imageData={imgix(article.media[0]?.url ?? '', {
                   xs: imgix.presets.md('1:1')
@@ -56,6 +56,7 @@ function Author({
                 as={'/'+article.slug}
                 aspectRatio={3 / 2}
                 date={formatDateAbriviated(article.publishDate)}
+                altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
               />
             )}
             ItemSeparatorComponent={<Card.Spacer/>}
@@ -69,44 +70,6 @@ function Author({
     </Section>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: {
-    ...styleHelpers.page(theme, 'compact'),
-    backgroundColor: theme.colors.background,
-    flex: 1
-  },
-  authorCard: {
-    ...styleHelpers.flex('column'),
-    alignItems: 'center',
-    ...styleHelpers.card(theme),
-    padding: theme.spacing(1)
-  },
-  authorCardMobile: {
-    ...styleHelpers.flex('row'),
-    alignItems: 'center',
-    ...styleHelpers.card(theme),
-    marginBottom: theme.spacing(2)
-  },
-  avatar: {
-    ...styleHelpers.lockWidth('50%'),
-    marginBottom: theme.spacing(2),
-    borderRadius: '100%'
-  },
-  avatarMobile: {
-    ...styleHelpers.lockWidth('30%'),
-    marginBottom: theme.spacing(2)
-  },
-  articleCard: {
-    ...styleHelpers.card(theme),
-    padding: 0
-  },
-  authorCardMobileBody: {
-    ...styleHelpers.flex('column'),
-    flex: 1,
-    alignItems: 'center'
-  }
-}));
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const subcategory = processNextQueryStringParam(ctx.params?.subcategory, '');

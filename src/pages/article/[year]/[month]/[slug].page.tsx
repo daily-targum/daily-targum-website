@@ -1,11 +1,14 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { SEOProps, Section, Theme, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator, HTML } from '../../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator, HTML } from '../../../../components';
 
 import NotFound from '../../../404.page';
-import { styleHelpers, imgix, processNextQueryStringParam } from '../../../../utils';
+import { imgix, processNextQueryStringParam } from '../../../../utils';
 import { useRouter } from 'next/router';
+
+import styles from './[slug].module.scss';
+import { theme } from '../../../../constants';
 
 
 function Article({
@@ -14,8 +17,6 @@ function Article({
   article: GetArticle
 }) {
   const router = useRouter();
-  const styles = Theme.useStyleCreator(styleCreator);
-  const theme = Theme.useTheme();
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
@@ -27,7 +28,7 @@ function Article({
   
   return (
     <>
-      <Section style={styles.page}>
+      <Section className={styles.page}>
         <Grid.Row 
           spacing={theme.spacing(4)}
           cols={12}
@@ -49,6 +50,7 @@ function Article({
                     xs: imgix.presets.md('16:9'),
                     md: imgix.presets.xl('16:9')
                   })}
+                  altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
                 />
                 <Br/>
                 <HTML html={article.body}/>
@@ -57,9 +59,9 @@ function Article({
           </Grid.Col>
 
           <Grid.Col xs={0} md={2}>
-            <div style={{backgroundColor: '#eee', flex: 1, display: 'flex', height: '100%'}}>
+            {/* <div style={{backgroundColor: '#eee', flex: 1, display: 'flex', height: '100%'}}>
               <span>Ad placeholder</span>
-            </div>
+            </div> */}
           </Grid.Col>
         </Grid.Row>
       </Section>
@@ -126,13 +128,5 @@ export const getStaticPaths: GetStaticPaths = async () =>  {
     fallback: true
   };
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: styleHelpers.page(theme),
-  image: {
-    width: '100%',
-    height: 'auto'
-  }
-}));
 
 export default Article;

@@ -1,0 +1,36 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.page {
+  @include styleHelpers.pageCompact();
+  flex: 1
+}
+
+.divider {
+  margin: theme.spacing(6, 0, 4);
+}
+
+.section {
+  margin-top: theme.spacing(4);
+  margin-bottom: theme.spacing(8);
+}
+
+.columnist {
+  @include styleHelpers.flex();
+  align-items: center;
+  @include styleHelpers.hideLink();
+  padding: theme.spacing(5) 2.5vw;
+}
+
+.columnistPicture {
+  @include styleHelpers.lockHeight(120px);
+  @include styleHelpers.lockWidth(120px);
+  border-radius: 100%;
+  margin-bottom: theme.spacing(1);
+  overflow: hidden;
+}
+
+.columnistTitle {
+  text-align: center;
+  @include styleHelpers.lockWidth(140px);
+}

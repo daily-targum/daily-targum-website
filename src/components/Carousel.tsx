@@ -1,9 +1,9 @@
 import React from 'react';
-import Theme from './Theme';
 import { ReactChildren } from '../types';
-import { styleHelpers } from '../utils';
 import { clamp } from '../shared/src/utils';
 import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
+import styles from './Carousel.module.scss';
+import cn from 'classnames';
 
 function useHookWithRefCallback<T>(init: T) {
   const [rect, setRect] = React.useState(init);
@@ -20,12 +20,11 @@ function Button({
   onClick: () => any
   direction: 'left' | 'right'
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
   return (
     <div
       onClick={onClick}
+      className={styles.buttonWrap}
       style={{
-        ...styles.buttonWrap,
         [direction]: 0,
         justifyContent: direction === 'left' ? 'flex-start' : 'flex-end'
       }}
@@ -34,13 +33,13 @@ function Button({
         <IoIosArrowDropleftCircle
           size={32}
           color='#fff'
-          style={styles.icon}
+          className={styles.icon}
         />
       ) : (
         <IoIosArrowDroprightCircle
           size={32}
           color='#fff'
-          style={styles.icon}
+          className={styles.icon}
         />
       )}
     </div>
@@ -86,8 +85,6 @@ export function Carousel<T>({
   forwardRef
 }: CarouselProps<T>) {
   const [ div, internalRef ] = useHookWithRefCallback<HTMLDivElement | null>(null);
-  const styles = Theme.useStyleCreator(styleCreator);
-  const cng = Theme.useClassNameGenerator();
   const [index, setIndex] = React.useState(initialIndex ?? 0);
   const [ loading, setLoading ] = React.useState(true);
   const scrollTimeout = React.useRef<number | undefined>();
@@ -146,16 +143,23 @@ export function Carousel<T>({
 
   return (
     <div 
-      style={{
-        ...styles.carousel,
-        ...(loading ? styles.hide : null),
-        ...style
-      }}
-      className={className}
+      className={cn(
+        className,
+        styles.carousel,
+        {
+          [styles.hide]: loading
+        }
+      )}
+      style={style}
     >
       <div
-        className={`hide-scrollbars ${cng(styles.scroll)}`}
-        style={loading ? undefined : styles.smoothScroll}
+        className={cn(
+          'hide-scrollbars',
+          styles.scroll,
+          {
+            [styles.smoothScroll]: !loading
+          }
+        )}
         ref={internalRef}
         onScroll={() => {
           if (!div) return;
@@ -176,8 +180,8 @@ export function Carousel<T>({
         .map((item: any, i: number) => (
           <React.Fragment key={keyExtractor(item, i)}>
             <div 
+              className={styles.item}
               style={{
-                ...styles.item,
                 width,
                 minWidth: width,
                 maxWidth: width
@@ -238,46 +242,6 @@ function CarouselResponsive<T>({
     />
   )
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  carousel: {
-    position: 'relative',
-    height: '100%'
-  },
-  scroll: {
-    ...styleHelpers.flex('row'),
-    overflow: 'auto',
-    flex: 1,
-    ...styleHelpers.lockHeight('100%'),
-    scrollSnapType: 'x mandatory',
-    '-webkit-scroll-snap-type': 'x mandatory',
-    '-webkit-overflow-scrolling': 'touch',
-    minHeight: '100%'
-  },
-  smoothScroll: {
-    scrollBehavior: 'smooth'
-  },
-  buttonWrap: {
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    padding: theme.spacing(0, 1.5),
-    height: '100%',
-    width: '25%'
-  },
-  item: {
-    scrollSnapAlign: 'start'
-  },
-  hide: {
-    opacity: 0
-  },
-  icon: {
-    filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.3))'
-  }
-}));
 
 Carousel.Button = Button;
 export default Carousel;

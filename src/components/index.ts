@@ -1,6 +1,5 @@
 export * from './Analytics';
 export * from './SEO';
-export * from './Theme';
 export * from './Navbar';
 export * from './Section';
 export * from './Footer';

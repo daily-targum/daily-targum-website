@@ -1,0 +1,46 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.carousel {
+  position: relative;
+  height: 100%;
+}
+
+.scroll {
+  @include styleHelpers.flex('row');
+  overflow: auto;
+  flex: 1;
+  @include styleHelpers.lockHeight('100%');
+  scroll-snap-type: x mandatory;
+  -webkit-scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  min-height: 100%;
+}
+
+.smoothScroll {
+  scroll-behavior: smooth;
+}
+
+.buttonWrap {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: theme.spacing(0, 1.5);
+  height: 100%;
+  width: 25%;
+}
+
+.item {
+  scroll-snap-align: start;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.icon {
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+}

@@ -1,10 +1,11 @@
 import React from 'react';
 import { NextPageContext } from 'next';
-import { Section, Theme, ActivityIndicator, HTML, SEOProps } from '../../../components';
+import { Section, ActivityIndicator, HTML, SEOProps } from '../../../components';
 import { getPagePreview, GetPage } from '../../../shared/src/client';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
-import { processNextQueryStringParam, styleHelpers } from '../../../utils';
+import { processNextQueryStringParam } from '../../../utils';
+import styles from './[id].module.scss';
 
 function Page({
   initialPage,
@@ -14,7 +15,6 @@ function Page({
   pageId: string
 }) {
   const router = useRouter();
-  const styles = Theme.useStyleCreator(styleCreator);
   const [ page, setPage ] = React.useState<GetPage | undefined>(initialPage);
 
   React.useEffect(() => {
@@ -32,20 +32,13 @@ function Page({
   }
 
   return page?.content ? (
-    <Section style={styles.section}>
+    <Section className={styles.section}>
       <HTML html={page.content}/>
     </Section>
   ) : (
     <NotFound/>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  section: {
-    ...styleHelpers.page(theme),
-    flex: 1
-  }
-}));
 
 Page.getInitialProps = async (ctx: NextPageContext) => {
   const id = processNextQueryStringParam(ctx.query.id);

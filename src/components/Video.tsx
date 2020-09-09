@@ -153,7 +153,7 @@ function PersistentPlayer() {
   const src = useSelector(s => s.video.src);
   const dispatch = useDispatch();
 
-  return (
+  return (persist || src) ? (
     <div 
       className={styles.persistentPlayerWrap}
       style={{
@@ -173,7 +173,7 @@ function PersistentPlayer() {
         slave={!persist}
       />
     </div>
-  );
+  ) : null;
 }
 
 function Description() {

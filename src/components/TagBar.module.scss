@@ -1,0 +1,27 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.tagBar {
+  @include styleHelpers.flex('row');
+  overflow-x: auto;
+  padding-bottom: theme.spacing(2);
+}
+
+.tag {
+  color: #fff;
+  background-color: #999;
+  padding: theme.spacing(1, 2);
+  margin-right: theme.spacing(1);
+  border-radius: theme.roundness(1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  user-select: none;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.tagSelected {
+  background-color: theme.color('accent_main');
+}

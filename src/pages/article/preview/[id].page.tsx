@@ -1,9 +1,11 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../../shared/src/client';
-import { SEOProps, Section, Theme, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, HTML } from '../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, HTML } from '../../../components';
 import NotFound from '../../404.page';
-import { processNextQueryStringParam, styleHelpers } from '../../../utils';
+import { processNextQueryStringParam } from '../../../utils';
+import styles from './[id].module.scss';
+import { theme } from '../../../constants';
 
 function Article({
   article,
@@ -12,9 +14,6 @@ function Article({
   article: GetArticle | null,
   articleId: string
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
-  const theme = Theme.useTheme();
-
   const [ dynamicArticle, setDynamicArticle ] = React.useState<GetArticle | null>(article);
 
   React.useEffect(() => {
@@ -38,7 +37,7 @@ function Article({
   
   return (
     <>
-      <Section style={styles.page}>
+      <Section className={styles.page}>
         <Grid.Row 
           spacing={theme.spacing(4)}
           cols={12}
@@ -116,13 +115,5 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
     seo
   };
 };
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: styleHelpers.page(theme),
-  image: {
-    width: '100%',
-    height: 'auto'
-  }
-}));
 
 export default Article;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { ReactChildren } from '../types';
-import Theme from './Theme';
 import { BreakPoints } from './Grid/types';
 import { Grid } from './Grid/web';
+import styles from './Table.module.scss';
 
 export function Table<T extends string>({
   data,
@@ -19,7 +19,6 @@ export function Table<T extends string>({
   widths: (undefined | string)[]
   colDisplay?: (Partial<BreakPoints<boolean>> | undefined)[]
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
   const clone = data.map(arr => arr.slice(0)).slice(0);
   const header = clone.shift();
 
@@ -38,7 +37,7 @@ export function Table<T extends string>({
                 }}
               >
                 <Grid.Display
-                  style={styles.cell}
+                  className={styles.cell}
                   {...(colDisplay[j] ? colDisplay[j] : {xs: true})}
                 >
                   {renderItem(col, 0, j)}
@@ -60,7 +59,7 @@ export function Table<T extends string>({
                 }}
               >
                 <Grid.Display
-                  style={styles.cell}
+                  className={styles.cell}
                   {...(colDisplay[j] ? colDisplay[j] : {xs: true})}
                 >
                   {renderItem(col, i+1, j)}
@@ -73,9 +72,3 @@ export function Table<T extends string>({
     </table>
   )
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  cell: {
-    padding: theme.spacing(2)
-  }
-}));

@@ -1,9 +1,11 @@
 import React from 'react';
 import { actions, GetHoru } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Carousel, Section, Theme, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML } from '../../components';
-import { styleHelpers, imgix } from '../../utils';
+import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML } from '../../components';
+import { imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
+import styles from './humans-of-rutgers.module.scss';
+import { theme } from '../../constants';
 
 /** THIS IS A HACK! */
 const MemoizedAspectRatioImage = React.memo(AspectRatioImage, () => true);
@@ -13,12 +15,7 @@ function Category({
 }: { 
   initHoru: GetHoru
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
-  const cng = Theme.useClassNameGenerator();
-  const theme = Theme.useTheme();
-
   const [state, send] = useMachine(photoModalMachine);
-
   const [horu, setHoru] = React.useState(initHoru);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -46,7 +43,7 @@ function Category({
 
   return (
     <>
-      <Section style={styles.page}>
+      <Section className={styles.page}>
         <Banner text='Humans of RU'/>
         
         <Grid.Row spacing={theme.spacing(2)}>
@@ -69,7 +66,7 @@ function Category({
                   itemId: item.id,
                   initialIndex: 0
                 })}
-                style={styles.post}
+                className={styles.post}
               />
             </Grid.Col>
           ))}
@@ -96,11 +93,11 @@ function Category({
             xs={24}
             md={14}
           >
-            <div style={styles.square}/>
+            <div className={styles.square}/>
             <Carousel.Responsive
               id={state.context.itemId}
               data={selectedPost?.media ?? []}
-              style={styles.carousel}
+              className={styles.carousel}
               keyExtractor={item => item.id}
               renderItem={item => (
                 <AspectRatioImage
@@ -121,7 +118,7 @@ function Category({
             xs={24}
             md={10}
           >
-            <div className={cng(styles.body)}>
+            <div className={styles.body}>
               <Text variant='h1'>{selectedPost?.title}</Text>
               {selectedPost?.quote ? (
                 <HTML
@@ -136,32 +133,6 @@ function Category({
     </>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  page: {
-    ...styleHelpers.page(theme, 'compact'),
-    flex: 1
-  },
-  post: {
-    cursor: 'pointer'
-  },
-  // modal
-  square: {
-    ...styleHelpers.aspectRatioFullWidth(1)
-  },
-  carousel: {
-    ...styleHelpers.absoluteFill()
-  },
-  body: {
-    padding: theme.spacing(4),
-    [theme.mediaQuery('md')]: {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      overflow: 'auto'
-    }
-  }
-}));
 
 export async function getStaticProps() {
   const initHoru = await actions.getHoru({

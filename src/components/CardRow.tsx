@@ -1,10 +1,10 @@
 import React from 'react';
 import Grid from './Grid/web';
-import Theme from './Theme';
 import Text from './Text';
 import { ReactChild } from '../types';
 import { RiArrowRightLine } from 'react-icons/ri';
 import Link from './Link';
+import styles from './CardRow.module.scss';
 
 function getColSizes(numOfItems: number, numOfCols: number): {
   xs?: number
@@ -89,10 +89,8 @@ function Header({
   href?: string
   onClick?: () => any
 }) {
-  const styles = Theme.useStyleCreator(styleCreator);
-
   return (
-    <div style={styles.sectionHeader}>
+    <div className={styles.sectionHeader}>
       <Text 
         variant='h3' 
         noPadding
@@ -101,11 +99,11 @@ function Header({
       {href ? (
         <Link 
           href={href}
-          style={styles.moreInLink}
+          className={styles.moreInLink}
         >
           <Text 
             variant='h4' 
-            style={styles.moreInLinkText}
+            className={styles.moreInLinkText}
             noPadding
           >
             More in {title}
@@ -116,12 +114,12 @@ function Header({
         </Link>
       ): (
         <div 
-          style={styles.moreInLink}
+          className={styles.moreInLink}
           onClick={onClick}
         >
           <Text 
             variant='h4' 
-            style={styles.moreInLinkText}
+            className={styles.moreInLinkText}
             noPadding
           >
             More in {title}
@@ -135,28 +133,5 @@ function Header({
     </div>
   );
 }
-
-const styleCreator = Theme.makeStyleCreator(theme => ({
-  sectionHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: theme.spacing(2, 0)
-  },
-  moreInLink: {
-    textDecoration: 'none',
-    color: theme.colors.accent,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    cursor: 'pointer'
-  },
-  moreInLinkText: {
-    marginRight: theme.spacing(0.5),
-    fontWeight: 600,
-    whiteSpace: 'nowrap',
-    color: theme.colors.accent
-  }
-}));
 
 export default CardCols;

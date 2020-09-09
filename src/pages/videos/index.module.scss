@@ -1,0 +1,51 @@
+@use 'theme';
+@use 'styleHelpers';
+
+.backdrop {
+  flex: 1;
+}
+
+.page {
+  @include styleHelpers.page();
+}
+
+.divider {
+  background-color: rgba(255,255,255,0.1);
+  // margin: theme.spacing(4, 0)
+}
+
+.spacer {
+  height: theme.spacing(4);
+}
+
+.text {
+  color: theme.color('text');
+}
+
+.timeCode {
+  position: absolute;
+  bottom: theme.spacing(1);
+  right: theme.spacing(1);
+  color: theme.color('primary_contrastText');
+  padding: theme.spacing(1);
+  background-color: theme.color('primary_main');
+  border-radius: theme.roundness(1);
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.overlay {
+  @include styleHelpers.absoluteFill();
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.showOnHover {
+  opacity: 0;
+  transition: opacity theme.timing(0.5);
+  
+  &:hover {
+    opacity: 1;
+  }
+}
