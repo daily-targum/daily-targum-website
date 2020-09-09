@@ -16,7 +16,10 @@
 .dots {
   display: flex;
   margin: theme.spacing(3);
-  @include styleHelpers.absoluteFill();
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
   justify-content: center;
 }
 

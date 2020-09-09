@@ -82,11 +82,11 @@ $HEIGHT: 60px;
   border-top-width: 2px;
   border-color: transparent;
   border-style: solid;
-  transition: border-bottom-color theme.timing(1), opacity theme.timing(1);
+  transition: border-bottom-color theme.timing(1), color theme.timing(1);
   
   &:hover {
     color: theme.color('accent_main');
-    border-bottom-color: theme.color('accent');
+    border-bottom-color: theme.color('accent_main');
   }
 }
 
