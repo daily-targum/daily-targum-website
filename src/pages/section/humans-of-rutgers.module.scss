@@ -16,6 +16,7 @@
 
 .carousel {
   @include styleHelpers.absoluteFill();
+  position: absolute !important;
 }
 
 .body {
