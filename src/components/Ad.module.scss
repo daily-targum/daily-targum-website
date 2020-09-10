@@ -8,5 +8,6 @@
 
 .banner {
   @include styleHelpers.lockHeight(90px);
-  @include styleHelpers.lockWidth(970px);
+  width: 970px;
+  max-width: 100%;
 }

@@ -1,27 +1,23 @@
 import React from 'react';
 import styles from './Ad.module.scss';
 import cn from 'classnames';
-import { useRouter } from 'next/router';
 
-function AdBase({
+const AdBase = React.memo(({
   style,
   className
 }: {
   style?: React.CSSProperties;
   className?: string
-}) {
-  const router = useRouter();
-
+}) => {
   React.useEffect(() => {
     if(window) {
       // @ts-ignore
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     }
-  }, [router.asPath]);
+  }, []);
 
   return (
-    <ins 
-      key={router.asPath}
+    <ins
       className={cn(
         className,
         'adsbygoogle'
@@ -29,10 +25,9 @@ function AdBase({
       style={style}
       data-ad-client="ca-pub-5742802668542373"
       data-ad-slot="1207418447"
-      data-adtest="on"
     />
   )
-}
+}, () => true)
 
 function Ad({
   type,
