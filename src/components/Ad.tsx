@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Ad.module.scss';
 import cn from 'classnames';
+import { useRouter } from 'next/router';
 
 function AdBase({
   style,
@@ -9,15 +10,18 @@ function AdBase({
   style?: React.CSSProperties;
   className?: string
 }) {
+  const router = useRouter();
+
   React.useEffect(() => {
     if(window) {
       // @ts-ignore
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     }
-  }, []);
+  }, [router.asPath]);
 
   return (
     <ins 
+      key={router.asPath}
       className={cn(
         className,
         'adsbygoogle'

@@ -9,5 +9,4 @@
 .banner {
   @include styleHelpers.lockHeight(90px);
   @include styleHelpers.lockWidth(970px);
-  background-color: #eee;
 }
