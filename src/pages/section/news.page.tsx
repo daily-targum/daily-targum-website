@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps } from '../../components';
+import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad } from '../../components';
 import { imgix } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
@@ -56,6 +56,10 @@ function News({
             );
           }}
         </CardCols>
+
+        <Grid.Col xs={24}>
+          <Ad type='banner'/>
+        </Grid.Col>
 
         {articles.slice(2).map(item => (
           <Grid.Col 

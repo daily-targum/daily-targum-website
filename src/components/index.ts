@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 export * from './Analytics';
 export * from './SEO';
 export * from './Navbar';
@@ -27,3 +29,7 @@ export * from './Image';
 export * from './TagBar';
 export * from './Link';
 export * from './Modal';
+
+export const Ad = dynamic(() => import("./Ad"), {
+  ssr: false,
+});
