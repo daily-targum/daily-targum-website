@@ -35,7 +35,7 @@ function Article({
         >
           <Grid.Col xs={0} md={0}/>
 
-          <Grid.Col xs={12} md={10}>
+          <Grid.Col xs={12}>
             <main>
               <article>
                 <Text variant='h1' htmlTag='h1'>{article.title}</Text>
@@ -52,8 +52,14 @@ function Article({
                   })}
                   altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
                 />
+                <Text className={styles.photoCredit}>Photo by {article.media[0]?.credits}</Text>
+                <Divider/>
+
                 <Br/>
-                <HTML html={article.body}/>
+                <HTML 
+                  ads
+                  html={article.body} 
+                />
               </article>
             </main>
           </Grid.Col>
@@ -63,6 +69,11 @@ function Article({
               <span>Ad placeholder</span>
             </div> */}
           </Grid.Col>
+
+          {/* <Grid.Col xs={12}>
+            <Ad type='banner'/>
+          </Grid.Col> */}
+
         </Grid.Row>
       </Section>
 

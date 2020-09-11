@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
-import { Section, Grid, ActivityIndicator, Card, Banner, SEOProps } from '../../components';
+import { Section, Grid, ActivityIndicator, Card, Banner, SEOProps, Ad } from '../../components';
 import { imgix } from '../../utils';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../machines';
@@ -66,6 +66,10 @@ function Category({
             author={articles[1].authors.map(a => a.displayName).join(', ')}
             altText={articles[1].media[0]?.altText ?? articles[1].media[0]?.description ?? undefined}
           />
+        </Grid.Col>
+
+        <Grid.Col xs={24}>
+          <Ad type='banner'/>
         </Grid.Col>
 
         {articles.slice(2).map(item => (

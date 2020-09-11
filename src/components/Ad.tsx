@@ -1,14 +1,20 @@
 import React from 'react';
 import styles from './Ad.module.scss';
 import cn from 'classnames';
+import { nextUtils } from '../utils';
+
+interface AdBaseProps {
+  style?: React.CSSProperties;
+  className?: string;
+  adClient: string;
+  adSlot: string;
+}
 
 const AdBase = React.memo(({
   style,
-  className
-}: {
-  style?: React.CSSProperties;
-  className?: string
-}) => {
+  className,
+  adClient
+}: AdBaseProps) => {
   React.useEffect(() => {
     if(window) {
       // @ts-ignore
@@ -20,31 +26,51 @@ const AdBase = React.memo(({
     <ins
       className={cn(
         className,
-        'adsbygoogle'
+        'adsbygoogle',
+        {
+          [styles.dev]: nextUtils.envIs(['development'])
+        }
       )}
       style={style}
-      data-ad-client="ca-pub-5742802668542373"
+      data-ad-client={adClient}
       data-ad-slot="1207418447"
     />
   )
-}, () => true)
+}, () => true);
+
+const presets = {
+  banner: {
+    wrapStyle: styles.bannerWrap,
+    style: styles.banner,
+    adClient: "ca-pub-5742802668542373",
+    adSlot: "1207418447"
+  }
+}
 
 function Ad({
   type,
-  className
+  className,
+  style
 }: {
-  type: 'banner';
-  className?: string
+  type: keyof typeof presets;
+  className?: string;
+  style?: React.CSSProperties
 }) {
-  if (type === 'banner') {
+  if (presets[type]) {
+    const preset = presets[type];
     return (
       <div 
         className={cn(
           className,
-          styles.bannerWrap
+          preset.wrapStyle
         )}
+        style={style}
       >
-        <AdBase className={styles.banner}/>
+        <AdBase 
+          className={preset.style}
+          adClient={preset.adClient}
+          adSlot={preset.adSlot}
+        />
       </div>
     );
   }

@@ -1,5 +1,12 @@
 @use 'styleHelpers';
+@use 'theme';
 
 .page {
   @include styleHelpers.page();
+}
+
+.photoCredit {
+  padding: theme.spacing(2, 0);
+  display: flex;
+  color: theme.color('textMuted');
 }

@@ -4,6 +4,13 @@ import xss from 'xss';
 import Text, { variants } from './Text';
 import Link from './Link';
 import Divider from './Divider';
+import dynamic from 'next/dynamic';
+
+const ADTAG = 'ad';
+
+export const Ad = dynamic(() => import("./Ad"), {
+  ssr: false,
+});
 
 const options: HTMLReactParserOptions = {
   replace: ({ type, name, children, attribs }) => {
@@ -29,16 +36,44 @@ const options: HTMLReactParserOptions = {
         );
       }
 
+      if (name === ADTAG) {
+        return (
+          <Ad 
+            type='banner'
+            style={{
+              marginTop: '1rem'
+            }}
+          />
+        )
+      }
+
     } 
   }
 };
 
+function injectAdToHtml(html: string) {
+  const count = (html.match(/<\/p>/g) || []).length;
+
+  let nth = 0;
+  html = html.replace(/<\/p>/g, (match) => {
+    nth++;
+    return (nth === Math.floor(count / 2)) ? `${match} <${ADTAG}></${ADTAG}>` : match;
+  });
+
+  return html;
+}
+
 export function HTML({
-  html
+  html,
+  ads = false
 }: {
-  html: string
+  html: string;
+  ads?: boolean
 }) {
-  const computedHtml = parse(xss(html), options);
+  const clean = xss(html);
+  const computedHtml = parse(
+    (ads ? injectAdToHtml(clean) : clean)
+  , options);
 
   return (
     <div>
