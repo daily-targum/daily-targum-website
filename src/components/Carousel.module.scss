@@ -10,7 +10,7 @@
   @include styleHelpers.flex('row');
   overflow: auto;
   flex: 1;
-  @include styleHelpers.lockHeight('100%');
+  @include styleHelpers.lockHeight(100%);
   scroll-snap-type: x mandatory;
   -webkit-scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;

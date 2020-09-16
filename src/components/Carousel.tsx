@@ -218,21 +218,28 @@ function CarouselResponsive<T>({
   const [ width, setWidth ] = React.useState(0);
   const [ div, ref ] = useHookWithRefCallback<HTMLDivElement | null>(null);
 
-  React.useEffect(() => {
-    function handleResize() {
+  const handleResize = React.useCallback(
+    () => {
       const newWidth = div?.offsetWidth ?? 0;
       if (newWidth !== width) {
         setWidth(div?.offsetWidth ?? 0);
       }
-    }
+    }, 
+    [width, div]
+  );
+
+  React.useEffect(() => {
     handleResize();
+  }, [div]);
+
+  React.useEffect(() => {
     if(process.browser && div) {
       window.addEventListener('resize', handleResize, { passive: true });
       return () => {
         window.removeEventListener('resize', handleResize);
       }
     }
-  }, [div, width]);
+  }, [div, handleResize]);
 
   return (
     <Carousel

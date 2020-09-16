@@ -2,26 +2,29 @@
 @use 'styleHelpers';
 
 .page {
-  @include styleHelpers.pageCompact();
+  @include styleHelpers.page();
   background-color: theme.color('background');
   flex: 1;
 }
 
 .authorCard {
   @include styleHelpers.flex('column');
-  align-items: center;
   @include styleHelpers.card();
   padding: theme.spacing(1);
 }
 
 .avatar {
-  @include styleHelpers.lockWidth(50%);
-  margin-bottom: theme.spacing(2);
+  @include styleHelpers.lockWidth(20%);
   border-radius: 100%;
   overflow: hidden;
+
+  @include theme.mediaQuery('md') {
+    @include styleHelpers.lockWidth(75%);
+    align-self: flex-end;
+    margin-bottom: theme.spacing(2);
+  }
 }
 
-.articleCard {
-  @include styleHelpers.card();
-  padding: 0;
+.divider {
+  margin: theme.spacing(2, 0);
 }

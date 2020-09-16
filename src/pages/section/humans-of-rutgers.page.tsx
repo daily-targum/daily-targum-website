@@ -111,8 +111,8 @@ function Category({
                   aspectRatio={1/1}
                   data={imgix(item.url, {
                     xs: imgix.presets.md('1:1'),
-                    md: imgix.presets.lg('1:1', ['pjpg', 'jpg']),
-                    xl: imgix.presets.xl('1:1', ['pjpg', 'jpg'])
+                    md: imgix.presets.lg('1:1'),
+                    xl: imgix.presets.xl('1:1')
                   })}
                 />
               )}
