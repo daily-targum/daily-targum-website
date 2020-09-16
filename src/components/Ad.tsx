@@ -6,34 +6,31 @@ import { nextUtils } from '../utils';
 interface AdBaseProps {
   style?: React.CSSProperties;
   className?: string;
-  adClient: string;
-  adSlot: string;
+  id: string;
 }
 
 const AdBase = React.memo(({
   style,
   className,
-  adClient
+  id
 }: AdBaseProps) => {
   React.useEffect(() => {
     if(window) {
       // @ts-ignore
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      googletag.cmd.push(function() { googletag.display(id); });
     }
-  }, []);
+  }, [id]);
 
   return (
     <ins
+      id={id}
       className={cn(
         className,
-        'adsbygoogle',
         {
           [styles.dev]: nextUtils.envIs(['development'])
         }
       )}
       style={style}
-      data-ad-client={adClient}
-      data-ad-slot="1207418447"
     />
   )
 }, () => true);
@@ -42,8 +39,7 @@ const presets = {
   banner: {
     wrapStyle: styles.bannerWrap,
     style: styles.banner,
-    adClient: "ca-pub-5742802668542373",
-    adSlot: "1207418447"
+    id: "div-gpt-ad-1600297989342-0"
   }
 }
 
@@ -68,8 +64,7 @@ function Ad({
       >
         <AdBase 
           className={preset.style}
-          adClient={preset.adClient}
-          adSlot={preset.adSlot}
+          id={preset.id}
         />
       </div>
     );

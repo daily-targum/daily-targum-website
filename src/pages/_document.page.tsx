@@ -32,7 +32,7 @@ export default class MyDocument extends Document<{
           <link rel="preconnect" href="https://www.google-analytics.com/"/>
           <link rel="dns-prefetch" href="https://dailytargum.imgix.net/"/>
 
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"/>
+          <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
         </Head>
 
         <body>

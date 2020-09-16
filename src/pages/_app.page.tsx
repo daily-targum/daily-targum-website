@@ -36,6 +36,21 @@ function App({
 }: CustomAppProps) {
   const seo = pageProps.seo ?? {};
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // @ts-ignore
+      window.googletag = window.googletag || { cmd: [] };
+      // @ts-ignore
+      const googletag: any = window.googletag;
+
+      googletag.cmd.push(function() {
+        googletag.defineSlot('/13580645/rdt_mobile_leaderboard_320x50', [320, 50], 'div-gpt-ad-1600297989342-0').addService( googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+      });
+    }
+  }, []);
+
   return (
     <>
       <SEO {...seo}/>
