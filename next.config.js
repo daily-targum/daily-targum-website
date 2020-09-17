@@ -114,5 +114,5 @@ module.exports = withBundleAnalyzer(withSourceMaps({
         permanent: true,
       }
     ]
-  },
+  }
 }));

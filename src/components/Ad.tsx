@@ -25,7 +25,7 @@ const AdBase = React.memo(({
 
   return (
     <>
-      <AdSlot adUnit="/13580645/isb_super-leaderboard_970x90" sizes={[ [970, 90] ]} />
+      <AdSlot adUnit="isb_rectangle_half-page_300x600" sizes={[ [970, 90] ]} />
       {/* <div
         id={id}
         className={cn(
