@@ -7,6 +7,8 @@ import '../styles.css';
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
 import getConfig from 'next/config'
+// @ts-ignore
+import { DFPSlotsProvider } from 'react-dfp';
 
 if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
   const config = getConfig()
@@ -36,36 +38,38 @@ function App({
 }: CustomAppProps) {
   const seo = pageProps.seo ?? {};
 
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // @ts-ignore
-      window.googletag = window.googletag || { cmd: [] };
-      // @ts-ignore
-      const googletag: any = window.googletag;
+  // React.useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     // @ts-ignore
+  //     window.googletag = window.googletag || { cmd: [] };
+  //     // @ts-ignore
+  //     const googletag: any = window.googletag;
 
-      googletag.cmd.push(function() {
-        googletag.defineSlot('/13580645/rdt_mobile_leaderboard_320x50', [320, 50], 'div-gpt-ad-1600297989342-0').addService( googletag.pubads());
-        googletag.pubads().enableSingleRequest();
-        googletag.enableServices();
-      });
-    }
-  }, []);
+  //     googletag.cmd.push(function() {
+  //       googletag.defineSlot('/13580645/isb_super-leaderboard_970x90', [970, 90], 'div-gpt-ad-1600300335641-0').addService(googletag.pubads());
+  //       googletag.pubads().enableSingleRequest();
+  //       googletag.enableServices();
+  //     });
+  //   }
+  // }, []);
 
   return (
     <>
       <SEO {...seo}/>
       <ReduxProvider>
         <Grid.Provider>
-          <Page>
-            <Analytics/>
+          <DFPSlotsProvider dfpNetworkId='13580645'>
+            <Page>
+              <Analytics/>
 
-            <Navbar/>
-            <Component {...pageProps} err={err}/>
-            <Footer/>
+              <Navbar/>
+              <Component {...pageProps} err={err}/>
+              <Footer/>
 
-            <PodcastPlayerBar/>
-            <Video.PersistentPlayer/>
-          </Page>
+              <PodcastPlayerBar/>
+              <Video.PersistentPlayer/>
+            </Page>
+          </DFPSlotsProvider>
         </Grid.Provider>
       </ReduxProvider>
     </>

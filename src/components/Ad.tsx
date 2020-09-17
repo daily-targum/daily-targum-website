@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './Ad.module.scss';
 import cn from 'classnames';
-import { nextUtils } from '../utils';
+// import { nextUtils } from '../utils';
+// @ts-ignore
+import { AdSlot } from 'react-dfp';
 
 interface AdBaseProps {
   style?: React.CSSProperties;
@@ -10,28 +12,31 @@ interface AdBaseProps {
 }
 
 const AdBase = React.memo(({
-  style,
-  className,
-  id
+  // style,
+  // className,
+  // id
 }: AdBaseProps) => {
-  React.useEffect(() => {
-    if(window) {
-      // @ts-ignore
-      googletag.cmd.push(function() { googletag.display(id); });
-    }
-  }, [id]);
+  // React.useEffect(() => {
+  //   if(window) {
+  //     // @ts-ignore
+  //     googletag.cmd.push(function() { googletag.display(id); });
+  //   }
+  // }, [id]);
 
   return (
-    <ins
-      id={id}
-      className={cn(
-        className,
-        {
-          [styles.dev]: nextUtils.envIs(['development'])
-        }
-      )}
-      style={style}
-    />
+    <>
+      <AdSlot adUnit="/13580645/isb_super-leaderboard_970x90" sizes={[ [970, 90] ]} />
+      {/* <div
+        id={id}
+        className={cn(
+          className,
+          {
+            [styles.dev]: nextUtils.envIs(['development'])
+          }
+        )}
+        style={style}
+      /> */}
+    </>
   )
 }, () => true);
 
@@ -39,7 +44,7 @@ const presets = {
   banner: {
     wrapStyle: styles.bannerWrap,
     style: styles.banner,
-    id: "div-gpt-ad-1600297989342-0"
+    id: "div-gpt-ad-1600300335641-0"
   }
 }
 
