@@ -2,7 +2,7 @@
 @use 'styleHelpers';
 
 .page {
-  @include styleHelpers.pageCompact();
+  @include styleHelpers.page();
   background-color: theme.color('background');
   flex: 1;
 }
@@ -12,4 +12,8 @@
   align-items: center;
   @include styleHelpers.card();
   padding: theme.spacing(1);
+}
+
+.divider {
+  margin: theme.spacing(2, 0);
 }

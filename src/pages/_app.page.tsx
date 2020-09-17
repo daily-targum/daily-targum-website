@@ -58,10 +58,7 @@ function App({
       <SEO {...seo}/>
       <ReduxProvider>
         <Grid.Provider>
-          <DFPSlotsProvider 
-            dfpNetworkId='13580645'
-            autoLoad={true}
-          >
+          <DFPSlotsProvider dfpNetworkId='13580645'>
             <Page>
               <Analytics/>
 

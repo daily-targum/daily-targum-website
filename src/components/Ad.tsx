@@ -1,52 +1,62 @@
 import React from 'react';
 import styles from './Ad.module.scss';
 import cn from 'classnames';
-// import { nextUtils } from '../utils';
+import { nextUtils } from '../utils';
 // @ts-ignore
 import { AdSlot } from 'react-dfp';
 
 interface AdBaseProps {
-  style?: React.CSSProperties;
   className?: string;
-  id: string;
+  adUnit: string;
+  sizes: [number, number][]
 }
 
 const AdBase = React.memo(({
-  // style,
-  // className,
-  // id
+  className,
+  adUnit,
+  sizes
 }: AdBaseProps) => {
-  // React.useEffect(() => {
-  //   if(window) {
-  //     // @ts-ignore
-  //     googletag.cmd.push(function() { googletag.display(id); });
-  //   }
-  // }, [id]);
-
   return (
-    <>
-      <AdSlot adUnit="isb_rectangle_half-page_300x600" sizes={[ [970, 90] ]} />
-      {/* <div
-        id={id}
-        className={cn(
-          className,
-          {
-            [styles.dev]: nextUtils.envIs(['development'])
-          }
-        )}
-        style={style}
-      /> */}
-    </>
+    <AdSlot 
+      adUnit={adUnit}
+      sizes={sizes} 
+      className={cn(
+        className,
+        {
+          [styles.dev]: nextUtils.envIs(['development'])
+        }
+      )}
+    />
   )
 }, () => true);
 
-const presets = {
+const presets: {
+  [key: string]: {
+    wrapStyle: string;
+    style: string;
+    adUnit: string;
+    sizes: [number, number][]
+  }
+} = {
   banner: {
     wrapStyle: styles.bannerWrap,
     style: styles.banner,
-    id: "div-gpt-ad-1600300335641-0"
+    adUnit: "isb_super-leaderboard_970x90",
+    sizes: [ [970, 90] ]
+  },
+  rectange: {
+    wrapStyle: '',
+    style: '',
+    adUnit: "isb_rectangle_one_300x250",
+    sizes: [ [300, 250] ]
+  },
+  skyscraper: {
+    wrapStyle: '',
+    style: '',
+    adUnit: 'isb_rectangle_half-page_300x600',
+    sizes: [ [300, 600] ]
   }
-}
+};
 
 function Ad({
   type,
@@ -69,7 +79,8 @@ function Ad({
       >
         <AdBase 
           className={preset.style}
-          id={preset.id}
+          adUnit={preset.adUnit}
+          sizes={preset.sizes}
         />
       </div>
     );

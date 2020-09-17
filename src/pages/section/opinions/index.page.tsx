@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles, CompactArticle } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { Section, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel, Link } from '../../../components';
+import { Section, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel, Link, Ad } from '../../../components';
 import { imgix } from '../../../utils';
 import { GetStaticProps } from 'next';
 import styles from './index.module.scss';
@@ -103,13 +103,19 @@ function Category({
 
       <Divider className={styles.divider}/>
 
-      {initSection.items.map(column => (
-        <Column
+      {initSection.items.map((column, i) => (
+        <React.Fragment
           key={column.name}
-          subcategory={column.name}
-          title={hyphenatedToCapitalized(column.name)}
-          articles={column.articles}
-        />
+        >
+          <Column
+            subcategory={column.name}
+            title={hyphenatedToCapitalized(column.name)}
+            articles={column.articles}
+          />
+          {((i + 1) % 2 === 0) && ((i + 1) !== initSection.items.length) ? (
+            <Ad type='banner'/>
+          ) : null}
+        </React.Fragment>
       ))}
     </Section>
   );

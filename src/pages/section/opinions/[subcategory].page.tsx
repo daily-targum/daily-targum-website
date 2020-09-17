@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps } from '../../../components';
+import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Divider, Ad } from '../../../components';
 import { actions, GetArticlesBySubcategory } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
 import { processNextQueryStringParam, imgix } from '../../../utils';
@@ -34,14 +34,14 @@ function Author({
 
   return (
     <Section className={styles.page}>
-      <Grid.Row 
-        spacing={theme.spacing(2)}
+      <Grid.Row
+        spacing={theme.spacing(30)}
+        cols={[ '1fr', '300px' ]}
       >
-        <Grid.Col xs={24} md={6} lg={5}>
-          <Text variant='h3'>Opinions / {hyphenatedToCapitalized(subcategory)}</Text>
-        </Grid.Col>
+        <Grid.Col xs={2} md={1}>
+          <Text variant='h1'>Opinions / {hyphenatedToCapitalized(subcategory)}</Text>
+          <Divider className={styles.divider}/>
 
-        <Grid.Col xs={24} md={18} lg={14}>
           <FlatList
             data={articles}
             keyExtractor={article => article.id}
@@ -64,6 +64,11 @@ function Author({
           <ActivityIndicator.ProgressiveLoader
             onVisible={loadMore}
           />
+        </Grid.Col>
+
+        <Grid.Col xs={0} md={1}>
+          <Ad type='rectange' style={{ marginBottom: '1rem' }} />
+          <Ad type='skyscraper' />
         </Grid.Col>
 
       </Grid.Row>

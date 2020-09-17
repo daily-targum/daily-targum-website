@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetHomepage, CompactArticle } from '../shared/src/client';
-import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps,
+import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps, Ad
   // Text, Image, Link 
 } from '../components';
 import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../shared/src/utils';
@@ -103,7 +103,7 @@ function Home({
       <main>
         <NewsSlider articles={homepage.high}/>
         <Section className={styles.mainSection}>
-          {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category) => (
+          {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category, i) => (
             <React.Fragment
               key={category}
             >
@@ -112,6 +112,9 @@ function Home({
                 id={camelCaseToHyphenated(category)}
                 title={camelCaseToCapitalized(category)}
               />
+              {i === 1 ? (
+                <Ad type='banner' />
+              ) : null}
             </React.Fragment>
           ))}
         </Section>

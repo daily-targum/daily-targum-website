@@ -1,7 +1,7 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator, HTML } from '../../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator, HTML, Ad } from '../../../../components';
 
 import NotFound from '../../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../../utils';
@@ -31,11 +31,11 @@ function Article({
       <Section className={styles.page}>
         <Grid.Row 
           spacing={theme.spacing(4)}
-          cols={12}
+          cols={[ '1fr', '300px' ]}
         >
           <Grid.Col xs={0} md={0}/>
 
-          <Grid.Col xs={12}>
+          <Grid.Col xs={2} md={1}>
             <main>
               <article>
                 <Text variant='h1' htmlTag='h1'>{article.title}</Text>
@@ -64,10 +64,9 @@ function Article({
             </main>
           </Grid.Col>
 
-          <Grid.Col xs={0} md={2}>
-            {/* <div style={{backgroundColor: '#eee', flex: 1, display: 'flex', height: '100%'}}>
-              <span>Ad placeholder</span>
-            </div> */}
+          <Grid.Col xs={0} md={1}>
+            <Ad type='rectange' style={{ marginBottom: '1rem' }} />
+            <Ad type='skyscraper' />
           </Grid.Col>
 
           {/* <Grid.Col xs={12}>

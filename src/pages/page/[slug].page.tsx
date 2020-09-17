@@ -1,11 +1,12 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, ActivityIndicator, HTML, SEOProps } from '../../components';
+import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { processNextQueryStringParam } from '../../utils';
 import { useRouter } from 'next/router';
 import styles from './page.module.scss';
+import { theme } from '../../constants';
 
 function Page({
   page 
@@ -20,9 +21,22 @@ function Page({
 
   return page?.content ? (
     <Section className={styles.page}>
-      <main>
-        <HTML html={page.content}/>
-      </main>
+      <Grid.Row
+        spacing={theme.spacing(4)}
+        cols={[ '1fr', '300px' ]}
+      >
+        <Grid.Col xs={2} md={1}>
+          <main>
+            <HTML html={page.content}/>
+          </main>
+        </Grid.Col>
+        
+        <Grid.Col xs={0} md={1}>
+          <Ad type='rectange' style={{ marginBottom: '1rem' }} />
+          <Ad type='skyscraper' />
+        </Grid.Col>
+
+      </Grid.Row>
     </Section>
   ) : (
     <NotFound/>
