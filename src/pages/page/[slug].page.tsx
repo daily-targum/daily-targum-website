@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad } from '../../components';
+import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { processNextQueryStringParam } from '../../utils';
@@ -20,7 +20,7 @@ function Page({
   }
 
   return page?.content ? (
-    <Section className={styles.page}>
+    <Section.StickyContainer className={styles.page}>
       <Grid.Row
         spacing={theme.spacing(4)}
         cols={[ '1fr', '300px' ]}
@@ -32,12 +32,14 @@ function Page({
         </Grid.Col>
         
         <Grid.Col xs={0} md={1}>
-          <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-          <Ad type='skyscraper' />
+          <Sticky>
+            <Ad type='rectange' style={{ marginBottom: '1rem' }} />
+            <Ad type='skyscraper' />
+          </Sticky>
         </Grid.Col>
 
       </Grid.Row>
-    </Section>
+    </Section.StickyContainer>
   ) : (
     <NotFound/>
   );

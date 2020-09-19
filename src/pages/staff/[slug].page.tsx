@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList, Ad } from '../../components';
+import { Section, Text, Grid, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList, Ad, Sticky } from '../../components';
 import { actions, GetAuthorPage } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, imgix } from '../../utils';
@@ -25,7 +25,7 @@ function Author({
   }
 
   return (
-    <Section className={styles.page}>
+    <Section.StickyContainer className={styles.page}>
       <Grid.Row
         spacing={theme.spacing(30)}
         cols={[ '1fr', '300px' ]}
@@ -85,12 +85,14 @@ function Author({
         </Grid.Col>
 
         <Grid.Col xs={0} md={1}>
-          <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-          <Ad type='skyscraper' />
+          <Sticky>
+            <Ad type='rectange' style={{ marginBottom: '1rem' }} />
+            <Ad type='skyscraper' />
+          </Sticky>
         </Grid.Col>
 
       </Grid.Row>
-    </Section>
+    </Section.StickyContainer>
   );
 }
 

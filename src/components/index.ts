@@ -29,6 +29,7 @@ export * from './Image';
 export * from './TagBar';
 export * from './Link';
 export * from './Modal';
+export * from './Sticky';
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,

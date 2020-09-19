@@ -1,5 +1,5 @@
 @use 'styleHelpers';
 
 .page {
-  @include styleHelpers.pageCompact();
+  @include styleHelpers.page();
 }

@@ -180,9 +180,7 @@ function DesktopNavbar() {
             >
               <div className={styles.inner}>
                 <Link href='/'>
-                  <a>
-                    <Logo className={styles.logo}/>
-                  </a>
+                  <Logo className={styles.logo}/>
                 </Link>
                 
                 <div className={styles.links}>
