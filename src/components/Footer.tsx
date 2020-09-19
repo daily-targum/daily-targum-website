@@ -14,7 +14,11 @@ const links = {
     },
     {
       title: 'Donate',
-      href: '/page/donate'
+      href: 'https://www.paypal.com/us/fundraiser/charity/1499274'
+    },
+    {
+      title: 'Contact',
+      href: '/page/contact'
     },
     {
       title: 'Advertise',
