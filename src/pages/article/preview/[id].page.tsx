@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../../shared/src/client';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, HTML } from '../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, HTML, Sticky, Ad } from '../../../components';
 import NotFound from '../../404.page';
 import { processNextQueryStringParam } from '../../../utils';
 import styles from './[id].module.scss';
@@ -37,15 +37,13 @@ function Article({
   
   return (
     <>
-      <Section className={styles.page}>
+      <Section.StickyContainer className={styles.page}>
         <Grid.Row 
           spacing={theme.spacing(4)}
-          cols={12}
+          cols={[ '1fr', '300px' ]}
         >
-          
-          <Grid.Col xs={24} md={0}/>
 
-          <Grid.Col xs={12} md={10}>
+          <Grid.Col xs={2} md={1}>
             <Text variant='h2'>{dynamicArticle.title}</Text>
             <Byline.Authors 
               authors={dynamicArticle.authors}
@@ -57,28 +55,18 @@ function Article({
               src={dynamicArticle.media[0]?.url ?? ''}
             />
             <Br/>
-            <HTML html={dynamicArticle.body}/>
+            <HTML html={dynamicArticle.body} ads/>
           </Grid.Col>
 
-          <Grid.Col xs={0} md={2}>
-            <div style={{backgroundColor: '#eee', flex: 1, display: 'flex', height: '100%'}}>
-              <span>Ad</span>
-            </div>
+          <Grid.Col xs={0} md={1}>
+            <Sticky>
+              <Ad type='rectange' style={{ marginBottom: '1rem' }} />
+              <Ad type='skyscraper' />
+            </Sticky>
           </Grid.Col>
 
         </Grid.Row>
-      </Section>
-
-      {/* <Divider/>
-      <Section style={styles.page}>
-        <Grid.Row spacing={theme.spacing(4)}>
-          <Grid.Col xs={24} md={0}></Grid.Col>
-          <Grid.Col>
-            <Text variant='h2'>Comments</Text>
-          </Grid.Col>
-          <Grid.Col xs={24}></Grid.Col>
-        </Grid.Row>
-      </Section> */}
+      </Section.StickyContainer>
 
       <Divider/>
       <Newsletter.Section/>

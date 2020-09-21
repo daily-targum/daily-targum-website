@@ -37,8 +37,6 @@ function Article({
           spacing={theme.spacing(4)}
           cols={[ '1fr', '300px' ]}
         >
-          <Grid.Col xs={0} md={0}/>
-
           <Grid.Col xs={2} md={1}>
             <main>
               <article>
