@@ -220,6 +220,7 @@ function CardStacked({
             variant='h4' 
             htmlTag='h1' 
             numberOfLines={2}
+            lockNumberOfLines={true}
           >
             {title}
           </Text.Truncate>
@@ -301,6 +302,7 @@ export function CardStackedResponsive({
             variant='h4' 
             htmlTag='h1' 
             numberOfLines={2}
+            lockNumberOfLines={true}
           >
             {title}
           </Text.Truncate>
