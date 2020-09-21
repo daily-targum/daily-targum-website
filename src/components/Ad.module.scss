@@ -6,12 +6,6 @@
   justify-content: center;
 }
 
-.banner {
-  @include styleHelpers.lockHeight(90px);
-  width: 970px;
-  max-width: 100%;
-}
-
 .dev {
   background-color: #eee;
 }

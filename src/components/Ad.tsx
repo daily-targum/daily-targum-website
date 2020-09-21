@@ -5,21 +5,26 @@ import { nextUtils } from '../utils';
 // @ts-ignore
 import { AdSlot } from 'react-dfp';
 
+type SizeMapping = { viewport: [number, number], sizes: [number, number][] }[];
+
 interface AdBaseProps {
   className?: string;
   adUnit: string;
-  sizes: [number, number][]
+  sizes: [number, number][];
+  sizeMapping?: SizeMapping
 }
 
 const AdBase = React.memo(({
   className,
   adUnit,
-  sizes
+  sizes,
+  sizeMapping
 }: AdBaseProps) => {
   return (
     <AdSlot 
       adUnit={adUnit}
       sizes={sizes} 
+      sizeMapping={sizeMapping}
       className={cn(
         className,
         {
@@ -35,14 +40,19 @@ const presets: {
     wrapStyle: string;
     style: string;
     adUnit: string;
-    sizes: [number, number][]
+    sizes: [number, number][],
+    sizeMapping?: SizeMapping
   }
 } = {
   banner: {
     wrapStyle: styles.bannerWrap,
-    style: styles.banner,
+    style: '',
     adUnit: "isb_super-leaderboard_970x90",
-    sizes: [ [970, 90] ]
+    sizes: [ [300, 75], [970, 90] ],
+    sizeMapping: [
+      { viewport: [900, 768], sizes: [[300, 75]] },
+      { viewport: [1024, 768], sizes: [[970, 90]] }
+    ]
   },
   rectange: {
     wrapStyle: '',
@@ -81,6 +91,7 @@ function Ad({
           className={preset.style}
           adUnit={preset.adUnit}
           sizes={preset.sizes}
+          sizeMapping={preset.sizeMapping}
         />
       </div>
     );
