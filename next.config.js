@@ -112,6 +112,11 @@ module.exports = withBundleAnalyzer(withSourceMaps({
         source: '/multimedia/photo',
         destination: '/photos',
         permanent: true,
+      },
+      {
+        source: '/page/staff',
+        destination: '/page/contact',
+        permanent: true,
       }
     ]
   }
