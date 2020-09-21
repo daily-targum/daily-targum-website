@@ -25,6 +25,9 @@ function Article({
   if (!article) {
     return <NotFound/>;
   }
+
+  const photoCredit = article.media[0]?.credits;
+  const photoDescription = article.media[0]?.description ?? '';
   
   return (
     <>
@@ -53,7 +56,16 @@ function Article({
                   })}
                   altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
                 />
-                <Text className={styles.photoCredit}>Photo by {article.media[0]?.credits}</Text>
+                {photoCredit ? (
+                  <Text className={styles.photoCredit}>
+                    Photo by {photoCredit}
+                  </Text>
+                ) : null}
+                {photoDescription ? (
+                  <Text className={styles.photoCredit}>
+                    {photoDescription}
+                  </Text>
+                ) : null}
                 <Divider/>
 
                 <Br/>

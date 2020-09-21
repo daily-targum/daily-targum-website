@@ -80,7 +80,10 @@
 }
 
 .stackedCardBody {
-  @extend .cardBodyBase;
+  @include styleHelpers.flex('column');
+  @include styleHelpers.cardBody();
+  align-items: flex-start;
+  overflow: hidden;
 }
 
 

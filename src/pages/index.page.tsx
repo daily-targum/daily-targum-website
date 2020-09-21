@@ -117,6 +117,8 @@ function Home({
               ) : null}
             </React.Fragment>
           ))}
+
+          <Ad type='banner'/>
         </Section>
       </main>
 
