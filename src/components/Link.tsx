@@ -29,12 +29,14 @@ export function Link({
   href,
   children,
   style,
-  className
+  className,
+  tabIndex
 }: {
   href: string
   children: React.ReactNode
   style?: React.CSSProperties
   className?: string
+  tabIndex?: number
 }) {
   let linkAs: string | undefined = undefined;
   const hrefHost = href.match(/(https{0,1}:\/\/|^)([^/]+)/)?.[2];
@@ -69,6 +71,7 @@ export function Link({
       <a
         style={style}
         className={className}
+        tabIndex={tabIndex}
       >
         {children}
       </a>
@@ -80,6 +83,7 @@ export function Link({
       target='_blank'
       style={style}
       className={className}
+      tabIndex={tabIndex}
     >
       {children}
     </a>

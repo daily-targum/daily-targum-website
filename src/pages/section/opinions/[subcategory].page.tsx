@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Divider, Ad, Sticky } from '../../../components';
+import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Divider, Ad, Sticky, SkipNav } from '../../../components';
 import { actions, GetArticlesBySubcategory } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
 import { processNextQueryStringParam, imgix } from '../../../utils';
@@ -39,28 +39,33 @@ function Author({
         cols={[ '1fr', '300px' ]}
       >
         <Grid.Col xs={2} md={1}>
-          <Text variant='h1'>Opinions / {hyphenatedToCapitalized(subcategory)}</Text>
-          <Divider className={styles.divider}/>
-
-          <FlatList
-            data={articles}
-            keyExtractor={article => article.id}
-            renderItem={article => (
-              <Card.Compact
-                className={styles.articleCard}
-                title={article.title}
-                imageData={imgix(article.media[0]?.url ?? '', {
-                  xs: imgix.presets.md('1:1')
-                })}
-                href='/article/[year]/[month]/[slug]'
-                as={'/'+article.slug}
-                aspectRatio={3 / 2}
-                date={formatDateAbriviated(article.publishDate)}
-                altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
-              />
-            )}
-            ItemSeparatorComponent={<Card.Spacer/>}
-          />
+          <main>
+            <SkipNav.Content/>
+            
+            <Text variant='h1'>Opinions / {hyphenatedToCapitalized(subcategory)}</Text>
+            <Divider className={styles.divider}/>
+          
+            <FlatList
+              data={articles}
+              keyExtractor={article => article.id}
+              renderItem={article => (
+                <Card.Compact
+                  className={styles.articleCard}
+                  title={article.title}
+                  imageData={imgix(article.media[0]?.url ?? '', {
+                    xs: imgix.presets.md('1:1')
+                  })}
+                  href='/article/[year]/[month]/[slug]'
+                  as={'/'+article.slug}
+                  aspectRatio={3 / 2}
+                  date={formatDateAbriviated(article.publishDate)}
+                  altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
+                />
+              )}
+              ItemSeparatorComponent={<Card.Spacer/>}
+            />
+          </main>
+          
           <ActivityIndicator.ProgressiveLoader
             onVisible={loadMore}
           />

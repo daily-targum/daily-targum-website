@@ -32,6 +32,7 @@ function Slide({
           [styles.hide]: hide
         }
       )}
+      tabIndex={hide ? -1 : undefined}
     >
       <AspectRatioImage
         data={load ? imgix(article.media[0]?.url ?? '', {
@@ -148,7 +149,7 @@ export function NewsSlider({
       
       <div className={styles.dots}>
         {articles.map((a, i) => (
-          <div
+          <button
             key={a.id}
             className={cn(
               styles.dot,

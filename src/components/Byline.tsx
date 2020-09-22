@@ -35,6 +35,7 @@ function Authors({
             className={styles.avatar}
             // FIX THIS: does aria-label work as expected
             aria-label={`More articles by ${author.displayName}`}
+            tabIndex={-1}
           >
             <AspectRatioImage
               aspectRatio={1}

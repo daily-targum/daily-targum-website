@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text } from '../../components';
+import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text, SkipNav } from '../../components';
 import { imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
@@ -39,76 +39,80 @@ function Category({
     <Section className={styles.page}>
       <Banner text='Sports'/>
 
-      <Grid.Row 
-        spacing={theme.spacing(2)}
-        cols={['2fr', '1fr', '1fr']}
-      >
-        <CardCols 
-          items={chopArray(firstFiveArticles, [1, 2, 2])}
-        >
-          {(article, i) => {
-            if (!article) {
-              return null;
-            }
+      <main>
+        <SkipNav.Content/>
 
-            return i === 0 ? (
-              article[0] ? (
-                <Card.ImageResponsive 
-                  id={article[0].id}
-                  title={article[0].title}
-                  imageData={imgix(article[0].media[0]?.url ?? '', {
-                    xs: imgix.presets.sm('1:1'),
-                    md: imgix.presets.md('4:3')
-                  })}
-                  href='/article/[year]/[month]/[slug]'
-                  as={'/'+article[0].slug}
-                  date={formatDateAbriviated(article[0].publishDate)}
-                  author={article[0].authors.map(a => a.displayName).join(', ')}
-                  altText={article[0].media[0]?.altText ?? article[0].media[0]?.description ?? undefined}
-                />
-              ) : null
-            ) : (
-              <>
-                {article[0] ? (
-                    <Card.ImageResponsive
+        <Grid.Row 
+          spacing={theme.spacing(2)}
+          cols={['2fr', '1fr', '1fr']}
+        >
+          <CardCols 
+            items={chopArray(firstFiveArticles, [1, 2, 2])}
+          >
+            {(article, i) => {
+              if (!article) {
+                return null;
+              }
+
+              return i === 0 ? (
+                article[0] ? (
+                  <Card.ImageResponsive 
                     id={article[0].id}
                     title={article[0].title}
                     imageData={imgix(article[0].media[0]?.url ?? '', {
                       xs: imgix.presets.sm('1:1'),
-                      md: imgix.presets.md('3:2')
+                      md: imgix.presets.md('4:3')
                     })}
                     href='/article/[year]/[month]/[slug]'
                     as={'/'+article[0].slug}
-                    aspectRatioDesktop={3 / 2}
                     date={formatDateAbriviated(article[0].publishDate)}
                     author={article[0].authors.map(a => a.displayName).join(', ')}
                     altText={article[0].media[0]?.altText ?? article[0].media[0]?.description ?? undefined}
                   />
-                ) : null}
+                ) : null
+              ) : (
+                <>
+                  {article[0] ? (
+                      <Card.ImageResponsive
+                      id={article[0].id}
+                      title={article[0].title}
+                      imageData={imgix(article[0].media[0]?.url ?? '', {
+                        xs: imgix.presets.sm('1:1'),
+                        md: imgix.presets.md('3:2')
+                      })}
+                      href='/article/[year]/[month]/[slug]'
+                      as={'/'+article[0].slug}
+                      aspectRatioDesktop={3 / 2}
+                      date={formatDateAbriviated(article[0].publishDate)}
+                      author={article[0].authors.map(a => a.displayName).join(', ')}
+                      altText={article[0].media[0]?.altText ?? article[0].media[0]?.description ?? undefined}
+                    />
+                  ) : null}
 
-                <Card.Spacer/>
+                  <Card.Spacer/>
 
-                {article[1] ? (
-                  <Card.ImageResponsive
-                    id={article[1].id}
-                    title={article[1].title}
-                    imageData={imgix(article[1].media[0]?.url ?? '', {
-                      xs: imgix.presets.sm('1:1'),
-                      md: imgix.presets.md('3:2')
-                    })}
-                    href='/article/[year]/[month]/[slug]'
-                    as={'/'+article[1].slug}
-                    aspectRatioDesktop={3 / 2}
-                    date={formatDateAbriviated(article[1].publishDate)}
-                    author={article[1].authors.map(a => a.displayName).join(', ')}
-                    altText={article[1].media[0]?.altText ?? article[1].media[0]?.description ?? undefined}
-                  />
-                ) : null}
-              </>
-            );
-          }}
-        </CardCols>
-      </Grid.Row>
+                  {article[1] ? (
+                    <Card.ImageResponsive
+                      id={article[1].id}
+                      title={article[1].title}
+                      imageData={imgix(article[1].media[0]?.url ?? '', {
+                        xs: imgix.presets.sm('1:1'),
+                        md: imgix.presets.md('3:2')
+                      })}
+                      href='/article/[year]/[month]/[slug]'
+                      as={'/'+article[1].slug}
+                      aspectRatioDesktop={3 / 2}
+                      date={formatDateAbriviated(article[1].publishDate)}
+                      author={article[1].authors.map(a => a.displayName).join(', ')}
+                      altText={article[1].media[0]?.altText ?? article[1].media[0]?.description ?? undefined}
+                    />
+                  ) : null}
+                </>
+              );
+            }}
+          </CardCols>
+        </Grid.Row>
+      </main>
       
       <Card.Spacer/>
       <Card.Spacer/>

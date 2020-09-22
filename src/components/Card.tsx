@@ -34,16 +34,19 @@ function Clickable({
       </a>
     </Link>
   ) : (
-    <div
+    <button
       style={{
         ...style,
         cursor: 'pointer'
       }}
-      className={className}
+      className={cn(
+        className,
+        styles.clickableButton
+      )}
       onClick={onClick}
     >
       {children}
-    </div>
+    </button>
   );
 }
 

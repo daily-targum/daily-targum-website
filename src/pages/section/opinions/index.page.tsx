@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles, CompactArticle } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { Section, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel, Link, Ad } from '../../../components';
+import { Section, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel, Link, Ad, SkipNav } from '../../../components';
 import { imgix } from '../../../utils';
 import { GetStaticProps } from 'next';
 import styles from './index.module.scss';
@@ -57,66 +57,71 @@ function Category({
     <Section className={styles.page}>
       <Banner text='Opinions'/>
 
-      <Grid.Row spacing={theme.spacing(2)}>
-        <CardCols items={featured}>
-          {article => article ? (
-            <Card.ImageResponsive
-              id={article.id}
-              tag={hyphenatedToCapitalized(article.subcategory)}
-              title={article.title}
-              imageData={imgix(article.media[0]?.url ?? '', {
-                xs: imgix.presets.sm('1:1'),
-                md: imgix.presets.md('16:9')
-              })}
-              href='/article/[year]/[month]/[slug]'
-              as={'/'+article.slug}
-              aspectRatioDesktop={16 / 9}
-              date={formatDateAbriviated(article.publishDate)}
-              author={article.authors.map(a => a.displayName).join(', ')}
-              altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
-            />
-          ) : null}
-        </CardCols>
-      </Grid.Row>
+      <main>
+        <SkipNav.Content/>
+      
+        <Grid.Row spacing={theme.spacing(2)}>
+          <CardCols items={featured}>
+            {article => article ? (
+              <Card.ImageResponsive
+                id={article.id}
+                tag={hyphenatedToCapitalized(article.subcategory)}
+                title={article.title}
+                imageData={imgix(article.media[0]?.url ?? '', {
+                  xs: imgix.presets.sm('1:1'),
+                  md: imgix.presets.md('16:9')
+                })}
+                href='/article/[year]/[month]/[slug]'
+                as={'/'+article.slug}
+                aspectRatioDesktop={16 / 9}
+                date={formatDateAbriviated(article.publishDate)}
+                author={article.authors.map(a => a.displayName).join(', ')}
+                altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
+              />
+            ) : null}
+          </CardCols>
+        </Grid.Row>
 
-      <Divider className={styles.divider}/>
-      <Text variant='h2'>Our Columnists</Text>
-      <Carousel
-        data={initSection.columnists}
-        renderItem={(author) => author.headshot ? (
-          <Link
-            href={`/staff/${author.slug}`}
-            className={styles.columnist}
+        <Divider className={styles.divider}/>
+        <Text variant='h2'>Our Columnists</Text>
+        <Carousel
+          data={initSection.columnists}
+          renderItem={(author) => author.headshot ? (
+            <Link
+              href={`/staff/${author.slug}`}
+              className={styles.columnist}
+            >
+              <AspectRatioImage
+                aspectRatio={1}
+                className={styles.columnistPicture}
+                data={imgix(author.headshot, {
+                  xs: imgix.presets.xs('1:1')
+                })}
+              />
+              <Text className={styles.columnistTitle}>{author.displayName}</Text>
+            </Link>
+          ) : null}
+          keyExtractor={author => author.id}
+        />
+
+        <Divider className={styles.divider}/>
+
+        {initSection.items.map((column, i) => (
+          <React.Fragment
+            key={column.name}
           >
-            <AspectRatioImage
-              aspectRatio={1}
-              className={styles.columnistPicture}
-              data={imgix(author.headshot, {
-                xs: imgix.presets.xs('1:1')
-              })}
+            <Column
+              subcategory={column.name}
+              title={hyphenatedToCapitalized(column.name)}
+              articles={column.articles}
             />
-            <Text className={styles.columnistTitle}>{author.displayName}</Text>
-          </Link>
-        ) : null}
-        keyExtractor={author => author.id}
-      />
-
-      <Divider className={styles.divider}/>
-
-      {initSection.items.map((column, i) => (
-        <React.Fragment
-          key={column.name}
-        >
-          <Column
-            subcategory={column.name}
-            title={hyphenatedToCapitalized(column.name)}
-            articles={column.articles}
-          />
-          {((i + 1) % 2 === 0) && ((i + 1) !== initSection.items.length) ? (
-            <Ad type='banner'/>
-          ) : null}
-        </React.Fragment>
-      ))}
+            {((i + 1) % 2 === 0) && ((i + 1) !== initSection.items.length) ? (
+              <Ad type='banner'/>
+            ) : null}
+          </React.Fragment>
+        ))}
+        
+      </main>
     </Section>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky } from '../../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, SkipNav } from '../../../../components';
 
 import NotFound from '../../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../../utils';
@@ -40,6 +40,7 @@ function Article({
           <Grid.Col xs={2} md={1}>
             <main>
               <article>
+                <SkipNav.Content/>
                 <Text variant='h1' htmlTag='h1'>{article.title}</Text>
                 <Byline.Authors 
                   authors={article.authors}

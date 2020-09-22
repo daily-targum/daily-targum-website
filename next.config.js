@@ -31,7 +31,10 @@ module.exports = withBundleAnalyzer(withSourceMaps({
     rootDir: __dirname,
   },
   sassOptions: {
-    includePaths: [path.join(__dirname, 'src', 'styles')],
+    includePaths: [
+      path.join(__dirname, 'src', 'styles'),
+      path.join(__dirname, 'node_modules')
+    ],
   },
   webpack: (config, options) => {
     config.plugins.push(new options.webpack.IgnorePlugin(/\/__tests__\//));

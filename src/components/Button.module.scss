@@ -13,4 +13,5 @@
 .textButton {
   color: theme.color("accent_main");
   cursor: pointer;
+  @include styleHelpers.hideButton();
 }

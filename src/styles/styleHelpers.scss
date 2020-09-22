@@ -17,6 +17,14 @@
   color: theme.color('text');
 }
 
+@mixin hideButton {
+  background: transparent;
+  border: none;
+  text-align: unset;
+  padding: 0;
+  font-size: 1rem;
+}
+
 @mixin aspectRatioFullHeight($aspectRatio) {
   height: 100%;
   padding-top: 100% / $aspectRatio;

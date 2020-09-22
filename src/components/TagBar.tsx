@@ -1,5 +1,4 @@
 import React from 'react';
-import Text from './Text';
 import styles from './TagBar.module.scss';
 import cn from 'classnames';
 
@@ -19,7 +18,7 @@ export function TagBar({
       className={styles.tagBar}
       style={style}
     >
-      <Text 
+      <button 
         className={cn(
           styles.tag,
           {
@@ -29,10 +28,10 @@ export function TagBar({
         onClick={() => onChange(null)}
       > 
         all
-      </Text>
+      </button>
 
       {tags.map(tag => (
-        <Text 
+        <button 
           className={cn(
             styles.tag,
             {
@@ -45,7 +44,7 @@ export function TagBar({
           }}
         >
           {tag.replace(/s-/g, "'s ")}
-        </Text>
+        </button>
       ))}
     </div>
   );

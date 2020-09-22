@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky } from '../../components';
+import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, SkipNav } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { processNextQueryStringParam } from '../../utils';
@@ -27,6 +27,7 @@ function Page({
       >
         <Grid.Col xs={2} md={1}>
           <main>
+            <SkipNav.Content/>
             <HTML html={page.content}/>
           </main>
         </Grid.Col>

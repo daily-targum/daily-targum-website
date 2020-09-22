@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetHomepage, CompactArticle } from '../shared/src/client';
-import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps, Ad
+import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps, Ad, SkipNav
   // Text, Image, Link 
 } from '../components';
 import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../shared/src/utils';
@@ -101,6 +101,7 @@ function Home({
     <div className={styles.page}>
 
       <main>
+        <SkipNav.Content/>
         <NewsSlider articles={homepage.high}/>
         <Section className={styles.mainSection}>
           {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category, i) => (

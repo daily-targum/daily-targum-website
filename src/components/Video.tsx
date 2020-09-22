@@ -133,16 +133,21 @@ function Player({
       ) : null}
 
       {playState !== 'play' ? (
-        <div 
+        <button 
           className={styles.videoOverlay}
           onClick={() => {
-            if (ref.current) {
-              ref.current.play();
+            const refClone = ref.current;
+            if (refClone) {
+              refClone.play();
+              
+              setTimeout(() => {
+                refClone.focus();
+              }, 100);
             }
           }}
         >
           <IoMdPlay size={80} color='#fff'/>
-        </div>
+        </button>
       ) : null}
     </div>
   );

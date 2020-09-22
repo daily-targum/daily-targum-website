@@ -1,6 +1,9 @@
 @use 'theme';
 @use 'styleHelpers';
 
+.clickableButton {
+  @include styleHelpers.hideButton();
+}
 
 // Card Base
 .cardBase {

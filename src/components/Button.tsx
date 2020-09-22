@@ -39,7 +39,7 @@ export function ButtonText({
   style?: React.CSSProperties
 }) {
   return (
-    <span 
+    <button 
       onClick={onClick}
       className={styles.textButton}
       style={{
@@ -47,7 +47,7 @@ export function ButtonText({
       }}
     >
       {children}
-    </span>
+    </button>
   );
 }
 

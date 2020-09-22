@@ -32,6 +32,8 @@
   border-color: #fff;
   border-style: solid;
   cursor: pointer;
+  background: transparent;
+  padding: 0;
 }
 
 .dotActive {
@@ -44,6 +46,14 @@
   @include styleHelpers.flex('column');
   justify-content: flex-end;
   transition: opacity theme.timing(10);
+
+  &:focus img {
+    outline-offset: -5px;
+    outline-color: theme.color('accent_main');
+    outline-color: -webkit-focus-ring-color;
+    outline-width: 2px;
+    outline-style: solid;
+  }
 }
 
 .slideImage {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Video, Section, CardCols, Card, Grid, Divider, Text, Navbar, SEOProps } from '../../components';
+import { Video, Section, CardCols, Card, Grid, Divider, Text, Navbar, SEOProps, SkipNav } from '../../components';
 import { useSelector, useDispatch } from '../../store';
 import { videoActions } from '../../store/ducks/video';
 import { podcastActions } from '../../store/ducks/podcast';
@@ -22,7 +22,7 @@ function Overlay({
   selected: boolean
 }) {
   return (
-    <div className={styles.overlay}>
+    <div className={cn(styles.overlay, styles.showOnHover, 'showOnFocus')}>
       {(selected && playState !== 'stop') ? (
         playState === 'play' ? (
           <IoMdPause size={80} color='#fff'/>
@@ -30,12 +30,7 @@ function Overlay({
           <IoMdPlay size={80} color='#fff'/>
         )
       ) : (
-        <div 
-          className={cn(
-            styles.overlay, 
-            styles.showOnHover
-          )}
-        >
+        <div className={styles.overlay}>
           <IoMdPlay size={80} color='#fff'/>
         </div>
       )}
@@ -99,6 +94,7 @@ function Videos({
       <div className={styles.page}>
 
         <main>
+          <SkipNav.Content/>
           <Section>
             <Video.Player slave={persist}/>
 
@@ -124,6 +120,7 @@ function Videos({
                 <CardCols items={playlist.media}>
                   {video => video ? (
                     <Card.Stacked
+                      className={styles.videoCard}
                       imageData={imgix(video.thumbnail, {
                         xs: imgix.presets.md('16:9')
                       })}

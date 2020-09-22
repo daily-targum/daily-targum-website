@@ -1,0 +1,23 @@
+@use 'theme';
+
+.link {
+  &[data-reach-skip-link]:focus {
+    background-color: theme.color('surface');
+    border-radius: theme.roundness();
+    z-index: 8000;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    border: 1px solid theme.color('accent_main');
+  }
+}
+
+.content {
+  &::before {
+    content: '';
+    display: block;
+    // NAVBAR
+    // height should match navbar height
+    height: 120px;
+    margin-top: -120px;
+    visibility: hidden;
+  }
+}

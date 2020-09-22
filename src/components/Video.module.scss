@@ -36,6 +36,7 @@
 
 .description {
   @include styleHelpers.flex('column');
+  align-items: flex-start;
   padding: theme.spacing(4, 0);
 }
 
@@ -54,9 +55,11 @@
   justify-content: center;
   opacity: 0;
   transition: opacity theme.timing(0.5);
-  cursor: pointer;
+  width: 100%;
+  @include styleHelpers.hideButton();
   
-  &:hover {
+  &:hover,
+  &:focus {
     opacity: 1;
   }
 }

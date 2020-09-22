@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../../shared/src/client';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, HTML, Sticky, Ad } from '../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, HTML, Sticky, Ad, SkipNav } from '../../../components';
 import NotFound from '../../404.page';
 import { processNextQueryStringParam } from '../../../utils';
 import styles from './[id].module.scss';
@@ -44,18 +44,23 @@ function Article({
         >
 
           <Grid.Col xs={2} md={1}>
-            <Text variant='h2'>{dynamicArticle.title}</Text>
-            <Byline.Authors 
-              authors={dynamicArticle.authors}
-              updatedAt={dynamicArticle.updatedAt} 
-              publishDate={dynamicArticle.publishDate}
-            />
-            <AspectRatioImage
-              aspectRatio={16/9}
-              src={dynamicArticle.media[0]?.url ?? ''}
-            />
-            <Br/>
-            <HTML html={dynamicArticle.body} ads/>
+            <main>
+              <article>
+                <SkipNav.Content/>
+                <Text variant='h2'>{dynamicArticle.title}</Text>
+                <Byline.Authors 
+                  authors={dynamicArticle.authors}
+                  updatedAt={dynamicArticle.updatedAt} 
+                  publishDate={dynamicArticle.publishDate}
+                />
+                <AspectRatioImage
+                  aspectRatio={16/9}
+                  src={dynamicArticle.media[0]?.url ?? ''}
+                />
+                <Br/>
+                <HTML html={dynamicArticle.body} ads/>
+              </article>
+            </main>
           </Grid.Col>
 
           <Grid.Col xs={0} md={1}>

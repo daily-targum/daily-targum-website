@@ -1,8 +1,8 @@
 import React from 'react';
 import { AppProps } from 'next/app';
-import { Navbar, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO } from '../components';
+import { Navbar, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO, SkipNav } from '../components';
 import { Provider as ReduxProvider } from '../store';
-import '../styles.css';
+import '../styles/global.scss';
 
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
@@ -37,28 +37,14 @@ function App({
   err
 }: CustomAppProps) {
   const seo = pageProps.seo ?? {};
-
-  // React.useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     // @ts-ignore
-  //     window.googletag = window.googletag || { cmd: [] };
-  //     // @ts-ignore
-  //     const googletag: any = window.googletag;
-
-  //     googletag.cmd.push(function() {
-  //       googletag.defineSlot('/13580645/isb_super-leaderboard_970x90', [970, 90], 'div-gpt-ad-1600300335641-0').addService(googletag.pubads());
-  //       googletag.pubads().enableSingleRequest();
-  //       googletag.enableServices();
-  //     });
-  //   }
-  // }, []);
-
   return (
     <>
       <SEO {...seo}/>
       <ReduxProvider>
         <Grid.Provider>
           <DFPSlotsProvider dfpNetworkId='13580645'>
+            <SkipNav.Link/>
+
             <Page>
               <Analytics/>
 

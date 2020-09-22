@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetHoru } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML, Ad } from '../../components';
+import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML, Ad, SkipNav } from '../../components';
 import { imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 import styles from './humans-of-rutgers.module.scss';
@@ -46,39 +46,47 @@ function Category({
       <Section className={styles.page}>
         <Banner text='Humans of RU'/>
         
-        <Grid.Row spacing={theme.spacing(2)}>
+        <main>
+          <SkipNav.Content/>
+        
+          <Grid.Row spacing={theme.spacing(2)}>
 
-          {horu.items.map((item, i) => (
-            <>
-              {(i % 24 === 0 && i !== 0) ? (
-                <Grid.Col xs={24}>
-                  <Ad type='banner'/>
+            {horu.items.map((item, i) => (
+              <>
+                {(i % 24 === 0 && i !== 0) ? (
+                  <Grid.Col xs={24}>
+                    <Ad type='banner'/>
+                  </Grid.Col>
+                ) : null}
+                <Grid.Col 
+                  key={item.id}
+                  xs={24}
+                  sm={12}
+                  md={8}
+                  xl={6}
+                >
+                  <button
+                    className={styles.hideButton}
+                    onClick={() => send({
+                      type: 'OPEN_ITEM',
+                      itemId: item.id,
+                      initialIndex: 0
+                    })}
+                  >
+                    <MemoizedAspectRatioImage
+                      data={imgix(item.media[0].url, {
+                        xs: imgix.presets.md('1:1')
+                      })}
+                      aspectRatio={1}
+                      className={styles.post}
+                    />
+                  </button>
                 </Grid.Col>
-              ) : null}
-              <Grid.Col 
-                key={item.id}
-                xs={24}
-                sm={12}
-                md={8}
-                xl={6}
-              >
-                <MemoizedAspectRatioImage
-                  data={imgix(item.media[0].url, {
-                    xs: imgix.presets.md('1:1')
-                  })}
-                  aspectRatio={1}
-                  onClick={() => send({
-                    type: 'OPEN_ITEM',
-                    itemId: item.id,
-                    initialIndex: 0
-                  })}
-                  className={styles.post}
-                />
-              </Grid.Col>
-            </>
-          ))}
+              </>
+            ))}
 
-        </Grid.Row>
+          </Grid.Row>
+        </main>
 
         {horu.nextToken ? (
           <ActivityIndicator.ProgressiveLoader 

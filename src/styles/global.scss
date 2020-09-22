@@ -1,3 +1,5 @@
+@use "@reach/skip-nav/styles.css";
+
 :root {
   --primary-color: #050505;
   --primary-contrastText-color: #ffffff;
@@ -93,15 +95,15 @@ body {
   color: var(--text-color);
 }
 
+*:focus .showOnFocus {
+  opacity: 1;
+}
+
 * {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-*:focus {
-  outline: none;
 }
 
 img {

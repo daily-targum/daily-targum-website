@@ -63,16 +63,16 @@ export function CardCols<I>({
   const colSizes = getColSizes(items.length, context.cols.length);
   return (
     <>
-      <Grid.Col xs={colSizes[0].xs} sm={colSizes[0].sm} md={colSizes[0].md} lg={colSizes[0].lg}>
+      <Grid.Col xs={colSizes[0].xs} sm={colSizes[0].sm} md={colSizes[0].md} lg={colSizes[0].lg} className={styles.col}>
         {children(items[0], 0)}
       </Grid.Col>
-      <Grid.Col xs={colSizes[1].xs} sm={colSizes[1].sm} md={colSizes[1].md} lg={colSizes[1].lg}>
+      <Grid.Col xs={colSizes[1].xs} sm={colSizes[1].sm} md={colSizes[1].md} lg={colSizes[1].lg} className={styles.col}>
         {children(items[1], 1)}
       </Grid.Col>
-      <Grid.Col xs={colSizes[2].xs} sm={colSizes[2].sm} md={colSizes[2].md} lg={colSizes[2].lg}>
+      <Grid.Col xs={colSizes[2].xs} sm={colSizes[2].sm} md={colSizes[2].md} lg={colSizes[2].lg} className={styles.col}>
         {children(items[2], 2)}
       </Grid.Col>
-      <Grid.Col xs={colSizes[3].xs} sm={colSizes[3].sm} md={colSizes[3].md} lg={colSizes[3].lg}>
+      <Grid.Col xs={colSizes[3].xs} sm={colSizes[3].sm} md={colSizes[3].md} lg={colSizes[3].lg} className={styles.col}>
         {children(items[3], 3)}
       </Grid.Col>
     </>
