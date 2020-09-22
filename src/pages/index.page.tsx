@@ -56,11 +56,13 @@ function NewsRow({
                   id={item[0].id} 
                   title={item[0].title}
                   imageData={imgix(item[0].media[0]?.url ?? '', {
-                    xs: imgix.presets.md('1:1')
+                    xs: imgix.presets.md('1:1'),
+                    md: imgix.presets.md('6:4')
                   })}
                   href='/article/[year]/[month]/[slug]'
                   as={item[0].slug}
                   aspectRatioMobile={1}
+                  aspectRatioDesktop={6/4}
                   date={formatDateAbriviated(item[0].publishDate)}
                   author={item[0].authors.map(a => a.displayName).join(', ')}
                   altText={item[0].media[0]?.altText ?? item[0].media[0]?.description ?? undefined}
@@ -70,11 +72,13 @@ function NewsRow({
                   id={item[1].id}
                   title={item[1].title}
                   imageData={imgix(item[1].media[0]?.url ?? '', {
-                    xs: imgix.presets.md('1:1')
+                    xs: imgix.presets.md('1:1'),
+                    md: imgix.presets.md('6:4')
                   })}
                   href='/article/[year]/[month]/[slug]'
                   as={item[1].slug}
                   aspectRatioMobile={1}
+                  aspectRatioDesktop={6/4}
                   date={formatDateAbriviated(item[1].publishDate)}
                   author={item[1].authors.map(a => a.displayName).join(', ')}
                   altText={item[1].media[0]?.altText ?? item[1].media[0]?.description ?? undefined}

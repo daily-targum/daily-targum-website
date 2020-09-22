@@ -109,10 +109,10 @@ $HEIGHT: 60px;
 }
 
 .menuIconWrap {
+  @include styleHelpers.hideButton();
   font-size: 1.6em;
   cursor: pointer;
   // make icon easier to click
-  padding-left: 20px;
 }
 
 .mobileMenu {
@@ -124,6 +124,7 @@ $HEIGHT: 60px;
   padding-top: $HEIGHT;
   z-index: 999;
   justify-content: center;
+  align-items: flex-start ;
 }
 
 .icon {

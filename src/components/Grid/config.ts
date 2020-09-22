@@ -5,7 +5,7 @@ export const breakPoints = {
   sm: 576,
   md: 768,
   lg: 992,
-  xl: 1200,
+  xl: 1350,
   xxl: 1600
 };
 export const breakPointKeys: BreakPoint[] = Object.keys(breakPoints) as BreakPoint[];

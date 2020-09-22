@@ -35,7 +35,7 @@
   }
 
   @else if $breakpoint == 'xl' {
-    @return 1200px;
+    @return 1350px;
   }
 
   @else if $breakpoint == 'xxl' {

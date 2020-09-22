@@ -106,8 +106,7 @@ function MobileMenu() {
       <div
         className={styles.mobileMenu}
         style={{
-          opacity: +isVisible,
-          pointerEvents: isVisible ? undefined : 'none'
+          display: isVisible ? 'flex' : 'none'
         }}
       >
         {navbarLinks.map(link => (link.href === router.asPath) ? (
@@ -213,7 +212,7 @@ function DesktopNavbar() {
                   <Logo className={styles.logo}/>
                 </Link>
 
-                <div
+                <button
                   className={cn(
                     styles.menuIconWrap,
                     styles.links
@@ -231,7 +230,7 @@ function DesktopNavbar() {
                       size={30}
                     />
                   )}
-                </div>
+                </button>
               </div>
             </Grid.Display>
           </nav>        
@@ -246,8 +245,8 @@ function DesktopNavbar() {
 export function Navbar() {
   return (
     <>
-      <MobileMenu/>
       <DesktopNavbar/>
+      <MobileMenu/>
     </>
   );
 }

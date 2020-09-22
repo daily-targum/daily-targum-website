@@ -37,7 +37,7 @@ function Article({
           spacing={theme.spacing(4)}
           cols={[ '1fr', '300px' ]}
         >
-          <Grid.Col xs={2} md={1}>
+          <Grid.Col xs={2} xl={1}>
             <main>
               <article>
                 <SkipNav.Content/>
@@ -76,7 +76,7 @@ function Article({
             </main>
           </Grid.Col>
 
-          <Grid.Col xs={0} md={1}>
+          <Grid.Col xs={0} xl={1}>
             <Sticky>
               <Ad type='rectange' style={{ marginBottom: '1rem' }} />
               <Ad type='skyscraper' />
