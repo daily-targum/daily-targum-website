@@ -94,7 +94,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       initialVideos: initialVideos ?? null,
       slug,
       seo
-    }
+    },
+    revalidate: 60 // seconds
   };
 };
 

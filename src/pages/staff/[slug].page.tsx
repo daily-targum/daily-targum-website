@@ -106,7 +106,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: { 
       page: page ?? null
-    }
+    },
+    revalidate: 60 // seconds
   };
 };
 
