@@ -22,6 +22,7 @@
 }
 
 .buttonWrap {
+  @include styleHelpers.hideButton();
   cursor: pointer;
   display: flex;
   align-items: center;

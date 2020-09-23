@@ -33,7 +33,7 @@ export const photoModalMachine = createMachine<MachineContext, MachineEvent, Mac
       on: {
         CLOSE_ITEM: {
           target: 'grid',
-          actions: ['clearItem']
+          actions: ['resetInitialIndex']
         }
       }
     }
@@ -55,10 +55,10 @@ export const photoModalMachine = createMachine<MachineContext, MachineEvent, Mac
 
       return updatedContext;
     }),
-    clearItem: assign<MachineContext, MachineEvent>(() => {
+    resetInitialIndex: assign<MachineContext, MachineEvent>((ctx) => {
       return {
-        itemId: '',
-        initialIndex: 0
+        ...ctx,
+        initialIndex: 0,
       };
     })
   },

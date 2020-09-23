@@ -1,11 +1,12 @@
 import React from 'react';
 import { actions, GetHoru } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML, Ad, SkipNav } from '../../components';
+import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML, Ad, SkipNav, ResetTabIndex } from '../../components';
 import { imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 import styles from './humans-of-rutgers.module.scss';
 import { theme } from '../../constants';
+import { GrStackOverflow } from 'react-icons/gr';
 
 /** THIS IS A HACK! */
 const MemoizedAspectRatioImage = React.memo(AspectRatioImage, () => true);
@@ -65,6 +66,11 @@ function Category({
                   md={8}
                   xl={6}
                 >
+                  {state.context.itemId === item.id ? (
+                    <ResetTabIndex
+                      bool={state.value === 'grid'}
+                    />
+                  ) : null}
                   <button
                     className={styles.hideButton}
                     onClick={() => send({
@@ -80,6 +86,12 @@ function Category({
                       aspectRatio={1}
                       className={styles.post}
                     />
+                    {item.media.length > 1 ? (
+                      <GrStackOverflow 
+                        className={styles.multiplePhotosIcon}
+                        size={19}
+                      />
+                    ) : null}
                   </button>
                 </Grid.Col>
               </>
@@ -132,6 +144,7 @@ function Category({
           <Grid.Col
             xs={24}
             md={10}
+            style={{alignSelf: 'stretch'}}
           >
             <div className={styles.body}>
               <Text variant='h1'>{selectedPost?.title}</Text>

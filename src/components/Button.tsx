@@ -9,12 +9,12 @@ export function Button({
   style
 }: {
   children: ReactChildren<string>
-  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => any
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any
   className?: string
   style?: React.CSSProperties
 }) {
   return (
-    <div 
+    <button 
       className={[
         className,
         styles.button
@@ -25,7 +25,7 @@ export function Button({
       onClick={onClick}
     >
      {children}
-    </div>
+    </button>
   );
 }
 

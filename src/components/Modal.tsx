@@ -4,6 +4,7 @@ import { IoMdClose } from 'react-icons/io';
 import { ReactChildren } from '../types';
 import styles from './Modal.module.scss';
 import cn from 'classnames';
+import FocusTrap from 'focus-trap-react';
 
 export function Modal({
   open = false,
@@ -23,29 +24,33 @@ export function Modal({
   }, [open]);
 
   return (
-    <div
-      className={cn(
-        styles.backdrop,
-        {
-          [styles.hide]: !open
-        }
-      )}
-      onClick={handleClose}
-    >
-      <IoMdClose
-        className={styles.closeIcon}
-        size={30}
-        onClick={handleClose}
-      />
+    <FocusTrap active={open}>
       <div
-        className={styles.modal}
-        style={{
-          overflow
-        }}
-        onClick={e => e.stopPropagation()}
+        className={cn(
+          styles.backdrop,
+          {
+            [styles.hide]: !open
+          }
+        )}
+        onClick={handleClose}
       >
-        {children}
+        <button
+          onClick={handleClose}
+          className={styles.closeIcon}
+        >
+          <IoMdClose size={30}/>
+        </button>
+
+        <div
+          className={styles.modal}
+          style={{
+            overflow
+          }}
+          onClick={e => e.stopPropagation()}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </FocusTrap>
   );
 }

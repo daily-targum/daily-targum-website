@@ -2,19 +2,14 @@ import React from 'react';
 import { SkipNavLink, SkipNavContent } from "@reach/skip-nav";
 import styles from './SkipNav.module.scss';
 import { useRouter } from 'next/router';
+import ResetTabIndex from './ResetTabIndex';
 
 function Link() {
   const router = useRouter();
-  const ref = React.useRef<HTMLAnchorElement>(null);
-
-  React.useEffect(() => {
-    ref.current?.focus();
-    ref.current?.blur();
-  }, [router.asPath]);
 
   return (
     <>
-      <a ref={ref} href='#focus-reset' tabIndex={-1}/>
+      <ResetTabIndex key={router.asPath}/>
       <SkipNavLink className={styles.link}/>
     </>
   );

@@ -21,7 +21,7 @@ function Button({
   direction: 'left' | 'right'
 }) {
   return (
-    <div
+    <button
       onClick={onClick}
       className={styles.buttonWrap}
       style={{
@@ -42,7 +42,7 @@ function Button({
           className={styles.icon}
         />
       )}
-    </div>
+    </button>
   )
 }
 

@@ -16,6 +16,7 @@ import { FiMenu } from 'react-icons/fi';
 import styles from './Navbar.module.scss';
 import cn from 'classnames';
 import { theme } from '../constants';
+import FocusTrap from 'focus-trap-react';
 
 export const NAVBAR_HEIGHT = 60;
 
@@ -131,7 +132,7 @@ function MobileMenu() {
   );
 }
 
-function DesktopNavbar() {
+export function Navbar() {
   const darkNavbar = useSelector(s => s.navigation.darkNavbar);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -147,106 +148,101 @@ function DesktopNavbar() {
         }}
       />
 
-      <div 
-        className={cn(
-          styles.navbarWrap,
-          {
-            ['dark-mode']: darkNavbar
-          }
-        )}
-        style={{
-          ...(mobileMenuVisible ? {
-            position: 'fixed'
-          } : null)
-        }}
-      >
-        <Banner/>
-
-        <Section 
-          className={styles.navbar}
+      <FocusTrap active={mobileMenuVisible}>
+        <div 
+          className={cn(
+            styles.navbarWrap,
+            {
+              ['dark-mode']: darkNavbar
+            }
+          )}
           style={{
-            position: mobileMenuVisible ? 'fixed' : 'sticky'
-          }}
-          styleInside={{
-            overflow: 'visible'
+            ...(mobileMenuVisible ? {
+              position: 'fixed'
+            } : null)
           }}
         >
-          <nav>
-            <Grid.Display
-              xs={false}
-              lg={true} 
-              style={{ flex: 1 }}
-            >
-              <div className={styles.inner}>
-                <Link href='/'>
-                  <Logo className={styles.logo}/>
-                </Link>
-                
-                <div className={styles.links}>
-                  {navbarLinks.filter(l => !l.mobileOnly).map(link => (
-                    <Link 
-                      key={link.href}
-                      href={link.href}
-                      className={cn(
-                        styles.link,
-                        {
-                          [styles.linkActive]: link.href === router.asPath
-                        }
-                      )}
-                    >
-                      <span>{link.title}</span>
-                    </Link>
-                  ))}
+          <Banner/>
+
+          <Section 
+            className={styles.navbar}
+            style={{
+              position: mobileMenuVisible ? 'fixed' : 'sticky'
+            }}
+            styleInside={{
+              overflow: 'visible'
+            }}
+          >
+            <nav>
+              <Grid.Display
+                xs={false}
+                lg={true} 
+                style={{ flex: 1 }}
+              >
+                <div className={styles.inner}>
+                  <Link href='/'>
+                    <Logo className={styles.logo}/>
+                  </Link>
+                  
+                  <div className={styles.links}>
+                    {navbarLinks.filter(l => !l.mobileOnly).map(link => (
+                      <Link 
+                        key={link.href}
+                        href={link.href}
+                        className={cn(
+                          styles.link,
+                          {
+                            [styles.linkActive]: link.href === router.asPath
+                          }
+                        )}
+                      >
+                        <span>{link.title}</span>
+                      </Link>
+                    ))}
+                  </div>
+
+                  <Search.Input/>
                 </div>
+              </Grid.Display>
 
-                <Search.Input/>
-              </div>
-            </Grid.Display>
+              <Grid.Display
+                xs={true}
+                lg={false}
+              >
+                <div className={styles.inner}>
+                  <Link href='/'>
+                    <Logo className={styles.logo}/>
+                  </Link>
 
-            <Grid.Display
-              xs={true}
-              lg={false}
-            >
-              <div className={styles.inner}>
-                <Link href='/'>
-                  <Logo className={styles.logo}/>
-                </Link>
+                  <button
+                    className={cn(
+                      styles.menuIconWrap,
+                      styles.links
+                    )}
+                    onClick={() => dispatch(navigationActions.toggleMobileMenu())}
+                  >
+                    {mobileMenuVisible ? (
+                      <MdClose
+                        className={styles.icon}
+                        size={34}
+                      />
+                    ) : (
+                      <FiMenu
+                        className={styles.icon}
+                        size={30}
+                      />
+                    )}
+                  </button>
+                </div>
+              </Grid.Display>
+            </nav>        
+          </Section>
 
-                <button
-                  className={cn(
-                    styles.menuIconWrap,
-                    styles.links
-                  )}
-                  onClick={() => dispatch(navigationActions.toggleMobileMenu())}
-                >
-                  {mobileMenuVisible ? (
-                    <MdClose
-                      className={styles.icon}
-                      size={34}
-                    />
-                  ) : (
-                    <FiMenu
-                      className={styles.icon}
-                      size={30}
-                    />
-                  )}
-                </button>
-              </div>
-            </Grid.Display>
-          </nav>        
-        </Section>
-      </div>
+          <MobileMenu/>
+        </div>
+      </FocusTrap>
 
       <div className={mobileMenuVisible ? styles.navbarSpacer : undefined}/>
-    </>
-  );
-}
-
-export function Navbar() {
-  return (
-    <>
-      <DesktopNavbar/>
-      <MobileMenu/>
     </>
   );
 }

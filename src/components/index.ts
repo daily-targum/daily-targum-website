@@ -31,6 +31,7 @@ export * from './Link';
 export * from './Modal';
 export * from './Sticky';
 export * from './SkipNav';
+export * from './ResetTabIndex';
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,
