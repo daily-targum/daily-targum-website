@@ -28,7 +28,7 @@ const AdBase = React.memo(({
       className={cn(
         className,
         {
-          [styles.dev]: nextUtils.envIs(['development'])
+          [styles.dev]: !nextUtils.envIs(['production'])
         }
       )}
     />
