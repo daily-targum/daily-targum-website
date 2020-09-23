@@ -47,7 +47,6 @@ function Article({
             <Text variant='h2'>{dynamicArticle.title}</Text>
             <Byline.Authors 
               authors={dynamicArticle.authors}
-              updatedAt={dynamicArticle.updatedAt} 
               publishDate={dynamicArticle.publishDate}
             />
             <AspectRatioImage

@@ -9,16 +9,12 @@ import { AspectRatioImage } from './AspectRatioView';
 import styles from './Byline.module.scss';
 
 function Authors({
-  updatedAt,
   publishDate,
   authors
 }: {
   authors: Author[]
-  updatedAt: number
   publishDate: number
 }) {
-  const wasUpdated = updatedAt > publishDate;
-
   const authorsExceptLast = authors.slice(0);
   let last: Author | undefined;
   if(authors.length > 1) {
@@ -74,7 +70,7 @@ function Authors({
               </>
             ) : null}
           </div>
-          <Text className={styles.date} noPadding>{wasUpdated ? ('Updated '+formatDate(updatedAt)) : formatDate(publishDate)}</Text>
+          <Text className={styles.date} noPadding>{formatDate(publishDate)}</Text>
         </div>
 
       </div>
