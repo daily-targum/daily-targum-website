@@ -138,7 +138,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: { 
       article: article ?? null,
       seo
-    }
+    },
+    revalidate: 60 // seconds
   };
 };
 
