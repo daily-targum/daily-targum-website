@@ -1,19 +1,35 @@
 import React from 'react';
 import { ReactChildren } from '../types';
 import styles from './Button.module.scss';
+import Link from './Link';
 
 export function Button({
   children,
   onClick,
+  href,
   className,
   style
 }: {
   children: ReactChildren<string>
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any;
+  href?: string;
   className?: string
   style?: React.CSSProperties
 }) {
-  return (
+  return href ? (
+    <Link 
+      href={href}
+      className={[
+        className,
+        styles.button
+      ]. join(' ')} 
+      style={{
+        ...style
+      }}
+    >
+     {children}
+    </Link>
+  ) : (
     <button 
       className={[
         className,

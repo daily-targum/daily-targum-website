@@ -2,7 +2,7 @@
 @use 'styleHelpers';
 
 .page {
-  @include styleHelpers.pageCompact();
+  @include styleHelpers.page();
   flex: 1;
 }
 
@@ -40,4 +40,8 @@
   @include styleHelpers.flex('column');
   flex: 1;
   align-items: center;
+}
+
+.divider {
+  margin: theme.spacing(0, 0, 4);
 }

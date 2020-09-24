@@ -3,6 +3,7 @@
 
 .button {
   @include styleHelpers.hideButton();
+  @include styleHelpers.hideLink();
   padding: theme.spacing(2, 8);
   background-color: theme.color("accent_main");
   border-radius: theme.roundness();

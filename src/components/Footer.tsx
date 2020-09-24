@@ -58,19 +58,20 @@ export function Footer() {
     <Section className={styles.footer}>
       <footer>
 
-        <Grid.Row reverse>
+        <Grid.Row>
 
-          <Grid.Col xs={24} md={8} className={styles.col}>
-            <Text variant='h4' className={styles.title}>Social Media</Text>
-            {links.socialMedia.map(l => (
-              <Link 
-                key={l.href} 
-                className={styles.link}
-                href={l.href}
-              >
-                {l.title}
+          <Grid.Col xs={0} md={8} className={styles.col}>
+            <div className={styles.centerHorizontally}>
+              <Text.Br/>
+              <Text.Br/>
+              <Logo 
+                color='#fff'
+                className={styles.logo}
+              />
+              <Link href="https://www.contentful.com/">
+                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" loading='lazy' className={styles.sublogo}/>
               </Link>
-            ))}
+            </div>
           </Grid.Col>
 
           <Grid.Col xs={24} md={8} className={styles.col}>
@@ -87,6 +88,19 @@ export function Footer() {
           </Grid.Col>
 
           <Grid.Col xs={24} md={8} className={styles.col}>
+            <Text variant='h4' className={styles.title}>Social Media</Text>
+            {links.socialMedia.map(l => (
+              <Link 
+                key={l.href} 
+                className={styles.link}
+                href={l.href}
+              >
+                {l.title}
+              </Link>
+            ))}
+          </Grid.Col>
+
+          <Grid.Col xs={24} md={0} className={styles.col}>
             <div className={styles.centerHorizontally}>
               <Text.Br/>
               <Text.Br/>

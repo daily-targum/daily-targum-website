@@ -34,7 +34,7 @@ function Author({
           cols={[ '1fr', '300px' ]}
         >
           <Grid.Col xs={2} md={1}>
-            <Grid.Row spacing={theme.spacing(2)} reverse>
+            <Grid.Row spacing={theme.spacing(2)} dangerouslyReverse>
 
               {page.author.headshot ? (
                 <Grid.Col xs={24} md={6}>

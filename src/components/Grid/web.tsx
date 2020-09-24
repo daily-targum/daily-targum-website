@@ -13,12 +13,17 @@ export interface ColProps extends Partial<types.BreakPoints<number>> {
 }
 
 export interface RowProps {
-  style?: React.CSSProperties
-  children?: React.ReactNode
-  spacing?: number
-  className?: string
-  cols?: string[] | number
-  reverse?: boolean
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+  spacing?: number;
+  className?: string;
+  cols?: string[] | number;
+  /**
+   * This method of reversing is dangerous
+   * cause it only reversed the order visually
+   * and not for people using screen readers
+   */
+  dangerouslyReverse?: boolean;
 }
 
 export interface DisplayProps extends Partial<types.BreakPoints<boolean>> {
@@ -62,7 +67,7 @@ function Row({
   children, 
   style, 
   className,
-  reverse = false
+  dangerouslyReverse = false
 }: RowProps) {
   const context = {
     ...contextExports.defaultContextValue,
@@ -89,7 +94,7 @@ function Row({
         style={{
           gridTemplateColumns: (cols || context.cols).join(' '),
           gridGap: spacing+'px',
-          direction: reverse ? 'rtl' : undefined,
+          direction: dangerouslyReverse ? 'rtl' : undefined,
           ...style
         }}
       >

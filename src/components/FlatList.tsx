@@ -58,7 +58,7 @@ export function FlatList<T>({
       style={{
         display: 'flex',
         flexDirection: horizontal ? 'row' : 'column',
-        overflow: 'auto',
+        overflow: horizontal ? 'auto' : undefined,
         ...style
       }}
     >
