@@ -47,20 +47,21 @@ function Button({
 }
 
 interface CarouselBase<T> {
-  id?: string
-  data: T[]
-  renderItem: (item: T, index: number) => ReactChildren
-  keyExtractor: (item: T, index: number) => string | number
-  inverted?: boolean
-  ItemSeparatorComponent?: ReactChildren
-  ListEmptyComponent?: ReactChildren
-  ListHeaderComponent?: ReactChildren
-  ListFooterComponent?: ReactChildren
-  className?: string
-  style?: React.CSSProperties,
-  initialIndex?: number,
-  onChange?: (index: number) => any,
-  width?: number
+  id?: string;
+  data: T[];
+  renderItem: (item: T, index: number) => ReactChildren;
+  keyExtractor: (item: T, index: number) => string | number;
+  inverted?: boolean;
+  ItemSeparatorComponent?: ReactChildren;
+  ListEmptyComponent?: ReactChildren;
+  ListHeaderComponent?: ReactChildren;
+  ListFooterComponent?: ReactChildren;
+  className?: string;
+  style?: React.CSSProperties;
+  initialIndex?: number;
+  onChange?: (index: number) => any;
+  width?: number;
+  enableArrowKeys?: boolean
 }
 
 interface CarouselProps<T> extends CarouselBase<T> {
@@ -82,7 +83,8 @@ export function Carousel<T>({
   initialIndex = 0,
   onChange = () => {},
   width = 200,
-  forwardRef
+  forwardRef,
+  enableArrowKeys = false
 }: CarouselProps<T>) {
   const [ div, internalRef ] = useHookWithRefCallback<HTMLDivElement | null>(null);
   const [index, setIndex] = React.useState(initialIndex ?? 0);
@@ -120,11 +122,38 @@ export function Carousel<T>({
     }
   }, [div, id]);
 
-  function updateScroll(offset: number) {
-    if (!div) return;
-    const newIndex = clamp(0, index + offset, data.length - 1);
-    div.scrollLeft = newIndex * width;
-  }
+  const updateScroll = React.useCallback(
+    (offset: number) => {
+      if (!div) return;
+      const newIndex = clamp(0, index + offset, data.length - 1);
+      div.scrollLeft = newIndex * width;
+    },
+    [data.length, div, index, width]
+  );
+
+  React.useEffect(() => {
+    if (!enableArrowKeys || typeof window === 'undefined') {
+      return;
+    }
+
+    const LEFT_ARROW = 37;
+    const RIGHT_ARROW = 39;
+
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.keyCode === LEFT_ARROW) {
+        updateScroll(-1);
+      }
+
+      if (event.keyCode === RIGHT_ARROW) {
+        updateScroll(1);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [updateScroll, enableArrowKeys]);
 
   if(data.length === 0) {
     return ListEmptyComponent ? (

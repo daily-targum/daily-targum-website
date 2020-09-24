@@ -23,6 +23,20 @@ export function Modal({
     toggleScrollock(open)
   }, [open]);
 
+  React.useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+       if (event.keyCode === 27 && open) {
+        handleClose();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [open]);
+
+
   return (
     <FocusTrap active={open}>
       <div

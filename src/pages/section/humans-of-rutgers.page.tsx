@@ -53,14 +53,13 @@ function Category({
           <Grid.Row spacing={theme.spacing(2)}>
 
             {horu.items.map((item, i) => (
-              <>
+              <React.Fragment key={item.id}>
                 {(i % 24 === 0 && i !== 0) ? (
                   <Grid.Col xs={24}>
                     <Ad type='banner'/>
                   </Grid.Col>
                 ) : null}
                 <Grid.Col 
-                  key={item.id}
                   xs={24}
                   sm={12}
                   md={8}
@@ -94,7 +93,7 @@ function Category({
                     ) : null}
                   </button>
                 </Grid.Col>
-              </>
+              </React.Fragment>
             ))}
 
           </Grid.Row>
@@ -122,7 +121,8 @@ function Category({
           >
             <div className={styles.square}/>
             <Carousel.Responsive
-              id={state.context.itemId}
+              enableArrowKeys
+              id={state.context.itemId + state.value}
               data={selectedPost?.media ?? []}
               className={styles.carousel}
               keyExtractor={item => item.id}

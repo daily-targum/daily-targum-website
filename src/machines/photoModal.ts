@@ -59,6 +59,7 @@ export const photoModalMachine = createMachine<MachineContext, MachineEvent, Mac
       return {
         ...ctx,
         initialIndex: 0,
+        // itemId: ''
       };
     })
   },

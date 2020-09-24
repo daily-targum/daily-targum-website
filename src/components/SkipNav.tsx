@@ -9,7 +9,7 @@ function Link() {
 
   return (
     <>
-      <ResetTabIndex key={router.asPath}/>
+      <ResetTabIndex id={router.asPath}/>
       <SkipNavLink className={styles.link}/>
     </>
   );

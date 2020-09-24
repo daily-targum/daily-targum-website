@@ -1,10 +1,10 @@
 import React from 'react';
 
 export function ResetTabIndex({
-  key, 
+  id, 
   bool = true
 }: {
-  key?: string;
+  id?: string;
   bool?: boolean;
 }) {
   const ref = React.useRef<HTMLAnchorElement>(null);
@@ -14,7 +14,7 @@ export function ResetTabIndex({
       ref.current?.focus();
       ref.current?.blur();
     }
-  }, [bool, key]);
+  }, [bool, id]);
 
   return (
     <a ref={ref} href='#focus-reset' tabIndex={-1}/>
