@@ -109,13 +109,17 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const month = processNextQueryStringParam(ctx.params?.month, '');
   const slug = processNextQueryStringParam(ctx.params?.slug, '');
 
-  const article = await actions.getArticle({
-    slug: `article/${year}/${month}/${slug}`
-  });
+  let article = null;
+  try {
+    article = await actions.getArticle({
+      slug: `article/${year}/${month}/${slug}`
+    });
+  } catch(e) {}
 
   if (!article) {
     return {
-      props: {}
+      props: {},
+      revalidate: 60 // seconds
     };
   }
 
