@@ -4,10 +4,33 @@ import { nextUtils } from '../utils';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from './404.module.scss';
+import pino from 'pino';
+const logger = pino();
 
 function NotFound() {
   const canGoBack = nextUtils.useCanGoBack();
   const router = useRouter();
+
+  if (nextUtils.isServer()) {
+    const {
+      route,
+      pathname,
+      query,
+      asPath
+    } = router;
+
+    logger.info({
+      route: {
+        route,
+        pathname,
+        query,
+        asPath
+      },
+      event: {
+        tag: '404'
+      }
+    });
+  }
 
   return (
     <Section 
