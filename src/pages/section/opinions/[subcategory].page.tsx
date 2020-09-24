@@ -105,7 +105,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       initialArticles: initialArticles ?? null,
       subcategory,
       seo
-    }
+    },
+    revalidate: 60 // seconds
   };
 };
 

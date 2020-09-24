@@ -44,7 +44,6 @@ function Article({
                 <Text variant='h1' htmlTag='h1'>{article.title}</Text>
                 <Byline.Authors 
                   authors={article.authors}
-                  updatedAt={article.updatedAt} 
                   publishDate={article.publishDate}
                 />
                 <AspectRatioImage
