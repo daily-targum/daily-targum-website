@@ -26,8 +26,18 @@ function envIs(envs: Env[]) {
   return envs.includes(env);
 }
 
+function isBrowser() {
+  return typeof window !== 'undefined';
+}
+
+function isServer() {
+  return typeof window === 'undefined';
+}
+
 export const nextUtils = {
   useRouteHistory,
   useCanGoBack,
-  envIs
+  envIs,
+  isBrowser,
+  isServer
 }
