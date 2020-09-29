@@ -88,7 +88,8 @@ export function AspectRatioImage({
         styleOutside={{
           ...(aspectRatio ? {
             ...styleHelpers.aspectRatioFullWidth(aspectRatio),
-            position: 'relative'
+            position: 'relative',
+            minHeight: '100%'
           } : null),
           ...styleInside
         }}
