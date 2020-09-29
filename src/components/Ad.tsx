@@ -51,7 +51,7 @@ const presets: {
     sizes: [ [300, 75], [970, 90] ],
     sizeMapping: [
       { viewport: [900, 768], sizes: [[300, 75]] },
-      // { viewport: [1024, 0], sizes: [[970, 90]] }
+      { viewport: [1024, 768], sizes: [[970, 90]] }
     ]
   },
   rectange: {
