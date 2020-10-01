@@ -1,5 +1,4 @@
-// @ts-ignore
-import Dector from 'react-ad-block-detect';
+import React from 'react';
 import { ReactChildren } from '../types';
 import { nextUtils } from '../utils';
 
@@ -8,19 +7,20 @@ function AdBlockDector({
 }: {
   children: ReactChildren
 }) {
-  if (nextUtils.envIs(['development'])) {
-    return (
-      <>
-        {children}
-      </>
-    );
-  }
+  const [adsBlocked, setAdsBlocked] = React.useState(false);
 
-  return (
-    <Dector>
+  React.useEffect(() => {
+    // @ts-ignore
+    if (nextUtils.isBrowser() && window?.googletag?.apiReady === undefined) {
+      setAdsBlocked(true);
+    }
+  }, []);
+
+  return adsBlocked ? (
+    <>
       {children}
-    </Dector>
-  );
+    </>
+  ) : null;
 }
 
 export default AdBlockDector;
