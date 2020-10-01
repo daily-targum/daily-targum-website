@@ -15,7 +15,7 @@ import styles from './Navbar.module.scss';
 import cn from 'classnames';
 import { theme } from '../constants';
 import FocusTrap from 'focus-trap-react';
-import { Squash as Hamburger } from 'hamburger-react'
+import { Fade as Hamburger } from 'hamburger-react'
 
 export const NAVBAR_HEIGHT = 60;
 
@@ -117,10 +117,13 @@ function MobileMenu() {
       lg={false}
     >
       <div
-        className={styles.mobileMenu}
-        style={{
-          opacity: +isVisible
-        }}
+        className={cn(
+          styles.mobileMenu,
+          {
+            [styles.fadeIn]: isVisible,
+            [styles.fadeOut]: !isVisible
+          }
+        )}
       >
         {navbarLinks.map(link => (link.href === router.asPath) ? (
           <span 
@@ -132,7 +135,6 @@ function MobileMenu() {
           </span>
         ) : (
           <Link 
-            tabIndex={isVisible ? undefined : -1}
             key={link.href}
             href={link.href}
             className={styles.mobileLink}
@@ -228,6 +230,7 @@ export function Navbar() {
                   </Link>
 
                   <Hamburger 
+                    duration={0.3}
                     hideOutline={false}
                     toggled={mobileMenuVisible}
                     toggle={() => dispatch(navigationActions.toggleMobileMenu())}

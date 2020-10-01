@@ -5,8 +5,8 @@
   @include styleHelpers.flex('column');
   width: 100%;
   align-items: center;
-  padding-right: theme.spacing(2);
-  padding-left: theme.spacing(2);
+  padding-right: calc(#{theme.spacing(1.25)} + 1vw);
+  padding-left: calc(#{theme.spacing(1.25)} + 1vw);
 }
 
 .inside {
