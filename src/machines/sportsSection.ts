@@ -3,10 +3,10 @@ import { createMachine, assign } from 'xstate';
 import { useMachine } from '@xstate/react';
 import { CompactArticle } from '../shared/src/client';
 
-type MachineState =
-  | { value: 'dehydrated'; context: MachineContext }
-  | { value: 'all'; context: MachineContext }
-  | { value: 'tagSelected'; context: MachineContext };
+// type MachineState =
+//   | { value: 'dehydrated'; context: MachineContext }
+//   | { value: 'all'; context: MachineContext }
+//   | { value: 'tagSelected'; context: MachineContext };
 
 type MachineContext = { 
   selectedTag?: string;
@@ -49,7 +49,7 @@ const newsSectionStates = {
   }
 };
 
-export const sportsMachine = createMachine<MachineContext, MachineEvent, MachineState>({
+export const sportsMachine = createMachine<MachineContext, MachineEvent>({
   id: 'sports',
   initial: 'dehydrated',
   context: {
@@ -270,7 +270,7 @@ export function useSports({
 
   const outOfContent = ['all.outOfContent', 'tagSelected.outOfContent'].some(
     state.matches
-  )
+  );
 
   let selectedArticles: (CompactArticle | undefined)[];
   if (typeof selectedTag === 'string') {

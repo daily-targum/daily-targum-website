@@ -23,7 +23,7 @@ function Page({
     <Section.StickyContainer className={styles.page}>
       <Grid.Row
         spacing={theme.spacing(4)}
-        cols={[ '1fr', '300px' ]}
+        cols={[ '1fr', 'minmax(auto, 300px)' ]}
       >
         <Grid.Col xs={2} md={1}>
           <main>
