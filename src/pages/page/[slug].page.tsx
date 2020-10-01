@@ -1,14 +1,12 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, SkipNav } from '../../components';
+import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, SkipNav, AdBlockDector } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { processNextQueryStringParam } from '../../utils';
 import { useRouter } from 'next/router';
 import styles from './page.module.scss';
 import { theme } from '../../constants';
-// @ts-ignore
-import AdBlockDetect from 'react-ad-block-detect';
 
 function Page({
   page 
@@ -38,9 +36,9 @@ function Page({
           <Sticky>
             <Ad type='rectange' style={{ marginBottom: '1rem' }} />
             <Ad type='skyscraper' />
-            <AdBlockDetect>
-              AD BLOCK!!!
-            </AdBlockDetect>
+            <AdBlockDector>
+              <span>AD BLOCK!!!</span>
+            </AdBlockDector>
           </Sticky>
         </Grid.Col>
 

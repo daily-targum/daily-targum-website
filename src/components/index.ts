@@ -36,3 +36,7 @@ export * from './ResetTabIndex';
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,
 });
+
+export const AdBlockDector = dynamic(() => import("./AdBlockDector"), {
+  ssr: false,
+});
