@@ -101,13 +101,28 @@ function Header({
           href={href}
           className={styles.moreInLink}
         >
-          <Text 
-            variant='h4' 
-            className={styles.moreInLinkText}
-            noPadding
-          >
-            More in {title}
-          </Text>
+          {/* Desktop */}
+          <Grid.Display xs={false} md={true}>
+            <Text 
+              variant='h4' 
+              className={styles.moreInLinkText}
+              noPadding
+            >
+              More in {title}
+            </Text>
+          </Grid.Display>
+
+          {/* Mobile */}
+          <Grid.Display xs={true} md={false}>
+            <Text 
+              variant='h4' 
+              className={styles.moreInLinkText}
+              noPadding
+            >
+              More
+            </Text>
+          </Grid.Display>
+          
           <RiArrowRightLine
             size={22}
           />

@@ -79,7 +79,7 @@ function CardCompact({
   imageData,
   href,
   as,
-  aspectRatio = 1,
+  aspectRatio,
   date,
   className,
   style,
@@ -96,7 +96,7 @@ function CardCompact({
     >
       <AspectRatioImage
         className={styles.compactCardImage}
-        aspectRatio={aspectRatio}
+        aspectRatio={aspectRatio ?? 1}
         data={imageData}
         altText={altText}
       />
@@ -147,7 +147,7 @@ function CardCompactResponsive({
         className={styles.compactCardImage}
       >
         <AspectRatioImage
-          aspectRatio={aspectRatioDesktop}
+          aspectRatio={aspectRatioDesktop ?? 1}
           data={imageData}
           style={{ minHeight: '100%' }}
           altText={altText}
@@ -161,7 +161,7 @@ function CardCompactResponsive({
         className={styles.compactCardImage}
       >
         <AspectRatioImage
-          aspectRatio={aspectRatioMobile}
+          aspectRatio={aspectRatioMobile ?? 1}
           data={imageData}
           style={{ minHeight: '100%' }}
           altText={altText}
@@ -208,7 +208,7 @@ function CardStacked({
     >
       <AspectRatioImage
         className={styles.stackedCardImage}
-        aspectRatio={aspectRatio}
+        aspectRatio={aspectRatio ?? 16/9}
         data={imageData}
         Overlay={Overlay}
         altText={altText}
@@ -275,7 +275,7 @@ export function CardStackedResponsive({
         >
           <AspectRatioImage
             className={styles.cardBaseImage}
-            aspectRatio={aspectRatioDesktop ?? aspectRatio}
+            aspectRatio={aspectRatioDesktop ?? aspectRatio ?? 16/9}
             data={imageData}
             Overlay={Overlay}
             altText={altText}
@@ -351,7 +351,7 @@ function CardImage({
       className={cn('dark-mode', styles.imageCard)}
     >
       <AspectRatioImage
-        aspectRatio={aspectRatio}
+        aspectRatio={aspectRatio ?? 16/9}
         data={imageData}
         altText={altText}
       />
@@ -394,7 +394,7 @@ function CardImageResponsive({
       >
         <CardImage
           {...rest}
-          aspectRatio={aspectRatioDesktop ?? rest.aspectRatio}
+          aspectRatio={aspectRatioDesktop ?? rest.aspectRatio ?? 16/9}
         />
       </Grid.Display>
 
@@ -405,7 +405,7 @@ function CardImageResponsive({
       >
         <CardCompact
           {...rest}
-          aspectRatio={aspectRatioMobile ?? rest.aspectRatio}
+          aspectRatio={aspectRatioMobile ?? rest.aspectRatio ?? 1}
         />
       </Grid.Display>
     </>

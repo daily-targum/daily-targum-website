@@ -4020,6 +4020,11 @@ acorn@^7.4.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.0.tgz#e1ad486e6c54501634c6c397c5c121daa383607c"
   integrity sha512-+G7P8jJmCHr+S+cLfQxygbWhXy+8YTVGzAkpEbcLo2mLoL7tij/VG41QSHACSf5QgYRhMZYHuNc6drJaO0Da+w==
 
+adblockdetect@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/adblockdetect/-/adblockdetect-0.0.1.tgz#fad5989ed5bcca41895bb71ade164b68a5f8450d"
+  integrity sha1-+tWYntW8ykGJW7ca3hZLaKX4RQ0=
+
 add@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
@@ -5621,7 +5626,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.6.3:
+create-react-class@^15.6.0, create-react-class@^15.6.3:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
@@ -7407,6 +7412,11 @@ gzip-size@^5.0.0:
   dependencies:
     duplexer "^0.1.1"
     pify "^4.0.1"
+
+hamburger-react@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/hamburger-react/-/hamburger-react-2.2.0.tgz#71494756710a4f63699acbce899657d87c3f1f3a"
+  integrity sha512-7bRKPseNk2K1Upg4kP/yDcg28/wUCnGBVp1699qkyktCi2WjxQEaru9DKGZaqDJJYZzqdyLvLc9oHz3rBXm3PQ==
 
 har-schema@^2.0.0:
   version "2.0.0"
@@ -11038,7 +11048,7 @@ prop-types-exact@1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.7.2, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -11216,6 +11226,14 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
+react-ad-block-detect@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-ad-block-detect/-/react-ad-block-detect-1.0.1.tgz#805f43d25a5df425e810439d26c08b0b335efed2"
+  integrity sha1-gF9D0lpd9CXoEEOdJsCLCzNe/tI=
+  dependencies:
+    adblockdetect "^0.0.1"
+    react "^15.4.2"
+
 react-context-theming@^1.0.0-alpha.842:
   version "1.0.0-alpha.842"
   resolved "https://registry.yarnpkg.com/react-context-theming/-/react-context-theming-1.0.0-alpha.842.tgz#b6e9a50d24f34ae0e0a055d973b6b63b09b238e0"
@@ -11363,6 +11381,17 @@ react-test-renderer@^16.13.1:
     prop-types "^15.6.2"
     react-is "^16.8.6"
     scheduler "^0.19.1"
+
+react@^15.4.2:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
+  integrity sha1-26BDSrQ5z+gvEI8PURZjkIF5qnI=
+  dependencies:
+    create-react-class "^15.6.0"
+    fbjs "^0.8.9"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
+    prop-types "^15.5.10"
 
 react@^16.13.1:
   version "16.13.1"

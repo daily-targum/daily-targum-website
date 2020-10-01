@@ -7,6 +7,8 @@ import { processNextQueryStringParam } from '../../utils';
 import { useRouter } from 'next/router';
 import styles from './page.module.scss';
 import { theme } from '../../constants';
+// @ts-ignore
+import AdBlockDetect from 'react-ad-block-detect';
 
 function Page({
   page 
@@ -36,6 +38,9 @@ function Page({
           <Sticky>
             <Ad type='rectange' style={{ marginBottom: '1rem' }} />
             <Ad type='skyscraper' />
+            <AdBlockDetect>
+              AD BLOCK!!!
+            </AdBlockDetect>
           </Sticky>
         </Grid.Col>
 

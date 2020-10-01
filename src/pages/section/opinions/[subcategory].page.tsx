@@ -49,7 +49,7 @@ function Author({
               data={articles}
               keyExtractor={article => article.id}
               renderItem={article => (
-                <Card.Compact
+                <Card.CompactResponsive
                   className={styles.articleCard}
                   title={article.title}
                   imageData={imgix(article.media[0]?.url ?? '', {
@@ -57,7 +57,7 @@ function Author({
                   })}
                   href='/article/[year]/[month]/[slug]'
                   as={'/'+article.slug}
-                  aspectRatio={3 / 2}
+                  aspectRatioDesktop={3 / 2}
                   date={formatDateAbriviated(article.publishDate)}
                   altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
                 />

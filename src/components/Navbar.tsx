@@ -11,12 +11,11 @@ import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from '../store';
 import { navigationActions } from '../store/ducks/navigation';
 import { useScrollock } from '../utils';
-import { MdClose } from 'react-icons/md';
-import { FiMenu } from 'react-icons/fi';
 import styles from './Navbar.module.scss';
 import cn from 'classnames';
 import { theme } from '../constants';
 import FocusTrap from 'focus-trap-react';
+import { Squash as Hamburger } from 'hamburger-react'
 
 export const NAVBAR_HEIGHT = 60;
 
@@ -99,6 +98,19 @@ function MobileMenu() {
     }
   }, [router.pathname]);
 
+  React.useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+       if (event.keyCode === 27 && isVisible) {
+        dispatch(navigationActions.closeMobileMenu());
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [isVisible]);
+
   return (
     <Grid.Display
       xs={true} 
@@ -107,7 +119,7 @@ function MobileMenu() {
       <div
         className={styles.mobileMenu}
         style={{
-          display: isVisible ? 'flex' : 'none'
+          opacity: +isVisible
         }}
       >
         {navbarLinks.map(link => (link.href === router.asPath) ? (
@@ -120,6 +132,7 @@ function MobileMenu() {
           </span>
         ) : (
           <Link 
+            tabIndex={isVisible ? undefined : -1}
             key={link.href}
             href={link.href}
             className={styles.mobileLink}
@@ -214,25 +227,11 @@ export function Navbar() {
                     <Logo className={styles.logo}/>
                   </Link>
 
-                  <button
-                    className={cn(
-                      styles.menuIconWrap,
-                      styles.links
-                    )}
-                    onClick={() => dispatch(navigationActions.toggleMobileMenu())}
-                  >
-                    {mobileMenuVisible ? (
-                      <MdClose
-                        className={styles.icon}
-                        size={34}
-                      />
-                    ) : (
-                      <FiMenu
-                        className={styles.icon}
-                        size={30}
-                      />
-                    )}
-                  </button>
+                  <Hamburger 
+                    hideOutline={false}
+                    toggled={mobileMenuVisible}
+                    toggle={() => dispatch(navigationActions.toggleMobileMenu())}
+                  />
                 </div>
               </Grid.Display>
             </nav>        
