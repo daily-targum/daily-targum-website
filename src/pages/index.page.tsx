@@ -118,12 +118,12 @@ function Home({
                 title={camelCaseToCapitalized(category)}
               />
               {i === 1 ? (
-                <Ad type='banner' />
+                <Ad type='banner'/>
               ) : null}
             </React.Fragment>
           ))}
 
-          <Ad type='banner'/>
+          <Ad type='banner' priority={2}/>
         </Section>
       </main>
 

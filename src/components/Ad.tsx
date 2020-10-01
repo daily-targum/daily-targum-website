@@ -71,13 +71,29 @@ const presets: {
 function Ad({
   type,
   className,
-  style
+  style,
+  priority = 1
 }: {
   type: keyof typeof presets;
   className?: string;
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
+  priority?: number
 }) {
-  if (presets[type]) {
+  const [visible, setVisible] = React.useState(priority === 1);
+
+  React.useEffect(() => {
+    if (!visible) {
+      const id = setTimeout(() => {
+        setVisible(true);
+      }, 20 * priority);
+
+      return () => {
+        clearTimeout(id);
+      };
+    }
+  }, []);
+
+  if (visible && presets[type]) {
     const preset = presets[type];
     return (
       <div 
