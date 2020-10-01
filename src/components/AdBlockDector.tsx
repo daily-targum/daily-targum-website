@@ -11,7 +11,7 @@ function AdBlockDector({
 
   React.useEffect(() => {
     if (nextUtils.isBrowser()) {
-      fetch("https://securepubads.g.doubleclick.net/tag/js/gpt.js")
+      fetch("securepubads.g.doubleclick.net/pagead/adview")
       .catch(() => { 
         setAdsBlocked(true)
       });
