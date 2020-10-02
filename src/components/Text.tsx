@@ -13,6 +13,9 @@ interface TextBaseProps {
   children: ReactChildren<string>;
   onClick?: () => any;
   numberOfLines?: number;
+  /* Aria Label */
+  label?: string;
+  tooltipPosition?: 'left' | 'right';
 }
 
 function TextBase({
@@ -52,7 +55,9 @@ export function Text({
   htmlTag,
   style,
   noPadding = false,
-  onClick
+  onClick,
+  label,
+  tooltipPosition
 }: TextProps) {
   if (htmlTag === undefined && !/h{1,6}/.test(variant)) {
     htmlTag = variant;
@@ -66,6 +71,8 @@ export function Text({
       })}
       style={style}
       onClick={onClick}
+      aria-label={label}
+      data-tooltip-position={tooltipPosition}
     >
       {children}
     </TextBase>
@@ -87,7 +94,9 @@ function Truncate({
   htmlTag = 'span',
   style,
   noPadding = false,
-  onClick
+  onClick,
+  label,
+  tooltipPosition
 }: TrunkcateTextProps) {
   return (
     <TextBase
@@ -110,6 +119,8 @@ function Truncate({
         } : null,
         ...style
       }}
+      aria-label={label}
+      data-tooltip-position={tooltipPosition}
     >
       {children}
     </TextBase>

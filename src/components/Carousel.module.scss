@@ -8,7 +8,7 @@
 
 .scroll {
   @include styleHelpers.flex('row');
-  overflow: auto;
+  overflow-x: auto;
   flex: 1;
   @include styleHelpers.lockHeight(100%);
   scroll-snap-type: x mandatory;
@@ -22,16 +22,19 @@
 }
 
 .buttonWrap {
-  @include styleHelpers.hideButton();
-  cursor: pointer;
   display: flex;
   align-items: center;
-  position: absolute;
+  position: absolute !important;
   top: 0;
   bottom: 0;
   padding: theme.spacing(0, 1.5);
   height: 100%;
   width: 25%;
+}
+
+.button {
+  @include styleHelpers.hideButton();
+  cursor: pointer;
 }
 
 .item {

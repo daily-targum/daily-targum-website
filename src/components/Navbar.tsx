@@ -225,11 +225,13 @@ export function Navbar() {
                 lg={false}
               >
                 <div className={styles.inner}>
-                  <Link href='/'>
+                  <Link href='/' label='Click to go to homepage'>
                     <Logo className={styles.logo}/>
                   </Link>
 
                   <Hamburger 
+                    label={`${mobileMenuVisible ? 'Close' : 'Open'} navigation menu`}
+                    color='var(--colors-text)'
                     duration={0.3}
                     hideOutline={false}
                     toggled={mobileMenuVisible}

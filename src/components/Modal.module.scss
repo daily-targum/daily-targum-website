@@ -14,7 +14,7 @@
 
 .closeIcon {
   @include styleHelpers.hideButton();
-  position: absolute;
+  position: absolute !important;
   top: theme.spacing(2);
   right: theme.spacing(2);
   cursor: pointer;

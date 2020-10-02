@@ -30,13 +30,17 @@ export function Link({
   children,
   style,
   className,
-  tabIndex
+  tabIndex,
+  label,
+  tooltipPosition
 }: {
   href: string
   children: React.ReactNode
   style?: React.CSSProperties
   className?: string
   tabIndex?: number
+  label?: string
+  tooltipPosition?: 'left' | 'right'
 }) {
   let linkAs: string | undefined = undefined;
   const hrefHost = href.match(/(https{0,1}:\/\/|^)([^/]+)/)?.[2];
@@ -72,6 +76,8 @@ export function Link({
         style={style}
         className={className}
         tabIndex={tabIndex}
+        aria-label={label}
+        data-tooltip-position={tooltipPosition}
       >
         {children}
       </a>
@@ -84,6 +90,8 @@ export function Link({
       style={style}
       className={className}
       tabIndex={tabIndex}
+      aria-label={label}
+      data-tooltip-position={tooltipPosition}
     >
       {children}
     </a>

@@ -63,3 +63,7 @@
     opacity: 1;
   }
 }
+
+.hideButton {
+  @include styleHelpers.hideButton();
+}

@@ -134,6 +134,7 @@ function Player({
 
       {playState !== 'play' ? (
         <button 
+          aria-label='Play video'
           className={styles.videoOverlay}
           onClick={() => {
             const refClone = ref.current;
@@ -165,15 +166,21 @@ function PersistentPlayer() {
         display: (!persist || !src) ? 'none' : 'flex'
       }}
     >
-      <IoMdClose
-        color='#fff'
-        size={24}
-        className={styles.closeIcon}
+      <button
+        aria-label='Close video player'
+        data-tooltip-position='left'
         onClick={() => {
           dispatch(videoActions.setPlayState('pause'));
           dispatch(videoActions.setPersist(false));
         }}
-      />
+        className={styles.hideButton}
+      >
+        <IoMdClose
+          color='#fff'
+          size={24}
+          className={styles.closeIcon}
+        />
+      </button>
       <Player
         slave={!persist}
       />

@@ -21,28 +21,35 @@ function Button({
   direction: 'left' | 'right'
 }) {
   return (
-    <button
-      onClick={onClick}
+    <div 
       className={styles.buttonWrap}
       style={{
         [direction]: 0,
         justifyContent: direction === 'left' ? 'flex-start' : 'flex-end'
       }}
+      onClick={onClick}
     >
-      {direction === 'left' ? (
-        <IoIosArrowDropleftCircle
-          size={32}
-          color='#fff'
-          className={styles.icon}
-        />
-      ) : (
-        <IoIosArrowDroprightCircle
-          size={32}
-          color='#fff'
-          className={styles.icon}
-        />
-      )}
-    </button>
+      <button
+        className={styles.button}
+        aria-label={`${direction === 'left' ? 'Previous' : 'Next'} photo`}
+        data-tooltip-position={direction === 'left' ? 'right' : 'left'}
+        onClick={onClick}
+      >
+        {direction === 'left' ? (
+          <IoIosArrowDropleftCircle
+            size={32}
+            color='#fff'
+            className={styles.icon}
+          />
+        ) : (
+          <IoIosArrowDroprightCircle
+            size={32}
+            color='#fff'
+            className={styles.icon}
+          />
+        )}
+      </button>
+    </div>
   )
 }
 

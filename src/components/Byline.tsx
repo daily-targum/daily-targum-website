@@ -29,8 +29,7 @@ function Authors({
             key={author.id}
             href={`/staff/${author.slug}`}
             className={styles.avatar}
-            // FIX THIS: does aria-label work as expected
-            aria-label={`More articles by ${author.displayName}`}
+            label={`More articles by ${author.displayName}`}
             tabIndex={-1}
           >
             <AspectRatioImage
@@ -51,7 +50,7 @@ function Authors({
                 <Link 
                   href={`/staff/${author.slug}`}
                   className={styles.hideLink}
-                  aria-label={`More articles by ${author.displayName}`}
+                  label={`More articles by ${author.displayName}`}
                 >
                   <Text className={styles.author}>{author.displayName}</Text>
                 </Link>

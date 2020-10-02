@@ -198,3 +198,57 @@ table tr td {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+[aria-label] {
+  position: relative;
+
+  &[data-tooltip-position="right"] {
+    &:after {
+      left: 0px;
+    }
+  }
+
+  &[data-tooltip-position="left"] {
+    &:after {
+      right: 0px;
+    }
+  }
+}
+
+.hamburger-react:after {
+  // Aria label position
+  right: 0 !important;
+  left: unset !important;
+}
+
+[aria-label]:after {
+  content: attr(aria-label);
+  display: block;
+  position: absolute;
+  top: 110%;
+  z-index: 5000;
+  pointer-events: none;
+  padding: 8px 10px;
+  line-height: 15px;
+  white-space: nowrap;
+  text-decoration: none;
+  text-indent: 0;
+  overflow: visible;
+  font-size: .9em;
+  font-weight: normal;
+  color: var(--colors-primary_contrastTextMuted);
+  text-shadow: 1px 0 1px #888;
+  background-color: var(--colors-primary_main);
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 1px 2px 6px rgba(0,0,0,0.3);
+  box-shadow: 1px 2px 6px rgba(0,0,0,0.3);
+  visibility: hidden;
+  opacity: 0;
+}
+
+[aria-label]:hover:after {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 250ms 500ms;
+}

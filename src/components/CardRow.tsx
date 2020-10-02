@@ -118,6 +118,8 @@ function Header({
               variant='h4' 
               className={styles.moreInLinkText}
               noPadding
+              label={`More in ${title}`}
+              tooltipPosition='left'
             >
               More
             </Text>
