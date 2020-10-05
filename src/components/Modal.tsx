@@ -19,9 +19,13 @@ export function Modal({
   overflow?: string
 }) {
   const { toggleScrollock } = useScrollock();
+  const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    toggleScrollock(open)
+    toggleScrollock(open);
+    if (ref.current && !open) {
+      ref.current.scrollTop = 0;
+    }
   }, [open]);
 
   React.useEffect(() => {
@@ -61,6 +65,7 @@ export function Modal({
           </button>
 
           <div
+            ref={ref}
             className={styles.modal}
             style={{
               overflow
