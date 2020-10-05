@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, SkipNav, AdBlockDector } from '../../components';
+import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, SkipNav } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { processNextQueryStringParam } from '../../utils';
@@ -36,9 +36,6 @@ function Page({
           <Sticky>
             <Ad type='rectange' style={{ marginBottom: '1rem' }} />
             <Ad type='skyscraper' />
-            <AdBlockDector>
-              <span>AD BLOCK!!!</span>
-            </AdBlockDector>
           </Sticky>
         </Grid.Col>
 
