@@ -48,4 +48,24 @@ function StickyContainer({
   )
 }
 
+Section.OffsetPadding = OffsetPadding;
+function OffsetPadding({
+  children,
+  className
+}: {
+  children: ReactChildren;
+  className?: string
+}) {
+  return (
+    <div
+      className={cn(
+        styles.offsetPadding, 
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default Section;

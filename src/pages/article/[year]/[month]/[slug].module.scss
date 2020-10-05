@@ -5,8 +5,20 @@
   @include styleHelpers.page();
 }
 
+.title {
+  padding-bottom: theme.spacing(1);
+}
+
 .photoCredit {
   padding: theme.spacing(1, 0);
   display: flex;
   color: theme.color('textMuted');
+}
+
+.photoWrap {
+  margin-bottom: theme.spacing(1);
+}
+
+.divider {
+  margin-top: theme.spacing(1);
 }

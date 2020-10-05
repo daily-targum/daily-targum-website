@@ -32,6 +32,7 @@ export * from './Modal';
 export * from './Sticky';
 export * from './SkipNav';
 export * from './ResetTabIndex';
+export * from './AccessibilityFix';
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,

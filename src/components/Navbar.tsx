@@ -15,7 +15,7 @@ import styles from './Navbar.module.scss';
 import cn from 'classnames';
 import { theme } from '../constants';
 import FocusTrap from 'focus-trap-react';
-import { Fade as Hamburger } from 'hamburger-react'
+import { Fade as Hamburger } from 'hamburger-react';
 
 export const NAVBAR_HEIGHT = 60;
 

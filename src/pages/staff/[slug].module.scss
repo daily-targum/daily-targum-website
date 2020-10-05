@@ -14,7 +14,7 @@
 }
 
 .avatar {
-  @include styleHelpers.lockWidth(20%);
+  @include styleHelpers.lockWidth(28%);
   border-radius: 100%;
   overflow: hidden;
 

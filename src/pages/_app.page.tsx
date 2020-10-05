@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppProps } from 'next/app';
-import { Navbar, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO, SkipNav } from '../components';
+import { Navbar, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO, SkipNav, AccessibilityFix } from '../components';
 import { Provider as ReduxProvider } from '../store';
 import '../styles/global.scss';
 
@@ -37,12 +37,14 @@ function App({
   err
 }: CustomAppProps) {
   const seo = pageProps.seo ?? {};
+
   return (
     <>
       <SEO {...seo}/>
       <ReduxProvider>
         <Grid.Provider>
           <DFPSlotsProvider dfpNetworkId='13580645'>
+            <AccessibilityFix/>
             <SkipNav.Link/>
 
             <Page>

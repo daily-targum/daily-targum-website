@@ -133,7 +133,8 @@ export function Carousel<T>({
     (offset: number) => {
       if (!div) return;
       const newIndex = clamp(0, index + offset, data.length - 1);
-      div.scrollLeft = newIndex * width;
+      // div.scrollLeft = newIndex * width;
+      div.scroll({ top: 0, left: newIndex * width, behavior: 'smooth' });
     },
     [data.length, div, index, width]
   );

@@ -32,7 +32,7 @@ export default class MyDocument extends Document<{
           <link rel="preconnect" href="https://www.google-analytics.com/"/>
           <link rel="dns-prefetch" href="https://dailytargum.imgix.net/"/>
 
-          <script async src="https://unpkg.com/remove-focus-outline@1.2.1/outline.js"/>
+          <script async src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.js"/>
         </Head>
 
         <body>

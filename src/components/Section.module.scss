@@ -9,6 +9,13 @@
   padding-left: calc(#{theme.spacing(1.25)} + 1vw);
 }
 
+.offsetPadding {
+  @include theme.mediaQuery('xs', 'md') {
+    margin-right: calc((#{theme.spacing(1.25)} + 1vw) * -1);
+    margin-left: calc((#{theme.spacing(1.25)} + 1vw) * -1);
+  }
+}
+
 .inside {
   width: 100%;
   max-width: calc(1000px + 22vw);

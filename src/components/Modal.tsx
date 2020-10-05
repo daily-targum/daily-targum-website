@@ -5,6 +5,7 @@ import { ReactChildren } from '../types';
 import styles from './Modal.module.scss';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
+import ReactDiv100 from 'react-div-100vh';
 
 export function Modal({
   open = false,
@@ -39,33 +40,37 @@ export function Modal({
 
   return (
     <FocusTrap active={open}>
-      <div
-        className={cn(
-          styles.backdrop,
-          {
-            [styles.hide]: !open
-          }
-        )}
-        onClick={handleClose}
-      >
-        <button
-          aria-label='Close modal'
-          data-tooltip-position='left'
-          onClick={handleClose}
-          className={styles.closeIcon}
-        >
-          <IoMdClose size={30}/>
-        </button>
-
+      <div>
+      <ReactDiv100>
         <div
-          className={styles.modal}
-          style={{
-            overflow
-          }}
-          onClick={e => e.stopPropagation()}
+          className={cn(
+            styles.backdrop,
+            {
+              [styles.hide]: !open
+            }
+          )}
+          onClick={handleClose}
         >
-          {children}
+          <button
+            aria-label='Close modal'
+            data-tooltip-position='left'
+            onClick={handleClose}
+            className={styles.closeIcon}
+          >
+            <IoMdClose size={30}/>
+          </button>
+
+          <div
+            className={styles.modal}
+            style={{
+              overflow
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            {children}
+          </div>
         </div>
+      </ReactDiv100>
       </div>
     </FocusTrap>
   );

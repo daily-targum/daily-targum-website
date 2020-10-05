@@ -41,19 +41,29 @@ function Article({
             <main>
               <article>
                 <SkipNav.Content/>
-                <Text variant='h1' htmlTag='h1'>{article.title}</Text>
+                <Text 
+                  variant='h1' 
+                  htmlTag='h1'
+                  className={styles.title}
+                >
+                  {article.title}
+                </Text>
+                
                 <Byline.Authors 
                   authors={article.authors}
                   publishDate={article.publishDate}
                 />
-                <AspectRatioImage
-                  aspectRatio={16 / 9}
-                  data={imgix(article.media[0]?.url ?? '', {
-                    xs: imgix.presets.md('16:9'),
-                    md: imgix.presets.xl('16:9')
-                  })}
-                  altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
-                />
+
+                <Section.OffsetPadding className={styles.photoWrap}>
+                  <AspectRatioImage
+                    aspectRatio={16 / 9}
+                    data={imgix(article.media[0]?.url ?? '', {
+                      xs: imgix.presets.md('16:9'),
+                      md: imgix.presets.xl('16:9')
+                    })}
+                    altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
+                  />
+                </Section.OffsetPadding>
                 {photoCredit ? (
                   <Text className={styles.photoCredit}>
                     Photo by {photoCredit}
@@ -64,7 +74,7 @@ function Article({
                     {photoDescription}
                   </Text>
                 ) : null}
-                <Divider/>
+                <Divider className={styles.divider}/>
 
                 <Br/>
                 <HTML 

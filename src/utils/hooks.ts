@@ -107,5 +107,3 @@ export const useScrollock = (
 
   return { scrollock, toggleScrollock };
 };
-
-export default useScrollock;
