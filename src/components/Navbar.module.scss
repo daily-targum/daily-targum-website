@@ -2,7 +2,6 @@
 @use 'styleHelpers';
 
 $HEIGHT: 60px;
-$BANNER: 58px;
 
 .banner {
   @include styleHelpers.flex('row');
@@ -40,7 +39,7 @@ $BANNER: 58px;
 }
 
 .navbarSpacer {
-  height: $HEIGHT + $BANNER;
+  height: $HEIGHT;
 }
 
 .inner {

@@ -2,14 +2,18 @@
 @use 'styleHelpers';
 
 .searchWrap {
+  position: relative;
+}
+
+.search {
   @include styleHelpers.lockWidth(175px);
   @include styleHelpers.card();
   height: 2rem;
   margin-left: theme.spacing(2.5);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid theme.color('divider');
   background-color: theme.color('surface');
-  // TODO: Remove this once search is working
-  opacity: 0;
+  outline-width: 5px;
+  position: relative;
 }
 
 .searchInput {
@@ -22,6 +26,8 @@
   font-size: 1rem;
   line-height: 1rem;
   color: theme.color('text');
+  // use custom outline for accesibility
+  outline: none;
 }
 
 .searchPlaceholder {
@@ -39,6 +45,7 @@
   @include styleHelpers.lockWidth(18px);
   color: theme.color('text');
   opacity: 0.7;
+  cursor: pointer;
 }
 
 .searchRow {
@@ -47,6 +54,7 @@
   align-items: center;
   justify-content: center;
   padding: theme.spacing(0, 1);
+  transition: opacity theme.timing(1);
 }
 
 .hide {
@@ -59,4 +67,39 @@
 
 .clickable {
   cursor: pointer;
+}
+
+.preview { 
+  background-color: rgb(255 255 255);
+  top: calc(100% + 7px);
+  position: absolute;
+  right: 0;
+  width: 500px;
+  border-radius: theme.roundness(1);
+  padding: theme.spacing(2, 0);
+
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+
+.previewLink {
+  @include styleHelpers.hideLink();
+  display: flex;
+  padding: theme.spacing(1.5, 3);
+
+  &:focus {
+    background-color: rgba(0,0,0,0.2);
+  }
+}
+
+.previewItem {
+}
+
+.backdrop {
+  @include styleHelpers.absoluteFill();
+  position: fixed;
+  z-index: 999;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

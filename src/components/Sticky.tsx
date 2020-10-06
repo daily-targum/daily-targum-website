@@ -24,7 +24,7 @@ export function Sticky({
         <div 
           style={{
             ...style,
-            top: offsetType(style.top, 120)
+            top: offsetType(style.top, 80)
           } as any}
         >
         {children}

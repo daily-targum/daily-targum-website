@@ -3,12 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useVisibility } from '../utils';
 
 import styles from './ActivityIndicator.module.scss';
-import cn from 'classnames';
 
 function Spinner() {
   return (
     <div 
-      className={cn('animation-preset-spin', styles.spinner)}
+      className={styles.spinner}
     />
   )
 }

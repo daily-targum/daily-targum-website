@@ -16,6 +16,10 @@
 .footer {
   padding: theme.spacing(5, 0);
   background-color: theme.color('primary_main');
+
+  @include theme.mediaQuery('xs', 'md') {
+    padding: theme.spacing(0, 0, 3);;
+  }
 }
 
 .copyright {
@@ -32,6 +36,10 @@
 .title {
   color: theme.color('primary_contrastText');
   text-align: center;
+
+  @include theme.mediaQuery('xs', 'md') {
+    margin: theme.spacing(2.75, 0);
+  }
 }
 
 .link {

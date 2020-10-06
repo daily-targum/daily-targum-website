@@ -1,5 +1,6 @@
 import React from 'react';
 import DefaultLink from 'next/link';
+import { useRouter } from 'next/router';
 
 const internalPages = [
   '/article/[year]/[month]/[slug]',
@@ -32,7 +33,8 @@ export function Link({
   className,
   tabIndex,
   label,
-  tooltipPosition
+  tooltipPosition,
+  onClickSideEffect
 }: {
   href: string
   children: React.ReactNode
@@ -41,7 +43,10 @@ export function Link({
   tabIndex?: number
   label?: string
   tooltipPosition?: 'left' | 'right'
+  onClickSideEffect?: () => any
 }) {
+  const router = useRouter();
+
   let linkAs: string | undefined = undefined;
   const hrefHost = href.match(/(https{0,1}:\/\/|^)([^/]+)/)?.[2];
   
@@ -78,6 +83,14 @@ export function Link({
         tabIndex={tabIndex}
         aria-label={label}
         data-tooltip-position={tooltipPosition}
+        onClick={onClickSideEffect ? (
+          (e) => {
+            if (e.defaultPrevented) {
+              router.push(linkAs ?? href);
+            }
+            onClickSideEffect();
+          }
+        ) : undefined}
       >
         {children}
       </a>
@@ -92,6 +105,14 @@ export function Link({
       tabIndex={tabIndex}
       aria-label={label}
       data-tooltip-position={tooltipPosition}
+      onClick={onClickSideEffect ? (
+        (e) => {
+          if (e.defaultPrevented) {
+            router.push(linkAs ?? href);
+          }
+          onClickSideEffect();
+        }
+      ) : undefined}
     >
       {children}
     </a>

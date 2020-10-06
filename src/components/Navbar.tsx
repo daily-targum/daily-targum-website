@@ -4,7 +4,6 @@ import Section from './Section';
 import Logo from './Logo';
 import Search from './Search';
 import Link from './Link';
-import Text from './Text';
 // @ts-ignore
 import NextNprogress from './NextNProgress';
 import { useRouter } from 'next/router';
@@ -15,22 +14,9 @@ import styles from './Navbar.module.scss';
 import cn from 'classnames';
 import { theme } from '../constants';
 import FocusTrap from 'focus-trap-react';
-import { Fade as Hamburger } from 'hamburger-react';
+import { Twirl as Hamburger } from 'hamburger-react';
 
 export const NAVBAR_HEIGHT = 60;
-
-function Banner() {
-  return (
-    <div 
-      className={cn(
-        styles.banner,
-        'dark-mode'
-      )}
-    >
-      <Text className={styles.bannerText}>We would love to hear what you think of the new website. <Link href='https://docs.google.com/forms/d/e/1FAIpQLSe70rAwuC9-K1hmOhSnH9L2iLmb7IfWspcvLDBGVHl_Z-QpkQ/viewform'>Leave Feedback</Link>.</Text>
-    </div>
-  );
-}
 
 
 const navbarLinks: {
@@ -171,18 +157,11 @@ export function Navbar() {
               ['dark-mode']: darkNavbar
             }
           )}
-          style={{
-            ...(mobileMenuVisible ? {
-              position: 'fixed'
-            } : null)
-          }}
         >
-          <Banner/>
-
           <Section 
             className={styles.navbar}
             style={{
-              position: mobileMenuVisible ? 'fixed' : 'sticky'
+              position: 'sticky'
             }}
             styleInside={{
               overflow: 'visible'
@@ -246,7 +225,7 @@ export function Navbar() {
         </div>
       </FocusTrap>
 
-      <div className={mobileMenuVisible ? styles.navbarSpacer : undefined}/>
+      <Search.PreviewBackdrop/>
     </>
   );
 }

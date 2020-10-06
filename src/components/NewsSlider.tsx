@@ -151,6 +151,7 @@ export function NewsSlider({
         {articles.map((a, i) => (
           <button
             key={a.id}
+            aria-label={`Slide article ${i+1}`}
             className={cn(
               styles.dot,
               {

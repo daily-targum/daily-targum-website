@@ -5,6 +5,7 @@ import Logo from './Logo';
 import Text from './Text';
 import Link from './Link';
 import styles from './Footer.module.scss';
+import Divider from './Divider';
 
 const links = {
   company: [
@@ -56,7 +57,7 @@ const links = {
 export function Footer() {
   return (
     <Section className={styles.footer}>
-      <footer>
+      <footer className='dark-mode'>
 
         <Grid.Row>
 
@@ -87,6 +88,10 @@ export function Footer() {
             ))}
           </Grid.Col>
 
+          <Grid.Col xs={24} md={0}>
+            <Divider/>
+          </Grid.Col>
+
           <Grid.Col xs={24} md={8} className={styles.col}>
             <Text variant='h4' className={styles.title}>Social Media</Text>
             {links.socialMedia.map(l => (
@@ -98,6 +103,10 @@ export function Footer() {
                 {l.title}
               </Link>
             ))}
+          </Grid.Col>
+
+          <Grid.Col xs={24} md={0}>
+            <Divider/>
           </Grid.Col>
 
           <Grid.Col xs={24} md={0} className={styles.col}>
@@ -112,6 +121,10 @@ export function Footer() {
                 <img src="/powered-by-contentful.svg" alt="Powered by Contentful" loading='lazy' className={styles.sublogo}/>
               </Link>
             </div>
+          </Grid.Col>
+
+          <Grid.Col xs={24} md={0}>
+            <Divider/>
           </Grid.Col>
 
         </Grid.Row>
