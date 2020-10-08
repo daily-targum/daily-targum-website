@@ -6,7 +6,7 @@
   @include styleHelpers.hideLink();
   padding: theme.spacing(2, 8);
   background-color: theme.color("accent_main");
-  border-radius: theme.roundness();
+  border-radius: theme.roundness(1);
   cursor: pointer;
   color: #fff;
   font-size: 1.3rem;

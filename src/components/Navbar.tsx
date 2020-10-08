@@ -23,6 +23,7 @@ const navbarLinks: {
   title: string
   href: string
   mobileOnly?: boolean
+  ariaLabel?: string
 }[] = [
   {
     title: 'News',
@@ -50,7 +51,8 @@ const navbarLinks: {
   // },
   {
     title: 'HoRU',
-    href: '/section/humans-of-rutgers'
+    href: '/section/humans-of-rutgers',
+    ariaLabel: 'Humans of Rutgers'
   },
   // {
   //   title: 'Podcasts',
@@ -116,6 +118,7 @@ function MobileMenu() {
             key={link.href}
             className={cn(styles.mobileLink, styles.linkActive)}
             onClick={() => dispatch(navigationActions.closeMobileMenu())}
+            aria-label={link.ariaLabel}
           >
             <span>{link.title}</span>
           </span>
@@ -124,6 +127,7 @@ function MobileMenu() {
             key={link.href}
             href={link.href}
             className={styles.mobileLink}
+            label={link.ariaLabel}
           >
             <span>{link.title}</span>
           </Link>
@@ -174,7 +178,7 @@ export function Navbar() {
                 style={{ flex: 1 }}
               >
                 <div className={styles.inner}>
-                  <Link href='/'>
+                  <Link href='/' label='Go to homepage'>
                     <Logo className={styles.logo}/>
                   </Link>
                   
@@ -183,6 +187,7 @@ export function Navbar() {
                       <Link 
                         key={link.href}
                         href={link.href}
+                        label={link.ariaLabel}
                         className={cn(
                           styles.link,
                           {
@@ -195,6 +200,8 @@ export function Navbar() {
                     ))}
                   </div>
 
+                  <Search.PreviewBackdrop/>
+
                   <Search.Input/>
                 </div>
               </Grid.Display>
@@ -204,7 +211,7 @@ export function Navbar() {
                 lg={false}
               >
                 <div className={styles.inner}>
-                  <Link href='/' label='Click to go to homepage'>
+                  <Link href='/' label='Go to homepage'>
                     <Logo className={styles.logo}/>
                   </Link>
 
@@ -224,8 +231,6 @@ export function Navbar() {
           <MobileMenu/>
         </div>
       </FocusTrap>
-
-      <Search.PreviewBackdrop/>
     </>
   );
 }

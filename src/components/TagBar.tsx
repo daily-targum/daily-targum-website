@@ -17,6 +17,8 @@ export function TagBar({
     <div 
       className={styles.tagBar}
       style={style}
+      aria-label='Tag Selector Bar'
+      data-tooltip-position='none'
     >
       <button 
         className={cn(
@@ -26,6 +28,8 @@ export function TagBar({
           }
         )}
         onClick={() => onChange(null)}
+        aria-label='Clear selected tag'
+        data-tooltip-position='none'
       > 
         all
       </button>
@@ -42,6 +46,8 @@ export function TagBar({
           onClick={() => {
             onChange(tag);
           }}
+          aria-label={tag.replace(/s-/g, "'s ")+" tag"}
+          data-tooltip-position='none'
         >
           {tag.replace(/s-/g, "'s ")}
         </button>

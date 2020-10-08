@@ -22,3 +22,20 @@
 .divider {
   margin-top: theme.spacing(1);
 }
+
+.fullWidth {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.figcaption {
+  padding: theme.spacing(1, 0);
+  color: theme.color('textMuted');
+  font-size: 0.9rem;
+}
+
+.captionSpacer {
+  display: block;
+  height: theme.spacing(1);
+}

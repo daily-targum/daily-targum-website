@@ -33,6 +33,8 @@ export function Link({
   className,
   tabIndex,
   label,
+  ariaHidden,
+  role,
   tooltipPosition,
   onClickSideEffect
 }: {
@@ -42,6 +44,8 @@ export function Link({
   className?: string
   tabIndex?: number
   label?: string
+  ariaHidden?: boolean
+  role?: string
   tooltipPosition?: 'left' | 'right'
   onClickSideEffect?: () => any
 }) {
@@ -82,6 +86,8 @@ export function Link({
         className={className}
         tabIndex={tabIndex}
         aria-label={label}
+        aria-hidden={ariaHidden}
+        role={role}
         data-tooltip-position={tooltipPosition}
         onClick={onClickSideEffect ? (
           (e) => {
@@ -104,6 +110,8 @@ export function Link({
       className={className}
       tabIndex={tabIndex}
       aria-label={label}
+      aria-hidden={ariaHidden}
+      role={role}
       data-tooltip-position={tooltipPosition}
       onClick={onClickSideEffect ? (
         (e) => {

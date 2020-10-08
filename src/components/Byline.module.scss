@@ -15,7 +15,7 @@
 .row {
   @include styleHelpers.flex('row');
   align-items: center;
-  margin: theme.spacing(2, 0);
+  margin: theme.spacing(2, 0, 5);
 }
 
 .column {
@@ -42,6 +42,8 @@
 
 .author {
   color: theme.color('accent_main');
+  margin-bottom: theme.spacing(1);
+  display: block;
 }
 
 .authors {

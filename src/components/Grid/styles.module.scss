@@ -4,6 +4,13 @@
   display: grid;
   flex: 1;
   align-items: flex-start;
+  grid-gap: var(--gridSpacing);
+}
+
+@media print { 
+  .disableGridOnPrit {
+    grid-template-columns: unset !important;
+  }
 }
 
 .col {

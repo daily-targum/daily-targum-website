@@ -9,8 +9,12 @@ export function Banner({
   accentText?: string
 }) {
   return (
-    <div className={styles.logoWrap}>
-      <span className={styles.logo}>
+    <div 
+      className={styles.logoWrap} 
+      role='banner'
+      aria-label={`${text}${accentText ? ' '+accentText : ''}`}
+    >
+      <span className={styles.logo} aria-hidden={true}>
         {text}
         {accentText ? <span className={styles.logoAccent}> {accentText}</span> : null}
       </span>

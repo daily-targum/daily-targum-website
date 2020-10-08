@@ -10,7 +10,7 @@ export function Divider({
   style?: React.CSSProperties
 }) {
   return (
-    <div 
+    <hr 
       className={cn(styles.divider, className)}
       style={style}
     />
@@ -25,9 +25,10 @@ function Vertical({
   style?: React.CSSProperties
 }) {
   return (
-    <div 
+    <div
       className={cn(styles.dividerVertical, className)}
       style={style}
+      aria-label='Vertical separator'
     />
   );
 }

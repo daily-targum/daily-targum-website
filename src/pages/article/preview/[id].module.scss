@@ -1,5 +1,41 @@
 @use 'styleHelpers';
+@use 'theme';
 
 .page {
   @include styleHelpers.page();
+}
+
+.title {
+  padding-bottom: theme.spacing(1);
+}
+
+.photoCredit {
+  padding: theme.spacing(1, 0);
+  display: flex;
+  color: theme.color('textMuted');
+}
+
+.photoWrap {
+  margin-bottom: theme.spacing(1);
+}
+
+.divider {
+  margin-top: theme.spacing(1);
+}
+
+.fullWidth {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.figcaption {
+  padding: theme.spacing(1, 0);
+  color: theme.color('textMuted');
+  font-size: 0.9rem;
+}
+
+.captionSpacer {
+  display: block;
+  height: theme.spacing(1);
 }

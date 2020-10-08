@@ -3,22 +3,6 @@
 
 $HEIGHT: 60px;
 
-.banner {
-  @include styleHelpers.flex('row');
-  background-color: #000;
-  padding: theme.spacing(2);
-  justify-content: center;
-}
-
-.bannerText {
-  color: theme.color('primary_contrastText');
-  text-align: center;
-}
-
-.bannerAccentText {
-  color: theme.color('accent_main');
-}
-
 .navbarWrap {
   position: sticky;
   width: 100%;

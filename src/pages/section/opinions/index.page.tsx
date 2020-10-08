@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles, CompactArticle } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { Section, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel, Link, Ad, SkipNav } from '../../../components';
+import { Section, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel, Link, Ad, SkipNav, Semantic } from '../../../components';
 import { imgix } from '../../../utils';
 import { GetStaticProps } from 'next';
 import styles from './index.module.scss';
@@ -55,9 +55,9 @@ function Category({
 }) {
   return (
     <Section className={styles.page}>
-      <Banner text='Opinions'/>
+      <Semantic role='main' pritable>
+        <Banner text='Opinions'/>
 
-      <main>
         <SkipNav.Content/>
       
         <Grid.Row spacing={theme.spacing(2)}>
@@ -121,7 +121,7 @@ function Category({
           </React.Fragment>
         ))}
         
-      </main>
+      </Semantic>
     </Section>
   );
 }

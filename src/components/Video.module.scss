@@ -50,13 +50,15 @@
 
 .videoOverlay {
   @include styleHelpers.absoluteFill();
+  position: absolute !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
+  // opacity: 0;
   transition: opacity theme.timing(0.5);
   width: 100%;
   @include styleHelpers.hideButton();
+  cursor: pointer;
   
   &:hover,
   &:focus {
@@ -66,4 +68,8 @@
 
 .hideButton {
   @include styleHelpers.hideButton();
+}
+
+.date {
+  color: theme.color('textMuted');
 }

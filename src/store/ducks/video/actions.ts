@@ -41,12 +41,14 @@ export function loadVideo({
   src,
   title,
   description,
-  thumbnail
+  thumbnail,
+  createdAt
 }: {
   src: string
   title: string
   description: string
   thumbnail: string
+  createdAt: number
 }) {
   return {
     type: types.VIDEO_SET_VIDEO,
@@ -54,7 +56,8 @@ export function loadVideo({
       src,
       title,
       description,
-      thumbnail
+      thumbnail,
+      createdAt
     }
   };
 }

@@ -2,7 +2,6 @@
 @use 'styleHelpers';
 
 .page {
-  background-color: theme.color('surface');
   flex: 1;
 }
 
@@ -21,7 +20,7 @@
 
 .appSection {
   padding-top: theme.spacing(5);
-  background-color: theme.color('background');
+  background-color: theme.color('background_light');
 }
 
 .appStoreRow {

@@ -1,5 +1,11 @@
-@function roundness($multiplier: 1) {
-  @return (6 * $multiplier) + px;
+@function roundness($multipliers...) {
+  $output: "";
+
+  @each $multiplier in $multipliers {
+    $output: #{$output} ((6 * $multiplier) + px);
+  }
+
+  @return $output;
 }
 
 @function spacing($multipliers...) {
@@ -57,8 +63,26 @@
   @return $query;
 }
 
+@function buildPrinterMediaQuery($lower: null, $upper: null) {
+  $query: "only print";
+
+  @if $lower != null {
+    $query: $query + " and (min-width: " + (breakpointToNumber($lower) * 0.3) + ")";
+  }
+
+  @if $upper != null {
+    $query: $query + " and (max-width: " + (breakpointToNumber($upper) * 0.3) + ")";
+  }
+
+  @return $query;
+}
+
 @mixin mediaQuery($lower: null, $upper: null) {
   @media #{buildMediaQuery($lower, $upper)} {
+    @content; 
+  }
+
+  @media #{buildPrinterMediaQuery($lower, $upper)} {
     @content; 
   }
 }

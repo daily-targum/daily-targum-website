@@ -17,6 +17,15 @@
   -webkit-line-clamp: var(--text-numberOfLines);
 }
 
+// @media print {
+//   .truncate {
+//     display: inline;
+//     overflow: visible;
+//     -webkit-line-clamp: unset;
+//     -webkit-box-orient: unset;
+//   }
+// }
+
 .h1 {
   font-size: 2.5rem;
   line-height: lineHeight();
@@ -62,8 +71,8 @@
   font-size: 1rem;
   line-height: lineHeight('paragraph');
   margin-bottom: theme.spacing(2);
-  word-break: break-word;
-  hyphens: auto;
+  // word-break: break-word;
+  // hyphens: auto;
   font-weight: normal;
 }
 

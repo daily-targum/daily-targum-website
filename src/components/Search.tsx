@@ -48,13 +48,16 @@ function Input() {
   const focused = useSelector(s => s.search.focused);
   const dispatch = useDispatch();
   const router = useRouter();
+  const hasResults = useSelector(s => s.search.hits?.total.value);
+
+  const trapFocus = focused && !!hasResults;
 
   const [focusIndex, setFocusIndex] = useRoveFocus(16);
 
   React.useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
        if (event.keyCode === 27 && focused) {
-        dispatch(searchActions.setFocused(false));
+        dispatch(searchActions.clearSearchResults());
       }
     };
     window.addEventListener('keydown', handleEsc);
@@ -97,7 +100,7 @@ function Input() {
 
   return (
     <FocusTrap 
-      active={focused}
+      active={trapFocus}
       focusTrapOptions={{
         allowOutsideClick: true
       }}
@@ -120,6 +123,7 @@ function Input() {
               }
             )}
             onSubmit={e => e.preventDefault()}
+            role="search"
           >
             <FiSearch
               className={styles.searchIcon}
@@ -131,7 +135,13 @@ function Input() {
                 dispatch(searchActions.setFocused(true));
                 setFocusIndex(0);
               }}
-              // onBlur={() => dispatch(searchActions.setFocused(false))}
+              onBlur={() => {
+                setTimeout(() => {
+                  if (!trapFocus) {
+                    dispatch(searchActions.setFocused(false));
+                  }
+                }, 10);
+              }}
               onChange={e => dispatch(searchActions.setQuery(e.target.value))}
               value={query}
               className={cn(
@@ -143,18 +153,24 @@ function Input() {
               placeholder='Search'
               aria-label='Enter search text'
             />
-            <IoMdClose
-              className={cn(
-                styles.clickable,
-                styles.searchIcon
-              )}
-              size={22}
+            <button
+              tabIndex={trapFocus ? undefined : -1}
+              aria-label='Clear search'
+              data-tooltip-position='left'
+              className={styles.clickable}
               onClick={() => {
                 if(focused) {
                   dispatch(searchActions.setQuery(''));
+                  dispatch(searchActions.setFocused(false));
+                  dispatch(searchActions.clearSearchResults());
                 }
               }}
-            />
+            >
+              <IoMdClose
+                className={styles.searchIcon}
+                size={22}
+              />
+            </button>
           </form>
 
           <div 

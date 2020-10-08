@@ -3,8 +3,10 @@ import { ReactChildren } from '../types';
 import styles from './Text.module.scss';
 import cn from 'classnames';
 
-export type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
-export const variants: Variant[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span'];
+type GetArrayElementType<T extends readonly any[]> = T extends readonly (infer U)[] ? U : never;
+
+export const variants = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'time'] as const;
+export type Variant = GetArrayElementType<typeof variants>;
 
 interface TextBaseProps {
   htmlTag?: Variant;
@@ -16,6 +18,7 @@ interface TextBaseProps {
   /* Aria Label */
   label?: string;
   tooltipPosition?: 'left' | 'right';
+  ariaHidden?: boolean
 }
 
 function TextBase({
@@ -38,6 +41,8 @@ function TextBase({
       return <h6 {...props} />;
     case 'p':
       return <p {...props} />;
+    case 'time':
+      return <time {...props} />;
     default:
       return <span {...props} />
   }
@@ -57,7 +62,8 @@ export function Text({
   noPadding = false,
   onClick,
   label,
-  tooltipPosition
+  tooltipPosition,
+  ariaHidden
 }: TextProps) {
   if (htmlTag === undefined && !/h{1,6}/.test(variant)) {
     htmlTag = variant;
@@ -72,6 +78,7 @@ export function Text({
       style={style}
       onClick={onClick}
       aria-label={label}
+      aria-hidden={ariaHidden}
       data-tooltip-position={tooltipPosition}
     >
       {children}
@@ -96,7 +103,8 @@ function Truncate({
   noPadding = false,
   onClick,
   label,
-  tooltipPosition
+  tooltipPosition,
+  ariaHidden
 }: TrunkcateTextProps) {
   return (
     <TextBase
@@ -120,6 +128,7 @@ function Truncate({
         ...style
       }}
       aria-label={label}
+      aria-hidden={ariaHidden}
       data-tooltip-position={tooltipPosition}
     >
       {children}

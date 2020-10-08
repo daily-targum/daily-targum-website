@@ -26,3 +26,9 @@ export function search() {
     })
   }
 }
+
+export function clearSearchResults() {
+  return {
+    type: types.CLEAR_SEARCH_RESULTS
+  }
+}

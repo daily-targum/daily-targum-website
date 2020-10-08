@@ -9,12 +9,15 @@ export function ResetTabIndex({
   bool?: boolean;
 }) {
   const ref = React.useRef<HTMLAnchorElement>(null);
+  const firstRender = React.useRef(true);
 
   React.useEffect(() => {
-    if (bool) {
+    if (bool && !firstRender.current) {
       ref.current?.focus();
       ref.current?.blur();
     }
+
+    firstRender.current = false;
   }, [bool, id]);
 
   return (

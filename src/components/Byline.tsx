@@ -22,60 +22,57 @@ function Authors({
   }
 
   return (
-    <>
-      <div className={styles.row}>
-        {authors.map(author => author.headshot ? (
-          <Link 
-            key={author.id}
-            href={`/staff/${author.slug}`}
+    <div className={styles.row}>
+      {authors.map(author => author.headshot ? (
+        <Link 
+          key={author.id}
+          href={`/staff/${author.slug}`}
+          className={styles.avatar}
+          label={`More articles by ${author.displayName}`}
+          tabIndex={-1}
+        >
+          <AspectRatioImage
+            aspectRatio={1}
             className={styles.avatar}
-            label={`More articles by ${author.displayName}`}
-            tabIndex={-1}
-          >
-            <AspectRatioImage
-              aspectRatio={1}
-              className={styles.avatar}
-              data={imgix(author.headshot, {
-                xs: imgix.presets.xs('1:1')
-              })}
-              altText={`Author headshot for ${author.displayName}`}
-            />
-          </Link>
-        ) : null)}
+            data={imgix(author.headshot, {
+              xs: imgix.presets.xs('1:1')
+            })}
+            altText={`Author headshot for ${author.displayName}`}
+          />
+        </Link>
+      ) : null)}
 
-        <div className={styles.column}>
-          <div className={styles.authors}>
-            {authorsExceptLast.map((author, i) => (
-              <React.Fragment key={author.id}>
-                <Link 
-                  href={`/staff/${author.slug}`}
-                  className={styles.hideLink}
-                  label={`More articles by ${author.displayName}`}
-                >
-                  <Text className={styles.author}>{author.displayName}</Text>
-                </Link>
-                {(i < authorsExceptLast.length - 1) ? (<Text className={styles.breakSpaces}>, </Text>) : null}
-              </React.Fragment>
-            ))}
+      <div className={styles.column}>
+        <div className={styles.authors}>
+          {authorsExceptLast.map((author, i) => (
+            <React.Fragment key={author.id}>
+              <Link 
+                href={`/staff/${author.slug}`}
+                className={styles.hideLink}
+                label={`More articles by ${author.displayName}`}
+              >
+                <Text className={styles.author}>{author.displayName}</Text>
+              </Link>
+              {(i < authorsExceptLast.length - 1) ? (<Text className={styles.breakSpaces}>, </Text>) : null}
+            </React.Fragment>
+          ))}
 
-            {last ? (
-              <>
-                <Text className={styles.breakSpaces}> and </Text>
-                <Link 
-                  href={`/staff/${last.slug}`}
-                  className={styles.hideLink}
-                >
-                  <Text className={styles.author}>{last.displayName}</Text>
-                </Link>
-              </>
-            ) : null}
-          </div>
-          <Text className={styles.date} noPadding>{formatDate(publishDate)}</Text>
+          {last ? (
+            <>
+              <Text className={styles.breakSpaces}> and </Text>
+              <Link 
+                href={`/staff/${last.slug}`}
+                className={styles.hideLink}
+              >
+                <Text className={styles.author}>{last.displayName}</Text>
+              </Link>
+            </>
+          ) : null}
         </div>
-
+        <Text className={styles.date} htmlTag='time' noPadding>{formatDate(publishDate)}</Text>
       </div>
-      <Text.Br/>
-    </>
+
+    </div>
   );
 }
 

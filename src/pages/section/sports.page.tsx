@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text, SkipNav } from '../../components';
+import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text, Semantic } from '../../components';
 import { imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
@@ -37,10 +37,8 @@ function Category({
 
   return (
     <Section className={styles.page}>
-      <Banner text='Sports'/>
-
-      <main>
-        <SkipNav.Content/>
+      <Semantic role='main' pritable skipNavContent>
+        <Banner text='Sports'/>
 
         <Grid.Row 
           spacing={theme.spacing(2)}
@@ -112,49 +110,48 @@ function Category({
             }}
           </CardCols>
         </Grid.Row>
-      </main>
       
-      <Card.Spacer/>
-      <Card.Spacer/>
-      <Divider/>
-      <Card.Spacer/>
-      <Card.Spacer/>
-      <TagBar
-        // THIS IS A HACK
-        tags={subcategories.sort()}
-        value={selectedTag}
-        onChange={setSelectedTag}
-      />
-      <Card.Spacer/>
-      <Card.Spacer/>
+        <Card.Spacer/>
+        <Card.Spacer/>
+        <Divider/>
+        <Card.Spacer/>
+        <TagBar
+          // THIS IS A HACK
+          tags={subcategories.sort()}
+          value={selectedTag}
+          onChange={setSelectedTag}
+        />
+        <Card.Spacer/>
+        <Card.Spacer/>
 
-      <Grid.Row 
-        spacing={theme.spacing(2)}
-      >
-        
-        {selectedArticles.map(item => item ? (
-          <Grid.Col 
-            key={item.id}
-            xs={24}
-            md={12}
-            lg={8}
-          >
-            <Card.StackedResponsive
-              imageData={imgix(item.media[0]?.url ?? '', {
-                xs: imgix.presets.sm('1:1'),
-                md: imgix.presets.md('16:9')
-              })}
-              title={item.title}
-              href='/article/[year]/[month]/[slug]'
-              as={'/'+item.slug}
-              date={formatDateAbriviated(item.publishDate)}
-              aspectRatioDesktop={16 / 9}
-              author={item.authors.map(a => a.displayName).join(', ')}
-              altText={item.media[0]?.altText ?? item.media[0]?.description ?? undefined}
-            />
-          </Grid.Col>
-        ) : null)}
-      </Grid.Row>
+        <Grid.Row 
+          spacing={theme.spacing(2)}
+        >
+          
+          {selectedArticles.map(item => item ? (
+            <Grid.Col 
+              key={item.id}
+              xs={24}
+              md={12}
+              lg={8}
+            >
+              <Card.StackedResponsive
+                imageData={imgix(item.media[0]?.url ?? '', {
+                  xs: imgix.presets.sm('1:1'),
+                  md: imgix.presets.md('16:9')
+                })}
+                title={item.title}
+                href='/article/[year]/[month]/[slug]'
+                as={'/'+item.slug}
+                date={formatDateAbriviated(item.publishDate)}
+                aspectRatioDesktop={16 / 9}
+                author={item.authors.map(a => a.displayName).join(', ')}
+                altText={item.media[0]?.altText ?? item.media[0]?.description ?? undefined}
+              />
+            </Grid.Col>
+          ) : null)}
+        </Grid.Row>
+      </Semantic>
       
       {!outOfContent ? (
         <ActivityIndicator.ProgressiveLoader 

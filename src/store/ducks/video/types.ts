@@ -15,4 +15,5 @@ export interface State {
   description?: string
   persist: boolean
   thumbnail?: string
+  createdAt?: number
 }

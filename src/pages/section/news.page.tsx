@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad, SkipNav } from '../../components';
+import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad, Semantic } from '../../components';
 import { imgix } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
@@ -26,10 +26,9 @@ function News({
 
   return (
     <Section className={styles.page}>
-      <Banner text='News'/>
+      <Semantic role='main' pritable skipNavContent>
+        <Banner text='News'/>
 
-      <main>
-        <SkipNav.Content/>
         <Grid.Row spacing={theme.spacing(2.5)}>
           
           <CardCols 
@@ -87,7 +86,7 @@ function News({
             </Grid.Col>
           ))}
         </Grid.Row>
-      </main>
+      </Semantic>
 
       <ActivityIndicator.ProgressiveLoader 
         onVisible={loadMore}

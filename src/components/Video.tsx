@@ -5,6 +5,7 @@ import Text from './Text';
 import Button from './Button';
 import Image from './Image';
 import { imgix } from '../utils';
+import { formatDate } from '../shared/src/utils';
 import { IoMdClose, IoMdPlay } from 'react-icons/io';
 import styles from './Video.module.scss';
 
@@ -135,6 +136,7 @@ function Player({
       {playState !== 'play' ? (
         <button 
           aria-label='Play video'
+          data-tooltip-position='center'
           className={styles.videoOverlay}
           onClick={() => {
             const refClone = ref.current;
@@ -190,6 +192,7 @@ function PersistentPlayer() {
 
 function Description() {
   const title = useSelector(s => s.video.title);
+  const createdAt = useSelector(s => s.video.createdAt);
   const description = useSelector(s => s.video.description);
   const [expanded, setExpanded] = React.useState(false);
 
@@ -204,6 +207,9 @@ function Description() {
       >
         {title||''}
       </Text>
+      {createdAt ? (
+        <Text className={styles.date} noPadding>{formatDate(createdAt)}</Text>
+      ) : null}
       <Text.Truncate 
         variant='p' 
         htmlTag='p'

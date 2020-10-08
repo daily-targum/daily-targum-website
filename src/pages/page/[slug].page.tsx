@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, SkipNav } from '../../components';
+import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, Semantic, Divider, AdBlockDector, Donate } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { processNextQueryStringParam } from '../../utils';
@@ -23,19 +23,28 @@ function Page({
     <Section.StickyContainer className={styles.page}>
       <Grid.Row
         spacing={theme.spacing(4)}
-        cols={[ '1fr', 'minmax(auto, 300px)' ]}
+        cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
+        disableGridOnPrit
       >
-        <Grid.Col xs={2} md={1}>
-          <main>
-            <SkipNav.Content/>
-            <HTML html={page.content}/>
-          </main>
+        <Grid.Col xs={3} md={1}>
+          <Semantic role='main' skipNavContent>
+            <Semantic role='article'>
+              <HTML html={page.content}/>
+            </Semantic>
+          </Semantic>
+        </Grid.Col>
+
+        <Grid.Col xs={0} md={1} style={{height: '100%'}}>
+          <Divider.Vertical/>
         </Grid.Col>
         
         <Grid.Col xs={0} md={1}>
           <Sticky>
             <Ad type='rectange' style={{ marginBottom: '1rem' }} />
             <Ad type='skyscraper' />
+            <AdBlockDector>
+              <Donate.SidebarCard/>
+            </AdBlockDector>
           </Sticky>
         </Grid.Col>
 

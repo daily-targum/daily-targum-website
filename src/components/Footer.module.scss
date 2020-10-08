@@ -8,7 +8,7 @@
 }
 
 .sublogo {
-  width: 140;
+  width: 135px;
   height: auto;
   margin-bottom: theme.spacing(3);
 }
@@ -16,6 +16,7 @@
 .footer {
   padding: theme.spacing(5, 0);
   background-color: theme.color('primary_main');
+  border-top: 1px solid theme.color('divider');
 
   @include theme.mediaQuery('xs', 'md') {
     padding: theme.spacing(0, 0, 3);;
@@ -25,7 +26,7 @@
 .copyright {
   @include styleHelpers.flex('column');
   color: theme.color('primary_contrastTextMuted');
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 300;
   padding-bottom: env(safe-area-inset-bottom);
   margin-top: theme.spacing(4);
@@ -61,4 +62,8 @@
 
 .col {
   margin: theme.spacing(3, 0);
+}
+
+.fakeUl {
+  @include styleHelpers.flex('column');
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Video, Section, CardCols, Card, Grid, Divider, Text, Navbar, SEOProps, SkipNav } from '../../components';
+import { Video, Section, CardCols, Card, Grid, Divider, Text, Navbar, SEOProps, Semantic } from '../../components';
 import { useSelector, useDispatch } from '../../store';
 import { videoActions } from '../../store/ducks/video';
 import { podcastActions } from '../../store/ducks/podcast';
@@ -93,8 +93,7 @@ function Videos({
     >
       <div className={styles.page}>
 
-        <main>
-          <SkipNav.Content/>
+        <Semantic role='main' pritable skipNavContent>
           <Section>
             <Video.Player slave={persist}/>
 
@@ -158,10 +157,9 @@ function Videos({
               </Grid.Row>
             </Section>
           ))}
-        </main>
+        </Semantic>
 
       </div>
-      <Divider className={styles.divider}/>
     </div>
   );
 }

@@ -10,3 +10,9 @@
 .dev {
   background-color: #eee;
 }
+
+@media print {
+  .bannerWrap {
+    display: none;
+  }
+}

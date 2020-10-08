@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetHoru } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML, Ad, SkipNav, ResetTabIndex } from '../../components';
+import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML, Ad, ResetTabIndex, Semantic } from '../../components';
 import { imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 import styles from './humans-of-rutgers.module.scss';
@@ -45,10 +45,8 @@ function Category({
   return (
     <>
       <Section className={styles.page}>
-        <Banner text='Humans of RU'/>
-        
-        <main>
-          <SkipNav.Content/>
+        <Semantic role='main' pritable skipNavContent>
+          <Banner text='Humans of RU'/>
         
           <Grid.Row spacing={theme.spacing(2)}>
 
@@ -71,12 +69,15 @@ function Category({
                     />
                   ) : null}
                   <button
+                    role='article'
                     className={styles.hideButton}
                     onClick={() => send({
                       type: 'OPEN_ITEM',
                       itemId: item.id,
                       initialIndex: 0
                     })}
+                    aria-label={item.title.replace(/horu/i, 'Humans of Rutgers')}
+                    data-tooltip-position='center'
                   >
                     <MemoizedAspectRatioImage
                       data={imgix(item.media[0].url, {
@@ -97,7 +98,7 @@ function Category({
             ))}
 
           </Grid.Row>
-        </main>
+        </Semantic>
 
         {horu.nextToken ? (
           <ActivityIndicator.ProgressiveLoader 
@@ -131,8 +132,7 @@ function Category({
                   aspectRatio={1/1}
                   data={imgix(item.url, {
                     xs: imgix.presets.md('1:1'),
-                    md: imgix.presets.lg('1:1'),
-                    xl: imgix.presets.xl('1:1')
+                    md: imgix.presets.lg('1:1')
                   })}
                 />
               )}
@@ -146,14 +146,14 @@ function Category({
             md={10}
             style={{alignSelf: 'stretch'}}
           >
-            <div className={styles.body}>
+            <article className={styles.body}>
               <Text variant='h1'>{selectedPost?.title}</Text>
               {selectedPost?.quote ? (
                 <HTML
                   html={selectedPost.quote}
                 />
               ) : null}
-            </div>
+            </article>
           </Grid.Col>
 
         </Grid.Row>

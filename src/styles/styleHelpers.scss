@@ -55,8 +55,8 @@
 }
 
 @mixin page {
-  padding-top: theme.spacing(4);
-  padding-bottom: theme.spacing(6);
+  padding-top: calc(#{theme.spacing(1.25)} + 1vw);
+  padding-bottom: calc(#{theme.spacing(1.25)} + 1vw);
   flex: 1;
 }
 
@@ -67,7 +67,6 @@
 }
 
 @mixin card {
-  background-color: theme.color('surface');
   border-radius: theme.roundness(1);
   overflow: hidden;
   position: relative;
@@ -82,4 +81,9 @@
   margin: 0;
   padding: 0;
   background-color: transparent;
+}
+
+@mixin accessibilityOutline {
+  outline: 1px dotted #212121;
+  outline: 5px auto -webkit-focus-ring-color;
 }

@@ -33,6 +33,7 @@ function Slide({
         }
       )}
       tabIndex={hide ? -1 : undefined}
+      ariaHidden={hide}
     >
       <AspectRatioImage
         data={load ? imgix(article.media[0]?.url ?? '', {
@@ -83,6 +84,7 @@ export function NewsSlider({
 }) {
   const [ index, setIndex ] = React.useState(0);
   const [ loaded, setLoaded ] = React.useState([true]);
+  const [ resetTimer, setResetTimer] = React.useState(0);
 
   // Lazy load images
   React.useEffect(() => {
@@ -120,7 +122,7 @@ export function NewsSlider({
     return () => {
       clearTimeout(id);
     }
-  }, [index, incrementSlide])
+  }, [index, incrementSlide, resetTimer])
 
   return (
     <Swipeable 
@@ -133,6 +135,7 @@ export function NewsSlider({
           'dark-mode',
           styles.slider
         )}
+        onMouseEnter={() => setResetTimer(num => num+1)}
       >
         {articles.map((a, i) => (
           <Slide

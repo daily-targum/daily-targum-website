@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Divider, Ad, Sticky, SkipNav } from '../../../components';
+import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Divider, Ad, Sticky, AdBlockDector, Semantic, Donate } from '../../../components';
 import { actions, GetArticlesBySubcategory } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
 import { processNextQueryStringParam, imgix } from '../../../utils';
@@ -35,14 +35,15 @@ function Author({
   return (
     <Section.StickyContainer className={styles.page}>
       <Grid.Row
-        spacing={theme.spacing(30)}
-        cols={[ '1fr', 'minmax(auto, 300px)' ]}
+        spacing={theme.spacing(4)}
+        cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
+        disableGridOnPrit
       >
         <Grid.Col xs={2} md={1}>
-          <main>
-            <SkipNav.Content/>
-            
-            <Text variant='h1'>Opinions / {hyphenatedToCapitalized(subcategory)}</Text>
+          <Semantic role='main' pritable skipNavContent>
+            <Text variant='h4'>Opinions</Text>
+            <Text variant='h1' htmlTag='h1'>{hyphenatedToCapitalized(subcategory)}</Text>
+
             <Divider className={styles.divider}/>
           
             <FlatList
@@ -64,17 +65,26 @@ function Author({
               )}
               ItemSeparatorComponent={<Card.Spacer/>}
             />
-          </main>
+          </Semantic>
           
           <ActivityIndicator.ProgressiveLoader
             onVisible={loadMore}
           />
         </Grid.Col>
 
-        <Grid.Col xs={0} md={1}>
+        <Grid.Col xs={0} md={1} style={{height: '100%', overflow: 'hidden'}}>
+          <Divider.Vertical/>
+        </Grid.Col>
+
+        <Grid.Col xs={0} xl={1}>
           <Sticky>
-            <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-            <Ad type='skyscraper' />
+            <Semantic role='aside'>
+              <Ad type='rectange' style={{ marginBottom: '1rem' }} />
+              <Ad type='skyscraper' />
+              <AdBlockDector>
+                <Donate.SidebarCard/>
+              </AdBlockDector>
+            </Semantic>
           </Sticky>
         </Grid.Col>
 

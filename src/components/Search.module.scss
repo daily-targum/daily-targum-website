@@ -14,6 +14,8 @@
   background-color: theme.color('surface');
   outline-width: 5px;
   position: relative;
+  z-index: 1001;
+  overflow: visible;
 }
 
 .searchInput {
@@ -66,17 +68,20 @@
 }
 
 .clickable {
+  @include styleHelpers.hideButton();
   cursor: pointer;
+  display: flex;
 }
 
 .preview { 
-  background-color: rgb(255 255 255);
+  background-color: theme.color('surface');
   top: calc(100% + 7px);
   position: absolute;
   right: 0;
   width: 500px;
   border-radius: theme.roundness(1);
   padding: theme.spacing(2, 0);
+  border: 1px solid theme.color('divider');
 
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
 }
@@ -87,7 +92,7 @@
   padding: theme.spacing(1.5, 3);
 
   &:focus {
-    background-color: rgba(0,0,0,0.2);
+    background-color: theme.color('highlight');
   }
 }
 
@@ -97,9 +102,6 @@
 .backdrop {
   @include styleHelpers.absoluteFill();
   position: fixed;
-  z-index: 999;
-  background-color: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgba(0, 0, 0, 0.726);
+  height: 100vh;
 }

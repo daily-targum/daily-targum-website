@@ -57,14 +57,14 @@ function OffsetPadding({
   className?: string
 }) {
   return (
-    <div
+    <section
       className={cn(
         styles.offsetPadding, 
         className
       )}
     >
       {children}
-    </div>
+    </section>
   );
 }
 

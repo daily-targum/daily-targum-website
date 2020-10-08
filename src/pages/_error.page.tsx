@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/node';
 import { ErrorProps } from 'next/error';
 import { NextPageContext } from 'next';
 
-import { Section, Text, Button } from '../components';
+import { Section, Text, Button, Semantic } from '../components';
 import { nextUtils } from '../utils';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -38,24 +38,26 @@ function ErrorPage({
       className={styles.section}
       classNameInside={styles.sectionInside}
     >
-      <div className={styles.textWrap}>
-        <Text variant='h1' htmlTag='h1'>Something Went Wrong.</Text>
-        <Text variant='p'>Sorry, it's us, not you.</Text>
-        {canGoBack ? (
-          <Button onClick={() => router.back()}>
-            Go Back
-          </Button>
-        ) : (
-          <Link href='/'>
-            <a>
-              <Button>
-                Go to Home
-              </Button>
-            </a>
-          </Link>
-        )}
-        
-      </div>
+      <Semantic role='main' pritable skipNavContent>
+        <div className={styles.textWrap}>
+          <Text variant='h1' htmlTag='h1'>Something Went Wrong.</Text>
+          <Text variant='p'>Sorry, it's us, not you.</Text>
+          {canGoBack ? (
+            <Button onClick={() => router.back()}>
+              Go Back
+            </Button>
+          ) : (
+            <Link href='/'>
+              <a>
+                <Button>
+                  Go to Home
+                </Button>
+              </a>
+            </Link>
+          )}
+          
+        </div>
+      </Semantic>
     </Section>
   )
 };

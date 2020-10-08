@@ -20,3 +20,17 @@
   width: 100%;
   max-width: calc(1000px + 22vw);
 }
+
+@media print {
+  .section {
+    padding: 0;
+  }
+
+  .offsetPadding {
+    margin: 0;
+  }
+
+  .inside {
+    max-width: 100%;
+  }
+}

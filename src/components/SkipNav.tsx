@@ -1,23 +1,29 @@
 import React from 'react';
-import { SkipNavLink, SkipNavContent } from "@reach/skip-nav";
 import styles from './SkipNav.module.scss';
 import { useRouter } from 'next/router';
 import ResetTabIndex from './ResetTabIndex';
+
+export const ID = 'skip-nav';
 
 function Link() {
   const router = useRouter();
 
   return (
     <>
-      <ResetTabIndex id={router.asPath}/>
-      <SkipNavLink className={styles.link}/>
+      <ResetTabIndex id={router.asPath.replace(/#[^/]*$/, '')}/>
+      <a href={`#${ID}`} className={styles.link}>
+        Skip to content
+      </a>
     </>
   );
 }
 
 function Content() {
   return (
-    <SkipNavContent className={styles.content}/>
+    <a 
+      id={ID}
+      tabIndex={-1} 
+    />
   )
 }
 

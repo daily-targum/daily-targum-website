@@ -77,15 +77,18 @@ export function Footer() {
 
           <Grid.Col xs={24} md={8} className={styles.col}>
             <Text variant='h4' className={styles.title}>Company</Text>
-            {links.company.map(l => (
-              <Link
-                key={l.href}
-                className={styles.link}
-                href={l.href}
-              >
-                {l.title}
-              </Link>
-            ))}
+            <div role="list" className={styles.fakeUl}>
+              {links.company.map(l => (
+                <Link
+                  key={l.href}
+                  className={styles.link}
+                  href={l.href}
+                  role="listitem"
+                >
+                  {l.title}
+                </Link>
+              ))}
+            </div>
           </Grid.Col>
 
           <Grid.Col xs={24} md={0}>
@@ -94,15 +97,18 @@ export function Footer() {
 
           <Grid.Col xs={24} md={8} className={styles.col}>
             <Text variant='h4' className={styles.title}>Social Media</Text>
-            {links.socialMedia.map(l => (
-              <Link 
-                key={l.href} 
-                className={styles.link}
-                href={l.href}
-              >
-                {l.title}
-              </Link>
-            ))}
+            <div role="list" className={styles.fakeUl}>
+              {links.socialMedia.map(l => (
+                <Link 
+                  key={l.href} 
+                  className={styles.link}
+                  href={l.href}
+                  role="listitem"
+                >
+                  {l.title}
+                </Link>
+              ))}
+            </div>
           </Grid.Col>
 
           <Grid.Col xs={24} md={0}>
@@ -121,10 +127,6 @@ export function Footer() {
                 <img src="/powered-by-contentful.svg" alt="Powered by Contentful" loading='lazy' className={styles.sublogo}/>
               </Link>
             </div>
-          </Grid.Col>
-
-          <Grid.Col xs={24} md={0}>
-            <Divider/>
           </Grid.Col>
 
         </Grid.Row>

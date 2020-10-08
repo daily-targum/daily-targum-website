@@ -25,6 +25,12 @@ export default function reducer(state = initialState, action: any) {
         hits: action.payload,
         hitsQuery: state.query
       };
+    case types.CLEAR_SEARCH_RESULTS:
+      return {
+        ...state,
+        hits: null,
+        hitsQuery: ''
+      };
     default:
       return state;
   }

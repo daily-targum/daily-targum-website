@@ -55,14 +55,16 @@ export function Modal({
           )}
           onClick={handleClose}
         >
-          <button
-            aria-label='Close modal'
-            data-tooltip-position='left'
-            onClick={handleClose}
-            className={styles.closeIcon}
-          >
-            <IoMdClose size={30}/>
-          </button>
+          {open ? (
+            <button
+              aria-label='Close modal'
+              data-tooltip-position='left'
+              onClick={handleClose}
+              className={styles.closeIcon}
+            >
+              <IoMdClose size={30}/>
+            </button>
+          ) : null}
 
           <div
             ref={ref}

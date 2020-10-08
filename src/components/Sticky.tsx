@@ -19,12 +19,12 @@ export function Sticky({
   children: ReactChildren
 }) {
   return (
-    <StickyDefault topOffset={-120} bottomOffset={120}>
+    <StickyDefault topOffset={-82} bottomOffset={82}>
       {({ style }) => (
         <div 
           style={{
             ...style,
-            top: offsetType(style.top, 80)
+            top: offsetType(style.top, 82)
           } as any}
         >
         {children}

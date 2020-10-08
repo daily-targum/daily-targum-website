@@ -16,9 +16,16 @@ const options: HTMLReactParserOptions = {
   replace: ({ type, name, children, attribs }) => {
     if (type === 'tag') {
 
+      // 10 or more - becomes a divider
+      if (name === 'p' && children.length === 1 && /^(_|-|–){10,}$/.test(children[0].data)) {
+        return (
+          <Divider/>
+        )
+      }
+
       if (variants.includes(name)) {
         return (
-          <Text variant={name}>{domToReact(children, options)}</Text>
+          <Text variant={name} htmlTag={name}>{domToReact(children, options)}</Text>
         );
       }
   

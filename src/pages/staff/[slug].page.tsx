@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList, Ad, Sticky, SkipNav } from '../../components';
+import { Section, Text, Grid, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList, Ad, Sticky, Semantic, AdBlockDector, Donate } from '../../components';
 import { actions, GetAuthorPage } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, imgix } from '../../utils';
@@ -26,14 +26,14 @@ function Author({
 
   return (
     <Section.StickyContainer className={styles.page}>
-      <main>
-        <SkipNav.Content/>
-      
-        <Grid.Row
-          spacing={theme.spacing(20)}
-          cols={[ '1fr', 'minmax(auto, 300px)' ]}
-        >
-          <Grid.Col xs={2} md={1}>
+    
+      <Grid.Row
+        spacing={theme.spacing(4)}
+        cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
+        disableGridOnPrit
+      >
+        <Grid.Col xs={3} md={1}>
+          <Semantic role='main' pritable skipNavContent>
             <Grid.Row spacing={theme.spacing(2)} dangerouslyReverse>
 
               {page.author.headshot ? (
@@ -84,18 +84,26 @@ function Author({
               </Grid.Col>
 
             </Grid.Row>
+          </Semantic>
+        </Grid.Col>
 
-          </Grid.Col>
+        <Grid.Col xs={0} md={1} style={{height: '100%', overflow: 'hidden'}}>
+          <Divider.Vertical/>
+        </Grid.Col>
 
-          <Grid.Col xs={0} md={1}>
-            <Sticky>
+        <Grid.Col xs={0} md={1}>
+          <Sticky>
+            <Semantic role='aside'>
               <Ad type='rectange' style={{ marginBottom: '1rem' }} />
               <Ad type='skyscraper' />
-            </Sticky>
-          </Grid.Col>
+              <AdBlockDector>
+                <Donate.SidebarCard/>
+              </AdBlockDector>
+            </Semantic>
+          </Sticky>
+        </Grid.Col>
 
-        </Grid.Row>
-      </main>
+      </Grid.Row>
     </Section.StickyContainer>
   );
 }

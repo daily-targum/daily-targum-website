@@ -9,6 +9,7 @@
 .cardBase {
   @include styleHelpers.hideLink();
   flex: 1;
+  align-items: unset;
 }
 
 .cardBaseImage {
@@ -51,7 +52,8 @@
 }
 
 .spacer {
-  height: theme.spacing(2.5);
+  // padding prints better than height for some reason
+  padding-bottom: theme.spacing(2.5);
 }
 
 

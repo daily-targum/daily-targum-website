@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
-import { Section, Grid, ActivityIndicator, Card, Banner, SEOProps, Ad, SkipNav } from '../../components';
+import { Section, Grid, ActivityIndicator, Card, Banner, SEOProps, Ad, Semantic } from '../../components';
 import { imgix } from '../../utils';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../machines';
@@ -26,13 +26,11 @@ function Category({
 
   return (
     <Section className={styles.page}>
-      <Banner 
-        text='Inside'
-        accentText='Beat'
-      />
-      
-      <main>
-        <SkipNav.Content/>
+      <Semantic role='main' pritable skipNavContent>
+        <Banner 
+          text='Inside'
+          accentText='Beat'
+        />
       
         <Grid.Row spacing={theme.spacing(2.5)}>
           <Grid.Col xs={24} md={12}>
@@ -98,7 +96,7 @@ function Category({
             </Grid.Col>
           ))}
         </Grid.Row>
-      </main>
+      </Semantic>
 
       <ActivityIndicator.ProgressiveLoader 
         onVisible={loadMore}

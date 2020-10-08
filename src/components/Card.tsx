@@ -29,7 +29,7 @@ function Clickable({
       href={href}
       as={as}
     >
-      <a style={style} className={className}>
+      <a style={style} className={className} role='article'>
         {children}
       </a>
     </Link>
@@ -44,6 +44,7 @@ function Clickable({
         styles.clickableButton
       )}
       onClick={onClick}
+      role='article'
     >
       {children}
     </button>
@@ -367,11 +368,13 @@ function CardImage({
         ) : null}
 
         {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2}>{title}</Text.Truncate> : null}
-        <Text className={styles.byline}>
-          {date} 
+        <Text 
+          className={styles.byline}
+        >
+          <span aria-label={`Published ${date}`}>{date}</span>
           {(date && author) ? ' - ' : null}
           {author ? (
-            <Text className={styles.author}>{author}</Text>
+            <Text className={styles.author}>By {author}</Text>
           ) : null}
         </Text>
       </div>

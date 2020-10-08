@@ -1,6 +1,6 @@
 import React from 'react';
 import { actions, GetHomepage, CompactArticle } from '../shared/src/client';
-import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps, Ad, SkipNav
+import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps, Ad, Semantic
   // Text, Image, Link 
 } from '../components';
 import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../shared/src/utils';
@@ -103,14 +103,16 @@ function Home({
 }) {
   return (
     <div className={styles.page}>
+      <Semantic role='main' pritable skipNavContent>
+        <div aria-label='Highlighted articles slide show'>
+          <NewsSlider articles={homepage.high}/>
+        </div>
 
-      <main>
-        <SkipNav.Content/>
-        <NewsSlider articles={homepage.high}/>
         <Section className={styles.mainSection}>
           {literalArray(['news', 'sports', 'insideBeat', 'opinions']).map((category, i) => (
-            <React.Fragment
+            <div
               key={category}
+              aria-label={`${category}, latest articles`}
             >
               <NewsRow
                 category={homepage[category]}
@@ -120,12 +122,12 @@ function Home({
               {i === 1 ? (
                 <Ad type='banner'/>
               ) : null}
-            </React.Fragment>
+            </div>
           ))}
 
           <Ad type='banner' priority={2}/>
         </Section>
-      </main>
+      </Semantic>
 
       <Divider/>
       <Newsletter.Section/>

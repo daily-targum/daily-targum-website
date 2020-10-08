@@ -1,13 +1,17 @@
-@use 'theme';
 @use 'styleHelpers';
+@use 'theme';
 
-.page {
-  @include styleHelpers.flex('column');
-  background-color: theme.color('background_light');
-  min-height: 100%;
+.printLogo {
+  display: none;
 }
 
 @media print {
+  .printLogo {
+    display: flex;
+    @include styleHelpers.lockWidth(100px);
+    padding: theme.spacing(2, 0);
+  }
+
   .printable {
     position: absolute;
     left: 0;

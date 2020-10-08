@@ -24,6 +24,7 @@ export interface RowProps {
    * and not for people using screen readers
    */
   dangerouslyReverse?: boolean;
+  disableGridOnPrit?: boolean;
 }
 
 export interface DisplayProps extends Partial<types.BreakPoints<boolean>> {
@@ -67,7 +68,8 @@ function Row({
   children, 
   style, 
   className,
-  dangerouslyReverse = false
+  dangerouslyReverse = false,
+  disableGridOnPrit = false
 }: RowProps) {
   const context = {
     ...contextExports.defaultContextValue,
@@ -89,11 +91,15 @@ function Row({
       <div 
         className={cn(
           className,
-          styles.row
+          styles.row,
+          {
+            [styles.disableGridOnPrit]: disableGridOnPrit
+          }
         )} 
         style={{
+          // @ts-ignore
+          '--gridSpacing': spacing+'px',
           gridTemplateColumns: (cols || context.cols).join(' '),
-          gridGap: spacing+'px',
           direction: dangerouslyReverse ? 'rtl' : undefined,
           ...style
         }}

@@ -33,6 +33,8 @@ export * from './Sticky';
 export * from './SkipNav';
 export * from './ResetTabIndex';
 export * from './AccessibilityFix';
+export * from './Donate';
+export * from './Semantic';
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,

@@ -1,6 +1,5 @@
 @use 'styleHelpers';
 
-.section {
+.page {
   @include styleHelpers.page();
-  flex: 1;
 }

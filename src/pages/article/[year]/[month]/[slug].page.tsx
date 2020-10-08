@@ -1,7 +1,7 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, Br, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, SkipNav } from '../../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, AdBlockDector, Donate } from '../../../../components';
 
 import NotFound from '../../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../../utils';
@@ -35,60 +35,68 @@ function Article({
       
         <Grid.Row 
           spacing={theme.spacing(4)}
-          cols={[ '1fr', 'minmax(auto, 300px)' ]}
+          cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
+          disableGridOnPrit
         >
-          <Grid.Col xs={2} xl={1}>
-            <main>
-              <article>
-                <SkipNav.Content/>
-                <Text 
-                  variant='h1' 
-                  htmlTag='h1'
-                  className={styles.title}
-                >
-                  {article.title}
-                </Text>
-                
-                <Byline.Authors 
-                  authors={article.authors}
-                  publishDate={article.publishDate}
-                />
-
-                <Section.OffsetPadding className={styles.photoWrap}>
-                  <AspectRatioImage
-                    aspectRatio={16 / 9}
-                    data={imgix(article.media[0]?.url ?? '', {
-                      xs: imgix.presets.md('16:9'),
-                      md: imgix.presets.xl('16:9')
-                    })}
-                    altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
+          <Grid.Col xs={3} xl={1}>
+            <Semantic role='main' skipNavContent>
+              <Semantic role='article'>
+                <header>
+                  <Text 
+                    variant='h1' 
+                    htmlTag='h1'
+                    className={styles.title}
+                  >
+                    {article.title}
+                  </Text>
+                  
+                  <Byline.Authors 
+                    authors={article.authors}
+                    publishDate={article.publishDate}
                   />
-                </Section.OffsetPadding>
-                {photoCredit ? (
-                  <Text className={styles.photoCredit}>
-                    Photo by {photoCredit}
-                  </Text>
-                ) : null}
-                {photoDescription ? (
-                  <Text className={styles.photoCredit}>
-                    {photoDescription}
-                  </Text>
-                ) : null}
+
+                  <figure className={styles.fullWidth}>
+                    <Section.OffsetPadding className={styles.photoWrap}>
+                      <AspectRatioImage
+                        aspectRatio={16 / 9}
+                        data={imgix(article.media[0]?.url ?? '', {
+                          xs: imgix.presets.md('16:9'),
+                          md: imgix.presets.xl('16:9')
+                        })}
+                        altText={`${photoDescription} – Photo by ${photoCredit}`}
+                      />
+                    </Section.OffsetPadding>
+                    <figcaption className={styles.figcaption} aria-hidden={true}>
+                      Photo by {photoCredit}
+                      <div className={styles.captionSpacer}/>
+                      {photoDescription}
+                    </figcaption>
+                  </figure>
+                </header>
+
                 <Divider className={styles.divider}/>
 
-                <Br/>
                 <HTML 
                   ads
                   html={article.body} 
                 />
-              </article>
-            </main>
+              </Semantic>
+            </Semantic>
+          </Grid.Col>
+
+          <Grid.Col xs={0} md={1} style={{height: '100%', overflow: 'hidden'}}>
+            <Divider.Vertical/>
           </Grid.Col>
 
           <Grid.Col xs={0} xl={1}>
             <Sticky>
-              <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-              <Ad type='skyscraper' />
+              <Semantic role='aside'>
+                <Ad type='rectange' style={{ marginBottom: '1rem' }} />
+                <Ad type='skyscraper' />
+                <AdBlockDector>
+                  <Donate.SidebarCard/>
+                </AdBlockDector>
+              </Semantic>
             </Sticky>
           </Grid.Col>
 

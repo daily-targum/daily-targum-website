@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Navbar, SkipNav, Sticky, Ad, Divider } from '../../components';
+import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Navbar, Semantic, Sticky, Ad, Divider, AdBlockDector, Donate } from '../../components';
 import { actions, GetPlaylist } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, imgix } from '../../utils';
@@ -32,14 +32,13 @@ function Author({
   return (
     <Section.StickyContainer className={styles.page}>
       <Grid.Row 
-        spacing={theme.spacing(30)}
-        cols={[ '1fr', 'minmax(auto, 300px)' ]}
+        spacing={theme.spacing(4)}
+        cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
       >
-        <Grid.Col xs={2} md={1}>
-          <main>
-            <SkipNav.Content/>
-
-            <Text variant='h1' htmlTag='h1'>Videos / {initialVideos.title}</Text>
+        <Grid.Col xs={3} md={1}>
+          <Semantic role='main' pritable skipNavContent>
+            <Text variant='h4'>Videos</Text>
+            <Text variant='h1' htmlTag='h1'>{initialVideos.title}</Text>
             <Divider className={styles.divider}/>
 
             <FlatList
@@ -70,13 +69,20 @@ function Author({
               onVisible={loadMore}
             /> */}
 
-          </main>
+          </Semantic>
+        </Grid.Col>
+
+        <Grid.Col xs={0} md={1} style={{height: '100%', overflow: 'hidden'}}>
+          <Divider.Vertical/>
         </Grid.Col>
 
         <Grid.Col xs={0} md={1}>
           <Sticky>
             <Ad type='rectange' style={{ marginBottom: '1rem' }} />
             <Ad type='skyscraper' />
+            <AdBlockDector>
+              <Donate.SidebarCard/>
+            </AdBlockDector>
           </Sticky>
         </Grid.Col>
 
