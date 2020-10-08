@@ -34,6 +34,7 @@ export function Link({
   tabIndex,
   label,
   ariaHidden,
+  rel,
   role,
   tooltipPosition,
   onClickSideEffect
@@ -45,6 +46,7 @@ export function Link({
   tabIndex?: number
   label?: string
   ariaHidden?: boolean
+  rel?: string
   role?: string
   tooltipPosition?: 'left' | 'right'
   onClickSideEffect?: () => any
@@ -88,6 +90,7 @@ export function Link({
         aria-label={label}
         aria-hidden={ariaHidden}
         role={role}
+        rel={rel}
         data-tooltip-position={tooltipPosition}
         onClick={onClickSideEffect ? (
           (e) => {
@@ -104,7 +107,7 @@ export function Link({
   ) : (
     <a
       href={href}
-      rel='noopener nofollow'
+      rel={`noopener nofollow${rel ? ' '+rel : ''}`}
       target='_blank'
       style={style}
       className={className}

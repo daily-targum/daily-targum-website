@@ -43,13 +43,14 @@ function Authors({
       ) : null)}
 
       <div className={styles.column}>
-        <div className={styles.authors}>
+        <address className={styles.authors}>
           {authorsExceptLast.map((author, i) => (
             <React.Fragment key={author.id}>
               <Link 
                 href={`/staff/${author.slug}`}
                 className={styles.hideLink}
                 label={`More articles by ${author.displayName}`}
+                rel='author'
               >
                 <Text className={styles.author}>{author.displayName}</Text>
               </Link>
@@ -63,12 +64,13 @@ function Authors({
               <Link 
                 href={`/staff/${last.slug}`}
                 className={styles.hideLink}
+                rel='author'
               >
                 <Text className={styles.author}>{last.displayName}</Text>
               </Link>
             </>
           ) : null}
-        </div>
+        </address>
         <Text className={styles.date} htmlTag='time' noPadding>{formatDate(publishDate)}</Text>
       </div>
 
