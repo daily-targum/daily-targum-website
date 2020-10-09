@@ -104,7 +104,7 @@ function Home({
   return (
     <div className={styles.page}>
       <Semantic role='main' pritable skipNavContent>
-        <div aria-label='Highlighted articles slide show'>
+        <div aria-label='Highlighted articles slide show' data-tooltip-position='none'>
           <NewsSlider articles={homepage.high}/>
         </div>
 
@@ -113,6 +113,7 @@ function Home({
             <div
               key={category}
               aria-label={`${category}, latest articles`}
+              data-tooltip-position='none'
             >
               <NewsRow
                 category={homepage[category]}

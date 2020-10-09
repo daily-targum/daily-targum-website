@@ -185,6 +185,8 @@ table tr td {
   // Aria label position
   right: 0 !important;
   left: unset !important;
+  content: '' !important;
+  display: none !important;
 }
 
 [aria-label]:after {

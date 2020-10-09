@@ -17,7 +17,7 @@ const options: HTMLReactParserOptions = {
     if (type === 'tag') {
 
       // 10 or more - becomes a divider
-      if (name === 'p' && children.length === 1 && /^(_|-|–){10,}$/.test(children[0].data)) {
+      if ( !/^h/.test(name) && children.length === 1 && /^(_|-|–){15,}$/.test(children[0].data) ) {
         return (
           <Divider/>
         )
