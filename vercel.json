@@ -4,5 +4,6 @@
   "public": false,
   "github": {
     "enabled": false
-  }
+  },
+  "regions": ["iad1"]
 }
