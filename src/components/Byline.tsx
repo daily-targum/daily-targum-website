@@ -1,6 +1,6 @@
 import React from 'react';
 import Text from './Text';
-import { formatDate } from '../shared/src/utils';
+import { formatDate, formatDateAbriviated } from '../shared/src/utils';
 import { Author } from '../shared/src/client';
 import { imgix } from '../utils';
 import Link from './Link';
@@ -78,9 +78,26 @@ function Authors({
   );
 }
 
+function Compact({
+  publishDate,
+  authors
+}: {
+  authors: Author[]
+  publishDate: number
+}) {
+  return (
+    <div className={styles.bylineCompact}>
+      <Text htmlTag='time' className={styles.bylineCompactDate}>{formatDateAbriviated(publishDate)}</Text>
+      <Text className={styles.bylineCompactAuthor}>
+        {'By ' + authors.join(', ') + ' '}
+      </Text>
+    </div>
+  )
+}
+
 export const Byline = {
   Authors,
-  Date
+  Compact
 }
 
 export default Byline;

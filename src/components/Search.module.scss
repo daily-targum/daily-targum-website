@@ -60,6 +60,16 @@
   transition: opacity theme.timing(1);
 }
 
+.bottomActions {
+  padding: theme.spacing(1, 3);
+  @include styleHelpers.flex('row');
+  justify-content: space-between;
+}
+
+.hideButton {
+  @include styleHelpers.hideButton();
+}
+
 .hide {
   opacity: 0;
 }
@@ -99,10 +109,8 @@
 
   &:focus {
     background-color: theme.color('highlight');
+    text-decoration: underline;
   }
-}
-
-.previewItem {
 }
 
 .backdrop {

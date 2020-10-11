@@ -36,6 +36,7 @@ export * from './AccessibilityFix';
 export * from './Donate';
 export * from './Semantic';
 export * from './Search';
+export * from './HighlightText';
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,

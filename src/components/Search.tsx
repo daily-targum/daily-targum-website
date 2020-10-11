@@ -3,6 +3,7 @@ import Text from './Text';
 import Link from './Link';
 import { FocusControl } from './ResetTabIndex';
 import HighlightText from './HighlightText';
+import Divider from './Divider';
 import { FiSearch } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
 import styles from './Search.module.scss';
@@ -48,13 +49,15 @@ function Input({
   enabled,
   className,
   size = 2,
-  onSubmit = () => {}
+  onSubmit = () => {},
+  maxItems = 15
 }: {
   width?: number | string;
   enabled: boolean;
   className?: string;
   size?: number;
-  onSubmit?: () => any
+  onSubmit?: () => any;
+  maxItems?: number
 }) {
   const ref = React.useRef<HTMLInputElement>(null);
   const query = useSelector(s => s.search.query);
@@ -64,11 +67,16 @@ function Input({
   const hijacked = useSelector(s => s.search.hijacked);
   const dispatch = useDispatch();
   const router = useRouter();
-  const hasResults = useSelector(s => s.search.hits?.total.value) && !hijacked;
+
+  let numberOfItems = useSelector(s => s.search.hits?.total.value) ?? 0;
+  if (numberOfItems > maxItems) {
+    numberOfItems = maxItems;
+  }
+  const hasResults = (numberOfItems > 0) && !hijacked;
 
   const trapFocus = focused && !!hasResults;
 
-  const [focusIndex, setFocusIndex] = useRoveFocus(16);
+  const [focusIndex, setFocusIndex] = useRoveFocus(numberOfItems + 2);
 
   const height = `${size}rem`;
 
@@ -250,6 +258,7 @@ function Input({
           <Preview 
             focusedIndex={focusIndex-1}
             updateFocus={i => setFocusIndex(i+1)}
+            maxItems={maxItems}
           />
         ) : null}
       </div>
@@ -259,19 +268,25 @@ function Input({
 
 function Preview({
   focusedIndex,
-  updateFocus
+  updateFocus,
+  maxItems
 }: {
   focusedIndex: number;
-  updateFocus: (index: number) => any
+  updateFocus: (index: number) => any;
+  maxItems: number;
 }) {
   const hits = useSelector(s => s.search.hits?.hits);
   const focused = useSelector(s => s.search.focused);
   const query = useSelector(s => s.search.hitsQuery);
   const hasResults = useSelector(s => s.search.hits?.total.value);
+  let numberOfItems = useSelector(s => s.search.hits?.total.value) ?? 0;
+  if (numberOfItems > maxItems) {
+    numberOfItems = maxItems;
+  }
 
   return (focused && hasResults) ? (
     <div className={styles.preview}>
-      {hits?.slice(0, 15).map((hit, i) => (
+      {hits?.slice(0, numberOfItems).map((hit, i) => (
         <FocusControl 
           key={hit._id}
           focus={i === focusedIndex}
@@ -282,17 +297,27 @@ function Preview({
             href={`/${hit._source.slug}`} 
             className={styles.previewLink}
           >
-            <Text.Truncate 
-              numberOfLines={1} 
-              className={styles.previewItem}
-            >
-              <HighlightText search={query}>
+            <Text.Truncate numberOfLines={1}>
+              <HighlightText 
+                search={query}
+                Highlighter={({children}) => <b>{children}</b>}
+              >
                 {hit._source.title}
               </HighlightText>
             </Text.Truncate>
           </Link>
         </FocusControl>
       ))}
+      <Divider/>
+      <FocusControl 
+        focus={numberOfItems === focusedIndex}
+        onFocus={() => updateFocus(numberOfItems)}
+        onMouseOver={() => updateFocus(numberOfItems)}
+      >
+        <Link href='/search' className={styles.previewLink}>
+          More search results
+        </Link>
+      </FocusControl>
     </div>
   ) : null;
 }

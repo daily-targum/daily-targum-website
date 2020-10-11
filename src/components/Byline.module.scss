@@ -58,3 +58,21 @@
 .breakSpaces {
   white-space: break-spaces;
 }
+
+.bylineCompact {
+  margin: theme.spacing(1, 0);
+}
+
+.bylineCompactAuthor {
+  color: theme.color('textMuted');
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  font-style: italic;
+}
+
+.bylineCompactDate {
+  color: theme.color('accent_main');
+  margin-right: theme.spacing(2);
+}

@@ -132,6 +132,7 @@ function MobileMenu() {
             dispatch(navigationActions.closeMobileMenu());
             router.push('/search', undefined, { shallow: true });
           }}
+          maxItems={10}
         />
 
         {navbarLinks.map(link => (

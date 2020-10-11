@@ -2,20 +2,23 @@ import * as React from 'react';
 
 export function HighlightText({
   children,
-  search
+  search,
+  Highlighter = ({children}) => <mark>{children}</mark>
 }: {
   children: string;
-  search: string
+  search: string,
+  Highlighter?: ({ children }: { children: string }) => JSX.Element
 }) {
-  const matcher = new RegExp(search, 'i');
+  const matcher = new RegExp(search, 'ig');
   const split = children.split(matcher);
+  const matches = children.match(matcher);
 
   return (
     <>
       {split.map((text, i) => (
         <React.Fragment key={children+search+i}>
           {i > 0 ? (
-            <b>{search}</b>
+            <Highlighter>{matches?.[i-1] ?? search}</Highlighter>
           ) : null}
           {text}
         </React.Fragment>

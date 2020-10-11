@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import { actions, SearchHits } from '../shared/src/client';
-import { SEOProps, Section, Text, Divider, Link, AspectRatioImage, Semantic, Search, FlatList, HTML } from '../components';
+import { SEOProps, Section, Text, Divider, Link, AspectRatioImage, Semantic, Search, FlatList, HighlightText, Byline } from '../components';
 
 import { imgix, processNextQueryStringParam } from '../utils';
 import { useRouter } from 'next/router';
@@ -10,6 +10,10 @@ import { searchActions } from '../store/ducks/search';
 import queryString from 'query-string';
 
 import styles from './search.module.scss';
+
+function extractText(str: string) {
+  return str.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
+}
 
 
 function SearchPage({
@@ -74,10 +78,22 @@ function SearchPage({
             <Link href={`/${hit._source.slug}`} className={styles.item}>
               <Semantic role='article' className={styles.row}>
                 <div className={styles.col}>
-                  <Text variant='p' className={styles.category}>{hit._source.category}</Text>
-                  <Text variant='h4'>{hit._source.title}</Text>
-                  <Text.Truncate numberOfLines={4}>
-                    <HTML html={hit._source.body.match(/<p>.*<\/p>/)?.[0] ?? ''}/>
+                  <Text variant='p' className={styles.category}>
+                    {hit._source.category}
+                  </Text>
+                  <Text variant='h4'>
+                    <HighlightText search={query}>
+                      {hit._source.title}
+                    </HighlightText>
+                  </Text>
+                  <Byline.Compact
+                    authors={hit._source.authors}
+                    publishDate={hit._source.publishDate}
+                  />
+                  <Text.Truncate variant='p' numberOfLines={5}>
+                    <HighlightText search={query}>
+                      {extractText(hit._source.body.match(/<p>.*<\/p>/)?.[0] ?? '')}
+                    </HighlightText>
                   </Text.Truncate>
                 </div>
                 <AspectRatioImage
