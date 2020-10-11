@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from '../store';
 import { searchActions } from '../store/ducks/search';
 import FocusTrap from 'focus-trap-react';
 import { useRouter } from 'next/router';
+import { CgSpinnerTwo } from 'react-icons/cg';
 
 import { useCallback, useState, useEffect } from "react";
 
@@ -42,22 +43,43 @@ function useRoveFocus(size: number) {
   return [currentFocus, setCurrentFocus] as const;
 }
 
-function Input() {
+function Input({
+  width = '100%',
+  enabled,
+  className,
+  size = 2,
+  onSubmit = () => {}
+}: {
+  width?: number | string;
+  enabled: boolean;
+  className?: string;
+  size?: number;
+  onSubmit?: () => any
+}) {
   const ref = React.useRef<HTMLInputElement>(null);
   const query = useSelector(s => s.search.query);
-  const focused = useSelector(s => s.search.focused);
+  const focused = useSelector(s => s.search.focused) && enabled;
+  
+  const loading = useSelector(s => s.search.loading);
+  const hijacked = useSelector(s => s.search.hijacked);
   const dispatch = useDispatch();
   const router = useRouter();
-  const hasResults = useSelector(s => s.search.hits?.total.value);
+  const hasResults = useSelector(s => s.search.hits?.total.value) && !hijacked;
 
   const trapFocus = focused && !!hasResults;
 
   const [focusIndex, setFocusIndex] = useRoveFocus(16);
 
+  const height = `${size}rem`;
+
   React.useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-       if (event.keyCode === 27 && focused) {
-        dispatch(searchActions.clearSearchResults());
+      if (event.keyCode === 27) {
+        if (hasResults) {
+          dispatch(searchActions.clearSearchResults());
+        } else {
+          dispatch(searchActions.setFocused(false));
+        }
       }
     };
     window.addEventListener('keydown', handleEsc);
@@ -65,10 +87,10 @@ function Input() {
     return () => {
       window.removeEventListener('keydown', handleEsc);
     };
-  }, [focused]);
+  }, [focused, hasResults]);
 
   React.useEffect(() => {
-    if (query !== '') {
+    if (query !== '' && enabled) {
       const id = setTimeout(() => {
         dispatch(searchActions.search());
       }, 300);
@@ -77,13 +99,21 @@ function Input() {
         clearTimeout(id);
       }
     }
-  }, [query]);
+  }, [query, enabled]);
 
   React.useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
     if (focused && focusIndex === 0 && ref.current) {
       ref.current.focus();
     }
-  }, [focusIndex, focused]);
+
+    if (!focused && ref.current) {
+      ref.current.blur();
+    }
+  }, [focusIndex, focused, enabled]);
 
   React.useEffect(() => {
     if (focused) {
@@ -100,12 +130,23 @@ function Input() {
 
   return (
     <FocusTrap 
-      active={trapFocus}
+      active={trapFocus && enabled}
       focusTrapOptions={{
         allowOutsideClick: true
       }}
     >
-      <div className={styles.searchWrap}>
+      <div 
+        className={cn(styles.searchWrap, className)} 
+        style={{
+          minWidth: width,
+          width,
+          maxWidth: width,
+          minHeight: height,
+          height,
+          maxHeight: height,
+          opacity: enabled ? 1 : 0.4
+        }}
+      >
         <div 
           className={cn(
             styles.search,
@@ -122,13 +163,23 @@ function Input() {
                 [styles.hide]: !focused
               }
             )}
-            onSubmit={e => e.preventDefault()}
+            onSubmit={e => {
+              e.preventDefault();
+              onSubmit();
+            }}
             role="search"
           >
-            <FiSearch
-              className={styles.searchIcon}
-              size={14}
-            />
+            {loading ? (
+              <CgSpinnerTwo
+                className={cn(styles.searchIcon, styles.spin)}
+                size={7 * size}
+              />
+            ) : (
+              <FiSearch
+                className={styles.searchIcon}
+                size={7 * size}
+              />
+            )}
             <input 
               ref={ref}
               onFocus={() => {
@@ -137,7 +188,7 @@ function Input() {
               }}
               onBlur={() => {
                 setTimeout(() => {
-                  if (!trapFocus) {
+                  if (focused && !trapFocus) {
                     dispatch(searchActions.setFocused(false));
                   }
                 }, 10);
@@ -150,25 +201,24 @@ function Input() {
                   [styles.hide]: !focused
                 }
               )}
+              style={{fontSize: `${size / 2}rem`}}
               placeholder='Search'
               aria-label='Enter search text'
             />
             <button
-              tabIndex={trapFocus ? undefined : -1}
+              type="button"
+              tabIndex={focused ? undefined : -1}
               aria-label='Clear search'
               data-tooltip-position='left'
               className={styles.clickable}
               onClick={() => {
-                if(focused) {
-                  dispatch(searchActions.setQuery(''));
-                  dispatch(searchActions.setFocused(false));
-                  dispatch(searchActions.clearSearchResults());
-                }
+                dispatch(searchActions.setQuery(''));
+                dispatch(searchActions.setFocused(false));
               }}
             >
               <IoMdClose
                 className={styles.searchIcon}
-                size={22}
+                size={11 * size}
               />
             </button>
           </form>
@@ -184,17 +234,24 @@ function Input() {
           >
             <FiSearch
               className={styles.searchIcon}
-              size={14}
+              size={7 * size}
             />
-            <Text className={styles.searchPlaceholder}>{query || 'Search'}</Text>
+            <Text 
+              className={styles.searchPlaceholder}
+              style={{fontSize: `${size / 2}rem`}}
+            >
+              {enabled ? query || 'Search articles' : 'Search articles'}
+            </Text>
           </div>
 
         </div>
 
-        <Preview 
-          focusedIndex={focusIndex-1}
-          updateFocus={i => setFocusIndex(i+1)}
-        />
+        {(enabled && !hijacked) ? (
+          <Preview 
+            focusedIndex={focusIndex-1}
+            updateFocus={i => setFocusIndex(i+1)}
+          />
+        ) : null}
       </div>
     </FocusTrap>
   )
@@ -240,17 +297,23 @@ function Preview({
   ) : null;
 }
 
-function PreviewBackdrop() {
+function PreviewBackdrop({
+  style
+}: {
+  style?: React.CSSProperties
+}) {
   const focused = useSelector(s => s.search.focused);
+  const hijacked = useSelector(s => s.search.hijacked);
   const hasResults = useSelector(s => s.search.hits?.total.value);
   const dispatch = useDispatch();
 
-  return (focused && hasResults) ? (
+  return (focused && hasResults && !hijacked) ? (
     <div 
       className={styles.backdrop}
       onClick={() => {
         dispatch(searchActions.setFocused(false))
       }}
+      style={style}
     />
   ) : null;
 }

@@ -13,7 +13,7 @@ function AdBlockDector({
     if (nextUtils.isBrowser()) {
       fetch("securepubads.g.doubleclick.net/pagead/adview")
       .catch(() => { 
-        setAdsBlocked(true)
+        setAdsBlocked(true);
       });
     }
   }, []);

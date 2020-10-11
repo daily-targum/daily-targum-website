@@ -9,6 +9,7 @@ import NextNprogress from './NextNProgress';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from '../store';
 import { navigationActions } from '../store/ducks/navigation';
+import { searchActions } from '../store/ducks/search';
 import { useScrollock } from '../utils';
 import styles from './Navbar.module.scss';
 import cn from 'classnames';
@@ -71,13 +72,14 @@ const navbarLinks: {
 
 function MobileMenu() {
   const isVisible = useSelector(s => s.navigation.mobileMenuVisible);
+  const searchFocused = useSelector(s => s.search.focused);
   const router = useRouter();
   const dispatch = useDispatch();
 
   const { toggleScrollock } = useScrollock();
 
   React.useEffect(() => {
-    toggleScrollock(isVisible)
+    toggleScrollock(isVisible);
   }, [isVisible]);
 
   React.useEffect(() => {
@@ -88,8 +90,14 @@ function MobileMenu() {
 
   React.useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-       if (event.keyCode === 27 && isVisible) {
-        dispatch(navigationActions.closeMobileMenu());
+      if (event.keyCode === 27 && isVisible) {
+        if (searchFocused) {
+          dispatch(searchActions.setFocused(false));
+        }
+
+        else {
+          dispatch(navigationActions.closeMobileMenu());
+        }
       }
     };
     window.addEventListener('keydown', handleEsc);
@@ -97,13 +105,13 @@ function MobileMenu() {
     return () => {
       window.removeEventListener('keydown', handleEsc);
     };
-  }, [isVisible]);
+  }, [isVisible, searchFocused]);
 
   return (
     <Grid.Display
       xs={true} 
       lg={false}
-    >
+    >    
       <div
         className={cn(
           styles.mobileMenu,
@@ -113,21 +121,28 @@ function MobileMenu() {
           }
         )}
       >
-        {navbarLinks.map(link => (link.href === router.asPath) ? (
-          <span 
-            key={link.href}
-            className={cn(styles.mobileLink, styles.linkActive)}
-            onClick={() => dispatch(navigationActions.closeMobileMenu())}
-            aria-label={link.ariaLabel}
-          >
-            <span>{link.title}</span>
-          </span>
-        ) : (
+        <Search.PreviewBackdrop/>
+
+        <Search.Input
+          enabled={isVisible}
+          size={2.7}
+          className={styles.search}
+          onSubmit={() => {
+            dispatch(searchActions.setFocused(false));
+            dispatch(navigationActions.closeMobileMenu());
+            router.push('/search', undefined, { shallow: true });
+          }}
+        />
+
+        {navbarLinks.map(link => (
           <Link 
             key={link.href}
             href={link.href}
-            className={styles.mobileLink}
+            className={cn(styles.mobileLink, {
+              [styles.linkActive]: (link.href === router.asPath)
+            })}
             label={link.ariaLabel}
+            onClickSideEffect={() => dispatch(navigationActions.closeMobileMenu())}
           >
             <span>{link.title}</span>
           </Link>
@@ -142,6 +157,7 @@ export function Navbar() {
   const router = useRouter();
   const dispatch = useDispatch();
   const mobileMenuVisible = useSelector(s => s.navigation.mobileMenuVisible);
+  const searchHijacked = useSelector(s => s.search.hijacked);
 
   return (
     <>
@@ -202,7 +218,14 @@ export function Navbar() {
 
                   <Search.PreviewBackdrop/>
 
-                  <Search.Input/>
+                  <Search.Input 
+                    width={175}
+                    size={2.1}
+                    enabled={(!mobileMenuVisible) && !searchHijacked}
+                    onSubmit={() => {
+                      router.push('/search', undefined, { shallow: true });
+                    }}
+                  />
                 </div>
               </Grid.Display>
 
@@ -211,6 +234,12 @@ export function Navbar() {
                 lg={false}
               >
                 <div className={styles.inner}>
+                  <Search.PreviewBackdrop
+                    style={{
+                      height: NAVBAR_HEIGHT
+                    }}
+                  />
+
                   <Link href='/' label='Go to homepage'>
                     <Logo className={styles.logo}/>
                   </Link>

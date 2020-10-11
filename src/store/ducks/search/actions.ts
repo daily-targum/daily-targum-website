@@ -1,27 +1,39 @@
 import types, { State } from './types';
+import { SearchHits } from '../../../shared/src/client';
 
 export function setQuery(query: string) {
   return {
-    type: types.UPDATE_QUERY,
+    type: types.SEARCH_UPDATE_QUERY,
     payload: query
   }
 }
 
 export function setFocused(focused: boolean) {
   return {
-    type: types.SET_FOCUS,
+    type: types.SEARCH_SET_FOCUS,
     payload: focused
+  }
+}
+
+export function setHijacked(hijacked: boolean) {
+  return {
+    type: types.SEARCH_SET_HIJACKED,
+    payload: hijacked
   }
 }
 
 export function search() {
   return async (dispatch: any, getState: () => { search: State }) => {
+    dispatch({
+      type: types.SEARCH_LOADING
+    });
+
     const { search } = await import('../../../shared/src/client');
     const { query } = getState().search;
     const res = await search({ query });
 
     dispatch({
-      type: types.SET_SEARCH_RESULTS,
+      type: types.SEARCH_SET_RESULTS,
       payload: res
     })
   }
@@ -29,6 +41,22 @@ export function search() {
 
 export function clearSearchResults() {
   return {
-    type: types.CLEAR_SEARCH_RESULTS
+    type: types.SEARCH_CLEAR_RESULTS
+  }
+}
+
+export function hydrate({ 
+  query,
+  hits 
+}: {
+  query: string,
+  hits: SearchHits
+}) {
+  return {
+    type: types.SEARCH_HYDRATE,
+    payload: {
+      query,
+      hits
+    }
   }
 }

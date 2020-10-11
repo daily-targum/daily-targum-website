@@ -1,15 +1,20 @@
 import { SearchHits } from '../../../shared/src/client';
 
 export default {
-  UPDATE_QUERY: 'UPDATE_QUERY',
-  SET_FOCUS: 'SET_FOCUS',
-  SET_SEARCH_RESULTS: 'SET_SEARCH_RESULTS',
-  CLEAR_SEARCH_RESULTS: 'CLEAR_SEARCH_RESULTS'
+  SEARCH_UPDATE_QUERY: 'SEARCH_UPDATE_QUERY',
+  SEARCH_SET_FOCUS: 'SEARCH_SET_FOCUS',
+  SEARCH_SET_RESULTS: 'SEARCH_SET_RESULTS',
+  SEARCH_CLEAR_RESULTS: 'SEARCH_CLEAR_RESULTS',
+  SEARCH_LOADING: 'SEARCH_LOADING',
+  SEARCH_SET_HIJACKED: 'SEARCH_SET_HIJACKED',
+  SEARCH_HYDRATE: 'SEARCH_HYDRATE'
 }
 
 export interface State {
   query: string;
   focused: boolean;
   hits: SearchHits | null;
-  hitsQuery: string
+  hitsQuery: string;
+  loading: boolean;
+  hijacked: boolean;
 }

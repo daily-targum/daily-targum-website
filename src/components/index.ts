@@ -35,6 +35,7 @@ export * from './ResetTabIndex';
 export * from './AccessibilityFix';
 export * from './Donate';
 export * from './Semantic';
+export * from './Search';
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,

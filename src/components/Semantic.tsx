@@ -8,20 +8,22 @@ import { ID } from './SkipNav';
 export function Semantic({
   children,
   role,
-  pritable = role === 'article',
+  pritable,
   skipNavContent = false,
-  ariaLabel
+  ariaLabel,
+  className
 }: {
   children: ReactChildren;
   role: 'main' | 'article' | 'aside' | 'section' | 'header';
   pritable?: boolean;
   skipNavContent?: boolean;
   ariaLabel?: string;
+  className?: string;
 }) {
   const props = {
     id: skipNavContent ? ID : undefined,
     tabIndex: skipNavContent ? -1 : undefined,
-    className: cn(styles.semantic, {
+    className: cn(styles.semantic, className, {
       [styles.printable]: pritable
     }),
     'area-label': ariaLabel
@@ -80,6 +82,12 @@ export function Semantic({
         <header {...props}>
           {children}
         </header>
+      );
+    default:
+      return (
+        <div {...props}>
+          {children}
+        </div>
       );
   };
 }
