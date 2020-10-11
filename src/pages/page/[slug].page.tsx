@@ -27,7 +27,7 @@ function Page({
         disableGridOnPrit
       >
         <Grid.Col xs={3} md={1}>
-          <Semantic role='main' skipNavContent>
+          <Semantic role='main' skipNavContent pritable>
             <Semantic role='article'>
               <HTML html={page.content}/>
             </Semantic>

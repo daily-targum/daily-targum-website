@@ -1,0 +1,11 @@
+@use 'styleHelpers';
+
+.sidebarCard {
+  @include styleHelpers.flex('column');
+  align-items: flex-start;
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
