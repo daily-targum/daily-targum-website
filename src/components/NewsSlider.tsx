@@ -132,7 +132,7 @@ export function NewsSlider({
     >
       <div 
         className={cn(
-          'dark-mode',
+          'force-dark-mode',
           styles.slider
         )}
         onMouseEnter={() => setResetTimer(num => num+1)}

@@ -26,12 +26,15 @@
 }
 
 .closeIcon {
-  position: absolute;
+  @include styleHelpers.hideButton();
+  position: absolute !important;
   top: theme.spacing(1);
   right: theme.spacing(1);
   z-index: 1001;
   cursor: pointer;
   color: #fff;
+  width: 24px;
+  height: 24px;
 }
 
 .description {

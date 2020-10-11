@@ -104,7 +104,7 @@ function CardCompact({
       
       <div className={styles.compactCardBody}>
         {tag ? <Text className={styles.tag}>{tag}</Text> : null}
-        {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
+        {title ? <Text.Truncate variant='h4' htmlTag='h2' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
 
         <div className={styles.grow}/>
 
@@ -171,7 +171,7 @@ function CardCompactResponsive({
 
       <div className={styles.compactCardBody}>
         {tag ? <Text className={styles.tag}>{tag}</Text> : null}
-        {title ? <Text.Truncate variant='h4' htmlTag='h1' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
+        {title ? <Text.Truncate variant='h4' htmlTag='h2' numberOfLines={3} lockNumberOfLines={true}>{title}</Text.Truncate> : null}
       
         <div className={styles.grow}/>
 
@@ -222,7 +222,7 @@ function CardStacked({
         {title ? (
           <Text.Truncate 
             variant='h4' 
-            htmlTag='h1' 
+            htmlTag='h2' 
             numberOfLines={2}
             lockNumberOfLines={true}
           >
@@ -304,7 +304,7 @@ export function CardStackedResponsive({
         {title ? (
           <Text.Truncate 
             variant='h4' 
-            htmlTag='h1' 
+            htmlTag='h2' 
             numberOfLines={2}
             lockNumberOfLines={true}
           >
@@ -349,7 +349,7 @@ function CardImage({
           height: '100%'
         })
       }}
-      className={cn('dark-mode', styles.imageCard)}
+      className={cn('force-dark-mode', styles.imageCard)}
     >
       <AspectRatioImage
         aspectRatio={aspectRatio ?? 16/9}
@@ -367,7 +367,7 @@ function CardImage({
           </Text>
         ) : null}
 
-        {title ? <Text.Truncate variant='h3' htmlTag='h1' numberOfLines={2}>{title}</Text.Truncate> : null}
+        {title ? <Text.Truncate variant='h3' htmlTag='h2' numberOfLines={2}>{title}</Text.Truncate> : null}
         <Text 
           className={styles.byline}
         >

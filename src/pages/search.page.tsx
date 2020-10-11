@@ -92,7 +92,7 @@ function SearchPage({
                   />
                   <Text.Truncate variant='p' numberOfLines={5}>
                     <HighlightText search={query}>
-                      {extractText(hit._source.body.match(/<p>.*<\/p>/)?.[0] ?? '')}
+                      {extractText(hit._source.abstract ?? hit._source.body.match(/<p>.*<\/p>/)?.[0] ?? '')}
                     </HighlightText>
                   </Text.Truncate>
                 </div>

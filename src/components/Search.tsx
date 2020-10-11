@@ -189,6 +189,7 @@ function Input({
               />
             )}
             <input 
+              disabled={!enabled}
               ref={ref}
               onFocus={() => {
                 dispatch(searchActions.setFocused(true));

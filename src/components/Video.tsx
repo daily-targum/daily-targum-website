@@ -175,12 +175,11 @@ function PersistentPlayer() {
           dispatch(videoActions.setPlayState('pause'));
           dispatch(videoActions.setPersist(false));
         }}
-        className={styles.hideButton}
+        className={styles.closeIcon}
       >
         <IoMdClose
           color='#fff'
           size={24}
-          className={styles.closeIcon}
         />
       </button>
       <Player

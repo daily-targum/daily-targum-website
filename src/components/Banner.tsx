@@ -14,10 +14,10 @@ export function Banner({
       role='banner'
       aria-label={`${text}${accentText ? ' '+accentText : ''}`}
     >
-      <span className={styles.logo} aria-hidden={true}>
+      <h1 className={styles.logo} aria-hidden={true}>
         {text}
         {accentText ? <span className={styles.logoAccent}> {accentText}</span> : null}
-      </span>
+      </h1>
     </div>
   );
 }

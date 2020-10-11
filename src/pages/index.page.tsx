@@ -103,6 +103,9 @@ function Home({
 }) {
   return (
     <div className={styles.page}>
+      {/* for SEO */}
+      <h1 style={{display: 'none'}} aria-hidden={true}>The Daily Targum</h1>
+
       <Semantic role='main' pritable skipNavContent>
         <div aria-label='Highlighted articles slide show' data-tooltip-position='none'>
           <NewsSlider articles={homepage.high}/>

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import escapeStringRegexp from 'escape-string-regexp';
 
 export function HighlightText({
   children,
@@ -9,7 +10,7 @@ export function HighlightText({
   search: string,
   Highlighter?: ({ children }: { children: string }) => JSX.Element
 }) {
-  const matcher = new RegExp(search, 'ig');
+  const matcher = new RegExp(escapeStringRegexp(search), 'ig');
   const split = children.split(matcher);
   const matches = children.match(matcher);
 

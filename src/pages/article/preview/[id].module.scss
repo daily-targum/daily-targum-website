@@ -39,3 +39,10 @@
   display: block;
   height: theme.spacing(1);
 }
+
+.category {
+  display: block;
+  text-transform: uppercase;
+  color: theme.color('textMuted');
+  margin-bottom: theme.spacing(2);
+}

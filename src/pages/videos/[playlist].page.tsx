@@ -34,6 +34,7 @@ function Author({
       <Grid.Row 
         spacing={theme.spacing(4)}
         cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
+        disableGridOnPrit
       >
         <Grid.Col xs={3} md={1}>
           <Semantic role='main' pritable skipNavContent>

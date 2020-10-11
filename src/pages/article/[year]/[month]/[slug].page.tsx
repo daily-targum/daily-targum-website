@@ -42,6 +42,9 @@ function Article({
             <Semantic role='main' skipNavContent pritable>
               <Semantic role='article'>
                 <header>
+                  <Text variant='h5' className={styles.category}>
+                    {article.category}
+                  </Text>
                   <Text 
                     variant='h1' 
                     htmlTag='h1'

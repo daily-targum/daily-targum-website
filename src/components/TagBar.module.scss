@@ -8,8 +8,8 @@
 }
 
 .tag {
-  color: #fff;
-  background-color: #999;
+  color: theme.color('accent_main');
+  background-color: transparent;
   padding: theme.spacing(1, 2);
   margin-right: theme.spacing(1);
   border-radius: theme.roundness(1);
@@ -21,9 +21,13 @@
   text-transform: capitalize;
   white-space: nowrap;
 
-  border: none;
-}
+  border: 1px solid theme.color('accent_main');
 
-.tagSelected {
-  background-color: theme.color('accent_main');
+  transition: background-color theme.timing(1), color theme.timing(1);
+
+  &:hover,
+  &.tagSelected {
+    background-color: theme.color('accent_main');
+    color: theme.color('accent_contrastText')
+  }
 }
