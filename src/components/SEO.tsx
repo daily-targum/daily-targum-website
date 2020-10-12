@@ -1,5 +1,5 @@
 import React from 'react';
-import { imgix } from '../utils';
+import { imgix, nextUtils } from '../utils';
 import Head from 'next/head';
 
 const BASE = {
@@ -62,6 +62,13 @@ export function SEO({
 
   return (
     <Head>
+      {nextUtils.envIs(['production']) ? null : (
+        <>
+          <meta name="robots" content="noindex, nofollow, noarchive"/>
+          <meta name="googlebot" content="noindex, nofollow, noarchive"/>
+        </>
+      )}
+
       <title>{formatTitle(title)}</title>
       <meta name="description" content={description} />
       {author ? <meta name="author" content={author}/> : null}
