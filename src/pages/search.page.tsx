@@ -28,9 +28,9 @@ function SearchPage({
   const mobileMenuVisible = useSelector(s => s.navigation.mobileMenuVisible);
   const focused = useSelector(s => s.search.focused);
   const query = useSelector(s => s.search.query);
-  const hitsQuery = useSelector(s => s.search.hitsQuery)
-  const hits = useSelector(s => s.search.hits) ?? (hitsQuery === initialQuery ? initialHits : null);
-  const hijacked = useSelector(s => s.search.hijacked)
+  const hydrated = useSelector(s => s.search.hydrated);
+  const hits = useSelector(s => s.search.hits) ?? (!hydrated ? initialHits : null);
+  const hijacked = useSelector(s => s.search.hijacked);
 
   React.useEffect(() => {
     if (initialHits) {

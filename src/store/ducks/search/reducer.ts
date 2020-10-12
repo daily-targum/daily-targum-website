@@ -6,7 +6,8 @@ const initialState: State = {
   hits: null,
   hitsQuery: '',
   loading: false,
-  hijacked: false
+  hijacked: false,
+  hydrated: false
 };
 
 export default function reducer(state = initialState, action: any) {
@@ -56,7 +57,8 @@ export default function reducer(state = initialState, action: any) {
         ...state,
         query: action.payload.query,
         hitsQuery: action.payload.query,
-        hits: action.payload.hits
+        hits: action.payload.hits,
+        hydrated: true
       }
     default:
       return state;

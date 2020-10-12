@@ -1,7 +1,8 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../../shared/src/client';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, HTML, Ad, Sticky, Semantic, AdBlockDector, Donate } from '../../../components';
+import { hyphenatedToCapitalized } from '../../../shared/src/utils';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, HTML, Ad, Sticky, Semantic, AdBlockDector, Donate, Link } from '../../../components';
 import NotFound from '../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../utils';
 import styles from './[id].module.scss';
@@ -51,11 +52,14 @@ function Article({
         >
           <Grid.Col xs={3} xl={1}>
             <Semantic role='main' skipNavContent pritable>
+              <Link 
+                className={styles.category}
+                href={`/section/${article.category.toLowerCase()}`}
+              >
+                {hyphenatedToCapitalized(article.category)}
+              </Link>
               <Semantic role='article'>
                 <header>
-                  <Text variant='h5' className={styles.category}>
-                    {article.category}
-                  </Text>
                   <Text 
                     variant='h1' 
                     htmlTag='h1'
@@ -143,13 +147,18 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
     article = await getArticlePreview({
       id: processNextQueryStringParam(ctx.query.id)
     });
-  } catch(e) {
+  } catch(e) {}
 
-  }
+  const keywords = [
+    ...(article?.tags ?? []),
+    article?.category
+  ].join(', ');
 
   let seo: SEOProps = {
     title: article?.title,
-    type: 'article'
+    type: 'article',
+    author: article?.authors.map(author => author.displayName).join(', '),
+    keywords
   };
 
   if (article?.abstract) {

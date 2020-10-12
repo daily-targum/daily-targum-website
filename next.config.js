@@ -121,6 +121,11 @@ module.exports = withBundleAnalyzer(withSourceMaps({
         source: '/page/staff',
         destination: '/page/contact',
         permanent: true,
+      },
+      {
+        source: '/page/classifieds',
+        destination: '/classifieds',
+        permanent: true,
       }
     ]
   }

@@ -1,0 +1,7 @@
+@use 'styleHelpers';
+
+.page {
+  @include styleHelpers.flex('row');
+  justify-content: center;
+  flex: 1;
+}

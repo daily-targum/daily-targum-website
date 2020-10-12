@@ -17,4 +17,5 @@ export interface State {
   hitsQuery: string;
   loading: boolean;
   hijacked: boolean;
+  hydrated: boolean;
 }

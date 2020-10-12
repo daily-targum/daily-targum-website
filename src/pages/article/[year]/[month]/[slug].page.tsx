@@ -1,7 +1,8 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, AdBlockDector, Donate } from '../../../../components';
+import { hyphenatedToCapitalized } from '../../../../shared/src/utils';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, AdBlockDector, Donate, Link } from '../../../../components';
 
 import NotFound from '../../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../../utils';
@@ -40,11 +41,14 @@ function Article({
         >
           <Grid.Col xs={3} xl={1}>
             <Semantic role='main' skipNavContent pritable>
+              <Link 
+                className={styles.category}
+                href={`/section/${article.category.toLowerCase()}`}
+              >
+                {hyphenatedToCapitalized(article.category)}
+              </Link>
               <Semantic role='article'>
                 <header>
-                  <Text variant='h5' className={styles.category}>
-                    {article.category}
-                  </Text>
                   <Text 
                     variant='h1' 
                     htmlTag='h1'
@@ -145,10 +149,17 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     };
   }
 
+  const keywords = [
+    ...(article.tags ?? []),
+    article.category
+  ].join(', ');
+
   let seo: SEOProps = {
     pathname: `/article/${year}/${month}/${slug}`,
     title: article?.title,
-    type: 'article'
+    type: 'article',
+    author: article?.authors.map(author => author.displayName).join(', '),
+    keywords
   };
 
   if (article?.abstract) {

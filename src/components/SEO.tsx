@@ -18,6 +18,8 @@ export type SEOProps = {
   host?: string
   pathname?: string
   siteName?: string
+  author?: string
+  keywords?: string
 };
 
 // export function Podcast({
@@ -51,13 +53,17 @@ export function SEO({
   imageSrc = 'https://dailytargum.imgix.net/images/social-media-card-image.png',
   host = 'https://dailytargum.com/',
   pathname = '/',
-  imageAlt = 'logo'
+  imageAlt = 'logo',
+  author,
+  keywords
 }: SEOProps) {
 
   return (
     <Head>
       <title>{formatTitle(title)}</title>
       <meta name="description" content={description} />
+      {author ? <meta name="author" content={author}/> : null}
+      {keywords ? <meta name="keywords" content={keywords}/> : null}
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary"/>

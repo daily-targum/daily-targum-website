@@ -7,6 +7,17 @@ import Link from './Link';
 import styles from './Footer.module.scss';
 import Divider from './Divider';
 
+type Link = {
+  title: string;
+  href: string;
+}
+
+function alphabetically(a: Link, b: Link){
+  if(a.title < b.title) { return -1; }
+  if(a.title > b.title) { return 1; }
+  return 0;
+}
+
 const links = {
   company: [
     {
@@ -20,6 +31,10 @@ const links = {
     {
       title: 'Contact',
       href: '/page/contact'
+    },
+    {
+      title: 'Classifieds',
+      href: '/classifieds'
     },
     {
       title: 'Advertise',
@@ -78,7 +93,7 @@ export function Footer() {
           <Grid.Col xs={24} md={8} className={styles.col}>
             <Text variant='h4' className={styles.title}>Company</Text>
             <div role="list" className={styles.fakeUl}>
-              {links.company.map(l => (
+              {links.company.sort(alphabetically).map(l => (
                 <Link
                   key={l.href}
                   className={styles.link}
@@ -98,7 +113,7 @@ export function Footer() {
           <Grid.Col xs={24} md={8} className={styles.col}>
             <Text variant='h4' className={styles.title}>Social Media</Text>
             <div role="list" className={styles.fakeUl}>
-              {links.socialMedia.map(l => (
+              {links.socialMedia.sort(alphabetically).map(l => (
                 <Link 
                   key={l.href} 
                   className={styles.link}
