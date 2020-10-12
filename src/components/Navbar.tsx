@@ -195,7 +195,7 @@ export function Navbar() {
                 style={{ flex: 1 }}
               >
                 <div className={styles.inner}>
-                  <Link href='/' label='Go to homepage'>
+                  <Link href='/' label='Go to homepage' tooltipPosition='none'>
                     <Logo className={styles.logo}/>
                   </Link>
                   
@@ -241,7 +241,7 @@ export function Navbar() {
                     }}
                   />
 
-                  <Link href='/' label='Go to homepage'>
+                  <Link href='/' label='Go to homepage' tooltipPosition='none'>
                     <Logo className={styles.logo}/>
                   </Link>
 

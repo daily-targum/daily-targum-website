@@ -48,7 +48,7 @@ export function Link({
   ariaHidden?: boolean
   rel?: string
   role?: string
-  tooltipPosition?: 'left' | 'right'
+  tooltipPosition?: string
   onClickSideEffect?: () => any
 }) {
   const router = useRouter();

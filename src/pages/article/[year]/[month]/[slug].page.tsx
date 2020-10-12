@@ -1,7 +1,7 @@
 import React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
-import { hyphenatedToCapitalized } from '../../../../shared/src/utils';
+import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../../shared/src/utils';
 import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, AdBlockDector, Donate, Link } from '../../../../components';
 
 import NotFound from '../../../404.page';
@@ -28,7 +28,7 @@ function Article({
   }
 
   const photoCredit = article.media[0]?.credits;
-  const photoDescription = article.media[0]?.description ?? '';
+  const photoDescription = extractTextFromHTML(article.media[0]?.description ?? '');
   
   return (
     <>
@@ -149,13 +149,16 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     };
   }
 
+  const pathname = `/article/${year}/${month}/${slug}`;
+  const preferedSlug = `/${article.slug}`;
+
   const keywords = [
     ...(article.tags ?? []),
     article.category
   ].join(', ');
 
   let seo: SEOProps = {
-    pathname: `/article/${year}/${month}/${slug}`,
+    pathname: preferedSlug,
     title: article?.title,
     type: 'article',
     author: article?.authors.map(author => author.displayName).join(', '),
@@ -168,6 +171,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   if (article?.media[0]) {
     seo.imageSrc = article.media[0].url;
+  }
+
+  if (pathname !== preferedSlug) {
+    seo.canonical = preferedSlug;
   }
 
   return {

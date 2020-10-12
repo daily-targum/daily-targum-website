@@ -1,6 +1,6 @@
 import React from 'react';
 import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser';
-import xss from 'xss';
+import xss, * as xssDefault from 'xss';
 import Text, { variants } from './Text';
 import Link from './Link';
 import Divider from './Divider';
@@ -43,6 +43,29 @@ const options: HTMLReactParserOptions = {
         );
       }
 
+      if (name === 'img') {
+        return (
+          <img
+            {...attribs}
+            style={{
+              ...attribs.style,
+              maxWidth: '100%'
+            }}
+          />
+        );
+      }
+
+      if (name === 'iframe') {
+        return (
+          <iframe 
+            {...attribs}
+            style={{
+              border: 'none'
+            }}
+          />
+        )
+      }
+
       if (name === ADTAG) {
         return (
           <Ad 
@@ -77,7 +100,17 @@ export function HTML({
   html: string;
   ads?: boolean
 }) {
-  const clean = xss(html);
+  const clean = xss(html, {
+    whiteList: {
+      ...xssDefault.whiteList,
+      // @ts-ignore
+      iframe: ["src"]
+    },
+    stripIgnoreTagBody: [
+      'script',
+      'form'
+    ]
+  });
   const computedHtml = parse(
     (ads ? injectAdToHtml(clean) : clean)
   , options);

@@ -20,6 +20,7 @@ export type SEOProps = {
   siteName?: string
   author?: string
   keywords?: string
+  canonical?: string
 };
 
 // export function Podcast({
@@ -55,7 +56,8 @@ export function SEO({
   pathname = '/',
   imageAlt = 'logo',
   author,
-  keywords
+  keywords,
+  canonical
 }: SEOProps) {
 
   return (
@@ -64,6 +66,7 @@ export function SEO({
       <meta name="description" content={description} />
       {author ? <meta name="author" content={author}/> : null}
       {keywords ? <meta name="keywords" content={keywords}/> : null}
+      {canonical ? <link rel="canonical" href={canonical}/> : null}
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary"/>

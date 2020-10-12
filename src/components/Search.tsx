@@ -278,14 +278,29 @@ function Preview({
 }) {
   const hits = useSelector(s => s.search.hits?.hits);
   const focused = useSelector(s => s.search.focused);
-  const query = useSelector(s => s.search.hitsQuery);
-  const hasResults = useSelector(s => s.search.hits?.total.value);
+  const hitsQuery = useSelector(s => s.search.hitsQuery);
   let numberOfItems = useSelector(s => s.search.hits?.total.value) ?? 0;
   if (numberOfItems > maxItems) {
     numberOfItems = maxItems;
   }
 
-  return (focused && hasResults) ? (
+  if (!focused || hits === undefined) {
+    return null;
+  }
+
+  if (hits.length === 0) {
+    return (
+      <div className={styles.preview}>
+        <Text 
+          className={styles.centerText}
+        >
+          No search results for <b>{hitsQuery}</b>.
+        </Text>
+      </div>
+    );
+  }
+
+  return (
     <div className={styles.preview}>
       {hits?.slice(0, numberOfItems).map((hit, i) => (
         <FocusControl 
@@ -300,7 +315,7 @@ function Preview({
           >
             <Text.Truncate numberOfLines={1}>
               <HighlightText 
-                search={query}
+                search={hitsQuery}
                 Highlighter={({children}) => <b>{children}</b>}
               >
                 {hit._source.title}
@@ -320,7 +335,7 @@ function Preview({
         </Link>
       </FocusControl>
     </div>
-  ) : null;
+  );
 }
 
 function PreviewBackdrop({
@@ -330,10 +345,10 @@ function PreviewBackdrop({
 }) {
   const focused = useSelector(s => s.search.focused);
   const hijacked = useSelector(s => s.search.hijacked);
-  const hasResults = useSelector(s => s.search.hits?.total.value);
+  const hits = useSelector(s => s.search.hits);
   const dispatch = useDispatch();
 
-  return (focused && hasResults && !hijacked) ? (
+  return (focused && (hits !== null) && !hijacked) ? (
     <div 
       className={styles.backdrop}
       onClick={() => {

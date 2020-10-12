@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 type GetArrayElementType<T extends readonly any[]> = T extends readonly (infer U)[] ? U : never;
 
-export const variants = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'time'] as const;
+export const variants = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'time', 'blockquote'] as const;
 export type Variant = GetArrayElementType<typeof variants>;
 
 interface TextBaseProps {
@@ -43,6 +43,8 @@ function TextBase({
       return <p {...props} />;
     case 'time':
       return <time {...props} />;
+    case 'blockquote':
+      return <blockquote {...props} />
     default:
       return <span {...props} />
   }

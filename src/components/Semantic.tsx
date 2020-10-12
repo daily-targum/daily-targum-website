@@ -11,7 +11,8 @@ export function Semantic({
   pritable,
   skipNavContent = false,
   ariaLabel,
-  className
+  className,
+  style
 }: {
   children: ReactChildren;
   role: 'main' | 'article' | 'aside' | 'section' | 'header';
@@ -19,6 +20,7 @@ export function Semantic({
   skipNavContent?: boolean;
   ariaLabel?: string;
   className?: string;
+  style?: React.CSSProperties;
 }) {
   const props = {
     id: skipNavContent ? ID : undefined,
@@ -26,6 +28,7 @@ export function Semantic({
     className: cn(styles.semantic, className, {
       [styles.printable]: pritable
     }),
+    style,
     'area-label': ariaLabel
   };
 

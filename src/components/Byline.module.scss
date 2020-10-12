@@ -20,6 +20,7 @@
 
 .column {
   @include styleHelpers.flex('column');
+  max-width: 100%;
 }
 
 .avatar {
@@ -48,7 +49,14 @@
 
 .authors {
   @include styleHelpers.flex('row');
+  flex-wrap: wrap;
   margin-bottom: theme.spacing(0.4);
+
+  * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .hideLink {

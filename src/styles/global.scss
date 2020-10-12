@@ -1,3 +1,5 @@
+@use 'theme';
+
 @mixin lightTheme {
   --colors-primary_main: #050505;
   --colors-primary_contrastText: #ffffff;

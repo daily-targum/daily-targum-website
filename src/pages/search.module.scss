@@ -63,3 +63,8 @@
   margin: 0;
   padding: 0;
 }
+
+.noResults {
+  display: block;
+  margin: theme.spacing(5, 2);
+}

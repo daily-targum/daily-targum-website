@@ -60,7 +60,7 @@ function Authors({
 
           {last ? (
             <>
-              <Text className={styles.breakSpaces}> and </Text>
+              &nbsp;and&nbsp;
               <Link 
                 href={`/staff/${last.slug}`}
                 className={styles.hideLink}

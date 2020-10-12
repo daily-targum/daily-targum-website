@@ -4,16 +4,13 @@ import { actions, SearchHits } from '../shared/src/client';
 import { SEOProps, Section, Text, Divider, Link, AspectRatioImage, Semantic, Search, FlatList, HighlightText, Byline } from '../components';
 
 import { imgix, processNextQueryStringParam } from '../utils';
+import { extractTextFromHTML } from '../shared/src/utils';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from '../store';
 import { searchActions } from '../store/ducks/search';
 import queryString from 'query-string';
 
 import styles from './search.module.scss';
-
-function extractText(str: string) {
-  return str.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
-}
 
 
 function SearchPage({
@@ -30,6 +27,7 @@ function SearchPage({
   const query = useSelector(s => s.search.query);
   const hydrated = useSelector(s => s.search.hydrated);
   const hits = useSelector(s => s.search.hits) ?? (!hydrated ? initialHits : null);
+  const hitsQuery = useSelector(s => s.search.hitsQuery);
   const hijacked = useSelector(s => s.search.hijacked);
 
   React.useEffect(() => {
@@ -61,8 +59,10 @@ function SearchPage({
   
   return (
     <Section.StickyContainer className={styles.page}>
+      {/* for SEO */}
+      <h1 style={{display: 'none'}} aria-hidden={true}>Search</h1>
 
-      <Semantic role='main' skipNavContent>
+      <Semantic role='main' skipNavContent pritable style={{flex: 1}}>
         <div className={styles.searchWrap} style={{position: 'sticky', top: 60}}>
           <Search.Input
             enabled={hijacked}
@@ -71,44 +71,50 @@ function SearchPage({
           />
         </div>
 
-        <FlatList
-          data={hits?.hits ?? []}
-          keyExtractor={hit => hit._id}
-          renderItem={(hit) => (
-            <Link href={`/${hit._source.slug}`} className={styles.item}>
-              <Semantic role='article' className={styles.row}>
-                <div className={styles.col}>
-                  <Text variant='p' className={styles.category}>
-                    {hit._source.category}
-                  </Text>
-                  <Text variant='h4'>
-                    <HighlightText search={query}>
-                      {hit._source.title}
-                    </HighlightText>
-                  </Text>
-                  <Byline.Compact
-                    authors={hit._source.authors}
-                    publishDate={hit._source.publishDate}
+        {hits?.hits.length === 0 ? (
+          <Text className={styles.noResults}>
+            No search results for <b>{hitsQuery}</b>.
+          </Text>
+        ) : (
+          <FlatList
+            data={hits?.hits ?? []}
+            keyExtractor={hit => hit._id}
+            renderItem={(hit) => (
+              <Link href={`/${hit._source.slug}`} className={styles.item}>
+                <Semantic role='article' className={styles.row}>
+                  <div className={styles.col}>
+                    <Text variant='p' className={styles.category}>
+                      {hit._source.category}
+                    </Text>
+                    <Text variant='h4' htmlTag='h2'>
+                      <HighlightText search={query}>
+                        {hit._source.title}
+                      </HighlightText>
+                    </Text>
+                    <Byline.Compact
+                      authors={hit._source.authors}
+                      publishDate={hit._source.publishDate}
+                    />
+                    <Text.Truncate variant='p' numberOfLines={5}>
+                      <HighlightText search={query}>
+                        {extractTextFromHTML(hit._source.abstract ?? hit._source.body.match(/<p>.*<\/p>/)?.[0] ?? '')}
+                      </HighlightText>
+                    </Text.Truncate>
+                  </div>
+                  <AspectRatioImage
+                    className={styles.img}
+                    aspectRatio={4/3}
+                    data={imgix(hit._source.media[0] ?? '', {
+                      xs: imgix.presets.md('1:1'),
+                      md: imgix.presets.md('16:9')
+                    })}
                   />
-                  <Text.Truncate variant='p' numberOfLines={5}>
-                    <HighlightText search={query}>
-                      {extractText(hit._source.abstract ?? hit._source.body.match(/<p>.*<\/p>/)?.[0] ?? '')}
-                    </HighlightText>
-                  </Text.Truncate>
-                </div>
-                <AspectRatioImage
-                  className={styles.img}
-                  aspectRatio={4/3}
-                  data={imgix(hit._source.media[0] ?? '', {
-                    xs: imgix.presets.md('1:1'),
-                    md: imgix.presets.md('16:9')
-                  })}
-                />
-              </Semantic>
-            </Link>
-          )}
-          ItemSeparatorComponent={<Divider className={styles.divider}/>}
-        />
+                </Semantic>
+              </Link>
+            )}
+            ItemSeparatorComponent={<Divider className={styles.divider}/>}
+          />
+        )}
       </Semantic>
 
     </Section.StickyContainer>
