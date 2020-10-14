@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import * as types from './types';
 import { Context, defaultContextValue } from './context';
 import { computeBreakpoints, getBreakpoint } from './utils';
+import { ObjectKeys } from '../../shared/src/utils';
 import * as contextExports from './context';
 import styles from './styles.module.scss';
 import cn from 'classnames';
@@ -38,27 +39,32 @@ function Col(props: ColProps) {
   const { xs, sm, md, lg, xl, xxl, style, children, className } = props;
   const computedBreakpoints = computeBreakpoints({ xs, sm, md, lg, xl, xxl });
 
-  const vars: any = {};
-  Object.keys(computedBreakpoints).forEach(breakpoint => {
-    // @ts-ignore
-    vars[`--gridWidth-${breakpoint}`] = computedBreakpoints[breakpoint];
-    // @ts-ignore
-    vars[`--gridDisplay-${breakpoint}`] = computedBreakpoints[breakpoint] === 0 ? 'none' : 'flex';
-  });
+  const vars = ObjectKeys(computedBreakpoints).map(breakpoint => (
+    `
+      --gridWidth-${breakpoint}: ${computedBreakpoints[breakpoint]};
+      --gridDisplay-${breakpoint}: ${computedBreakpoints[breakpoint] === 0 ? 'none' : 'flex'};
+    `
+  )).join(' ');
 
   return (
-    <div 
-      style={{
-        ...vars,
-        ...style
-      }}
-      className={cn(
-        className,
-        styles.col
-      )}
-    >
-      {children}
-    </div>
+    <>
+      <div 
+        style={style}
+        className={cn(
+          className,
+          styles.col
+        )}
+      >
+        {children}
+      </div>
+      <style jsx>
+        {`
+          div {
+            ${vars}
+          }
+        `}
+      </style>
+    </>
   );
 }
 
@@ -97,8 +103,6 @@ function Row({
           }
         )} 
         style={{
-          // @ts-ignore
-          '--gridSpacing': spacing+'px',
           gridTemplateColumns: (cols || context.cols).join(' '),
           direction: dangerouslyReverse ? 'rtl' : undefined,
           ...style
@@ -106,6 +110,13 @@ function Row({
       >
         {children}
       </div>
+      <style jsx>
+        {`
+          div {
+            --gridSpacing: ${spacing}px
+          }
+        `}
+      </style>
     </Context.Provider>
   );
 }
@@ -118,25 +129,29 @@ function Display({
 }: DisplayProps) {
   const computedBreakpoints = computeBreakpoints(rest);
 
-  const vars: any = {};
-  Object.keys(computedBreakpoints).forEach(breakpoint => {
-    // @ts-ignore
-    vars[`--gridDisplay-${breakpoint}`] = computedBreakpoints[breakpoint] ? 'flex' : 'none';
-  });
+  const vars = ObjectKeys(computedBreakpoints).map(breakpoint => (
+    `--gridDisplay-${breakpoint}: ${computedBreakpoints[breakpoint] ? 'flex' : 'none'};`
+  )).join(' ');
 
   return (
-    <div
-      className={cn(
-        className,
-        styles.display
-      )}
-      style={{
-        ...vars,
-        ...style
-      }}
-    >
-      {children}
-    </div>
+    <>
+      <div
+        className={cn(
+          className,
+          styles.display
+        )}
+        style={style}
+      >
+        {children}
+      </div>
+      <style jsx>
+        {`
+          div {
+            ${vars}
+          }
+        `}
+      </style>
+    </>
   )
 }
 

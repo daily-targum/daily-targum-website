@@ -13,7 +13,6 @@ import { searchActions } from '../store/ducks/search';
 import { useScrollock } from '../utils';
 import styles from './Navbar.module.scss';
 import cn from 'classnames';
-import { theme } from '../constants';
 import FocusTrap from 'focus-trap-react';
 import { Twirl as Hamburger } from 'hamburger-react';
 
@@ -58,11 +57,6 @@ const navbarLinks: {
   // {
   //   title: 'Podcasts',
   //   href: '/podcasts/targum-tea'
-  // },
-  // {
-  //   title: 'Search',
-  //   href: '/search',
-  //   mobileOnly: true
   // },
   {
     title: 'About',
@@ -163,8 +157,6 @@ export function Navbar() {
   return (
     <>
       <NextNprogress
-        color={theme.colors.accent}
-        height={2}
         options={{
           showSpinner: false
         }}
@@ -181,9 +173,6 @@ export function Navbar() {
         >
           <Section 
             className={styles.navbar}
-            style={{
-              position: 'sticky'
-            }}
             styleInside={{
               overflow: 'visible'
             }}

@@ -1,16 +1,11 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { ReactChildren } from '../types';
 
-export default class MyDocument extends Document<{
-  styles: ReactChildren
-}> {
+export default class MyDocument extends Document {
   render() {
     return (
       <Html lang='en'>
         <Head>
-          {this.props.styles}
-
           <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"/>
           <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png"/>
           <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png"/>

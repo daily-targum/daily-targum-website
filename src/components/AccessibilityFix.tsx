@@ -44,7 +44,7 @@ export function AccessibilityFix() {
   }
 
   return (
-    <style type='text/css'>
+    <style jsx global>
       {computedStyles}
     </style>
   )

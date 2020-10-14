@@ -9,7 +9,7 @@ export const variants = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'time'
 export type Variant = GetArrayElementType<typeof variants>;
 
 interface TextBaseProps {
-  htmlTag?: Variant;
+  htmlTag?: Variant | string;
   className?: string;
   style?: React.CSSProperties;
   children: ReactChildren<string>;
@@ -52,7 +52,7 @@ function TextBase({
 
 interface TextProps extends TextBaseProps {
   noPadding?: boolean;
-  variant?: Variant;
+  variant?: Variant | string;
 }
 
 export function Text({

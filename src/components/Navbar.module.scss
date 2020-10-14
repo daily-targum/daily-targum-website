@@ -11,6 +11,7 @@ $HEIGHT: 60px;
 }
 
 .navbar {
+  position: sticky;
   background-color: theme.color('navbar');
   backdrop-filter: saturate(180%) blur(10px);
   border-bottom-style: solid;

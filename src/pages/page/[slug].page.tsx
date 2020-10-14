@@ -81,7 +81,10 @@ export async function getStaticPaths() {
   return {
     paths: [],
     fallback: true
+    // fallback: 'unstable_blocking'
   };
 }
+
+// export const config = { amp: 'hybrid' }
 
 export default Page;

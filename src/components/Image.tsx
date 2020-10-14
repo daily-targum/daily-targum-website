@@ -1,3 +1,4 @@
+import { useAmp } from 'next/amp';
 
 export type ImageData = {
   src: string
@@ -24,12 +25,35 @@ export function Image({
   styleOutside?: React.CSSProperties
   altText?: string
 }) {
+  const isAmp = useAmp();
+
   // try and fall back to src if data isn't provided
   const lastImg = data ? data.slice(-1)[0] ?? { src } : { src };
 
   // fallback for Safari
   const sizes = data?.filter(d => d.type === 'image/jpg').map(d => `${d.media} ${d.width}px`).join(', ');
   const images = data?.filter(d => d.type === 'image/jpg').map(d => `${d.src} ${d.width}w`).join(', ');
+
+  if (isAmp) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          ...styleOutside
+        }}
+        className={classNameOutside}
+      >
+        <amp-img
+          src={lastImg}
+          alt={altText}
+          layout="intrinsic"
+          // TODO: fix this
+          height='1'
+          width='3'
+        />
+      </div>
+    );
+  }
 
   return (
     <picture 

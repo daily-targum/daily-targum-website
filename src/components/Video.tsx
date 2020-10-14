@@ -113,16 +113,18 @@ function Player({
 
   return (
     <div className={styles.videoWrap}>
-      <video 
-        key={src}
-        controls={!isStopped}
-        className={styles.video}
-        style={style}
-        ref={ref}
-        playsInline={true}
-      >
-        <source src={src} type="video/mp4"/>
-      </video>
+      {src ? (
+        <video 
+          key={src}
+          controls={!isStopped}
+          className={styles.video}
+          style={style}
+          ref={ref}
+          playsInline={true}
+        >
+          <source src={src} type="video/mp4"/>
+        </video>
+      ) : null}
 
       {(isStopped && thumbnail) ? (
         <Image
@@ -149,7 +151,12 @@ function Player({
             }
           }}
         >
-          <IoMdPlay size={80} color='#fff'/>
+          <IoMdPlay 
+            style={{
+              fontSize: 80
+            }}
+            color='#fff'
+          />
         </button>
       ) : null}
     </div>
@@ -179,7 +186,9 @@ function PersistentPlayer() {
       >
         <IoMdClose
           color='#fff'
-          size={24}
+          style={{
+            fontSize: 24
+          }}
         />
       </button>
       <Player

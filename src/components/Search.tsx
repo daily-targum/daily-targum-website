@@ -165,6 +165,8 @@ function Input({
         >
 
           <form 
+            action='/search'
+            target='_top'
             className={cn(
               styles.searchRow,
               {
@@ -180,16 +182,21 @@ function Input({
             {loading ? (
               <CgSpinnerTwo
                 className={cn(styles.searchIcon, styles.spin)}
-                size={7 * size}
+                style={{
+                  fontSize: 7 * size
+                }}
               />
             ) : (
               <FiSearch
                 className={styles.searchIcon}
-                size={7 * size}
+                style={{
+                  fontSize: 7 * size
+                }}
               />
             )}
             <input 
               disabled={!enabled}
+              name='s'
               ref={ref}
               onFocus={() => {
                 dispatch(searchActions.setFocused(true));
@@ -227,7 +234,9 @@ function Input({
             >
               <IoMdClose
                 className={styles.searchIcon}
-                size={11 * size}
+                style={{
+                  fontSize: 11 * size
+                }}
               />
             </button>
           </form>
@@ -243,7 +252,9 @@ function Input({
           >
             <FiSearch
               className={styles.searchIcon}
-              size={7 * size}
+              style={{
+                fontSize: 7 * size
+              }}
             />
             <Text 
               className={styles.searchPlaceholder}

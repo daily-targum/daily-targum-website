@@ -14,25 +14,25 @@ export const Ad = dynamic(() => import("./Ad"), {
 
 const options: HTMLReactParserOptions = {
   replace: ({ type, name, children, attribs }) => {
-    if (type === 'tag') {
+    if (type === 'tag' && name) {
 
       // 10 or more - becomes a divider
-      if ( !/^h/.test(name) && children.length === 1 && /^(_|-|–){15,}$/.test(children[0].data) ) {
+      if ( !/^h/.test(name) && children?.length === 1 && /^(_|-|–){15,}$/.test(children[0].data) ) {
         return (
           <Divider/>
         )
       }
 
-      if (variants.includes(name)) {
+      if (variants.includes(name as any)) {
         return (
-          <Text variant={name} htmlTag={name}>{domToReact(children, options)}</Text>
+          <Text variant={name} htmlTag={name}>{children ? domToReact(children, options) : null}</Text>
         );
       }
   
       if (name === 'a') {
         return (
-          <Link href={attribs.href}>
-            {domToReact(children, options)}
+          <Link href={attribs?.href ?? ''}>
+            {children ? domToReact(children, options) : null}
           </Link>
         );
       }
@@ -48,7 +48,6 @@ const options: HTMLReactParserOptions = {
           <img
             {...attribs}
             style={{
-              ...attribs.style,
               maxWidth: '100%'
             }}
           />

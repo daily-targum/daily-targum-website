@@ -9,6 +9,7 @@ export function Banner({
   accentText?: string
 }) {
   return (
+    <>
     <div 
       className={styles.logoWrap} 
       role='banner'
@@ -19,6 +20,7 @@ export function Banner({
         {accentText ? <span className={styles.logoAccent}> {accentText}</span> : null}
       </h1>
     </div>
+    </>
   );
 }
 

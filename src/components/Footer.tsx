@@ -6,6 +6,7 @@ import Text from './Text';
 import Link from './Link';
 import styles from './Footer.module.scss';
 import Divider from './Divider';
+import Image from './Image';
 
 type Link = {
   title: string;
@@ -85,7 +86,11 @@ export function Footer() {
                 className={styles.logo}
               />
               <Link href="https://www.contentful.com/">
-                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" loading='lazy' className={styles.sublogo}/>
+                <Image 
+                  src="/powered-by-contentful.svg" 
+                  altText="Powered by Contentful" 
+                  className={styles.sublogo}
+                />
               </Link>
             </div>
           </Grid.Col>
@@ -139,7 +144,11 @@ export function Footer() {
                 className={styles.logo}
               />
               <Link href="https://www.contentful.com/">
-                <img src="/powered-by-contentful.svg" alt="Powered by Contentful" loading='lazy' className={styles.sublogo}/>
+                <Image 
+                  src="/powered-by-contentful.svg" 
+                  altText="Powered by Contentful" 
+                  className={styles.sublogo}
+                />
               </Link>
             </div>
           </Grid.Col>

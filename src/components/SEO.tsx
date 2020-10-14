@@ -62,12 +62,12 @@ export function SEO({
 
   return (
     <Head>
-      {nextUtils.envIs(['production']) ? null : (
+      {nextUtils.envIs(['staging']) ? (
         <>
           <meta name="robots" content="noindex, nofollow, noarchive"/>
           <meta name="googlebot" content="noindex, nofollow, noarchive"/>
         </>
-      )}
+      ) : null}
 
       <title>{formatTitle(title)}</title>
       <meta name="description" content={description} />
