@@ -1,6 +1,7 @@
 import React from 'react';
-import styles from './Divider.module.scss';
 import cn from 'classnames';
+import Styles from './Divider.styles';
+const { classNames, StyleSheet } = Styles;
 
 export function Divider({
   className,
@@ -10,10 +11,16 @@ export function Divider({
   style?: React.CSSProperties
 }) {
   return (
-    <hr 
-      className={cn(styles.divider, className)}
-      style={style}
-    />
+    <>
+      <hr 
+        className={cn(
+          classNames.divider, 
+          className
+        )}
+        style={style}
+      />
+      {StyleSheet}
+    </>
   );
 }
 
@@ -25,11 +32,17 @@ function Vertical({
   style?: React.CSSProperties
 }) {
   return (
-    <div
-      className={cn(styles.dividerVertical, className)}
-      style={style}
-      aria-label='Vertical separator'
-    />
+    <>
+      <div
+        className={cn(
+          classNames.dividerVertical, 
+          className
+        )}
+        style={style}
+        aria-label='Vertical separator'
+      />
+      {StyleSheet}
+    </>
   );
 }
 

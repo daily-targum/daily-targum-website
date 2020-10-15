@@ -199,6 +199,10 @@ function spacing(...multipliers: number[]) {
   return multipliers.map(m => (m * 5) + 'px').join(' ');
 }
 
+function timing(multiplier: number) {
+  return (0.2 * multiplier) + 's';
+}
+
 function color(color: string) {
   return `var(--colors-${color})`;
 }
@@ -217,14 +221,14 @@ function breakpointToNumber(breakpoint: Breakpoint) {
   return breakpoints[breakpoint];
 }
 
-function mediaQuery(lower: Breakpoint | null, upper: Breakpoint | null) {
+function mediaQuery(lower?: Breakpoint, upper?: Breakpoint) {
   let query = "only screen";
 
-  if (lower !== null) {
+  if (lower) {
     query += ` and (min-width: ${breakpointToNumber(lower)}px)`;
   }
 
-  if (upper !== null) {
+  if (upper) {
     query += ` and (max-width: ${breakpointToNumber(upper)}px)`;
   }
 
@@ -273,5 +277,40 @@ export const styleHelpers = {
   roundness,
   mediaQuery,
   unstyle,
-  accessibilityOutline
+  accessibilityOutline,
+  timing
+}
+
+
+
+export function ObjectKeys<T>(obj: T): (keyof T)[] {
+  return Object.keys(obj as any) as (keyof T)[];
+}
+
+type Styles<T, S> = {
+  [P in keyof T]: S
+}
+
+export function buildStyleSheet<T>(
+  styles: Styles<T, { className: string; styles: string }>
+): {
+  classNames: Styles<T, string>;
+  StyleSheet: JSX.Element;
+} {
+  const StyleSheets: any[] = [];
+  const classNames: any = {};
+
+  ObjectKeys(styles).forEach(key => {
+    StyleSheets.push(styles[key].styles);
+    classNames[key] = styles[key].className;
+  });
+
+  return {
+    classNames,
+    StyleSheet: (
+      <>
+        {StyleSheets}
+      </>
+    )
+  };
 }

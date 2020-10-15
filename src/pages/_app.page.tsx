@@ -85,7 +85,6 @@ function GlobalStyles() {
           }
         }
 
-
         html,
         body {
           padding: 0;
@@ -103,6 +102,10 @@ function GlobalStyles() {
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
+        }
+
+        *[id] {
+          scroll-margin-top: 65px;
         }
 
         img {
@@ -182,7 +185,6 @@ function GlobalStyles() {
         }
 
         .hamburger-react:after {
-          // Aria label position
           right: 0 !important;
           left: unset !important;
           content: '' !important;
@@ -230,17 +232,6 @@ function GlobalStyles() {
         .accessibility-outline {
           outline: 1px dotted #212121;
           outline: 5px auto -webkit-focus-ring-color;
-        }
-
-        @media print {
-          body * {
-            visibility: hidden;
-            height: 0;
-          }
-        }
-
-        *[id] {
-          scroll-margin-top: 65px;
         }
       `}
     </style>

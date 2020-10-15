@@ -16,7 +16,7 @@ export interface ColProps extends Partial<types.BreakPoints<number>> {
 export interface RowProps {
   style?: React.CSSProperties;
   children?: React.ReactNode;
-  spacing?: number;
+  spacing?: number | string;
   className?: string;
   cols?: string[] | number;
   /**
@@ -103,7 +103,7 @@ function Col(props: ColProps) {
             }
           }
 
-          @media ${styleHelpers.mediaQuery('xxl', null)} {
+          @media ${styleHelpers.mediaQuery('xxl')} {
             .col {
               display: var(--gridDisplay-xxl);
               grid-column-end: span var(--gridWidth-xxl);
@@ -133,11 +133,14 @@ function Row({
     cols = Array.from({ length: cols }).map(() => '1fr');
   }
 
+  if (typeof spacing === 'number') {
+    spacing = spacing+'px';
+  }
+
   return (
     <Context.Provider 
       value={{
         ...context, 
-        spacing, 
         cols: cols || context.cols
       }}
     >
@@ -163,7 +166,7 @@ function Row({
             display: grid;
             flex: 1;
             align-items: flex-start;
-            grid-gap: ${spacing}px;
+            grid-gap: ${spacing};
           }
 
           @media print { 
@@ -236,7 +239,7 @@ function Display({
             }
           }
 
-          @media ${styleHelpers.mediaQuery('xxl', null)} {
+          @media ${styleHelpers.mediaQuery('xxl')} {
             .display {
               display: var(--gridDisplay-xxl);
             }

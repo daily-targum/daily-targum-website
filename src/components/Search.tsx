@@ -6,15 +6,15 @@ import HighlightText from './HighlightText';
 import Divider from './Divider';
 import { FiSearch } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
-import styles from './Search.module.scss';
 import cn from 'classnames';
 import { useSelector, useDispatch } from '../store';
 import { searchActions } from '../store/ducks/search';
 import FocusTrap from 'focus-trap-react';
 import { useRouter } from 'next/router';
 import { CgSpinnerTwo } from 'react-icons/cg';
-
 import { useCallback, useState, useEffect } from "react";
+import Styles from './Search.styles';
+const { classNames, StyleSheet } = Styles;
 
 function useRoveFocus(size: number) {
   const [currentFocus, setCurrentFocus] = useState(0);
@@ -137,144 +137,147 @@ function Input({
   }, [focused]);
 
   return (
-    <FocusTrap 
-      active={trapFocus && enabled}
-      focusTrapOptions={{
-        allowOutsideClick: true
-      }}
-    >
-      <div 
-        className={cn(styles.searchWrap, className)} 
-        style={{
-          minWidth: width,
-          width,
-          maxWidth: width,
-          minHeight: height,
-          height,
-          maxHeight: height,
-          opacity: enabled ? 1 : 0.4
+    <>
+      <FocusTrap 
+        active={trapFocus && enabled}
+        focusTrapOptions={{
+          allowOutsideClick: true
         }}
       >
         <div 
-          className={cn(
-            styles.search,
-            {
-              'accessibility-outline': focused
-            }
-          )}
+          className={cn(classNames.searchWrap, className)} 
+          style={{
+            minWidth: width,
+            width,
+            maxWidth: width,
+            minHeight: height,
+            height,
+            maxHeight: height,
+            opacity: enabled ? 1 : 0.4
+          }}
         >
-
-          <form 
-            action='/search'
-            target='_top'
-            className={cn(
-              styles.searchRow,
-              {
-                [styles.hide]: !focused
-              }
-            )}
-            onSubmit={e => {
-              e.preventDefault();
-              onSubmit();
-            }}
-            role="search"
-          >
-            {loading ? (
-              <CgSpinnerTwo
-                className={cn(styles.searchIcon, styles.spin)}
-                style={{
-                  fontSize: 7 * size
-                }}
-              />
-            ) : (
-              <FiSearch
-                className={styles.searchIcon}
-                style={{
-                  fontSize: 7 * size
-                }}
-              />
-            )}
-            <input 
-              disabled={!enabled}
-              name='s'
-              ref={ref}
-              onFocus={() => {
-                dispatch(searchActions.setFocused(true));
-                setFocusIndex(0);
-              }}
-              onBlur={() => {
-                setTimeout(() => {
-                  if (focused && !trapFocus) {
-                    dispatch(searchActions.setFocused(false));
-                  }
-                }, 10);
-              }}
-              onChange={e => dispatch(searchActions.setQuery(e.target.value))}
-              value={query}
-              className={cn(
-                styles.searchInput,
-                {
-                  [styles.hide]: !focused
-                }
-              )}
-              style={{fontSize: `${size / 2}rem`}}
-              placeholder='Search'
-              aria-label='Enter search text'
-            />
-            <button
-              type="button"
-              tabIndex={focused ? undefined : -1}
-              aria-label='Clear search'
-              data-tooltip-position='left'
-              className={styles.clickable}
-              onClick={() => {
-                dispatch(searchActions.setQuery(''));
-                dispatch(searchActions.setFocused(false));
-              }}
-            >
-              <IoMdClose
-                className={styles.searchIcon}
-                style={{
-                  fontSize: 11 * size
-                }}
-              />
-            </button>
-          </form>
-
           <div 
             className={cn(
-              styles.touchTransparent,
-              styles.searchRow,
+              classNames.search,
               {
-                [styles.hide]: focused
+                'accessibility-outline': focused
               }
             )}
           >
-            <FiSearch
-              className={styles.searchIcon}
-              style={{
-                fontSize: 7 * size
+
+            <form 
+              action='/search'
+              target='_top'
+              className={cn(
+                classNames.searchRow,
+                {
+                  [classNames.hide]: !focused
+                }
+              )}
+              onSubmit={e => {
+                e.preventDefault();
+                onSubmit();
               }}
-            />
-            <Text 
-              className={styles.searchPlaceholder}
-              style={{fontSize: `${size / 2}rem`}}
+              role="search"
             >
-              {enabled ? query || 'Search articles' : 'Search articles'}
-            </Text>
+              {loading ? (
+                <CgSpinnerTwo
+                  className={cn(classNames.searchIcon, classNames.spin)}
+                  style={{
+                    fontSize: 7 * size
+                  }}
+                />
+              ) : (
+                <FiSearch
+                  className={classNames.searchIcon}
+                  style={{
+                    fontSize: 7 * size
+                  }}
+                />
+              )}
+              <input 
+                disabled={!enabled}
+                name='s'
+                ref={ref}
+                onFocus={() => {
+                  dispatch(searchActions.setFocused(true));
+                  setFocusIndex(0);
+                }}
+                onBlur={() => {
+                  setTimeout(() => {
+                    if (focused && !trapFocus) {
+                      dispatch(searchActions.setFocused(false));
+                    }
+                  }, 10);
+                }}
+                onChange={e => dispatch(searchActions.setQuery(e.target.value))}
+                value={query}
+                className={cn(
+                  classNames.searchInput,
+                  {
+                    [classNames.hide]: !focused
+                  }
+                )}
+                style={{fontSize: `${size / 2}rem`}}
+                placeholder='Search'
+                aria-label='Enter search text'
+              />
+              <button
+                type="button"
+                tabIndex={focused ? undefined : -1}
+                aria-label='Clear search'
+                data-tooltip-position='left'
+                className={classNames.clickable}
+                onClick={() => {
+                  dispatch(searchActions.setQuery(''));
+                  dispatch(searchActions.setFocused(false));
+                }}
+              >
+                <IoMdClose
+                  className={classNames.searchIcon}
+                  style={{
+                    fontSize: 11 * size
+                  }}
+                />
+              </button>
+            </form>
+
+            <div 
+              className={cn(
+                classNames.touchTransparent,
+                classNames.searchRow,
+                {
+                  [classNames.hide]: focused
+                }
+              )}
+            >
+              <FiSearch
+                className={classNames.searchIcon}
+                style={{
+                  fontSize: 7 * size
+                }}
+              />
+              <Text 
+                className={classNames.searchPlaceholder}
+                style={{fontSize: `${size / 2}rem`}}
+              >
+                {enabled ? query || 'Search articles' : 'Search articles'}
+              </Text>
+            </div>
+
           </div>
 
+          {(enabled && !hijacked) ? (
+            <Preview 
+              focusedIndex={focusIndex-1}
+              updateFocus={i => setFocusIndex(i+1)}
+              maxItems={maxItems}
+            />
+          ) : null}
         </div>
-
-        {(enabled && !hijacked) ? (
-          <Preview 
-            focusedIndex={focusIndex-1}
-            updateFocus={i => setFocusIndex(i+1)}
-            maxItems={maxItems}
-          />
-        ) : null}
-      </div>
-    </FocusTrap>
+      </FocusTrap>
+      {StyleSheet}
+    </>
   )
 }
 
@@ -301,51 +304,57 @@ function Preview({
 
   if (hits.length === 0) {
     return (
-      <div className={styles.preview}>
-        <Text 
-          className={styles.centerText}
-        >
-          No search results for <b>{hitsQuery}</b>.
-        </Text>
-      </div>
+      <>
+        <div className={classNames.preview}>
+          <Text 
+            className={classNames.centerText}
+          >
+            No search results for <b>{hitsQuery}</b>.
+          </Text>
+        </div>
+        {StyleSheet}
+      </>
     );
   }
 
   return (
-    <div className={styles.preview}>
-      {hits?.slice(0, numberOfItems).map((hit, i) => (
-        <FocusControl 
-          key={hit._id}
-          focus={i === focusedIndex}
-          onFocus={() => updateFocus(i)}
-          onMouseOver={() => updateFocus(i)}
-        >
-          <Link 
-            href={`/${hit._source.slug}`} 
-            className={styles.previewLink}
+    <>
+      <div className={classNames.preview}>
+        {hits?.slice(0, numberOfItems).map((hit, i) => (
+          <FocusControl 
+            key={hit._id}
+            focus={i === focusedIndex}
+            onFocus={() => updateFocus(i)}
+            onMouseOver={() => updateFocus(i)}
           >
-            <Text.Truncate numberOfLines={1}>
-              <HighlightText 
-                search={hitsQuery}
-                Highlighter={({children}) => <b>{children}</b>}
-              >
-                {hit._source.title}
-              </HighlightText>
-            </Text.Truncate>
+            <Link 
+              href={`/${hit._source.slug}`} 
+              className={classNames.previewLink}
+            >
+              <Text.Truncate numberOfLines={1}>
+                <HighlightText 
+                  search={hitsQuery}
+                  Highlighter={({children}) => <b>{children}</b>}
+                >
+                  {hit._source.title}
+                </HighlightText>
+              </Text.Truncate>
+            </Link>
+          </FocusControl>
+        ))}
+        <Divider/>
+        <FocusControl 
+          focus={numberOfItems === focusedIndex}
+          onFocus={() => updateFocus(numberOfItems)}
+          onMouseOver={() => updateFocus(numberOfItems)}
+        >
+          <Link href='/search' className={classNames.previewLink}>
+            More search results
           </Link>
         </FocusControl>
-      ))}
-      <Divider/>
-      <FocusControl 
-        focus={numberOfItems === focusedIndex}
-        onFocus={() => updateFocus(numberOfItems)}
-        onMouseOver={() => updateFocus(numberOfItems)}
-      >
-        <Link href='/search' className={styles.previewLink}>
-          More search results
-        </Link>
-      </FocusControl>
-    </div>
+      </div>
+      {StyleSheet}
+    </>
   );
 }
 
@@ -360,13 +369,16 @@ function PreviewBackdrop({
   const dispatch = useDispatch();
 
   return (focused && (hits !== null) && !hijacked) ? (
-    <div 
-      className={styles.backdrop}
-      onClick={() => {
-        dispatch(searchActions.setFocused(false))
-      }}
-      style={style}
-    />
+    <>
+      <div 
+        className={classNames.backdrop}
+        onClick={() => {
+          dispatch(searchActions.setFocused(false))
+        }}
+        style={style}
+      />
+      {StyleSheet}
+    </>
   ) : null;
 }
 

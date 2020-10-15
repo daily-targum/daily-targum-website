@@ -4,10 +4,11 @@ import Section from './Section';
 import Logo from './Logo';
 import Text from './Text';
 import Link from './Link';
-import styles from './Footer.module.scss';
 import Divider from './Divider';
 import Image from './Image';
-import { styleHelpers } from '../utils';
+
+import Styles from './Footer.styles';
+const { classNames, StyleSheet } = Styles;
 
 type Link = {
   title: string;
@@ -74,36 +75,36 @@ const links = {
 export function Footer() {
   return (
     <>
-      <Section className="footer">
+      <Section className={classNames.footer}>
         <footer className='dark-mode'>
 
           <Grid.Row>
 
-            <Grid.Col xs={0} md={8} className="col">
-              <div className="centerHorizontally">
+            <Grid.Col xs={0} md={8} className={classNames.col}>
+              <div className={classNames.centerHorizontally}>
                 <Text.Br/>
                 <Text.Br/>
                 <Logo 
                   color='#fff'
-                  className="logo"
+                  className={classNames.logo}
                 />
                 <Link href="https://www.contentful.com/">
                   <Image 
                     src="/powered-by-contentful.svg" 
                     altText="Powered by Contentful" 
-                    className="sublogo"
+                    className={classNames.sublogo}
                   />
                 </Link>
               </div>
             </Grid.Col>
 
-            <Grid.Col xs={24} md={8} className="col">
-              <Text variant='h4' className={styles.title}>Company</Text>
-              <div role="list" className={styles.fakeUl}>
+            <Grid.Col xs={24} md={8} className={classNames.col}>
+              <Text variant='h4' className={classNames.title}>Company</Text>
+              <div role="list" className={classNames.fakeUl}>
                 {links.company.sort(alphabetically).map(l => (
                   <Link
                     key={l.href}
-                    className={styles.link}
+                    className={classNames.link}
                     href={l.href}
                     role="listitem"
                   >
@@ -117,13 +118,13 @@ export function Footer() {
               <Divider/>
             </Grid.Col>
 
-            <Grid.Col xs={24} md={8} className={styles.col}>
-              <Text variant='h4' className={styles.title}>Social Media</Text>
-              <div role="list" className={styles.fakeUl}>
+            <Grid.Col xs={24} md={8} className={classNames.col}>
+              <Text variant='h4' className={classNames.title}>Social Media</Text>
+              <div role="list" className={classNames.fakeUl}>
                 {links.socialMedia.sort(alphabetically).map(l => (
                   <Link 
                     key={l.href} 
-                    className={styles.link}
+                    className={classNames.link}
                     href={l.href}
                     role="listitem"
                   >
@@ -137,99 +138,30 @@ export function Footer() {
               <Divider/>
             </Grid.Col>
 
-            <Grid.Col xs={24} md={0} className={styles.col}>
-              <div className={styles.centerHorizontally}>
+            <Grid.Col xs={24} md={0} className={classNames.col}>
+              <div className={classNames.centerHorizontally}>
                 <Text.Br/>
                 <Text.Br/>
                 <Logo 
                   color='#fff'
-                  className={styles.logo}
+                  className={classNames.footer}
                 />
                 <Link href="https://www.contentful.com/">
                   <Image 
                     src="/powered-by-contentful.svg" 
                     altText="Powered by Contentful" 
-                    className={styles.sublogo}
+                    className={classNames.sublogo}
                   />
                 </Link>
               </div>
             </Grid.Col>
 
           </Grid.Row>
-          <Text className={styles.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
+          <Text className={classNames.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
         
         </footer>
       </Section>
-      <style jsx>
-        {`
-          .logo {
-            width: 180px;
-            height: auto;
-            margin-bottom: ${styleHelpers.spacing(3)};
-          }
-          
-          .sublogo {
-            width: 135px;
-            height: auto;
-            margin-bottom: ${styleHelpers.spacing(3)};
-          }
-          
-          .footer {
-            padding: ${styleHelpers.spacing(5, 0)};
-            background-color: ${styleHelpers.color('primary_main')};
-            border-top: 1px solid ${styleHelpers.color('divider')};
-          }
-
-          @media ${styleHelpers.mediaQuery('xs', 'md')} {
-              padding: ${styleHelpers.spacing(0, 0, 3)};
-            }
-          
-          .copyright {
-            ${styleHelpers.flex('column')};
-            color: ${styleHelpers.color('primary_contrastTextMuted')};
-            font-size: 0.85rem;
-            font-weight: 300;
-            padding-bottom: env(safe-area-inset-bottom);
-            margin-top: theme.spacing(4);
-            text-align: center;
-            justify-content: center;
-          }
-          
-          .title {
-            color: ${styleHelpers.color('primary_contrastText')};
-            text-align: center;
-          }
-
-          @media ${styleHelpers.mediaQuery('xs', 'md')} {
-            margin: ${styleHelpers.spacing(2.75, 0)};
-          }
-          
-          .link {
-            margin: ${styleHelpers.spacing(2, 0)};
-            text-decoration: none;
-            color: ${styleHelpers.color('primary_contrastTextMuted')};
-            text-align: center;
-          }
-
-          @media ${styleHelpers.mediaQuery('xs', 'md')} {
-            margin: ${styleHelpers.spacing(2.75, 0)};
-          }
-          
-          .centerHorizontally {
-            ${styleHelpers.flex('column')};
-            text-align: center;
-            align-items: center;
-          }
-          
-          .col {
-            margin: ${styleHelpers.spacing(3, 0)};
-          }
-          
-          .fakeUl {
-            ${styleHelpers.flex('column')};
-          }
-        `}
-      </style>
+      {StyleSheet}
     </>
   );
 }
