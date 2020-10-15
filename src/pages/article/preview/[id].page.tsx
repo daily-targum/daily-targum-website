@@ -69,27 +69,29 @@ function Article({
                   </Text>
                   
                   <Byline.Authors 
-                    authors={article.authors}
+                    authors={article.authors ?? []}
                     publishDate={article.publishDate}
                   />
 
-                  <figure className={styles.fullWidth}>
-                    <Section.OffsetPadding className={styles.photoWrap}>
-                      <AspectRatioImage
-                        aspectRatio={16 / 9}
-                        data={imgix(article.media[0]?.url ?? '', {
-                          xs: imgix.presets.md('16:9'),
-                          md: imgix.presets.xl('16:9')
-                        })}
-                        altText={`${photoDescription} – Photo by ${photoCredit}`}
-                      />
-                    </Section.OffsetPadding>
-                    <figcaption className={styles.figcaption} aria-hidden={true}>
-                      Photo by {photoCredit}
-                      <div className={styles.captionSpacer}/>
-                      {photoDescription}
-                    </figcaption>
-                  </figure>
+                  {article.media[0]?.url ? (
+                    <figure className={styles.fullWidth}>
+                      <Section.OffsetPadding className={styles.photoWrap}>
+                        <AspectRatioImage
+                          aspectRatio={16 / 9}
+                          data={imgix(article.media[0].url, {
+                            xs: imgix.presets.md('16:9'),
+                            md: imgix.presets.xl('16:9')
+                          })}
+                          altText={`${photoDescription} – Photo by ${photoCredit}`}
+                        />
+                      </Section.OffsetPadding>
+                      <figcaption className={styles.figcaption} aria-hidden={true}>
+                        Photo by {photoCredit}
+                        <div className={styles.captionSpacer}/>
+                        {photoDescription}
+                      </figcaption>
+                    </figure>
+                  ) : null}
                 </header>
 
                 <Divider className={styles.divider}/>
@@ -157,7 +159,7 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
   let seo: SEOProps = {
     title: article?.title,
     type: 'article',
-    author: article?.authors.map(author => author.displayName).join(', '),
+    author: article?.authors?.map(author => author.displayName).join(', '),
     keywords
   };
 
