@@ -1,43 +1,4 @@
-import { Theme } from '../types';
-
-function lockWidth<N extends number | string>(width: N): {
-  minWidth: N
-  width: N
-  maxWidth: N
-} {
-  return {
-    minWidth: width,
-    width,
-    maxWidth: width
-  }
-}
-
-function lockHeight<N extends number | string>(height: N): {
-  minHeight: N
-  height: N
-  maxHeight: N
-} {
-  return {
-    minHeight: height,
-    height,
-    maxHeight: height
-  }
-}
-
-function hideLink() {
-  return {
-    textDecoration: 'none',
-    color: 'unset'
-  } as const;
-}
-
-function centerBackgroundImage() {
-  return {
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-  } as const;
-}
+// import { Theme } from '../types';
 
 function aspectRatioFullHeight(aspectRatio: number) {
   return {
@@ -55,89 +16,262 @@ function aspectRatioFullWidth(aspectRatio?: number) {
   } as const;
 }
 
-function page(theme: Theme, mode: 'compact' | 'normal' = 'normal') {
-  if(mode == 'compact') {
-    return {
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2)
-    }
-  }
-  
-  return {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(6)
-  };
+
+function lightTheme() {
+  return `
+    --colors-primary_main: #050505;
+    --colors-primary_contrastText: #ffffff;
+    --colors-primary_contrastTextMuted: rgba(255,255,255,0.8);
+    --colors-accent_main: #cc0033;
+    --colors-accent_contrastText: #fff;
+    --colors-divider: rgba(0, 0, 0, 0.12);
+
+    --colors-highlight: rgba(0,0,0,0.05);
+
+    --colors-text: #000;
+    --colors-textMuted: #555555;
+
+    --colors-surface: #fff;
+
+    --colors-navbar: rgba(255,255,255,0.92);
+
+    --colors-background_dark: #f7f7f7;
+    --colors-background_main: #ffffff;
+    --colors-background_light: #ffffff;
+
+    --colors-tooltip: #333;
+    --colors-tooltip_contrastText: #fff;
+  `;
 }
 
-type Flex<D> = {
-  display: 'flex'
-  flexDirection: D
+function darkTheme() {
+  return `
+  --colors-primary_main: #000000;
+  --colors-primary_contrastText: #ffffff;
+  --colors-primary_contrastTextMuted: rgba(255,255,255,0.8);
+  --colors-accent_main: #f70737;
+  --colors-accent_contrastText: #fff;
+  --colors-divider: #333;
+
+  --colors-highlight: rgba(255,255,255,0.3);
+
+  --colors-text: #fff;
+  --colors-textMuted: #b9b9b9;
+
+  --colors-surface: #222;
+
+  --colors-navbar: rgba(0, 0, 0, 0.973);
+
+  --colors-background_main: #131313;
+  --colors-background_light: #111;
+
+  --colors-tooltip: #fff;
+  --colors-tooltip_contrastText: #000;
+
+  color: var(--colors-text);
+  `;
 }
 
-function flex(direction: 'row'): Flex<'row'>
-function flex(direction?: 'column'): Flex<'column'>
-function flex(direction: string = 'column'): Flex<string>
-{
-  return {
-    display: 'flex',
-    flexDirection: direction
-  };
+
+function lockWidth(width: string) {
+  return `
+    min-width: ${width};
+    width: ${width};
+    max-width: ${width};
+  `;
 }
 
-function textCenter() {
-  return {
-    textAlign: 'center',
-    justifyContent: 'center'
-  } as const;
+function lockHeight(width: string) {
+  return `
+    min-width: ${width};
+    width: ${width};
+    max-width: ${width};
+  `;
 }
+
+// function aspectRatioFullHeight(ar: number) {
+//   return `
+//     height: 100%;
+//     padding-top: ${100 / ar}%;
+//   `;
+// }
+
+// function aspectRatioFullWidth(ar: number) {
+//   return `
+//     width: 100%;
+//     padding-top: ${100 / ar}%;
+//   `;
+// }
+
+function flex(direction: 'row' | 'column') {
+  return `
+    display: flex;
+    flex-direction: ${direction};
+  `;
+}
+
+// function centerBackgroundImage() {
+//   return `
+//     background-position: center;
+//     background-size: cover;
+//     background-repeat: no-repeat;
+//   `;
+// }
 
 function absoluteFill() {
-  return {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
-  } as const;
+  return `
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  `;
 }
 
-function card(theme: Theme) {
-  return {
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.roundness(1),
-    overflow: 'hidden',
-    position: 'relative'
-  } as const;
+function page() {
+  return `
+    padding-top: calc(${spacing(1.25)} + 1vw);
+    padding-bottom: calc(${spacing(1.25)} + 1vw);
+    flex: 1;
+  `;
 }
 
-function cardBody(theme: Theme) {
-  return {
-    padding: theme.spacing(2)
-  } as const;
+function pageCompact() {
+  return `
+    padding-top: ${spacing(2)};
+    padding-bottom: ${spacing(2)};
+    flex: 1;
+  `;
+}
+
+function card() {
+  return `
+    border-radius: ${roundness(1)};
+    overflow: hidden;
+    position: relative;
+  `;
+}
+
+function cardBody() {
+  return `
+    padding: ${spacing(2)};
+  `;
 }
 
 function unstyle() {
-  return {
-    border: 'none',
-    outline: 'none',
-    margin: 0,
-    padding: 0,
-    backgroundColor: 'transparent'
-  } as const;
+  return `
+    border: none;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+  `;
+};
+
+function accessibilityOutline() {
+  return `
+    outline: 1px dotted #212121;
+    outline: 5px auto -webkit-focus-ring-color;
+  `;
 }
 
+function hideLink() {
+  return `
+    text-decoration: none;
+    color: ${color('text')};
+  `;
+}
+
+function hideButton() {
+  return `
+    background: transparent;
+    border: none;
+    text-align: unset;
+    padding: 0;
+    font-size: 1rem;
+  `;
+}
+
+function roundness(...multipliers: number[]) {
+  return multipliers.map(m => (m * 6) + 'px').join(' ');
+}
+
+function spacing(...multipliers: number[]) {
+  return multipliers.map(m => (m * 5) + 'px').join(' ');
+}
+
+function color(color: string) {
+  return `var(--colors-${color})`;
+}
+
+const breakpoints = {
+  xs: 0,
+  sm: 576,
+  md: 768,
+  lg: 991,
+  xl: 1350,
+  xxl: 1600
+};
+type Breakpoint = keyof typeof breakpoints;
+
+function breakpointToNumber(breakpoint: Breakpoint) {
+  return breakpoints[breakpoint];
+}
+
+function mediaQuery(lower: Breakpoint | null, upper: Breakpoint | null) {
+  let query = "only screen";
+
+  if (lower !== null) {
+    query += ` and (min-width: ${breakpointToNumber(lower)}px)`;
+  }
+
+  if (upper !== null) {
+    query += ` and (max-width: ${breakpointToNumber(upper)}px)`;
+  }
+
+  return query;
+}
+
+// function buildPrinterMediaQuery(lower: Breakpoint | null, upper: Breakpoint | null) {
+//   let query = "only print";
+
+//   if (lower !== null) {
+//     query += ` and (min-width: ${breakpointToNumber(lower) * 0.3}px)`;
+//   }
+
+//   if (upper !== null) {
+//     query += ` and (max-width: ${breakpointToNumber(upper) * 0.3}px)`;
+//   }
+
+//   return query;
+// }
+
+// function mediaQuery(lower: Breakpoint | null, upper: Breakpoint | null, css: string) {
+//   return `
+//     @media ${buildMediaQuery(lower, upper)} { ${css} }
+//     @media ${buildPrinterMediaQuery(lower, upper)} { ${css} }
+//   `;
+// }
+
+
 export const styleHelpers = {
+  lightTheme,
+  darkTheme,
   lockWidth,
   lockHeight,
   hideLink,
-  centerBackgroundImage,
+  hideButton,
   aspectRatioFullHeight,
   aspectRatioFullWidth,
-  page,
-  flex,
-  textCenter,
   absoluteFill,
+  pageCompact,
+  page,
   card,
   cardBody,
-  unstyle
+  flex,
+  color,
+  spacing,
+  roundness,
+  mediaQuery,
+  unstyle,
+  accessibilityOutline
 }

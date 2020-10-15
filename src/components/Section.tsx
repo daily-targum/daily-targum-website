@@ -1,8 +1,8 @@
 import React from 'react';
 import { ReactChildren } from '../types';
-import styles from './Section.module.scss';
 import cn from 'classnames';
 import { StickyContainer as StickyContainerDefault } from "react-sticky";
+import { styleHelpers } from '../utils';
 
 type SectionProps = {
   children: ReactChildren,
@@ -20,17 +20,48 @@ export function Section({
   styleInside
 }: SectionProps) {
   return (
-    <div 
-      className={cn(className, styles.section)}
-      style={style} 
-    >
+    <>
       <div 
-        style={styleInside} 
-        className={cn(classNameInside, styles.inside)}
+        className={cn(className, 'section')}
+        style={style} 
       >
-        {children}
+        <div 
+          style={styleInside} 
+          className={cn(classNameInside, 'inside')}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+      <style jsx>
+        {`
+          .section {
+            ${styleHelpers.flex('column')}
+            width: 100%;
+            align-items: center;
+            padding-right: calc(${styleHelpers.spacing(1.25)} + 1vw);
+            padding-left: calc(${styleHelpers.spacing(1.25)} + 1vw);
+          }
+
+          .inside {
+            width: 100%;
+            max-width: calc(1000px + 22vw);
+          }
+        `}
+      </style>
+      <style jsx global>
+        {`
+          @media print {
+            .section {
+              padding: 0;
+            }
+
+            .inside {
+              max-width: 100%;
+            }
+          }
+        `}
+      </style>
+    </>
   );
 }
 
@@ -57,14 +88,35 @@ function OffsetPadding({
   className?: string
 }) {
   return (
-    <section
-      className={cn(
-        styles.offsetPadding, 
-        className
-      )}
-    >
-      {children}
-    </section>
+    <>
+      <section
+        className={cn(
+          'offsetPadding', 
+          className
+        )}
+      >
+        {children}
+      </section>
+      <style jsx>
+        {`
+          @media ${styleHelpers.mediaQuery('xs', 'md')} {
+            .offsetPadding {
+              margin-right: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);
+              margin-left: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);
+            }
+          }
+        `}
+      </style>
+      <style jsx global>
+        {`
+          @media print {
+            .offsetPadding {
+              margin: 0;
+            }
+          }
+        `}
+      </style>
+    </>
   );
 }
 

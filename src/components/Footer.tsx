@@ -7,6 +7,7 @@ import Link from './Link';
 import styles from './Footer.module.scss';
 import Divider from './Divider';
 import Image from './Image';
+import { styleHelpers } from '../utils';
 
 type Link = {
   title: string;
@@ -72,92 +73,164 @@ const links = {
 
 export function Footer() {
   return (
-    <Section className={styles.footer}>
-      <footer className='dark-mode'>
+    <>
+      <Section className="footer">
+        <footer className='dark-mode'>
 
-        <Grid.Row>
+          <Grid.Row>
 
-          <Grid.Col xs={0} md={8} className={styles.col}>
-            <div className={styles.centerHorizontally}>
-              <Text.Br/>
-              <Text.Br/>
-              <Logo 
-                color='#fff'
-                className={styles.logo}
-              />
-              <Link href="https://www.contentful.com/">
-                <Image 
-                  src="/powered-by-contentful.svg" 
-                  altText="Powered by Contentful" 
-                  className={styles.sublogo}
+            <Grid.Col xs={0} md={8} className="col">
+              <div className="centerHorizontally">
+                <Text.Br/>
+                <Text.Br/>
+                <Logo 
+                  color='#fff'
+                  className="logo"
                 />
-              </Link>
-            </div>
-          </Grid.Col>
-
-          <Grid.Col xs={24} md={8} className={styles.col}>
-            <Text variant='h4' className={styles.title}>Company</Text>
-            <div role="list" className={styles.fakeUl}>
-              {links.company.sort(alphabetically).map(l => (
-                <Link
-                  key={l.href}
-                  className={styles.link}
-                  href={l.href}
-                  role="listitem"
-                >
-                  {l.title}
+                <Link href="https://www.contentful.com/">
+                  <Image 
+                    src="/powered-by-contentful.svg" 
+                    altText="Powered by Contentful" 
+                    className="sublogo"
+                  />
                 </Link>
-              ))}
-            </div>
-          </Grid.Col>
+              </div>
+            </Grid.Col>
 
-          <Grid.Col xs={24} md={0}>
-            <Divider/>
-          </Grid.Col>
+            <Grid.Col xs={24} md={8} className="col">
+              <Text variant='h4' className={styles.title}>Company</Text>
+              <div role="list" className={styles.fakeUl}>
+                {links.company.sort(alphabetically).map(l => (
+                  <Link
+                    key={l.href}
+                    className={styles.link}
+                    href={l.href}
+                    role="listitem"
+                  >
+                    {l.title}
+                  </Link>
+                ))}
+              </div>
+            </Grid.Col>
 
-          <Grid.Col xs={24} md={8} className={styles.col}>
-            <Text variant='h4' className={styles.title}>Social Media</Text>
-            <div role="list" className={styles.fakeUl}>
-              {links.socialMedia.sort(alphabetically).map(l => (
-                <Link 
-                  key={l.href} 
-                  className={styles.link}
-                  href={l.href}
-                  role="listitem"
-                >
-                  {l.title}
-                </Link>
-              ))}
-            </div>
-          </Grid.Col>
+            <Grid.Col xs={24} md={0}>
+              <Divider/>
+            </Grid.Col>
 
-          <Grid.Col xs={24} md={0}>
-            <Divider/>
-          </Grid.Col>
+            <Grid.Col xs={24} md={8} className={styles.col}>
+              <Text variant='h4' className={styles.title}>Social Media</Text>
+              <div role="list" className={styles.fakeUl}>
+                {links.socialMedia.sort(alphabetically).map(l => (
+                  <Link 
+                    key={l.href} 
+                    className={styles.link}
+                    href={l.href}
+                    role="listitem"
+                  >
+                    {l.title}
+                  </Link>
+                ))}
+              </div>
+            </Grid.Col>
 
-          <Grid.Col xs={24} md={0} className={styles.col}>
-            <div className={styles.centerHorizontally}>
-              <Text.Br/>
-              <Text.Br/>
-              <Logo 
-                color='#fff'
-                className={styles.logo}
-              />
-              <Link href="https://www.contentful.com/">
-                <Image 
-                  src="/powered-by-contentful.svg" 
-                  altText="Powered by Contentful" 
-                  className={styles.sublogo}
+            <Grid.Col xs={24} md={0}>
+              <Divider/>
+            </Grid.Col>
+
+            <Grid.Col xs={24} md={0} className={styles.col}>
+              <div className={styles.centerHorizontally}>
+                <Text.Br/>
+                <Text.Br/>
+                <Logo 
+                  color='#fff'
+                  className={styles.logo}
                 />
-              </Link>
-            </div>
-          </Grid.Col>
+                <Link href="https://www.contentful.com/">
+                  <Image 
+                    src="/powered-by-contentful.svg" 
+                    altText="Powered by Contentful" 
+                    className={styles.sublogo}
+                  />
+                </Link>
+              </div>
+            </Grid.Col>
 
-        </Grid.Row>
-        <Text className={styles.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
-      
-      </footer>
-    </Section>
+          </Grid.Row>
+          <Text className={styles.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
+        
+        </footer>
+      </Section>
+      <style jsx>
+        {`
+          .logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: ${styleHelpers.spacing(3)};
+          }
+          
+          .sublogo {
+            width: 135px;
+            height: auto;
+            margin-bottom: ${styleHelpers.spacing(3)};
+          }
+          
+          .footer {
+            padding: ${styleHelpers.spacing(5, 0)};
+            background-color: ${styleHelpers.color('primary_main')};
+            border-top: 1px solid ${styleHelpers.color('divider')};
+          }
+
+          @media ${styleHelpers.mediaQuery('xs', 'md')} {
+              padding: ${styleHelpers.spacing(0, 0, 3)};
+            }
+          
+          .copyright {
+            ${styleHelpers.flex('column')};
+            color: ${styleHelpers.color('primary_contrastTextMuted')};
+            font-size: 0.85rem;
+            font-weight: 300;
+            padding-bottom: env(safe-area-inset-bottom);
+            margin-top: theme.spacing(4);
+            text-align: center;
+            justify-content: center;
+          }
+          
+          .title {
+            color: ${styleHelpers.color('primary_contrastText')};
+            text-align: center;
+          }
+
+          @media ${styleHelpers.mediaQuery('xs', 'md')} {
+            margin: ${styleHelpers.spacing(2.75, 0)};
+          }
+          
+          .link {
+            margin: ${styleHelpers.spacing(2, 0)};
+            text-decoration: none;
+            color: ${styleHelpers.color('primary_contrastTextMuted')};
+            text-align: center;
+          }
+
+          @media ${styleHelpers.mediaQuery('xs', 'md')} {
+            margin: ${styleHelpers.spacing(2.75, 0)};
+          }
+          
+          .centerHorizontally {
+            ${styleHelpers.flex('column')};
+            text-align: center;
+            align-items: center;
+          }
+          
+          .col {
+            margin: ${styleHelpers.spacing(3, 0)};
+          }
+          
+          .fakeUl {
+            ${styleHelpers.flex('column')};
+          }
+        `}
+      </style>
+    </>
   );
 }
 
