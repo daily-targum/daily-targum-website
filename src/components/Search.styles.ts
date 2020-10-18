@@ -35,8 +35,6 @@ const searchInput = css.resolve`
     flex: 1;
     line-height: 1.2rem;
     color: ${styleHelpers.color('text')};
-    /* use custom outline for accesibility */
-    outline: none;
   }
 `;
 

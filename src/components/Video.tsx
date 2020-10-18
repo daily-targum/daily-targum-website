@@ -7,7 +7,8 @@ import Image from './Image';
 import { imgix } from '../utils';
 import { formatDate } from '../shared/src/utils';
 import { IoMdClose, IoMdPlay } from 'react-icons/io';
-import styles from './Video.module.scss';
+import Styles from './Video.styles';
+const { classNames, StyleSheet } = Styles;
 
 function Player({
   style,
@@ -112,54 +113,58 @@ function Player({
   }, [slave, position, playState]);
 
   return (
-    <div className={styles.videoWrap}>
-      {src ? (
-        <video 
-          key={src}
-          controls={!isStopped}
-          className={styles.video}
-          style={style}
-          ref={ref}
-          playsInline={true}
-        >
-          <source src={src} type="video/mp4"/>
-        </video>
-      ) : null}
+    <>
+      <div className={classNames.videoWrap}>
+        {src ? (
+          <video 
+            key={src}
+            controls={!isStopped}
+            className={classNames.video}
+            style={style}
+            ref={ref}
+            playsInline={true}
+          >
+            <source src={src} type="video/mp4"/>
+          </video>
+        ) : null}
 
-      {(isStopped && thumbnail) ? (
-        <Image
-          className={styles.thumbnail}
-          data={imgix(thumbnail, {
-            xs: imgix.presets.lg('16:9')
-          })}
-        />
-      ) : null}
-
-      {playState !== 'play' ? (
-        <button 
-          aria-label='Play video'
-          data-tooltip-position='center'
-          className={styles.videoOverlay}
-          onClick={() => {
-            const refClone = ref.current;
-            if (refClone) {
-              refClone.play();
-              
-              setTimeout(() => {
-                refClone.focus();
-              }, 100);
-            }
-          }}
-        >
-          <IoMdPlay 
-            style={{
-              fontSize: 80
-            }}
-            color='#fff'
+        {(isStopped && thumbnail) ? (
+          <Image
+            aspectRatio={16/9}
+            className={classNames.thumbnail}
+            data={imgix(thumbnail, {
+              xs: imgix.presets.lg('16:9')
+            })}
           />
-        </button>
-      ) : null}
-    </div>
+        ) : null}
+
+        {playState !== 'play' ? (
+          <button 
+            aria-label='Play video'
+            data-tooltip-position='center'
+            className={classNames.videoOverlay}
+            onClick={() => {
+              const refClone = ref.current;
+              if (refClone) {
+                refClone.play();
+                
+                setTimeout(() => {
+                  refClone.focus();
+                }, 100);
+              }
+            }}
+          >
+            <IoMdPlay 
+              style={{
+                fontSize: 80
+              }}
+              color='#fff'
+            />
+          </button>
+        ) : null}
+      </div>
+      {StyleSheet}
+    </>
   );
 }
 
@@ -169,32 +174,35 @@ function PersistentPlayer() {
   const dispatch = useDispatch();
 
   return (persist || src) ? (
-    <div 
-      className={styles.persistentPlayerWrap}
-      style={{
-        display: (!persist || !src) ? 'none' : 'flex'
-      }}
-    >
-      <button
-        aria-label='Close video player'
-        data-tooltip-position='left'
-        onClick={() => {
-          dispatch(videoActions.setPlayState('pause'));
-          dispatch(videoActions.setPersist(false));
+    <>
+      <div 
+        className={classNames.persistentPlayerWrap}
+        style={{
+          display: (!persist || !src) ? 'none' : 'flex'
         }}
-        className={styles.closeIcon}
       >
-        <IoMdClose
-          color='#fff'
-          style={{
-            fontSize: 24
+        <button
+          aria-label='Close video player'
+          data-tooltip-position='left'
+          onClick={() => {
+            dispatch(videoActions.setPlayState('pause'));
+            dispatch(videoActions.setPersist(false));
           }}
+          className={classNames.closeIcon}
+        >
+          <IoMdClose
+            color='#fff'
+            style={{
+              fontSize: 24
+            }}
+          />
+        </button>
+        <Player
+          slave={!persist}
         />
-      </button>
-      <Player
-        slave={!persist}
-      />
-    </div>
+      </div>
+      {StyleSheet}
+    </>
   ) : null;
 }
 
@@ -205,34 +213,37 @@ function Description() {
   const [expanded, setExpanded] = React.useState(false);
 
   return (
-    <div 
-      className={styles.description}
-    >
-      <Text 
-        variant='h2' 
-        htmlTag='h1'
-        className={styles.text}
+    <>
+      <div 
+        className={classNames.description}
       >
-        {title||''}
-      </Text>
-      {createdAt ? (
-        <Text className={styles.date} noPadding>{formatDate(createdAt)}</Text>
-      ) : null}
-      <Text.Truncate 
-        variant='p' 
-        htmlTag='p'
-        className={styles.text}
-        numberOfLines={expanded ? 0 : 3}
-      >
-        {description||''}
-      </Text.Truncate>
+        <Text 
+          variant='h2' 
+          htmlTag='h1'
+          className={classNames.text}
+        >
+          {title||''}
+        </Text>
+        {createdAt ? (
+          <Text className={classNames.date} noPadding>{formatDate(createdAt)}</Text>
+        ) : null}
+        <Text.Truncate 
+          variant='p' 
+          htmlTag='p'
+          className={classNames.text}
+          numberOfLines={expanded ? 0 : 3}
+        >
+          {description||''}
+        </Text.Truncate>
 
-      <Button.Text
-        onClick={() => setExpanded(bool => !bool)}
-      >
-        Show {expanded ? 'Less' : 'More'}
-      </Button.Text>
-    </div>
+        <Button.Text
+          onClick={() => setExpanded(bool => !bool)}
+        >
+          Show {expanded ? 'Less' : 'More'}
+        </Button.Text>
+      </div>
+      {StyleSheet}
+    </>
   );
 }
 

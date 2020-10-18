@@ -33,9 +33,11 @@ const inside = css.resolve`
 
 
 const offsetPadding = css.resolve`
-  * {
-    margin-right: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);
-    margin-left: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);
+  @media ${styleHelpers.mediaQuery('xs', 'xl')} {
+    * {
+      margin-right: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);
+      margin-left: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);
+    }
   }
 
   @media print {

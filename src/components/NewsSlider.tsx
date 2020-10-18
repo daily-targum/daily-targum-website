@@ -36,6 +36,7 @@ function Slide({
       ariaHidden={hide}
     >
       <AspectRatioImage
+        aspectRatio={16/9}
         data={load ? imgix(article.media[0]?.url ?? '', {
           xs: imgix.presets.sm('16:9'),
           sm: imgix.presets.md('16:9'),

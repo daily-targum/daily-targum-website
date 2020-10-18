@@ -355,6 +355,9 @@ function CardImage({
         aspectRatio={aspectRatio ?? 16/9}
         data={imageData}
         altText={altText}
+        style={{
+          minHeight: '100%'
+        }}
       />
 
       <div className={styles.imageCardTitleWrap}>

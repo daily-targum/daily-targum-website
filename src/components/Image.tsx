@@ -8,15 +8,17 @@ export type ImageData = {
 }
 
 export function Image({
+  aspectRatio,
   data,
   src,
   classNameOutside,
   style,
   className,
   altText,
-  styleOutside
+  styleOutside,
+  width
 }: {
-  aspectRatio?: number
+  aspectRatio: number
   data?: ImageData[]
   src?: string
   classNameOutside?: string
@@ -24,6 +26,7 @@ export function Image({
   style?: React.CSSProperties
   styleOutside?: React.CSSProperties
   altText?: string
+  width?: number
 }) {
   const isAmp = useAmp();
 
@@ -44,12 +47,17 @@ export function Image({
         className={classNameOutside}
       >
         <amp-img
-          src={lastImg}
+          src={lastImg.src}
           alt={altText}
-          layout="intrinsic"
-          // TODO: fix this
-          height='1'
-          width='3'
+          height={(width ?? 1) * aspectRatio}
+          width={width ?? 1}
+          layout={width ? "intrinsic" : "responsive"}
+          style={{ 
+            height: 'auto', 
+            width: width ?? '100%', 
+            ...style
+          }}
+          className={className}
         />
       </div>
     );

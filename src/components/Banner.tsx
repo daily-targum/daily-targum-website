@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from './Banner.module.scss';
+import Styles from './Banner.styles';
+const { classNames, StyleSheet } = Styles;
 
 export function Banner({
   text,
@@ -10,16 +11,17 @@ export function Banner({
 }) {
   return (
     <>
-    <div 
-      className={styles.logoWrap} 
-      role='banner'
-      aria-label={`${text}${accentText ? ' '+accentText : ''}`}
-    >
-      <h1 className={styles.logo} aria-hidden={true}>
-        {text}
-        {accentText ? <span className={styles.logoAccent}> {accentText}</span> : null}
-      </h1>
-    </div>
+      <div 
+        className={classNames.logoWrap} 
+        role='banner'
+        aria-label={`${text}${accentText ? ' '+accentText : ''}`}
+      >
+        <h1 className={classNames.logo} aria-hidden={true}>
+          {text}
+          {accentText ? <span className={classNames.logoAccent}> {accentText}</span> : null}
+        </h1>
+      </div>
+      {StyleSheet}
     </>
   );
 }

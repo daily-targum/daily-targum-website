@@ -6,7 +6,8 @@ import { imgix } from '../utils';
 import Link from './Link';
 import { AspectRatioImage } from './AspectRatioView';
 
-import styles from './Byline.module.scss';
+import Styles from './Byline.styles';
+const { classNames, StyleSheet } = Styles;
 
 function Authors({
   publishDate,
@@ -22,59 +23,62 @@ function Authors({
   }
 
   return (
-    <div className={styles.row}>
-      {authors.map(author => author.headshot ? (
-        <Link 
-          key={author.id}
-          href={`/staff/${author.slug}`}
-          className={styles.avatar}
-          label={`More articles by ${author.displayName}`}
-          tabIndex={-1}
-        >
-          <AspectRatioImage
-            aspectRatio={1}
-            className={styles.avatar}
-            data={imgix(author.headshot, {
-              xs: imgix.presets.xs('1:1')
-            })}
-            altText={`Author headshot for ${author.displayName}`}
-          />
-        </Link>
-      ) : null)}
+    <>
+      <div className={classNames.row}>
+        {authors.map(author => author.headshot ? (
+          <Link 
+            key={author.id}
+            href={`/staff/${author.slug}`}
+            className={classNames.avatar}
+            label={`More articles by ${author.displayName}`}
+            tabIndex={-1}
+          >
+            <AspectRatioImage
+              aspectRatio={1}
+              className={classNames.avatar}
+              data={imgix(author.headshot, {
+                xs: imgix.presets.xs('1:1')
+              })}
+              altText={`Author headshot for ${author.displayName}`}
+            />
+          </Link>
+        ) : null)}
 
-      <div className={styles.column}>
-        <address className={styles.authors}>
-          {authorsExceptLast.map((author, i) => (
-            <React.Fragment key={author.id}>
-              <Link 
-                href={`/staff/${author.slug}`}
-                className={styles.hideLink}
-                label={`More articles by ${author.displayName}`}
-                rel='author'
-              >
-                <Text className={styles.author}>{author.displayName}</Text>
-              </Link>
-              {(i < authorsExceptLast.length - 1) ? (<Text className={styles.breakSpaces}>, </Text>) : null}
-            </React.Fragment>
-          ))}
+        <div className={classNames.column}>
+          <address className={classNames.authors}>
+            {authorsExceptLast.map((author, i) => (
+              <React.Fragment key={author.id}>
+                <Link 
+                  href={`/staff/${author.slug}`}
+                  className={classNames.hideLink}
+                  label={`More articles by ${author.displayName}`}
+                  rel='author'
+                >
+                  <Text className={classNames.author}>{author.displayName}</Text>
+                </Link>
+                {(i < authorsExceptLast.length - 1) ? (<Text className={classNames.breakSpaces}>, </Text>) : null}
+              </React.Fragment>
+            ))}
 
-          {last ? (
-            <>
-              &nbsp;and&nbsp;
-              <Link 
-                href={`/staff/${last.slug}`}
-                className={styles.hideLink}
-                rel='author'
-              >
-                <Text className={styles.author}>{last.displayName}</Text>
-              </Link>
-            </>
-          ) : null}
-        </address>
-        <Text className={styles.date} htmlTag='time' noPadding>{formatDate(publishDate)}</Text>
+            {last ? (
+              <>
+                &nbsp;and&nbsp;
+                <Link 
+                  href={`/staff/${last.slug}`}
+                  className={classNames.hideLink}
+                  rel='author'
+                >
+                  <Text className={classNames.author}>{last.displayName}</Text>
+                </Link>
+              </>
+            ) : null}
+          </address>
+          <Text className={classNames.date} htmlTag='time' noPadding>{formatDate(publishDate)}</Text>
+        </div>
+
       </div>
-
-    </div>
+      {StyleSheet}
+    </>
   );
 }
 
@@ -86,12 +90,15 @@ function Compact({
   publishDate: number
 }) {
   return (
-    <div className={styles.bylineCompact}>
-      <Text htmlTag='time' className={styles.bylineCompactDate}>{formatDateAbriviated(publishDate)}</Text>
-      <Text className={styles.bylineCompactAuthor}>
-        {'By ' + authors.join(', ') + ' '}
-      </Text>
-    </div>
+    <>
+      <div className={classNames.bylineCompact}>
+        <Text htmlTag='time' className={classNames.bylineCompactDate}>{formatDateAbriviated(publishDate)}</Text>
+        <Text className={classNames.bylineCompactAuthor}>
+          {'By ' + authors.join(', ') + ' '}
+        </Text>
+      </div>
+      {StyleSheet}
+    </>
   )
 }
 

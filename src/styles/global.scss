@@ -1,12 +1,5 @@
 @use 'theme';
 
-// @media only screen and (prefers-color-scheme: dark) {
-//   /* Dark Mode */
-//   :root {
-//     @include darkTheme;
-//   }
-// }
-
 #nprogress {
   pointer-events: none;
 }
@@ -34,4 +27,16 @@
 }
 .nprogress-custom-parent #nprogress .bar {
   position: absolute;
+}
+
+select,
+select option {
+  background-color: var(--colors-surface);
+  color: var(--colors-text);
+  padding: 5px 10px;
+}
+
+mark,
+mark * {
+  color: #000 !important;
 }

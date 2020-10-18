@@ -5,6 +5,7 @@ import { styleHelpers, buildStyleSheet } from '../../utils';
 const page = css.resolve`
   * {
     ${styleHelpers.page()}
+    padding-bottom: calc(${styleHelpers.spacing(6)} + 2vw);
   }
 `
 

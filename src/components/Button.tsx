@@ -1,7 +1,8 @@
 import React from 'react';
 import { ReactChildren } from '../types';
-import styles from './Button.module.scss';
 import Link from './Link';
+import Styles from './Button.styles';
+const { classNames, StyleSheet } = Styles;
 
 export function Button({
   children,
@@ -16,33 +17,38 @@ export function Button({
   className?: string
   style?: React.CSSProperties
 }) {
-  return href ? (
-    <Link 
-      href={href}
-      className={[
-        className,
-        styles.button
-      ]. join(' ')} 
-      style={{
-        ...style
-      }}
-    >
-     {children}
-    </Link>
-  ) : (
-    <button 
-      className={[
-        className,
-        styles.button
-      ]. join(' ')} 
-      style={{
-        ...style
-      }}
-      onClick={onClick}
-    >
-     {children}
-    </button>
-  );
+  return (
+    <>
+      {href ? (
+        <Link 
+          href={href}
+          className={[
+            className,
+            classNames.button
+          ]. join(' ')} 
+          style={{
+            ...style
+          }}
+        >
+          {children}
+        </Link>
+      ) : (
+        <button 
+          className={[
+            className,
+            classNames.button
+          ]. join(' ')} 
+          style={{
+            ...style
+          }}
+          onClick={onClick}
+        >
+          {children}
+        </button>
+      )}
+      {StyleSheet}
+    </>
+  )
 }
 
 export function ButtonText({
@@ -55,15 +61,18 @@ export function ButtonText({
   style?: React.CSSProperties
 }) {
   return (
-    <button 
-      onClick={onClick}
-      className={styles.textButton}
-      style={{
-        ...style
-      }}
-    >
-      {children}
-    </button>
+    <>
+      <button 
+        onClick={onClick}
+        className={classNames.textButton}
+        style={{
+          ...style
+        }}
+      >
+        {children}
+      </button>
+      {StyleSheet}
+    </>
   );
 }
 

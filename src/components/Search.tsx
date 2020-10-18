@@ -13,6 +13,7 @@ import FocusTrap from 'focus-trap-react';
 import { useRouter } from 'next/router';
 import { CgSpinnerTwo } from 'react-icons/cg';
 import { useCallback, useState, useEffect } from "react";
+import { useAmp } from 'next/amp';
 import Styles from './Search.styles';
 const { classNames, StyleSheet } = Styles;
 
@@ -61,7 +62,8 @@ function Input({
 }) {
   const ref = React.useRef<HTMLInputElement>(null);
   const query = useSelector(s => s.search.query);
-  const focused = useSelector(s => s.search.focused) && enabled;
+  const isAmp = useAmp();
+  const focused = (useSelector(s => s.search.focused) && enabled) || isAmp;
   
   const loading = useSelector(s => s.search.loading);
   const hijacked = useSelector(s => s.search.hijacked);
@@ -160,7 +162,7 @@ function Input({
             className={cn(
               classNames.search,
               {
-                'accessibility-outline': focused
+                'accessibility-outline': (focused && !isAmp)
               }
             )}
           >
@@ -218,28 +220,33 @@ function Input({
                     [classNames.hide]: !focused
                   }
                 )}
-                style={{fontSize: `${size / 2}rem`}}
+                style={{
+                  fontSize: `${size / 2}rem`,
+                  /* use custom outline for accesibility */
+                  outline: isAmp ? undefined : 'none'
+                }}
                 placeholder='Search'
                 aria-label='Enter search text'
               />
-              <button
-                type="button"
-                tabIndex={focused ? undefined : -1}
-                aria-label='Clear search'
-                data-tooltip-position='left'
-                className={classNames.clickable}
-                onClick={() => {
-                  dispatch(searchActions.setQuery(''));
-                  dispatch(searchActions.setFocused(false));
-                }}
-              >
-                <IoMdClose
-                  className={classNames.searchIcon}
-                  style={{
-                    fontSize: 11 * size
+              {isAmp ? null : (
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  aria-hidden={true}
+                  className={classNames.clickable}
+                  onClick={() => {
+                    dispatch(searchActions.setQuery(''));
+                    dispatch(searchActions.setFocused(false));
                   }}
-                />
-              </button>
+                >
+                  <IoMdClose
+                    className={classNames.searchIcon}
+                    style={{
+                      fontSize: 11 * size
+                    }}
+                  />
+                </button>
+              )}
             </form>
 
             <div 

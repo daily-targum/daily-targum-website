@@ -14,6 +14,7 @@ export function AccessibilityFix() {
     
       function handleTouchstart() {
         setEnableTooltip(false);
+        setEnableOutline(false);
       }
 
       function handleKeydown() {
@@ -44,7 +45,7 @@ export function AccessibilityFix() {
   }
 
   return (
-    <style jsx global>
+    <style>
       {computedStyles}
     </style>
   )

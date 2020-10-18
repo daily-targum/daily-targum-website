@@ -8,8 +8,9 @@ import NotFound from '../../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../../utils';
 import { useRouter } from 'next/router';
 
-import styles from './[slug].module.scss';
 import { theme } from '../../../../constants';
+import Styles from './[slug].styles';
+const { classNames, StyleSheet } = Styles;
 
 
 function Article({
@@ -32,7 +33,7 @@ function Article({
   
   return (
     <>
-      <Section.StickyContainer className={styles.page}>
+      <Section.StickyContainer className={classNames.page}>
       
         <Grid.Row 
           spacing={theme.spacing(4)}
@@ -42,7 +43,7 @@ function Article({
           <Grid.Col xs={3} xl={1}>
             <Semantic role='main' skipNavContent pritable>
               <Link 
-                className={styles.category}
+                className={classNames.category}
                 href={`/section/${article.category.toLowerCase()}`}
               >
                 {hyphenatedToCapitalized(article.category)}
@@ -52,7 +53,7 @@ function Article({
                   <Text 
                     variant='h1' 
                     htmlTag='h1'
-                    className={styles.title}
+                    className={classNames.title}
                   >
                     {article.title}
                   </Text>
@@ -63,8 +64,8 @@ function Article({
                   />
 
                   {article.media[0]?.url ? (
-                     <figure className={styles.fullWidth}>
-                      <Section.OffsetPadding className={styles.photoWrap}>
+                     <figure className={classNames.fullWidth}>
+                      <Section.OffsetPadding className={classNames.photoWrap}>
                         <AspectRatioImage
                           aspectRatio={16 / 9}
                           data={imgix(article.media[0].url, {
@@ -74,21 +75,18 @@ function Article({
                           altText={`${photoDescription} – Photo by ${photoCredit}`}
                         />
                       </Section.OffsetPadding>
-                      <figcaption className={styles.figcaption} aria-hidden={true}>
+                      <figcaption className={classNames.figcaption} aria-hidden={true}>
                         Photo by {photoCredit}
-                        <div className={styles.captionSpacer}/>
+                        <div className={classNames.captionSpacer}/>
                         {photoDescription}
                       </figcaption>
                     </figure>
                   ) : null}
                 </header>
 
-                <Divider className={styles.divider}/>
+                <Divider className={classNames.divider}/>
 
-                <HTML 
-                  ads
-                  html={article.body} 
-                />
+                <HTML html={article.body} />
               </Semantic>
             </Semantic>
           </Grid.Col>
@@ -128,6 +126,8 @@ function Article({
 
       <Divider/>
       <Newsletter.Section/>
+
+      {StyleSheet}
     </>
   );
 }
@@ -191,8 +191,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 export const getStaticPaths: GetStaticPaths = async () =>  {
   return {
     paths: [],
-    fallback: true
+    // fallback: true
+    fallback: 'unstable_blocking'
   };
 }
+
+export const config = { amp: 'hybrid' }
 
 export default Article;

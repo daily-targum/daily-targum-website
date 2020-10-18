@@ -14,6 +14,7 @@ import { useScrollock } from '../utils';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import { Twirl as Hamburger } from 'hamburger-react';
+import { useAmp } from 'next/amp';
 import Styles from './Navbar.styles';
 const { classNames, StyleSheet } = Styles;
 
@@ -70,6 +71,7 @@ function MobileMenu() {
   const searchFocused = useSelector(s => s.search.focused);
   const router = useRouter();
   const dispatch = useDispatch();
+  const isAmp = useAmp();
 
   const { toggleScrollock } = useScrollock();
 
@@ -102,7 +104,37 @@ function MobileMenu() {
     };
   }, [isVisible, searchFocused]);
 
-  return (
+  return isAmp ? (
+    <>
+      <amp-sidebar 
+        id="sidebar1" 
+        layout="nodisplay" 
+        side="right"
+        className={classNames.mobileMenu}
+      >
+        {navbarLinks.map(link => (
+          <Link 
+            key={link.href}
+            href={link.href}
+            className={cn(classNames.mobileLink, {
+              [classNames.linkActive]: (link.href === router.asPath)
+            })}
+            label={link.ariaLabel}
+            onClickSideEffect={() => dispatch(navigationActions.closeMobileMenu())}
+          >
+            <span>{link.title}</span>
+          </Link>
+        ))}
+      </amp-sidebar>
+      <style jsx global>
+        {`
+          .i-amphtml-sidebar-mask {
+            display: none;
+          }
+        `}
+      </style>
+    </>
+  ) : (
     <Grid.Display
       xs={true} 
       lg={false}
@@ -154,6 +186,7 @@ export function Navbar() {
   const dispatch = useDispatch();
   const mobileMenuVisible = useSelector(s => s.navigation.mobileMenuVisible);
   const searchHijacked = useSelector(s => s.search.hijacked);
+  const isAmp = useAmp();
 
   return (
     <>
@@ -235,14 +268,22 @@ export function Navbar() {
                     <Logo className={classNames.logo}/>
                   </Link>
 
-                  <Hamburger 
-                    label={`${mobileMenuVisible ? 'Close' : 'Open'} navigation menu`}
-                    color='var(--colors-text)'
-                    duration={0.3}
-                    hideOutline={false}
-                    toggled={mobileMenuVisible}
-                    toggle={() => dispatch(navigationActions.toggleMobileMenu())}
-                  />
+                  {isAmp ? (
+                    // @ts-ignore
+                    <button on="tap:sidebar1.toggle">
+                      <Hamburger/>
+                    </button>
+                  ) : (
+                    <Hamburger 
+                      label={`${mobileMenuVisible ? 'Close' : 'Open'} navigation menu`}
+                      color='var(--colors-text)'
+                      duration={0.3}
+                      hideOutline={false}
+                      toggled={mobileMenuVisible}
+                      toggle={() => dispatch(navigationActions.toggleMobileMenu())}
+                    />
+                  )}
+                  
                 </div>
               </Grid.Display>
             </nav>        

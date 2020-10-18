@@ -1,9 +1,10 @@
 import React from 'react';
-import styles from './Ad.module.scss';
 import cn from 'classnames';
 import { nextUtils } from '../utils';
 // @ts-ignore
 import { AdSlot } from 'react-dfp';
+import Styles from './Ad.styles';
+const { classNames, StyleSheet } = Styles;
 
 type SizeMapping = { viewport: [number, number], sizes: [number, number][] }[];
 
@@ -28,7 +29,7 @@ const AdBase = React.memo(({
       className={cn(
         className,
         {
-          [styles.dev]: !nextUtils.envIs(['production'])
+          [classNames.dev]: !nextUtils.envIs(['production'])
         }
       )}
     />
@@ -45,7 +46,7 @@ const presets: {
   }
 } = {
   banner: {
-    wrapStyle: styles.bannerWrap,
+    wrapStyle: classNames.bannerWrap,
     style: '',
     adUnit: "isb_super-leaderboard_970x90",
     sizes: [ [300, 75], [970, 90] ],
@@ -96,20 +97,23 @@ function Ad({
   if (visible && presets[type]) {
     const preset = presets[type];
     return (
-      <div 
-        className={cn(
-          className,
-          preset.wrapStyle
-        )}
-        style={style}
-      >
-        <AdBase 
-          className={preset.style}
-          adUnit={preset.adUnit}
-          sizes={preset.sizes}
-          sizeMapping={preset.sizeMapping}
-        />
-      </div>
+      <>
+        <div 
+          className={cn(
+            className,
+            preset.wrapStyle
+          )}
+          style={style}
+        >
+          <AdBase 
+            className={preset.style}
+            adUnit={preset.adUnit}
+            sizes={preset.sizes}
+            sizeMapping={preset.sizeMapping}
+          />
+        </div>
+        {StyleSheet}
+      </>
     );
   }
 

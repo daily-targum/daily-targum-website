@@ -139,6 +139,7 @@ function Photos({
               keyExtractor={item => item.id}
               renderItem={item => (
                 <Image
+                  aspectRatio={1}
                   data={imgix(item.url, {
                     xs: imgix.presets.md('1:1')
                   })}

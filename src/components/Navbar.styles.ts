@@ -122,12 +122,14 @@ const mobileMenu = css.resolve`
   * {
     ${styleHelpers.flex('column')};
     ${styleHelpers.absoluteFill()};
+    max-width: 100vw;
     position: fixed;
     background-color: ${styleHelpers.color('surface')};
     padding: ${styleHelpers.spacing(2.5)};
     margin-top: ${HEIGHT};
     z-index: -1;
     align-items: flex-start;
+    border-left: 1px solid ${styleHelpers.color('divider')};;
   }
 `;
 

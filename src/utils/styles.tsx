@@ -7,13 +7,20 @@ function aspectRatioFullHeight(aspectRatio: number) {
   } as const;
 }
 
-function aspectRatioFullWidth(aspectRatio?: number) {
-  return typeof aspectRatio === 'number' ? {
-    width: '100%',
-    paddingTop: `${100 / aspectRatio}%`
-  } : {
+// function aspectRatioFullWidth(aspectRatio?: number) {
+//   return typeof aspectRatio === 'number' ? {
+//     width: '100%',
+//     paddingTop: `${100 / aspectRatio}%`
+//   } : {
     
-  } as const;
+//   } as const;
+// }
+
+function aspectRatioFullWidth(aspectRatio: number) {
+  return `
+    width: 100%;
+    padding-top: ${100 / aspectRatio}%;
+  `;
 }
 
 
@@ -46,29 +53,29 @@ function lightTheme() {
 
 function darkTheme() {
   return `
-  --colors-primary_main: #000000;
-  --colors-primary_contrastText: #ffffff;
-  --colors-primary_contrastTextMuted: rgba(255,255,255,0.8);
-  --colors-accent_main: #f70737;
-  --colors-accent_contrastText: #fff;
-  --colors-divider: #333;
+    --colors-primary_main: #000000;
+    --colors-primary_contrastText: #ffffff;
+    --colors-primary_contrastTextMuted: rgba(255,255,255,0.8);
+    --colors-accent_main: #f70737;
+    --colors-accent_contrastText: #fff;
+    --colors-divider: #333;
 
-  --colors-highlight: rgba(255,255,255,0.3);
+    --colors-highlight: rgba(255,255,255,0.3);
 
-  --colors-text: #fff;
-  --colors-textMuted: #b9b9b9;
+    --colors-text: #fff;
+    --colors-textMuted: #b9b9b9;
 
-  --colors-surface: #222;
+    --colors-surface: #222;
 
-  --colors-navbar: rgba(0, 0, 0, 0.973);
+    --colors-navbar: rgba(0, 0, 0, 0.973);
 
-  --colors-background_main: #131313;
-  --colors-background_light: #111;
+    --colors-background_main: #131313;
+    --colors-background_light: #111;
 
-  --colors-tooltip: #fff;
-  --colors-tooltip_contrastText: #000;
+    --colors-tooltip: #fff;
+    --colors-tooltip_contrastText: #000;
 
-  color: var(--colors-text);
+    color: var(--colors-text);
   `;
 }
 
@@ -110,13 +117,13 @@ function flex(direction: 'row' | 'column') {
   `;
 }
 
-// function centerBackgroundImage() {
-//   return `
-//     background-position: center;
-//     background-size: cover;
-//     background-repeat: no-repeat;
-//   `;
-// }
+function centerBackgroundImage() {
+  return `
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  `;
+}
 
 function absoluteFill() {
   return `
@@ -278,7 +285,8 @@ export const styleHelpers = {
   mediaQuery,
   unstyle,
   accessibilityOutline,
-  timing
+  timing,
+  centerBackgroundImage
 }
 
 
