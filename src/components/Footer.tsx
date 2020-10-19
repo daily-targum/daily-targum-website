@@ -49,6 +49,10 @@ const links = {
       title: 'Privacy Policy',
       href: '/page/privacy-policy'
     },
+    {
+      title: 'OSS',
+      href: '/page/oss'
+    },
   ],
   socialMedia: [
     {
