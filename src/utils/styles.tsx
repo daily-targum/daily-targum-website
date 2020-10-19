@@ -48,6 +48,8 @@ function lightTheme() {
 
     --colors-tooltip: #333;
     --colors-tooltip_contrastText: #fff;
+
+    color: var(--colors-text);
   `;
 }
 

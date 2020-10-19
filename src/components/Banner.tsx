@@ -15,6 +15,7 @@ export function Banner({
         className={classNames.logoWrap} 
         role='banner'
         aria-label={`${text}${accentText ? ' '+accentText : ''}`}
+        data-tooltip-position='none'
       >
         <h1 className={classNames.logo} aria-hidden={true}>
           {text}

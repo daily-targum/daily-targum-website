@@ -113,6 +113,15 @@ const linkCol = css.resolve`
   }
 `;
 
+const themeSelectWrap = css.resolve`
+  @media ${styleHelpers.mediaQuery('xl')} {
+    * {
+      width: 300px;
+      min-width: 300px
+    }
+  }
+`;
+
 const logoRow = css.resolve`
   *{
     ${styleHelpers.flex('row')};
@@ -143,6 +152,20 @@ const linksRow = css.resolve`
   }
 `;
 
+const copyrightRow = css.resolve`
+  *{
+    ${styleHelpers.flex('row')};
+    justify-content: space-between;
+  }
+
+  @media ${styleHelpers.mediaQuery('xs', 'xl')} {
+    * {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+`;
+
 
 const fakeUl = css.resolve`
   * {
@@ -162,5 +185,7 @@ export default buildStyleSheet({
   fakeUl,
   logoRow,
   linksRow,
-  divider
+  divider,
+  themeSelectWrap,
+  copyrightRow
 });

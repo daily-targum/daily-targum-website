@@ -44,14 +44,15 @@ export function ThemeSelector() {
         {`
           :root,
           body,
-          body * {
+          body,
+          #next-app {
             ${theme === 'dark' ? styleHelpers.darkTheme() : ''}
           }
 
           @media only screen and (prefers-color-scheme: dark) {
             :root,
             body,
-            body * {
+            #next-app {
               ${theme === 'system' ? styleHelpers.darkTheme() : ''}
             }
           }

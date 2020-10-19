@@ -5,7 +5,6 @@ import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, M
 import { imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 import styles from './humans-of-rutgers.module.scss';
-import { theme } from '../../constants';
 import { GrStackOverflow } from 'react-icons/gr';
 
 /** THIS IS A HACK! */
@@ -45,10 +44,11 @@ function Category({
   return (
     <>
       <Section className={styles.page}>
+        <Section.OffsetPadding>
         <Semantic role='main' pritable skipNavContent>
           <Banner text='Humans of RU'/>
         
-          <Grid.Row spacing={theme.spacing(2)}>
+          <Grid.Row spacing={1}>
 
             {horu.items.map((item, i) => (
               <React.Fragment key={item.id}>
@@ -77,7 +77,7 @@ function Category({
                       initialIndex: 0
                     })}
                     aria-label={item.title.replace(/horu/i, 'Humans of Rutgers')}
-                    data-tooltip-position='center'
+                    data-tooltip-position='none'
                   >
                     <MemoizedAspectRatioImage
                       data={imgix(item.media[0].url, {
@@ -106,6 +106,7 @@ function Category({
           />
         ) : null}
 
+        </Section.OffsetPadding>
       </Section>
 
       <Modal

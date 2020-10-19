@@ -4,10 +4,9 @@ import { styleHelpers, buildStyleSheet } from '../utils';
 
 const logoWrap = css.resolve`
   * {
-    ${styleHelpers.card()}
     background-color: ${styleHelpers.color("primary_main")};
     padding: ${styleHelpers.spacing(2)};
-    margin: ${styleHelpers.spacing(0, 0, 2)};
+    margin-bottom: 1px;
     display: flex;
     justify-content: center;
   }

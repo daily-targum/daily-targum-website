@@ -2,7 +2,6 @@
 @use 'styleHelpers';
 
 .page {
-  @include styleHelpers.pageCompact();
   flex: 1;
 }
 

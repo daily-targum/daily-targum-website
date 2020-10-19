@@ -88,12 +88,8 @@ export function Footer() {
         <footer className='dark-mode'>
       
           <div className={classNames.linksRow}>
-            {ObjectKeys(links).map((linkSet, i) => (
+            {ObjectKeys(links).map(linkSet => (
               <React.Fragment key={linkSet}>
-                {i > 0 ? (
-                  <Divider className={classNames.divider}/>
-                ) : null}
-
                 <div className={classNames.linkCol}>
                   <Text variant='h4' className={classNames.title}>{linkSet}</Text>
                   <div role="list" className={classNames.fakeUl}>
@@ -109,6 +105,8 @@ export function Footer() {
                     ))}
                   </div>
                 </div>
+
+                <Divider className={classNames.divider}/>
               </React.Fragment>
             ))}
           </div>
@@ -129,9 +127,9 @@ export function Footer() {
             </Link>
           </div>
 
-          <div className={classNames.linksRow}>
+          <div className={classNames.copyrightRow}>
             <Text className={classNames.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
-            <div style={{width: 300, minWidth: 300}}>
+            <div className={classNames.themeSelectWrap}>
               <ThemeSelector/>
             </div>
           </div>

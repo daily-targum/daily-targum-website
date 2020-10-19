@@ -4,6 +4,7 @@ import { Navbar, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO, Sk
 import { Provider as ReduxProvider } from '../store';
 import '../styles/global.scss';
 import { styleHelpers } from '../utils';
+import Head from 'next/head';
 
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
@@ -41,6 +42,9 @@ function App({
 
   return (
     <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"/>
+      </Head>
       <SEO {...seo}/>
       <ReduxProvider>
         <Grid.Provider>
