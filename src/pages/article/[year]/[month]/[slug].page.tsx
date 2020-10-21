@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../../shared/src/utils';

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useSelector } from '../store';
 // @ts-ignore
 import Div100vh from 'react-div-100vh';

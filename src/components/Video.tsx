@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useSelector, useDispatch } from '../store';
 import { videoActions } from '../store/ducks/video';
 import Text from './Text';

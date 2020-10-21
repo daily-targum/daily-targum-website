@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { actions, GetArticles, CompactArticle } from '../../../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
 import { Section, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel, Link, Ad, SkipNav, Semantic } from '../../../components';
@@ -56,7 +56,7 @@ function Category({
   return (
     <Section className={styles.page}>
       <Semantic role='main' pritable>
-        <Banner text='Opinions'/>
+        <Banner text='Opinions' legacy/>
 
         <SkipNav.Content/>
       

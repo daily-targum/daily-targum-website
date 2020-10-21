@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Section, Text, Button, Semantic, Link } from '../components';
 import { nextUtils } from '../utils';
 import { useRouter } from 'next/router';

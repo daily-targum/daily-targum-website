@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Divider, Ad, Sticky, AdBlockDector, Semantic, Donate } from '../../../components';
 import { actions, GetArticlesBySubcategory } from '../../../shared/src/client';

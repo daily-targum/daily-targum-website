@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { CompactArticle } from '../shared/src/client';
 import { formatDateAbriviated, hyphenatedToCapitalized } from '../shared/src/utils';
 import { Section, Text, AspectRatioImage } from '../components';

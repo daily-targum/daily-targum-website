@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { ReactChildren } from '../types';
 import cn from 'classnames';
 import { StickyContainer as StickyContainerDefault } from "react-sticky";

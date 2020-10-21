@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { hyphenatedToCapitalized } from '../../shared/src/utils';
 import { actions, GetPodcast } from '../../shared/src/client';
 import { processNextQueryStringParam, imgix } from '../../utils';

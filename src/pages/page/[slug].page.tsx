@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { GetStaticProps } from 'next';
 import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, Semantic, Divider, AdBlockDector, Donate } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';

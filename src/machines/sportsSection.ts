@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { createMachine, assign } from 'xstate';
 import { useMachine } from '@xstate/react';
 import { CompactArticle } from '../shared/src/client';

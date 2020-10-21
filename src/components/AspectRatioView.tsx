@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { ReactChildren, ReactChild } from '../types';
 import { ImageData, Image } from './Image';
 import cn from 'classnames';

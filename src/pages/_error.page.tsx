@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import NextErrorComponent from 'next/error';
 import * as Sentry from '@sentry/node';
 import { ErrorProps } from 'next/error';

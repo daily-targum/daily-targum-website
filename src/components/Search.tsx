@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Text from './Text';
 import Link from './Link';
 import { FocusControl } from './ResetTabIndex';
@@ -300,7 +300,8 @@ function Preview({
   const hits = useSelector(s => s.search.hits?.hits);
   const focused = useSelector(s => s.search.focused);
   const hitsQuery = useSelector(s => s.search.hitsQuery);
-  let numberOfItems = useSelector(s => s.search.hits?.total.value) ?? 0;
+  const total = useSelector(s => s.search.hits?.total.value) ?? 0;
+  let numberOfItems = total;
   if (numberOfItems > maxItems) {
     numberOfItems = maxItems;
   }
@@ -356,7 +357,7 @@ function Preview({
           onMouseOver={() => updateFocus(numberOfItems)}
         >
           <Link href='/search' className={classNames.previewLink}>
-            More search results
+            View all {total} search results
           </Link>
         </FocusControl>
       </div>

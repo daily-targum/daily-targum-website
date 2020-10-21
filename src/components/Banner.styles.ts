@@ -4,9 +4,8 @@ import { styleHelpers, buildStyleSheet } from '../utils';
 
 const logoWrap = css.resolve`
   * {
-    background-color: ${styleHelpers.color("primary_main")};
+    background-color: ${styleHelpers.color("text")};
     padding: ${styleHelpers.spacing(2)};
-    margin-bottom: 1px;
     display: flex;
     justify-content: center;
   }
@@ -18,7 +17,7 @@ const logo = css.resolve`
     text-transform: uppercase;
     font-weight: 900;
     font-size: calc(32px + 2vw);
-    color: ${styleHelpers.color("primary_contrastText")};
+    color: ${styleHelpers.color("background_light")};
   }
 `;
 
@@ -31,8 +30,17 @@ const logoAccent = css.resolve`
 `;
 
 
+const legacy = css.resolve`
+  * {
+    ${styleHelpers.card()}
+    margin-bottom: ${styleHelpers.spacing(2)};
+  }
+`;
+
+
 export default buildStyleSheet({
   logoWrap,
   logo,
-  logoAccent
+  logoAccent,
+  legacy
 });

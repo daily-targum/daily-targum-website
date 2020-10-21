@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Text from './Text';
 import { formatDate, formatDateAbriviated } from '../shared/src/utils';
 import { Author } from '../shared/src/client';

@@ -1,18 +1,29 @@
-import React from 'react';
+import * as React from 'react';
+import cn from 'classnames';
 import Styles from './Banner.styles';
 const { classNames, StyleSheet } = Styles;
 
 export function Banner({
   text,
-  accentText
+  accentText,
+  legacy,
+  className
 }: {
   text: string
   accentText?: string
+  legacy?: boolean
+  className?: string
 }) {
   return (
     <>
       <div 
-        className={classNames.logoWrap} 
+        className={cn(
+          classNames.logoWrap,
+          className,
+          {
+            [classNames.legacy]: legacy
+          }
+        )} 
         role='banner'
         aria-label={`${text}${accentText ? ' '+accentText : ''}`}
         data-tooltip-position='none'

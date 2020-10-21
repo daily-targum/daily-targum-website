@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Link from 'next/link';
 import Text from './Text';
 import Grid from './Grid/web';

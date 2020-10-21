@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Section from './Section';
 import Text from './Text';
 import Button from './Button';

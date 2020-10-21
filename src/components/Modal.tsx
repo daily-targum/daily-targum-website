@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useScrollock } from '../utils';
 import { IoMdClose } from 'react-icons/io';
 import { ReactChildren } from '../types';
@@ -30,7 +30,7 @@ export function Modal({
 
   React.useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-       if (event.keyCode === 27 && open) {
+       if (event.key === "Escape" && open) {
         handleClose();
       }
     };
@@ -45,8 +45,7 @@ export function Modal({
   return (
     <FocusTrap active={open}>
       <div>
-      <ReactDiv100>
-        <div
+        <ReactDiv100 
           className={cn(
             styles.backdrop,
             {
@@ -76,8 +75,7 @@ export function Modal({
           >
             {children}
           </div>
-        </div>
-      </ReactDiv100>
+        </ReactDiv100>
       </div>
     </FocusTrap>
   );

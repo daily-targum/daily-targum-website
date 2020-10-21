@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser';
 import xss, * as xssDefault from 'xss';
 import Text, { variants } from './Text';

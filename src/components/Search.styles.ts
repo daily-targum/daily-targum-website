@@ -147,7 +147,6 @@ const previewLink = css.resolve`
 
   *:focus {
     background-color: ${styleHelpers.color('highlight')};
-    text-decoration: underline;
   }
 `;
 

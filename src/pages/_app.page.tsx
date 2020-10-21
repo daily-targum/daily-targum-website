@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { AppProps } from 'next/app';
 import { Navbar, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO, SkipNav, AccessibilityFix } from '../components';
 import { Provider as ReduxProvider } from '../store';

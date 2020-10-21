@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import ThemeSelector from './ThemeSelector';
 import Section from './Section';
 import Logo from './Logo';

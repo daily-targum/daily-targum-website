@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { actions, GetHomepage, CompactArticle } from '../shared/src/client';
 import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps, Ad, Semantic
   // Text, Image, Link 

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../../shared/src/client';
 import { hyphenatedToCapitalized } from '../../../shared/src/utils';

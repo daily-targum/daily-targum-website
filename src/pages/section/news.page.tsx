@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad, Semantic } from '../../components';
 import { imgix } from '../../utils';
@@ -27,7 +27,7 @@ function News({
   return (
     <Section className={styles.page}>
       <Semantic role='main' pritable skipNavContent>
-        <Banner text='News'/>
+        <Banner text='News' legacy/>
 
         <Grid.Row spacing={theme.spacing(2.5)}>
           

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { ReactChildren } from '../types';
 import Link from './Link';
 import Styles from './Button.styles';

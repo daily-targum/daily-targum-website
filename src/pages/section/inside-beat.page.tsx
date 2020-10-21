@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { Section, Grid, ActivityIndicator, Card, Banner, SEOProps, Ad, Semantic } from '../../components';

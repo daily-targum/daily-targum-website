@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { createMachine, assign } from '@xstate/fsm';
 import { GetArticles, GetArticlesBySubcategory, CompactArticle } from '../shared/src/client';
 import { useMachine } from '@xstate/react/lib/fsm';

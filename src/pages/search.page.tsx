@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { NextPageContext } from 'next';
 import { actions, SearchHits } from '../shared/src/client';
 import { SEOProps, Section, Text, Divider, Link, AspectRatioImage, Semantic, Search, FlatList, HighlightText, Byline } from '../components';
