@@ -213,7 +213,7 @@ function Row({
 
           @media print { 
             .disableGridOnPrit {
-              display: block !important;
+              display: block;
             }
           }
         `}

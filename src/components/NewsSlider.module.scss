@@ -59,7 +59,7 @@
 
 .slideImage {
   @include styleHelpers.absoluteFill();
-  position: absolute !important;
+  position: absolute;
 }
 
 .slideCardImageOverlay {

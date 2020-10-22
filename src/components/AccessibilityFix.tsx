@@ -34,19 +34,35 @@ export function AccessibilityFix() {
     
   }, []);
 
-  let computedStyles = '';
-
-  if (!enableOutline) {
-    computedStyles += ':focus{outline:0}::-moz-focus-inner{border:0;} [aria-label]:focus:after { opacity: 0; visibility: none; } ';
-  }
-
-  if (!enableTooltip) {
-    computedStyles += '[aria-label]:after { display: none; } ';
-  }
-
   return (
-    <style>
-      {computedStyles}
-    </style>
+    <>
+      {enableOutline ? null : (
+        <style jsx global>
+          {`
+            :focus{
+              outline: 0;
+            } 
+            
+            ::-moz-focus-inner{
+              border: 0;
+            } 
+            
+            [aria-label]:focus:after { 
+              opacity: 0; 
+              visibility: none; 
+            }
+          `}
+        </style>
+      )}
+      {enableTooltip ? null : (
+        <style jsx global>
+          {`
+            [aria-label]:after { 
+              display: none; 
+            } 
+          `}
+        </style>
+      )}
+    </>
   )
 }

@@ -128,7 +128,7 @@ function MobileMenu() {
       </amp-sidebar>
       <style jsx global>
         {`
-          .i-amphtml-sidebar-mask {
+          [class*="amphtml-sidebar-mask"] {
             display: none;
           }
         `}

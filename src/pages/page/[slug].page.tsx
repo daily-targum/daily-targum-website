@@ -87,8 +87,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 export async function getStaticPaths() {
   return {
-    paths: [],
-    // fallback: true
+    paths: [
+      { params: { slug: 'about' } }
+    ],
     fallback: 'unstable_blocking'
   };
 }

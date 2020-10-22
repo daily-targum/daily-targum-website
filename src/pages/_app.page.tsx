@@ -181,7 +181,7 @@ function GlobalStyles() {
         }
 
         [aria-label][data-tooltip-position="none"]:after {
-          display: none !important;
+          display: none;
         }
 
         [aria-label][data-tooltip-position="left"]:after {
@@ -193,10 +193,10 @@ function GlobalStyles() {
         }
 
         .hamburger-react:after {
-          right: 0 !important;
-          left: unset !important;
-          content: '' !important;
-          display: none !important;
+          right: 0;
+          left: unset;
+          content: '';
+          display: none;
         }
 
         [aria-label]:after {
@@ -232,8 +232,8 @@ function GlobalStyles() {
         }
 
         [aria-label]:hover:after {
-          visibility: visible !important;
-          opacity: 1 !important;
+          visibility: visible;
+          opacity: 1;
           transition: opacity 250ms 600ms;
         }
 

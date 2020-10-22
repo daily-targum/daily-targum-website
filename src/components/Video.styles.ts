@@ -36,7 +36,7 @@ const persistentPlayerWrap = css.resolve`
 const closeIcon = css.resolve`
   * {
     ${styleHelpers.hideButton()}
-    position: absolute !important;
+    position: absolute;
     top: theme.spacing(1);
     right: theme.spacing(1);
     z-index: 1001;
@@ -74,7 +74,7 @@ const thumbnail = css.resolve`
 const videoOverlay = css.resolve`
   * {
     ${styleHelpers.absoluteFill()}
-    position: absolute !important;
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
