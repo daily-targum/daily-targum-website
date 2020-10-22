@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Navbar, Semantic, Sticky, Ad, Divider, AdBlockDector, Donate } from '../../components';
+import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Navbar, Semantic, Sticky, Ad, Divider, Donate } from '../../components';
 import { actions, GetPlaylist } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, imgix } from '../../utils';
@@ -79,11 +79,16 @@ function Author({
 
         <Grid.Col xs={0} md={1}>
           <Sticky>
-            <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-            <Ad type='skyscraper' />
-            <AdBlockDector>
-              <Donate.SidebarCard/>
-            </AdBlockDector>
+            <Ad   
+              type='rectange' 
+              style={{ marginBottom: '1rem' }} 
+            />
+            <Ad 
+              type='skyscraper' 
+              fallback={(
+                <Donate.SidebarCard/>
+              )}
+            />
           </Sticky>
         </Grid.Col>
 

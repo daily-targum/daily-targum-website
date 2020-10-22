@@ -4,6 +4,7 @@ import { nextUtils } from '../utils';
 // @ts-ignore
 import { AdSlot } from 'react-dfp';
 import Styles from './Ad.styles';
+import { ReactChildren } from '../types';
 const { classNames, StyleSheet } = Styles;
 
 type SizeMapping = { viewport: [number, number], sizes: [number, number][] }[];
@@ -73,14 +74,20 @@ function Ad({
   type,
   className,
   style,
-  priority = 1
+  priority = 1,
+  fallback
 }: {
   type: keyof typeof presets;
   className?: string;
   style?: React.CSSProperties;
-  priority?: number
+  priority?: number,
+  fallback?: ReactChildren
 }) {
   const [visible, setVisible] = React.useState(priority === 1);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [adBlocked, setAdBocked] = React.useState(false);
+
+  const fallbackDefined = typeof fallback !== 'undefined';
 
   React.useEffect(() => {
     if (!visible) {
@@ -92,13 +99,37 @@ function Ad({
         clearTimeout(id);
       };
     }
-  }, []);
+  }, [visible, priority]);
+
+  React.useEffect(() => {
+    if (nextUtils.isBrowser() && fallbackDefined) {
+      fetch("//securepubads.g.doubleclick.net/pagead/adview")
+      .catch(() => { 
+        setAdBocked(true);
+      });
+    }
+  }, [fallbackDefined]);
+
+  React.useEffect(() => {
+    if (!adBlocked && fallbackDefined) {
+      const id = setTimeout(() => {
+        if (ref.current && ref.current.clientHeight <= 10) {
+          setAdBocked(true);
+        }
+      }, 5000);
+  
+      return () => {
+        clearTimeout(id);
+      }
+    }
+  }, [adBlocked, fallbackDefined]);
 
   if (visible && presets[type]) {
     const preset = presets[type];
     return (
       <>
         <div 
+          ref={ref}
           className={cn(
             className,
             preset.wrapStyle
@@ -113,6 +144,7 @@ function Ad({
           />
         </div>
         {StyleSheet}
+        {adBlocked ? fallback : null}
       </>
     );
   }

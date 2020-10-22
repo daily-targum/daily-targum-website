@@ -164,6 +164,13 @@ const copyrightRow = css.resolve`
       align-items: center;
     }
   }
+
+  @media ${styleHelpers.printMediaQuery('xs', 'xl')} {
+    * {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 `;
 
 

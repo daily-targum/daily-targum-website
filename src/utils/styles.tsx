@@ -1,4 +1,5 @@
 // import { Theme } from '../types';
+import * as React from 'react';
 
 function aspectRatioFullHeight(aspectRatio: number) {
   return {
@@ -196,6 +197,7 @@ function hideButton() {
     border: none;
     text-align: unset;
     padding: 0;
+    margin: 0;
     font-size: 1rem;
   `;
 }
@@ -244,27 +246,19 @@ function mediaQuery(lower?: Breakpoint, upper?: Breakpoint) {
   return query;
 }
 
-// function buildPrinterMediaQuery(lower: Breakpoint | null, upper: Breakpoint | null) {
-//   let query = "only print";
+function printMediaQuery(lower?: Breakpoint, upper?: Breakpoint) {
+  let query = "print";
 
-//   if (lower !== null) {
-//     query += ` and (min-width: ${breakpointToNumber(lower) * 0.3}px)`;
-//   }
+  if (lower) {
+    query += ` and (min-width: ${breakpointToNumber(lower) * 0.3}px)`;
+  }
 
-//   if (upper !== null) {
-//     query += ` and (max-width: ${breakpointToNumber(upper) * 0.3}px)`;
-//   }
+  if (upper) {
+    query += ` and (max-width: ${breakpointToNumber(upper) * 0.3}px)`;
+  }
 
-//   return query;
-// }
-
-// function mediaQuery(lower: Breakpoint | null, upper: Breakpoint | null, css: string) {
-//   return `
-//     @media ${buildMediaQuery(lower, upper)} { ${css} }
-//     @media ${buildPrinterMediaQuery(lower, upper)} { ${css} }
-//   `;
-// }
-
+  return query;
+}
 
 export const styleHelpers = {
   lightTheme,
@@ -285,6 +279,7 @@ export const styleHelpers = {
   spacing,
   roundness,
   mediaQuery,
+  printMediaQuery,
   unstyle,
   accessibilityOutline,
   timing,
@@ -319,7 +314,11 @@ export function buildStyleSheet<T>(
     classNames,
     StyleSheet: (
       <>
-        {StyleSheets}
+        {StyleSheets.map((StyleSheet, i) => (
+          <React.Fragment key={i}>
+            {StyleSheet}
+          </React.Fragment>
+        ))}
       </>
     )
   };

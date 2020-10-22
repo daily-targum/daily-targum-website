@@ -2,7 +2,7 @@ import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../../shared/src/utils';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, AdBlockDector, Donate, Link } from '../../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, Donate, Link } from '../../../../components';
 
 import NotFound from '../../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../../utils';
@@ -98,11 +98,16 @@ function Article({
           <Grid.Col xs={0} xl={1}>
             <Sticky>
               <Semantic role='aside'>
-                <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-                <Ad type='skyscraper' />
-                <AdBlockDector>
-                  <Donate.SidebarCard/>
-                </AdBlockDector>
+                <Ad 
+                  type='rectange' 
+                  style={{ marginBottom: '1rem' }} 
+                />
+                <Ad 
+                  type='skyscraper' 
+                  fallback={(
+                    <Donate.SidebarCard/>
+                  )}
+                />
               </Semantic>
             </Sticky>
           </Grid.Col>
@@ -191,11 +196,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 export const getStaticPaths: GetStaticPaths = async () =>  {
   return {
     paths: [],
-    // fallback: true
-    fallback: 'unstable_blocking'
+    fallback: true
+    // fallback: 'unstable_blocking'
   };
 }
 
-export const config = { amp: 'hybrid' }
+// export const config = { amp: 'hybrid' }
 
 export default Article;

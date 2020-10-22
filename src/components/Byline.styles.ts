@@ -34,6 +34,12 @@ const avatar = css.resolve`
       display: none;
     }
   };
+
+  @media ${styleHelpers.printMediaQuery('xs', 'sm')} {
+    * {
+      display: none;
+    }
+  };
 `;
 
 

@@ -49,6 +49,13 @@ const body = css.resolve`
     bottom: 0;
     overflow: auto;
   }
+
+  @media ${styleHelpers.printMediaQuery('md')} {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+  }
 `;
 
 

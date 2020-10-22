@@ -48,9 +48,11 @@ export function Semantic({
                 visibility: hidden;
                 height: 0;
               }
-            }
 
-            @media print {
+              body > * {
+                height: auto;
+              }
+
               .printable {
                 position: absolute;
                 left: 0;

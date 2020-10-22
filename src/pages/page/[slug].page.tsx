@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { GetStaticProps } from 'next';
-import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, Semantic, Divider, AdBlockDector, Donate } from '../../components';
+import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, Semantic, Divider, Donate } from '../../components';
 import { getPage, GetPage } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { processNextQueryStringParam, styleHelpers } from '../../utils';
@@ -41,11 +41,16 @@ function Page({
           
           <Grid.Col xs={0} md={1}>
             <Sticky>
-              <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-              <Ad type='skyscraper' />
-              <AdBlockDector>
-                <Donate.SidebarCard/>
-              </AdBlockDector>
+              <Ad 
+                type='rectange' 
+                style={{ marginBottom: '1rem' }} 
+              />
+              <Ad 
+                type='skyscraper' 
+                fallback={(
+                  <Donate.SidebarCard/>
+                )}
+              />
             </Sticky>
           </Grid.Col>
 

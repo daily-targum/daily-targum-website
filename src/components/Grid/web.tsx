@@ -109,6 +109,48 @@ function Col(props: ColProps) {
               grid-column-end: span var(--gridWidth-xxl);
             }
           }
+
+          @media ${styleHelpers.printMediaQuery('xs', 'sm')} {
+            .col {
+              display: var(--gridDisplay-xs);
+              grid-column-end: span var(--gridWidth-xs);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('sm', 'md')} {
+            .col {
+              display: var(--gridDisplay-sm);
+              grid-column-end: span var(--gridWidth-sm);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('md', 'lg')} {
+            .col {
+              display: var(--gridDisplay-md);
+              grid-column-end: span var(--gridWidth-md);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('lg', 'xl')} {
+            .col {
+              display: var(--gridDisplay-lg);
+              grid-column-end: span var(--gridWidth-lg);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xl', 'xxl')} {
+            .col {
+              display: var(--gridDisplay-xl);
+              grid-column-end: span var(--gridWidth-xl);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xxl')} {
+            .col {
+              display: var(--gridDisplay-xxl);
+              grid-column-end: span var(--gridWidth-xxl);
+            }
+          }
         `}
       </style>
     </>
@@ -171,7 +213,7 @@ function Row({
 
           @media print { 
             .disableGridOnPrit {
-              grid-template-columns: unset !important;
+              display: block !important;
             }
           }
         `}
@@ -240,6 +282,42 @@ function Display({
           }
 
           @media ${styleHelpers.mediaQuery('xxl')} {
+            .display {
+              display: var(--gridDisplay-xxl);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xs', 'sm')} {
+            .display {
+              display: var(--gridDisplay-xs);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('sm', 'md')} {
+            .display {
+              display: var(--gridDisplay-sm);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('md', 'lg')} {
+            .display {
+              display: var(--gridDisplay-md);
+            }
+          }
+          
+          @media ${styleHelpers.printMediaQuery('lg', 'xl')} {
+            .display {
+              display: var(--gridDisplay-lg);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xl', 'xxl')} {
+            .display {
+              display: var(--gridDisplay-xl);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xxl')} {
             .display {
               display: var(--gridDisplay-xxl);
             }

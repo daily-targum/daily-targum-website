@@ -27,6 +27,13 @@ const blockquote = css.resolve`
       margin: ${styleHelpers.spacing(6)} auto;
     }
   }
+
+  @media ${styleHelpers.printMediaQuery('md')} {
+    * {
+      max-width: 75%;
+      margin: ${styleHelpers.spacing(6)} auto;
+    }
+  }
 `;
 
 

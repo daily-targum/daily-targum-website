@@ -135,6 +135,12 @@ const preview = css.resolve`
       width: 100%;
     }
   }
+
+  @media ${styleHelpers.printMediaQuery('xs', 'lg')} {
+    * {
+      width: 100%;
+    }
+  }
 `;
 
 
