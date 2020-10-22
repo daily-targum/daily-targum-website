@@ -33,7 +33,7 @@ function Page({
   }
 
   return page?.content ? (
-    <Section.StickyContainer className={styles.page}>
+    <Section className={styles.page}>
       <Grid.Row
         spacing={theme.spacing(4)}
         cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
@@ -51,7 +51,7 @@ function Page({
           <Divider.Vertical/>
         </Grid.Col>
         
-        <Grid.Col xs={0} md={1}>
+        <Grid.Col xs={0} md={1} style={{height: '100%'}}>
           <Sticky>
             <Ad   
               type='rectange' 
@@ -67,7 +67,7 @@ function Page({
         </Grid.Col>
 
       </Grid.Row>
-    </Section.StickyContainer>
+    </Section>
   ) : (
     <NotFound/>
   );

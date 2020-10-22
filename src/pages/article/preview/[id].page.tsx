@@ -43,7 +43,7 @@ function Article({
   
   return (
     <>
-      <Section.StickyContainer className={styles.page}>
+      <Section className={styles.page}>
       
         <Grid.Row 
           spacing={theme.spacing(4)}
@@ -108,7 +108,7 @@ function Article({
             <Divider.Vertical/>
           </Grid.Col>
 
-          <Grid.Col xs={0} xl={1}>
+          <Grid.Col xs={0} xl={1} style={{height: '100%'}}>
             <Sticky>
               <Semantic role='aside'>
                 <Ad 
@@ -127,7 +127,7 @@ function Article({
 
         </Grid.Row>
 
-      </Section.StickyContainer>
+      </Section>
 
       {/* <Divider/>
       <Section className={classes.page}>

@@ -25,7 +25,7 @@ function Author({
   }
 
   return (
-    <Section.StickyContainer className={styles.page}>
+    <Section className={styles.page}>
     
       <Grid.Row
         spacing={theme.spacing(4)}
@@ -91,7 +91,7 @@ function Author({
           <Divider.Vertical/>
         </Grid.Col>
 
-        <Grid.Col xs={0} md={1}>
+        <Grid.Col xs={0} md={1} style={{height: '100%'}}>
           <Sticky>
             <Semantic role='aside'>
               <Ad   
@@ -109,7 +109,7 @@ function Author({
         </Grid.Col>
 
       </Grid.Row>
-    </Section.StickyContainer>
+    </Section>
   );
 }
 

@@ -58,7 +58,7 @@ function SearchPage({
   }, [mobileMenuVisible]);
   
   return (
-    <Section.StickyContainer className={styles.page}>
+    <Section className={styles.page}>
       {/* for SEO */}
       <h1 style={{display: 'none'}} aria-hidden={true}>Search</h1>
 
@@ -117,7 +117,7 @@ function SearchPage({
         )}
       </Semantic>
 
-    </Section.StickyContainer>
+    </Section>
   );
 }
 

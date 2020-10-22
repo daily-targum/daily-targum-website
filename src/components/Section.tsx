@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ReactChildren } from '../types';
 import cn from 'classnames';
-import { StickyContainer as StickyContainerDefault } from "react-sticky";
 import Styles from './Section.styles';
 const { classNames, StyleSheet } = Styles;
 
@@ -42,20 +41,6 @@ export function Section({
       {StyleSheet}
     </>
   );
-}
-
-Section.StickyContainer = StickyContainer;
-function StickyContainer({
-  children,
-  ...props
-}: SectionProps) {
-  return (
-    <Section {...props}>
-      <StickyContainerDefault>
-        {children}
-      </StickyContainerDefault>
-    </Section>
-  )
 }
 
 Section.OffsetPadding = OffsetPadding;
