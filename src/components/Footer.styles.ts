@@ -125,13 +125,13 @@ const themeSelectWrap = css.resolve`
 const logoRow = css.resolve`
   *{
     ${styleHelpers.flex('row')};
+    align-items: center;
     margin-top: ${styleHelpers.spacing(14)};
   }
 
   @media ${styleHelpers.mediaQuery('xs', 'xl')} {
     * {
       flex-direction: column;
-      align-items: center;
       margin-top: ${styleHelpers.spacing(4)};
     }
   }
