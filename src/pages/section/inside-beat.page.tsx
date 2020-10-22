@@ -30,6 +30,7 @@ function Category({
         <Banner 
           text='Inside'
           accentText='Beat'
+          legacy
         />
       
         <Grid.Row spacing={theme.spacing(2.5)}>

@@ -101,14 +101,14 @@ function Ad({
     }
   }, [visible, priority]);
 
-  React.useEffect(() => {
-    if (nextUtils.isBrowser() && fallbackDefined) {
-      fetch("//securepubads.g.doubleclick.net/pagead/adview")
-      .catch(() => { 
-        setAdBocked(true);
-      });
-    }
-  }, [fallbackDefined]);
+  // React.useEffect(() => {
+  //   if (nextUtils.isBrowser() && fallbackDefined) {
+  //     fetch("//securepubads.g.doubleclick.net")
+  //     .catch(() => { 
+  //       setAdBocked(true);
+  //     });
+  //   }
+  // }, [fallbackDefined]);
 
   React.useEffect(() => {
     if (!adBlocked && fallbackDefined) {
@@ -116,7 +116,7 @@ function Ad({
         if (ref.current && ref.current.clientHeight <= 10) {
           setAdBocked(true);
         }
-      }, 5000);
+      }, 3000);
   
       return () => {
         clearTimeout(id);
