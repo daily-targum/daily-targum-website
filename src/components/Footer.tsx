@@ -60,10 +60,6 @@ const links = {
       title: 'Classifieds',
       href: '/classifieds'
     },
-    {
-      title: 'OSS',
-      href: '/page/oss'
-    },
   ],
   'Follow Us': [
     {
