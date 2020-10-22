@@ -11,6 +11,7 @@ const link = css.resolve`
     margin: -1px;
     padding: 0;
     position: absolute;
+    overflow: hidden;
   }
 
   *:focus {
