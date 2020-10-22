@@ -112,14 +112,14 @@ function Ad({
 
   React.useEffect(() => {
     if (!adBlocked && fallbackDefined) {
-      const id = setTimeout(() => {
-        if (ref.current && ref.current.clientHeight <= 10) {
+      const id = setInterval(() => {
+        if (ref.current && ref.current.clientHeight === 0) {
           setAdBocked(true);
         }
-      }, 3000);
+      }, 100);
   
       return () => {
-        clearTimeout(id);
+        clearInterval(id);
       }
     }
   }, [adBlocked, fallbackDefined]);
