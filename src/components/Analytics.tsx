@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
 import { nextUtils } from '../utils';

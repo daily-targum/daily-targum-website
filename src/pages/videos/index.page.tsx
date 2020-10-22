@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Video, Section, CardCols, Card, Grid, Divider, Text, Navbar, SEOProps, Semantic } from '../../components';
 import { useSelector, useDispatch } from '../../store';
 import { videoActions } from '../../store/ducks/video';

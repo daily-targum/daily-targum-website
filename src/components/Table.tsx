@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { ReactChildren } from '../types';
 import { BreakPoints } from './Grid/types';
 import { Grid } from './Grid/web';

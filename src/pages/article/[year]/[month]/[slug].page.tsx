@@ -1,15 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../../shared/src/utils';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, AdBlockDector, Donate, Link } from '../../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, Donate, Link } from '../../../../components';
 
 import NotFound from '../../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../../utils';
 import { useRouter } from 'next/router';
 
-import styles from './[slug].module.scss';
 import { theme } from '../../../../constants';
+import Styles from './[slug].styles';
+const { classNames, StyleSheet } = Styles;
 
 
 function Article({
@@ -32,7 +33,7 @@ function Article({
   
   return (
     <>
-      <Section.StickyContainer className={styles.page}>
+      <Section className={classNames.page}>
       
         <Grid.Row 
           spacing={theme.spacing(4)}
@@ -42,7 +43,7 @@ function Article({
           <Grid.Col xs={3} xl={1}>
             <Semantic role='main' skipNavContent pritable>
               <Link 
-                className={styles.category}
+                className={classNames.category}
                 href={`/section/${article.category.toLowerCase()}`}
               >
                 {hyphenatedToCapitalized(article.category)}
@@ -52,7 +53,7 @@ function Article({
                   <Text 
                     variant='h1' 
                     htmlTag='h1'
-                    className={styles.title}
+                    className={classNames.title}
                   >
                     {article.title}
                   </Text>
@@ -63,8 +64,8 @@ function Article({
                   />
 
                   {article.media[0]?.url ? (
-                     <figure className={styles.fullWidth}>
-                      <Section.OffsetPadding className={styles.photoWrap}>
+                     <figure className={classNames.fullWidth}>
+                      <Section.OffsetPadding className={classNames.photoWrap}>
                         <AspectRatioImage
                           aspectRatio={16 / 9}
                           data={imgix(article.media[0].url, {
@@ -74,21 +75,18 @@ function Article({
                           altText={`${photoDescription} – Photo by ${photoCredit}`}
                         />
                       </Section.OffsetPadding>
-                      <figcaption className={styles.figcaption} aria-hidden={true}>
+                      <figcaption className={classNames.figcaption} aria-hidden={true}>
                         Photo by {photoCredit}
-                        <div className={styles.captionSpacer}/>
+                        <div className={classNames.captionSpacer}/>
                         {photoDescription}
                       </figcaption>
                     </figure>
                   ) : null}
                 </header>
 
-                <Divider className={styles.divider}/>
+                <Divider className={classNames.divider}/>
 
-                <HTML 
-                  ads
-                  html={article.body} 
-                />
+                <HTML html={article.body} />
               </Semantic>
             </Semantic>
           </Grid.Col>
@@ -97,21 +95,26 @@ function Article({
             <Divider.Vertical/>
           </Grid.Col>
 
-          <Grid.Col xs={0} xl={1}>
+          <Grid.Col xs={0} xl={1} style={{height: '100%'}}>
             <Sticky>
               <Semantic role='aside'>
-                <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-                <Ad type='skyscraper' />
-                <AdBlockDector>
-                  <Donate.SidebarCard/>
-                </AdBlockDector>
+                <Ad 
+                  type='rectange' 
+                  style={{ marginBottom: '1rem' }} 
+                />
+                <Ad 
+                  type='skyscraper' 
+                  fallback={(
+                    <Donate.SidebarCard/>
+                  )}
+                />
               </Semantic>
             </Sticky>
           </Grid.Col>
 
         </Grid.Row>
 
-      </Section.StickyContainer>
+      </Section>
 
       {/* <Divider/>
       <Section className={classes.page}>
@@ -128,6 +131,8 @@ function Article({
 
       <Divider/>
       <Newsletter.Section/>
+
+      {StyleSheet}
     </>
   );
 }
@@ -192,7 +197,10 @@ export const getStaticPaths: GetStaticPaths = async () =>  {
   return {
     paths: [],
     fallback: true
+    // fallback: 'unstable_blocking'
   };
 }
+
+// export const config = { amp: 'hybrid' }
 
 export default Article;

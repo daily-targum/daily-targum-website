@@ -20,10 +20,6 @@
   & *:last-child {
     margin-bottom: 0;
   }
-
-  &:hover {
-    background-color: theme.color('highlight');
-  }
 }
 
 .img {

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Link from 'next/link';
 import Text from './Text';
 import Grid from './Grid/web';
@@ -355,6 +355,9 @@ function CardImage({
         aspectRatio={aspectRatio ?? 16/9}
         data={imageData}
         altText={altText}
+        style={{
+          minHeight: '100%'
+        }}
       />
 
       <div className={styles.imageCardTitleWrap}>

@@ -1,12 +1,15 @@
-import React from 'react';
-import Grid from './Grid/web';
+import * as React from 'react';
+import ThemeSelector from './ThemeSelector';
 import Section from './Section';
 import Logo from './Logo';
 import Text from './Text';
 import Link from './Link';
-import styles from './Footer.module.scss';
 import Divider from './Divider';
 import Image from './Image';
+import { ObjectKeys } from '../shared/src/utils';
+
+import Styles from './Footer.styles';
+const { classNames, StyleSheet } = Styles;
 
 type Link = {
   title: string;
@@ -20,7 +23,7 @@ function alphabetically(a: Link, b: Link){
 }
 
 const links = {
-  company: [
+  Company: [
     {
       title: 'About',
       href: '/page/about'
@@ -28,22 +31,6 @@ const links = {
     {
       title: 'Donate',
       href: 'https://www.paypal.com/us/fundraiser/charity/1499274'
-    },
-    {
-      title: 'Contact',
-      href: '/page/contact'
-    },
-    {
-      title: 'Classifieds',
-      href: '/classifieds'
-    },
-    {
-      title: 'Advertise',
-      href: '/page/advertise'
-    },
-    {
-      title: 'Get Involved',
-      href: '/page/get-involved'
     },
     {
       title: 'Privacy Policy',
@@ -54,7 +41,31 @@ const links = {
       href: '/page/oss'
     },
   ],
-  socialMedia: [
+  'Contact': [
+    {
+      title: 'Contact',
+      href: '/page/contact'
+    },
+    {
+      title: 'Get Involved',
+      href: '/page/get-involved'
+    },
+  ],
+  Advertise: [
+    {
+      title: 'Advertise',
+      href: '/page/advertise'
+    },
+    {
+      title: 'Classifieds',
+      href: '/classifieds'
+    },
+    {
+      title: 'OSS',
+      href: '/page/oss'
+    },
+  ],
+  'Follow Us': [
     {
       title: 'Twitter',
       href: 'https://twitter.com/Daily_Targum'
@@ -70,98 +81,67 @@ const links = {
     {
       title: 'YouTube',
       href: 'https://www.youtube.com/user/TargumMultimedia'
-    },
+    }
   ]
 }
 
 export function Footer() {
   return (
-    <Section className={styles.footer}>
-      <footer className='dark-mode'>
-
-        <Grid.Row>
-
-          <Grid.Col xs={0} md={8} className={styles.col}>
-            <div className={styles.centerHorizontally}>
-              <Text.Br/>
-              <Text.Br/>
-              <Logo 
-                color='#fff'
-                className={styles.logo}
-              />
-              <Link href="https://www.contentful.com/">
-                <Image 
-                  src="/powered-by-contentful.svg" 
-                  altText="Powered by Contentful" 
-                  className={styles.sublogo}
-                />
-              </Link>
-            </div>
-          </Grid.Col>
-
-          <Grid.Col xs={24} md={8} className={styles.col}>
-            <Text variant='h4' className={styles.title}>Company</Text>
-            <div role="list" className={styles.fakeUl}>
-              {links.company.sort(alphabetically).map(l => (
-                <Link
-                  key={l.href}
-                  className={styles.link}
-                  href={l.href}
-                  role="listitem"
-                >
-                  {l.title}
-                </Link>
-              ))}
-            </div>
-          </Grid.Col>
-
-          <Grid.Col xs={24} md={0}>
-            <Divider/>
-          </Grid.Col>
-
-          <Grid.Col xs={24} md={8} className={styles.col}>
-            <Text variant='h4' className={styles.title}>Social Media</Text>
-            <div role="list" className={styles.fakeUl}>
-              {links.socialMedia.sort(alphabetically).map(l => (
-                <Link 
-                  key={l.href} 
-                  className={styles.link}
-                  href={l.href}
-                  role="listitem"
-                >
-                  {l.title}
-                </Link>
-              ))}
-            </div>
-          </Grid.Col>
-
-          <Grid.Col xs={24} md={0}>
-            <Divider/>
-          </Grid.Col>
-
-          <Grid.Col xs={24} md={0} className={styles.col}>
-            <div className={styles.centerHorizontally}>
-              <Text.Br/>
-              <Text.Br/>
-              <Logo 
-                color='#fff'
-                className={styles.logo}
-              />
-              <Link href="https://www.contentful.com/">
-                <Image 
-                  src="/powered-by-contentful.svg" 
-                  altText="Powered by Contentful" 
-                  className={styles.sublogo}
-                />
-              </Link>
-            </div>
-          </Grid.Col>
-
-        </Grid.Row>
-        <Text className={styles.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
+    <>
+      <Section className={classNames.footer}>
+        <footer className='dark-mode'>
       
-      </footer>
-    </Section>
+          <div className={classNames.linksRow}>
+            {ObjectKeys(links).map(linkSet => (
+              <React.Fragment key={linkSet}>
+                <div className={classNames.linkCol}>
+                  <Text variant='h4' className={classNames.title}>{linkSet}</Text>
+                  <div role="list" className={classNames.fakeUl}>
+                    {links[linkSet].sort(alphabetically).map(l => (
+                      <Link
+                        key={l.href}
+                        className={classNames.link}
+                        href={l.href}
+                        role="listitem"
+                      >
+                        {l.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                <Divider className={classNames.divider}/>
+              </React.Fragment>
+            ))}
+          </div>
+
+          <div className={classNames.logoRow}>
+            <Logo 
+              color='#fff'
+              className={classNames.logo}
+            />
+            <Link href="https://www.contentful.com/">
+              <Image 
+                src="/powered-by-contentful.svg" 
+                altText="Powered by Contentful" 
+                className={classNames.sublogo}
+                aspectRatio={1/3}
+                width={135}
+              />
+            </Link>
+          </div>
+
+          <div className={classNames.copyrightRow}>
+            <Text className={classNames.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
+            <div className={classNames.themeSelectWrap}>
+              <ThemeSelector/>
+            </div>
+          </div>
+        
+        </footer>
+      </Section>
+      {StyleSheet}
+    </>
   );
 }
 

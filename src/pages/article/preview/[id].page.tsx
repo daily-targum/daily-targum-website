@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../../shared/src/client';
 import { hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, HTML, Ad, Sticky, Semantic, AdBlockDector, Donate, Link } from '../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, HTML, Ad, Sticky, Semantic, Donate, Link } from '../../../components';
 import NotFound from '../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../utils';
 import styles from './[id].module.scss';
@@ -43,7 +43,7 @@ function Article({
   
   return (
     <>
-      <Section.StickyContainer className={styles.page}>
+      <Section className={styles.page}>
       
         <Grid.Row 
           spacing={theme.spacing(4)}
@@ -108,21 +108,26 @@ function Article({
             <Divider.Vertical/>
           </Grid.Col>
 
-          <Grid.Col xs={0} xl={1}>
+          <Grid.Col xs={0} xl={1} style={{height: '100%'}}>
             <Sticky>
               <Semantic role='aside'>
-                <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-                <Ad type='skyscraper' />
-                <AdBlockDector>
-                  <Donate.SidebarCard/>
-                </AdBlockDector>
+                <Ad 
+                  type='rectange' 
+                  style={{ marginBottom: '1rem' }} 
+                />
+                <Ad 
+                  type='skyscraper' 
+                  fallback={(
+                    <Donate.SidebarCard/>
+                  )}
+                />
               </Semantic>
             </Sticky>
           </Grid.Col>
 
         </Grid.Row>
 
-      </Section.StickyContainer>
+      </Section>
 
       {/* <Divider/>
       <Section className={classes.page}>

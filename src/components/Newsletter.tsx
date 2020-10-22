@@ -1,19 +1,23 @@
-import React from 'react';
+import * as React from 'react';
 import Section from './Section';
 import Text from './Text';
 import Button from './Button';
-import styles from './Newsletter.module.scss';
+import Styles from './Newsletter.styles';
+const { classNames, StyleSheet } = Styles;
 
 function NewsletterSection() {
   return (
-    <Section className={styles.section}>
-      <div className={styles.inner}>
-        <Text variant='h1' className={styles.text}>Join our newsletter</Text>
-        <Button href='http://eepurl.com/5lVdv'>
-          Subscribe
-        </Button>
-      </div>
-    </Section>
+    <>
+      <Section className={classNames.section}>
+        <div className={classNames.inner}>
+          <Text variant='h1' className={classNames.text}>Join our newsletter</Text>
+          <Button href='http://eepurl.com/5lVdv'>
+            Subscribe
+          </Button>
+        </div>
+      </Section>
+      {StyleSheet}
+    </>
   );
 }
 

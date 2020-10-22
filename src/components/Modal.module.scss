@@ -10,6 +10,8 @@
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(40px) contrast(20%);
+  opacity: 1;
+  transition: opacity theme.timing(0.5);
 }
 
 .closeIcon {
@@ -18,16 +20,29 @@
   top: theme.spacing(2);
   right: theme.spacing(2);
   cursor: pointer;
-  color: #fff;
   z-index: 2001;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.2);
   height: 36px;
   width: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  backdrop-filter: blur(30px);
+  backdrop-filter: invert(100%) blur(50px) saturate(0%);
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+// Safari compatability
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+    .closeIcon {
+      background-color: theme.color('text');
+      color: theme.color('background_light');
+      mix-blend-mode: unset;
+      backdrop-filter: none;
+    }
+  }
 }
 
 .modal {

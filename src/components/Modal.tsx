@@ -1,11 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import { useScrollock } from '../utils';
 import { IoMdClose } from 'react-icons/io';
 import { ReactChildren } from '../types';
 import styles from './Modal.module.scss';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
-import ReactDiv100 from 'react-div-100vh';
 
 export function Modal({
   open = false,
@@ -22,6 +21,7 @@ export function Modal({
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
+    console.log(open);
     toggleScrollock(open);
     if (ref.current && !open) {
       ref.current.scrollTop = 0;
@@ -30,7 +30,7 @@ export function Modal({
 
   React.useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-       if (event.keyCode === 27 && open) {
+       if (event.key === "Escape" && open) {
         handleClose();
       }
     };
@@ -41,43 +41,38 @@ export function Modal({
     };
   }, [open]);
 
-
   return (
     <FocusTrap active={open}>
-      <div>
-      <ReactDiv100>
-        <div
-          className={cn(
-            styles.backdrop,
-            {
-              [styles.hide]: !open
-            }
-          )}
-          onClick={handleClose}
-        >
-          {open ? (
-            <button
-              aria-label='Close modal'
-              data-tooltip-position='left'
-              onClick={handleClose}
-              className={styles.closeIcon}
-            >
-              <IoMdClose size={30}/>
-            </button>
-          ) : null}
-
-          <div
-            ref={ref}
-            className={styles.modal}
-            style={{
-              overflow
-            }}
-            onClick={e => e.stopPropagation()}
+      <div 
+        className={cn(
+          styles.backdrop,
+          {
+            [styles.hide]: !open
+          }
+        )}
+        onClick={handleClose}
+      >
+        {open ? (
+          <button
+            aria-label='Close modal'
+            data-tooltip-position='left'
+            onClick={handleClose}
+            className={styles.closeIcon}
           >
-            {children}
-          </div>
+            <IoMdClose size={30}/>
+          </button>
+        ) : null}
+
+        <div
+          ref={ref}
+          className={styles.modal}
+          style={{
+            overflow
+          }}
+          onClick={e => e.stopPropagation()}
+        >
+          {children}
         </div>
-      </ReactDiv100>
       </div>
     </FocusTrap>
   );

@@ -1,9 +1,11 @@
-import React from 'react';
-import styles from './Ad.module.scss';
+import * as React from 'react';
 import cn from 'classnames';
 import { nextUtils } from '../utils';
 // @ts-ignore
 import { AdSlot } from 'react-dfp';
+import Styles from './Ad.styles';
+import { ReactChildren } from '../types';
+const { classNames, StyleSheet } = Styles;
 
 type SizeMapping = { viewport: [number, number], sizes: [number, number][] }[];
 
@@ -28,7 +30,7 @@ const AdBase = React.memo(({
       className={cn(
         className,
         {
-          [styles.dev]: !nextUtils.envIs(['production'])
+          [classNames.dev]: !nextUtils.envIs(['production'])
         }
       )}
     />
@@ -45,7 +47,7 @@ const presets: {
   }
 } = {
   banner: {
-    wrapStyle: styles.bannerWrap,
+    wrapStyle: classNames.bannerWrap,
     style: '',
     adUnit: "isb_super-leaderboard_970x90",
     sizes: [ [300, 75], [970, 90] ],
@@ -72,14 +74,20 @@ function Ad({
   type,
   className,
   style,
-  priority = 1
+  priority = 1,
+  fallback
 }: {
   type: keyof typeof presets;
   className?: string;
   style?: React.CSSProperties;
-  priority?: number
+  priority?: number,
+  fallback?: ReactChildren
 }) {
   const [visible, setVisible] = React.useState(priority === 1);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [adBlocked, setAdBocked] = React.useState(false);
+
+  const fallbackDefined = typeof fallback !== 'undefined';
 
   React.useEffect(() => {
     if (!visible) {
@@ -91,25 +99,53 @@ function Ad({
         clearTimeout(id);
       };
     }
-  }, []);
+  }, [visible, priority]);
+
+  // React.useEffect(() => {
+  //   if (nextUtils.isBrowser() && fallbackDefined) {
+  //     fetch("//securepubads.g.doubleclick.net")
+  //     .catch(() => { 
+  //       setAdBocked(true);
+  //     });
+  //   }
+  // }, [fallbackDefined]);
+
+  React.useEffect(() => {
+    if (!adBlocked && fallbackDefined) {
+      const id = setInterval(() => {
+        if (ref.current && ref.current.clientHeight === 0) {
+          setAdBocked(true);
+        }
+      }, 100);
+  
+      return () => {
+        clearInterval(id);
+      }
+    }
+  }, [adBlocked, fallbackDefined]);
 
   if (visible && presets[type]) {
     const preset = presets[type];
     return (
-      <div 
-        className={cn(
-          className,
-          preset.wrapStyle
-        )}
-        style={style}
-      >
-        <AdBase 
-          className={preset.style}
-          adUnit={preset.adUnit}
-          sizes={preset.sizes}
-          sizeMapping={preset.sizeMapping}
-        />
-      </div>
+      <>
+        <div 
+          ref={ref}
+          className={cn(
+            className,
+            preset.wrapStyle
+          )}
+          style={style}
+        >
+          <AdBase 
+            className={preset.style}
+            adUnit={preset.adUnit}
+            sizes={preset.sizes}
+            sizeMapping={preset.sizeMapping}
+          />
+        </div>
+        {StyleSheet}
+        {adBlocked ? fallback : null}
+      </>
     );
   }
 

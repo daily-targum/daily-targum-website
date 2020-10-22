@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { imgix, nextUtils } from '../utils';
 import Head from 'next/head';
 

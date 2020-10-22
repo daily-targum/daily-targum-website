@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { breakPointKeys } from './config';
 import { BreakPoint, Context as ContextType } from './types';
 

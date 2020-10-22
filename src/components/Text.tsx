@@ -1,7 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import { ReactChildren } from '../types';
-import styles from './Text.module.scss';
 import cn from 'classnames';
+import Styles from './Text.styles';
+const { classNames, StyleSheet } = Styles;
 
 type GetArrayElementType<T extends readonly any[]> = T extends readonly (infer U)[] ? U : never;
 
@@ -72,19 +73,27 @@ export function Text({
   }
 
   return (
-    <TextBase
-      htmlTag={htmlTag}
-      className={cn(className, styles[variant], {
-        [styles.noPadding]: noPadding
-      })}
-      style={style}
-      onClick={onClick}
-      aria-label={label}
-      aria-hidden={ariaHidden}
-      data-tooltip-position={tooltipPosition}
-    >
-      {children}
-    </TextBase>
+    <>
+      <TextBase
+        htmlTag={htmlTag}
+        className={cn(
+          className, 
+          // @ts-ignore
+          classNames[variant], 
+          {
+            [classNames.noPadding]: noPadding
+          }
+        )}
+        style={style}
+        onClick={onClick}
+        aria-label={label}
+        aria-hidden={ariaHidden}
+        data-tooltip-position={tooltipPosition}
+      >
+        {children}
+      </TextBase>
+      {StyleSheet}
+    </>
   );
 }
 
@@ -109,38 +118,42 @@ function Truncate({
   ariaHidden
 }: TrunkcateTextProps) {
   return (
-    <TextBase
-      numberOfLines={numberOfLines}
-      htmlTag={htmlTag}
-      className={cn(
-        className, 
-        styles[variant], 
-        styles.truncate,
-        {
-          [styles.noPadding]: noPadding
-        }
-      )}
-      onClick={onClick}
-      style={{
-        // @ts-ignore
-        '--text-numberOfLines': numberOfLines,
-        ...(lockNumberOfLines && (numberOfLines !== undefined) && variant) ? {
-          minHeight: (1.2 * numberOfLines) + 'em'
-        } : null,
-        ...style
-      }}
-      aria-label={label}
-      aria-hidden={ariaHidden}
-      data-tooltip-position={tooltipPosition}
-    >
-      {children}
-    </TextBase>
+    <>
+      <TextBase
+        numberOfLines={numberOfLines}
+        htmlTag={htmlTag}
+        className={cn(
+          className, 
+          // @ts-ignore
+          classNames[variant], 
+          classNames.truncate,
+          {
+            [classNames.noPadding]: noPadding
+          }
+        )}
+        onClick={onClick}
+        style={{
+          // @ts-ignore
+          '--text-numberOfLines': numberOfLines,
+          ...(lockNumberOfLines && (numberOfLines !== undefined) && variant) ? {
+            minHeight: (1.2 * numberOfLines) + 'em'
+          } : null,
+          ...style
+        }}
+        aria-label={label}
+        aria-hidden={ariaHidden}
+        data-tooltip-position={tooltipPosition}
+      >
+        {children}
+      </TextBase>
+      {StyleSheet}
+    </>
   );
 }
 
 export function Br() {
   return (
-    <div className={styles.br}/>
+    <div className={classNames.br}/>
   );
 }
 

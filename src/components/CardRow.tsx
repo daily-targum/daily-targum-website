@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Grid from './Grid/web';
 import Text from './Text';
 import { ReactChild } from '../types';

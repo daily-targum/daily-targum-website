@@ -3,8 +3,8 @@ import * as types from './types';
 import { Context, defaultContextValue } from './context';
 import { computeBreakpoints, getBreakpoint } from './utils';
 import { ObjectKeys } from '../../shared/src/utils';
+import { styleHelpers } from '../../utils';
 import * as contextExports from './context';
-import styles from './styles.module.scss';
 import cn from 'classnames';
 
 export interface ColProps extends Partial<types.BreakPoints<number>> {
@@ -16,7 +16,7 @@ export interface ColProps extends Partial<types.BreakPoints<number>> {
 export interface RowProps {
   style?: React.CSSProperties;
   children?: React.ReactNode;
-  spacing?: number;
+  spacing?: number | string;
   className?: string;
   cols?: string[] | number;
   /**
@@ -52,15 +52,104 @@ function Col(props: ColProps) {
         style={style}
         className={cn(
           className,
-          styles.col
+          'col'
         )}
       >
         {children}
       </div>
       <style jsx>
         {`
-          div {
+          .col {
             ${vars}
+
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            direction: ltr;
+          }
+
+          @media ${styleHelpers.mediaQuery('xs', 'sm')} {
+            .col {
+              display: var(--gridDisplay-xs);
+              grid-column-end: span var(--gridWidth-xs);
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery('sm', 'md')} {
+            .col {
+              display: var(--gridDisplay-sm);
+              grid-column-end: span var(--gridWidth-sm);
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery('md', 'lg')} {
+            .col {
+              display: var(--gridDisplay-md);
+              grid-column-end: span var(--gridWidth-md);
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery('lg', 'xl')} {
+            .col {
+              display: var(--gridDisplay-lg);
+              grid-column-end: span var(--gridWidth-lg);
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery('xl', 'xxl')} {
+            .col {
+              display: var(--gridDisplay-xl);
+              grid-column-end: span var(--gridWidth-xl);
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery('xxl')} {
+            .col {
+              display: var(--gridDisplay-xxl);
+              grid-column-end: span var(--gridWidth-xxl);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xs', 'sm')} {
+            .col {
+              display: var(--gridDisplay-xs);
+              grid-column-end: span var(--gridWidth-xs);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('sm', 'md')} {
+            .col {
+              display: var(--gridDisplay-sm);
+              grid-column-end: span var(--gridWidth-sm);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('md', 'lg')} {
+            .col {
+              display: var(--gridDisplay-md);
+              grid-column-end: span var(--gridWidth-md);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('lg', 'xl')} {
+            .col {
+              display: var(--gridDisplay-lg);
+              grid-column-end: span var(--gridWidth-lg);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xl', 'xxl')} {
+            .col {
+              display: var(--gridDisplay-xl);
+              grid-column-end: span var(--gridWidth-xl);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xxl')} {
+            .col {
+              display: var(--gridDisplay-xxl);
+              grid-column-end: span var(--gridWidth-xxl);
+            }
           }
         `}
       </style>
@@ -86,20 +175,23 @@ function Row({
     cols = Array.from({ length: cols }).map(() => '1fr');
   }
 
+  if (typeof spacing === 'number') {
+    spacing = spacing+'px';
+  }
+
   return (
     <Context.Provider 
       value={{
         ...context, 
-        spacing, 
         cols: cols || context.cols
       }}
     >
       <div 
         className={cn(
           className,
-          styles.row,
+          'row',
           {
-            [styles.disableGridOnPrit]: disableGridOnPrit
+            ['disableGridOnPrit']: disableGridOnPrit
           }
         )} 
         style={{
@@ -112,8 +204,17 @@ function Row({
       </div>
       <style jsx>
         {`
-          div {
-            --gridSpacing: ${spacing}px
+          .row {
+            display: grid;
+            flex: 1;
+            align-items: flex-start;
+            grid-gap: ${spacing};
+          }
+
+          @media print { 
+            .disableGridOnPrit {
+              display: block !important;
+            }
           }
         `}
       </style>
@@ -138,7 +239,7 @@ function Display({
       <div
         className={cn(
           className,
-          styles.display
+          'display'
         )}
         style={style}
       >
@@ -146,8 +247,80 @@ function Display({
       </div>
       <style jsx>
         {`
-          div {
+          .display {
             ${vars}
+          }
+
+          @media ${styleHelpers.mediaQuery('xs', 'sm')} {
+            .display {
+              display: var(--gridDisplay-xs);
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery('sm', 'md')} {
+            .display {
+              display: var(--gridDisplay-sm);
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery('md', 'lg')} {
+            .display {
+              display: var(--gridDisplay-md);
+            }
+          }
+          
+          @media ${styleHelpers.mediaQuery('lg', 'xl')} {
+            .display {
+              display: var(--gridDisplay-lg);
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery('xl', 'xxl')} {
+            .display {
+              display: var(--gridDisplay-xl);
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery('xxl')} {
+            .display {
+              display: var(--gridDisplay-xxl);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xs', 'sm')} {
+            .display {
+              display: var(--gridDisplay-xs);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('sm', 'md')} {
+            .display {
+              display: var(--gridDisplay-sm);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('md', 'lg')} {
+            .display {
+              display: var(--gridDisplay-md);
+            }
+          }
+          
+          @media ${styleHelpers.printMediaQuery('lg', 'xl')} {
+            .display {
+              display: var(--gridDisplay-lg);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xl', 'xxl')} {
+            .display {
+              display: var(--gridDisplay-xl);
+            }
+          }
+
+          @media ${styleHelpers.printMediaQuery('xxl')} {
+            .display {
+              display: var(--gridDisplay-xxl);
+            }
           }
         `}
       </style>

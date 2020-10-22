@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { ReactChildren } from '../types';
 import { clamp } from '../shared/src/utils';
 import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';

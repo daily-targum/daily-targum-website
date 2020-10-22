@@ -1,12 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 import { actions, GetHoru } from '../../shared/src/client';
 import NotFound from '../404.page';
 import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML, Ad, ResetTabIndex, Semantic } from '../../components';
 import { imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
-import styles from './humans-of-rutgers.module.scss';
-import { theme } from '../../constants';
 import { GrStackOverflow } from 'react-icons/gr';
+import { theme } from '../../constants';
+import Styles from './humans-of-rutgers.styles';
+const { classNames, StyleSheet } = Styles;
 
 /** THIS IS A HACK! */
 const MemoizedAspectRatioImage = React.memo(AspectRatioImage, () => true);
@@ -44,11 +45,15 @@ function Category({
 
   return (
     <>
-      <Section className={styles.page}>
+      <Section className={classNames.page}>
+        <Section.OffsetPadding>
         <Semantic role='main' pritable skipNavContent>
-          <Banner text='Humans of RU'/>
+          <Banner 
+            text='Humans of RU'
+            className={classNames.banner}
+          />
         
-          <Grid.Row spacing={theme.spacing(2)}>
+          <Grid.Row spacing={theme.spacing(1)}>
 
             {horu.items.map((item, i) => (
               <React.Fragment key={item.id}>
@@ -70,25 +75,25 @@ function Category({
                   ) : null}
                   <button
                     role='article'
-                    className={styles.hideButton}
+                    className={classNames.hideButton}
                     onClick={() => send({
                       type: 'OPEN_ITEM',
                       itemId: item.id,
                       initialIndex: 0
                     })}
                     aria-label={item.title.replace(/horu/i, 'Humans of Rutgers')}
-                    data-tooltip-position='center'
+                    data-tooltip-position='none'
                   >
                     <MemoizedAspectRatioImage
                       data={imgix(item.media[0].url, {
                         xs: imgix.presets.md('1:1')
                       })}
                       aspectRatio={1}
-                      className={styles.post}
+                      className={classNames.post}
                     />
                     {item.media.length > 1 ? (
                       <GrStackOverflow 
-                        className={styles.multiplePhotosIcon}
+                        className={classNames.multiplePhotosIcon}
                         size={19}
                       />
                     ) : null}
@@ -106,6 +111,7 @@ function Category({
           />
         ) : null}
 
+        </Section.OffsetPadding>
       </Section>
 
       <Modal
@@ -120,12 +126,12 @@ function Category({
             xs={24}
             md={14}
           >
-            <div className={styles.square}/>
+            <div className={classNames.square}/>
             <Carousel.Responsive
               enableArrowKeys
               id={state.context.itemId + state.value}
               data={selectedPost?.media ?? []}
-              className={styles.carousel}
+              className={classNames.carousel}
               keyExtractor={item => item.id}
               renderItem={item => (
                 <AspectRatioImage
@@ -146,7 +152,7 @@ function Category({
             md={10}
             style={{alignSelf: 'stretch'}}
           >
-            <article className={styles.body}>
+            <article className={classNames.body}>
               <Text variant='h1'>{selectedPost?.title}</Text>
               {selectedPost?.quote ? (
                 <HTML
@@ -158,6 +164,8 @@ function Category({
 
         </Grid.Row>
       </Modal>
+
+      {StyleSheet}
     </>
   );
 }

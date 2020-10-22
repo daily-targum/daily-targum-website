@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import { ReactChildren } from '../types';
-import styles from './Section.module.scss';
 import cn from 'classnames';
-import { StickyContainer as StickyContainerDefault } from "react-sticky";
+import Styles from './Section.styles';
+const { classNames, StyleSheet } = Styles;
 
 type SectionProps = {
   children: ReactChildren,
@@ -20,32 +20,27 @@ export function Section({
   styleInside
 }: SectionProps) {
   return (
-    <div 
-      className={cn(className, styles.section)}
-      style={style} 
-    >
+    <>
       <div 
-        style={styleInside} 
-        className={cn(classNameInside, styles.inside)}
+        className={cn(
+          className, 
+          classNames.section
+        )}
+        style={style} 
       >
-        {children}
+        <div 
+          style={styleInside} 
+          className={cn(
+            classNameInside, 
+            classNames.inside
+          )}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+      {StyleSheet}
+    </>
   );
-}
-
-Section.StickyContainer = StickyContainer;
-function StickyContainer({
-  children,
-  ...props
-}: SectionProps) {
-  return (
-    <Section {...props}>
-      <StickyContainerDefault>
-        {children}
-      </StickyContainerDefault>
-    </Section>
-  )
 }
 
 Section.OffsetPadding = OffsetPadding;
@@ -57,14 +52,16 @@ function OffsetPadding({
   className?: string
 }) {
   return (
-    <section
-      className={cn(
-        styles.offsetPadding, 
-        className
-      )}
-    >
-      {children}
-    </section>
+    <>
+      <section
+        className={cn(
+          classNames.offsetPadding, 
+          className
+        )}
+      >
+        {children}
+      </section>
+    </>
   );
 }
 

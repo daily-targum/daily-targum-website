@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text, Semantic } from '../../components';
 import { imgix } from '../../utils';
@@ -38,7 +38,7 @@ function Category({
   return (
     <Section className={styles.page}>
       <Semantic role='main' pritable skipNavContent>
-        <Banner text='Sports'/>
+        <Banner text='Sports' legacy/>
 
         <Grid.Row 
           spacing={theme.spacing(2)}

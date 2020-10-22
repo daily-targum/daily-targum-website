@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList, Ad, Sticky, Semantic, AdBlockDector, Donate } from '../../components';
+import { Section, Text, Grid, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList, Ad, Sticky, Semantic, Donate } from '../../components';
 import { actions, GetAuthorPage } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, imgix } from '../../utils';
@@ -25,7 +25,7 @@ function Author({
   }
 
   return (
-    <Section.StickyContainer className={styles.page}>
+    <Section className={styles.page}>
     
       <Grid.Row
         spacing={theme.spacing(4)}
@@ -91,20 +91,25 @@ function Author({
           <Divider.Vertical/>
         </Grid.Col>
 
-        <Grid.Col xs={0} md={1}>
+        <Grid.Col xs={0} md={1} style={{height: '100%'}}>
           <Sticky>
             <Semantic role='aside'>
-              <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-              <Ad type='skyscraper' />
-              <AdBlockDector>
-                <Donate.SidebarCard/>
-              </AdBlockDector>
+              <Ad   
+                type='rectange' 
+                style={{ marginBottom: '1rem' }} 
+              />
+              <Ad 
+                type='skyscraper' 
+                fallback={(
+                  <Donate.SidebarCard/>
+                )}
+              />
             </Semantic>
           </Sticky>
         </Grid.Col>
 
       </Grid.Row>
-    </Section.StickyContainer>
+    </Section>
   );
 }
 

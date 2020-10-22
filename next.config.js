@@ -60,6 +60,7 @@ module.exports = withBundleAnalyzer(withSourceMaps({
     if (!options.dev) {
       config.resolve.alias['react'] = 'preact/compat';
       config.resolve.alias['react-dom'] = 'preact/compat';
+      config.resolve.alias['react/jsx-runtime'] = 'preact/jsx-runtime';
     }
 
     // When all the Sentry configuration env variables are available/configured

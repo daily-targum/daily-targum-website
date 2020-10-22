@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Navbar, Semantic, Sticky, Ad, Divider, AdBlockDector, Donate } from '../../components';
+import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Navbar, Semantic, Sticky, Ad, Divider, Donate } from '../../components';
 import { actions, GetPlaylist } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { processNextQueryStringParam, imgix } from '../../utils';
@@ -30,7 +30,7 @@ function Author({
   }
 
   return (
-    <Section.StickyContainer className={styles.page}>
+    <Section className={styles.page}>
       <Grid.Row 
         spacing={theme.spacing(4)}
         cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
@@ -77,18 +77,23 @@ function Author({
           <Divider.Vertical/>
         </Grid.Col>
 
-        <Grid.Col xs={0} md={1}>
+        <Grid.Col xs={0} md={1} style={{height: '100%'}}>
           <Sticky>
-            <Ad type='rectange' style={{ marginBottom: '1rem' }} />
-            <Ad type='skyscraper' />
-            <AdBlockDector>
-              <Donate.SidebarCard/>
-            </AdBlockDector>
+            <Ad   
+              type='rectange' 
+              style={{ marginBottom: '1rem' }} 
+            />
+            <Ad 
+              type='skyscraper' 
+              fallback={(
+                <Donate.SidebarCard/>
+              )}
+            />
           </Sticky>
         </Grid.Col>
 
       </Grid.Row>
-    </Section.StickyContainer>
+    </Section>
   );
 }
 
