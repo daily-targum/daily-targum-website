@@ -5,6 +5,7 @@ import { Provider as ReduxProvider } from '../store';
 import '../styles/global.scss';
 import { styleHelpers } from '../utils';
 import Head from 'next/head';
+import { useAmp } from 'next/amp';
 
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
@@ -38,12 +39,15 @@ function App({
   pageProps, 
   err
 }: CustomAppProps) {
+  const isAmp = useAmp();
   const seo = pageProps.seo ?? {};
 
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"/>
+        {isAmp ? null : (
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"/>
+        )}
       </Head>
       <SEO {...seo}/>
       <ReduxProvider>
