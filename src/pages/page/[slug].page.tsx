@@ -87,13 +87,12 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 export async function getStaticPaths() {
   return {
-    paths: [
-      { params: { slug: 'about' } }
-    ],
-    fallback: 'unstable_blocking'
+    paths: [],
+    fallback: true
+    // fallback: 'unstable_blocking'
   };
 }
 
-export const config = { amp: 'hybrid' }
+// export const config = { amp: 'hybrid' }
 
 export default Page;

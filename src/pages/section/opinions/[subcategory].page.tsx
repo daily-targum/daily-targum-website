@@ -39,7 +39,7 @@ function Author({
         cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
         disableGridOnPrit
       >
-        <Grid.Col xs={2} md={1}>
+        <Grid.Col xs={3} md={1}>
           <Semantic role='main' pritable skipNavContent>
             <Text variant='h4'>Opinions</Text>
             <Text variant='h1' htmlTag='h1'>{hyphenatedToCapitalized(subcategory)}</Text>

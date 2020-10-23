@@ -356,8 +356,11 @@ function Preview({
           onFocus={() => updateFocus(numberOfItems)}
           onMouseOver={() => updateFocus(numberOfItems)}
         >
-          <Link href='/search' className={classNames.previewLink}>
+          {/* <Link href='/search' className={classNames.previewLink}>
             View all {total} search results
+          </Link> */}
+          <Link href='/search' className={classNames.previewLink}>
+            View all search results
           </Link>
         </FocusControl>
       </div>
