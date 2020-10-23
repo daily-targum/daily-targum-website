@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useVisibility, styleHelpers } from '../utils';
 
+ActivityIndicator.Spinner = Spinner;
 function Spinner() {
   return (
     <>
@@ -28,24 +29,34 @@ function Spinner() {
   )
 }
  
-export function ActivityIndicator() {
+export function ActivityIndicator({
+  delay = 500
+}: {
+  delay?: number
+}) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     let id = setTimeout(() => {
       setVisible(true);
-    }, 500);
+    }, delay);
     return () => clearTimeout(id);
-  });
+  }, [delay]);
 
   return !visible ? null : <Spinner />;
 }
 
-function ActivityIndicatorScreen() {
+function ActivityIndicatorScreen({
+  delay = 500
+}: {
+  delay?: number
+}) {
   return (
     <>
       <div className='screen'>
-        <ActivityIndicator />
+        <ActivityIndicator 
+          delay={delay} 
+        />
       </div>
       <style jsx>
         {`
