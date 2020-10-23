@@ -4,7 +4,7 @@ import escapeStringRegexp from 'escape-string-regexp';
 export function HighlightText({
   children,
   search,
-  Highlighter = ({children}) => <mark>{children}</mark>
+  Highlighter
 }: {
   children: string;
   search: string,
@@ -19,11 +19,25 @@ export function HighlightText({
       {split.map((text, i) => (
         <React.Fragment key={children+search+i}>
           {i > 0 ? (
-            <Highlighter>{matches?.[i-1] ?? search}</Highlighter>
+            Highlighter ? (
+              <Highlighter>{matches?.[i-1] ?? search}</Highlighter>
+            ) : (
+              <mark>
+                {matches?.[i-1] ?? search}
+              </mark>
+            )
           ) : null}
           {text}
         </React.Fragment>
       ))}
+      <style jsx>
+        {`
+          mark,
+          mark * {
+            color: #000;
+          }
+        `}
+      </style>
     </>
   )
 }

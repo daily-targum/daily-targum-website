@@ -55,7 +55,40 @@ export function NextNProgress({
     }
   }, []);
 
-  return null;
+  return (
+    <style jsx global>
+      {`
+        #nprogress {
+          pointer-events: none;
+        }
+        #nprogress .bar {
+          background: theme.color('accent_main');
+          position: fixed;
+          z-index: 9999;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+        }
+        #nprogress .peg {
+          display: block;
+          position: absolute;
+          right: 0px;
+          width: 100px;
+          height: 100%;
+          opacity: 1;
+          transform: rotate(3deg) translate(0px, -4px);
+        }
+        .nprogress-custom-parent {
+          overflow: hidden;
+          position: relative;
+        }
+        .nprogress-custom-parent #nprogress .bar {
+          position: absolute;
+        }
+      `}
+    </style>
+  );
 }
 
 export default NextNProgress;
