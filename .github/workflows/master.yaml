@@ -105,6 +105,30 @@ jobs:
           CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
           CONTENTFUL_ACCESS_TOKEN_DRAFTS: ${{ secrets.CONTENTFUL_ACCESS_TOKEN_DRAFTS }}
       - uses: codecov/codecov-action@v1
+  test-chromatic:
+    name: Test - Chromatic
+    runs-on: ubuntu-latest
+    needs: setup-linux
+    steps:
+      - uses: actions/checkout@v2
+      - name: Checkout submodules
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive
+      - uses: actions/cache@v1
+        id: cache
+        with:
+          path: node_modules
+          key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+      - uses: actions/cache@v1
+        id: submodule-cache
+        with:
+          path: src/shared/node_modules
+          key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
+      - name: Test
+        run: yarn chromatic --project-token $CHROMATIC_TOKEN --exit-zero-on-changes
+        env:
+          CHROMATIC_TOKEN: ${{ secrets.CHROMATIC_TOKEN }}
   deploy-vercel:
     name: Deploy - Vercel
     runs-on: ubuntu-latest
