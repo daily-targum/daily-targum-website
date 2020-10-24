@@ -22,10 +22,14 @@
     "@contentful/rich-text-html-renderer": "14.1.1",
     "@next/bundle-analyzer": "9.5.5",
     "@sentry/webpack-plugin": "1.13.0",
+    "@storybook/addon-docs": "^6.0.27",
     "@storybook/addon-essentials": "^6.0.27",
+    "@storybook/addon-knobs": "^6.0.27",
     "@storybook/addon-links": "^6.0.27",
+    "@storybook/addons": "^6.0.27",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^6.0.27",
+    "@storybook/theming": "^6.0.27",
     "@types/classnames": "^2.2.10",
     "@types/debounce": "^1.2.0",
     "@types/howler": "^2.2.1",
@@ -55,8 +59,10 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "jest": "26.6.0",
+    "react-element-to-jsx-string": "^14.3.1",
     "react-is": "^17.0.1",
     "react-test-renderer": "17.0.0",
+    "styled-jsx": "^3.3.1",
     "ts-loader": "^8.0.6",
     "typescript": "4.0.3",
     "webpack-bundle-analyzer": "3.9.0"
@@ -106,6 +112,10 @@
     "xss": "^1.0.8",
     "xstate": "4.13.0",
     "yarn": "^1.22.10"
+  },
+  "resolutions": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "browserslist": [
     ">0.3%",

@@ -17,7 +17,7 @@ export const Squre = ViewTemplate.bind({});
 Squre.args = {
   aspectRatio: 1,
   style: {
-    backgroundColor: '#000',
+    backgroundColor: '#0f0',
     width: 200
   }
 };
@@ -26,7 +26,7 @@ export const Reactangle = ViewTemplate.bind({});
 Reactangle.args = {
   aspectRatio: 2,
   style: {
-    backgroundColor: '#000',
+    backgroundColor: '#0f0',
     width: 200
   }
 };

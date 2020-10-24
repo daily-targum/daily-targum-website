@@ -69,6 +69,7 @@ function App({
         </Grid.Provider>
       </ReduxProvider>
       <GlobalCSS/>
+      <GlobalCSS.Vars/>
     </>
   );
 

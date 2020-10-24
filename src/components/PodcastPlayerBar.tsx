@@ -3,12 +3,12 @@ import Section from './Section';
 import Grid from './Grid/web';
 import Text from './Text';
 import { IoIosPlay, IoIosPause } from 'react-icons/io';
-import { GrForwardTen, GrBackTen } from 'react-icons/gr';
+import { MdForward10, MdReplay10 } from 'react-icons/md';
 import { clamp, secondsToTimeCode } from '../shared/src/utils';
 import { useSelector, useDispatch } from '../store';
 import { podcastActions } from '../store/ducks/podcast';
-import styles from './PodcastPlayerBar.module.scss';
-import { theme } from '../constants';
+import Styles from './PodcastPlayerBar.styles';
+const { classNames, StyleSheet } = Styles;
 
 function ProgressBar({
   progress
@@ -16,23 +16,17 @@ function ProgressBar({
   progress: number
 }) {
   return (
-    <div
-      style={{
-        flex: 1,
-        height: 4,
-        backgroundColor: theme.colors.divider
-      }}
-    >
-      <div
-        style={{
-          height: '100%',
-          width: `${progress}%`,
-          backgroundColor: theme.colors.accent,
-          transition: 'all 0.1s',
-          transitionTimingFunction: 'linear'
-        }}
-      />
-    </div>
+    <>
+      <div className={classNames.progressBar}>
+        <div
+          className={classNames.progressBarProgress}
+          style={{
+            width: `${progress}%`
+          }}
+        />
+      </div>
+      {StyleSheet}
+    </>
   );
 }
 
@@ -60,9 +54,9 @@ export function PodcastPlayerBar() {
 
   return visible ? (
     <>
-      <div className={styles.spacer}/>
+      <div className={classNames.spacer}/>
       <Section 
-        className={styles.section}
+        className={classNames.section}
         styleInside={{
           overflow: 'visible'
         }}
@@ -71,56 +65,56 @@ export function PodcastPlayerBar() {
 
           {/* Desktop */}
           <Grid.Col xs={0} md={6}>
-            <div className={styles.row}>
-              <GrBackTen
-                size={20}
-                className={styles.icon}
+            <div className={classNames.row}>
+              <MdReplay10
+                size={28}
+                className={classNames.icon}
                 onClick={() => skip(-10)}
               />
               {playState !== 'play' ? (
                 <IoIosPlay
-                  size={22}
+                  size={28}
                   onClick={play}
-                  className={styles.icon}
+                  className={classNames.icon}
                 />
               ) : (
                 <IoIosPause
-                  size={22}
+                  size={28}
                   onClick={pause}
-                  className={styles.icon}
+                  className={classNames.icon}
                 />
               )}
-              <GrForwardTen
-                size={20}
-                className={styles.icon}
+              <MdForward10
+                size={28}
+                className={classNames.icon}
                 onClick={() => skip(10)}
               />
             </div>
           </Grid.Col>
 
           <Grid.Col xs={0} md={12}>
-            <div className={styles.row}>
+            <div className={classNames.row}>
               <span
-                className={styles.time}
+                className={classNames.time}
               >{secondsToTimeCode(position)}</span>
               <ProgressBar
                 progress={clamp(0, 100 * position / duration, 100)}
               />
               <span
-                className={styles.time}
+                className={classNames.time}
               >{secondsToTimeCode(duration)}</span>
             </div>
           </Grid.Col>
 
           <Grid.Col xs={0} md={6} style={{alignItems: 'flex-end'}}>
-            <div className={styles.row}>
+            <div className={classNames.row}>
               <div
-                className={styles.coverImage}
+                className={classNames.coverImage}
                 style={{
                   backgroundImage: `url(${episode?.coverArt})`
                 }}
               />
-              <div className={styles.col}>
+              <div className={classNames.col}>
                 <Text>{episode?.show || ''}</Text>
                 <Text>{episode?.title || ''}</Text>
               </div>
@@ -129,8 +123,8 @@ export function PodcastPlayerBar() {
 
           {/* Mobile */}
           <Grid.Col xs={8} md={0}>
-            <div className={styles.row}>
-              <div className={styles.col}>
+            <div className={classNames.row}>
+              <div className={classNames.col}>
                 <Text>{episode?.show || ''}</Text>
                 <Text>{episode?.title || ''}</Text>
               </div>
@@ -138,36 +132,36 @@ export function PodcastPlayerBar() {
           </Grid.Col>
           
           <Grid.Col xs={8} md={0} style={{alignItems: 'center'}}>
-            <div className={styles.row}>
-              <GrBackTen
-                size={20}
-                className={styles.icon}
+            <div className={classNames.row}>
+              <MdReplay10
+                size={28}
+                className={classNames.icon}
                 onClick={() => skip(-10)}
               />
               {playState !== 'play' ? (
                 <IoIosPlay
-                  size={22}
+                  size={28}
                   onClick={play}
-                  className={styles.icon}
+                  className={classNames.icon}
                 />
               ) : (
                 <IoIosPause
-                  size={22}
+                  size={28}
                   onClick={pause}
-                  className={styles.icon}
+                  className={classNames.icon}
                 />
               )}
-              <GrForwardTen
-                size={20}
-                className={styles.icon}
+              <MdForward10
+                size={28}
+                className={classNames.icon}
                 onClick={() => skip(10)}
               />
             </div>
           </Grid.Col>
 
           <Grid.Col xs={8} md={0} style={{alignItems: 'flex-end'}}>
-            <div className={styles.row}>
-              <span className={styles.time} >
+            <div className={classNames.row}>
+              <span className={classNames.time} >
                 {secondsToTimeCode(position)} / {secondsToTimeCode(duration)}
               </span>
             </div>
@@ -177,6 +171,7 @@ export function PodcastPlayerBar() {
         </Grid.Row>
 
       </Section>
+      {StyleSheet}
     </>
   ) : null;
 }

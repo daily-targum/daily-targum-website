@@ -23,3 +23,9 @@ AccentText.args = {
   text: 'Inside',
   accentText: 'Beat'
 };
+
+export const Legacy = Template.bind({});
+Legacy.args = {
+  text: 'News',
+  legacy: true
+};

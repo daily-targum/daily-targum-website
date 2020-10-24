@@ -83,7 +83,11 @@ function darkTheme() {
 }
 
 
-function lockWidth(width: string) {
+function lockWidth(width: string | number) {
+  if (typeof width === 'number') {
+    width = width + 'px';
+  }
+
   return `
     min-width: ${width};
     width: ${width};
@@ -91,27 +95,17 @@ function lockWidth(width: string) {
   `;
 }
 
-function lockHeight(width: string) {
+function lockHeight(height: string | number) {
+  if (typeof height === 'number') {
+    height = height + 'px';
+  }
+
   return `
-    min-width: ${width};
-    width: ${width};
-    max-width: ${width};
+    min-height: ${height};
+    height: ${height};
+    max-height: ${height};
   `;
 }
-
-// function aspectRatioFullHeight(ar: number) {
-//   return `
-//     height: 100%;
-//     padding-top: ${100 / ar}%;
-//   `;
-// }
-
-// function aspectRatioFullWidth(ar: number) {
-//   return `
-//     width: 100%;
-//     padding-top: ${100 / ar}%;
-//   `;
-// }
 
 function flex(direction: 'row' | 'column') {
   return `

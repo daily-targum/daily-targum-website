@@ -4,28 +4,6 @@ export function GlobalCSS() {
   return (
     <style jsx global>
       {`
-        :root {
-          ${styleHelpers.lightTheme()}
-        }
-        
-        .force-dark-mode {  
-          ${styleHelpers.darkTheme()}
-        }
-        
-        @media only screen {
-          .dark-mode {
-            ${styleHelpers.darkTheme()}
-          }
-        }
-    
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          color: var(--text-color);
-          background-color: var(--colors-background_light);
-        }
-    
         *:focus .showOnFocus {
           opacity: 1;
         }
@@ -65,29 +43,6 @@ export function GlobalCSS() {
           color: var(--colors-accent_main);
         }
     
-        table tr th,
-        table tr td {
-          text-align: left;
-        }
-    
-        table tr th:last-child,
-        table tr td:last-child {
-          text-align: right;
-        }
-    
-        table th {
-          background-color: var(--background-color);
-        }
-    
-        table th,
-        table td {
-          padding: 0;
-        }
-    
-        table tr td {
-          border-bottom: 1px solid var(--divider-color);
-        }
-    
         .hide-scrollbars::-webkit-scrollbar {
           display: none;
         }
@@ -104,6 +59,37 @@ export function GlobalCSS() {
       `}
     </style>
   );
+}
+
+GlobalCSS.Vars = Vars;
+function Vars() {
+  return (
+    <style jsx global>
+      {`
+        :root {
+          ${styleHelpers.lightTheme()}
+        }
+        
+        .force-dark-mode {  
+          ${styleHelpers.darkTheme()}
+        }
+        
+        @media only screen {
+          .dark-mode {
+            ${styleHelpers.darkTheme()}
+          }
+        }
+    
+        html,
+        body {
+          padding: 0;
+          margin: 0;
+          color: var(--text-color);
+          background-color: var(--colors-background_light);
+        }
+      `}
+    </style>
+  )
 }
 
 export default GlobalCSS;

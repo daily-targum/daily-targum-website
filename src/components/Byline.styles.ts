@@ -53,7 +53,6 @@ const date = css.resolve`
 const author = css.resolve`
   * {
     color: ${styleHelpers.color('accent_main')};
-    margin-bottom: ${styleHelpers.spacing(1)};
     display: block;
   }
 `;
