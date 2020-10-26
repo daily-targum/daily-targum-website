@@ -106,16 +106,13 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "sass": "^1.27.0",
+    "storybook": "^6.0.27",
     "styled-components": "5.2.0",
     "styled-jsx-plugin-postcss": "^3.0.2",
     "styled-jsx-plugin-sass": "^1.0.0",
     "xss": "^1.0.8",
     "xstate": "4.13.0",
     "yarn": "^1.22.10"
-  },
-  "resolutions": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
   },
   "browserslist": [
     ">0.3%",

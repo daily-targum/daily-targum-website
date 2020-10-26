@@ -1,7 +1,7 @@
 import css from 'styled-jsx/css';
 import { styleHelpers, buildStyleSheet } from '../utils';
 
-const HEIGHT = 50;
+const HEIGHT = 55;
 
 const spacer = css.resolve`
   * {
@@ -66,6 +66,7 @@ const coverImage = css.resolve`
     ${styleHelpers.lockHeight(HEIGHT - 10)};
     ${styleHelpers.lockWidth(HEIGHT - 10)};
     ${styleHelpers.centerBackgroundImage()};
+    margin-right: 5px;
   }
 `;
 

@@ -4,7 +4,7 @@ import { actions, GetPodcast } from '../../shared/src/client';
 import { processNextQueryStringParam, imgix } from '../../utils';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { SEOProps } from '../../components/SEO';
-import { Grid, AspectRatioImage, Section, Text, Button, Table, ActivityIndicator } from '../../components';
+import { Grid, AspectRatioImage, Section, Text, Button, Table, ActivityIndicator, Navbar } from '../../components';
 import { useDispatch, useSelector } from '../../store';
 import { podcastActions } from '../../store/ducks/podcast';
 import { videoActions } from '../../store/ducks/video';
@@ -20,6 +20,8 @@ function Podcast({
 } : {
   podcast: GetPodcast | undefined
 }) {
+  Navbar.useDynamicHeader();
+  
   const router = useRouter();
   const dispatch = useDispatch();
   const firstEpisode = podcast?.items[0];
@@ -84,10 +86,16 @@ function Podcast({
           <Grid.Col 
             xs={2}
             md={1}
+            style={{height: '100%'}}
           >
             <div className={styles.description}>
               <Text variant='h1'>{firstEpisode?.show ?? ''}</Text>
-              <Text variant='p'>{firstEpisode?.description ?? ''}</Text>
+              <Text.Truncate 
+                variant='p'
+                numberOfLines={5}
+              >
+                {firstEpisode?.description ?? ''}
+              </Text.Truncate>
               <Button
                 onClick={() => play()}
               >

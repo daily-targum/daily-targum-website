@@ -4,7 +4,7 @@ import { styleHelpers, buildStyleSheet } from '../utils';
 
 const logoWrap = css.resolve`
   * {
-    background-color: ${styleHelpers.color("text")};
+    background-color: ${styleHelpers.color("banner")};
     padding: ${styleHelpers.spacing(2)};
     display: flex;
     justify-content: center;
@@ -17,7 +17,7 @@ const logo = css.resolve`
     text-transform: uppercase;
     font-weight: 900;
     font-size: calc(32px + 2vw);
-    color: ${styleHelpers.color("background_light")};
+    color: ${styleHelpers.color("primary_contrastText")};
   }
 `;
 

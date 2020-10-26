@@ -50,6 +50,8 @@ function lightTheme() {
     --colors-tooltip: #333;
     --colors-tooltip_contrastText: #fff;
 
+    --colors-banner: var(--colors-primary_main);
+
     color: var(--colors-text);
   `;
 }
@@ -77,6 +79,8 @@ function darkTheme() {
 
     --colors-tooltip: #fff;
     --colors-tooltip_contrastText: #000;
+
+    --colors-banner: var(--colors-background_light);
 
     color: var(--colors-text);
   `;

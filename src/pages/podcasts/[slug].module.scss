@@ -6,7 +6,7 @@
 }
 
 .section {
-  @include styleHelpers.pageCompact();
+  @include styleHelpers.page();
 }
 
 .coverImage {
