@@ -77,13 +77,13 @@ export const useScrollock = (
       : `${!scrollock ? 0 : window.innerWidth - body.offsetWidth}px`;
 
     body.style.overflowY =
-      scrollock && disableVerticalScroll ? "hidden" : "auto";
+      scrollock && disableVerticalScroll ? "hidden" : '';
     body.style.overflowX =
-      scrollock && disableHorizontalScroll ? "hidden" : "auto";
+      scrollock && disableHorizontalScroll ? "hidden" : '';
     root.style.overflowY =
-      scrollock && disableVerticalScroll ? "hidden" : "auto";
+      scrollock && disableVerticalScroll ? "hidden" : '';
     root.style.overflowX =
-      scrollock && disableHorizontalScroll ? "hidden" : "auto";
+      scrollock && disableHorizontalScroll ? "hidden" : '';
 
     if (scrollock) {
       body.addEventListener("touchmove", disableTouch, { passive: false });
