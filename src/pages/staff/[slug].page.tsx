@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, AspectRatioImage, Card, ActivityIndicator, Divider, FlatList, Ad, Sticky, Semantic, Donate } from '../../components';
+import { Section, Text, Grid, AspectRatioImage, Card2, ActivityIndicator, Divider, Ad, Sticky, Semantic, Donate } from '../../components';
 import { actions, GetAuthorPage } from '../../shared/src/client';
-import { formatDateAbriviated } from '../../shared/src/utils';
-import { processNextQueryStringParam, imgix } from '../../utils';
+import { formatDateAbriviated, extractTextFromHTML, hyphenatedToCapitalized } from '../../shared/src/utils';
+import { processNextQueryStringParam, imgix, styleHelpers } from '../../utils';
 import NotFound from '../404.page';
 import { useRouter } from 'next/router';
 import styles from './[slug].module.scss';
@@ -60,27 +60,37 @@ function Author({
               </Grid.Col>
 
               <Grid.Col xs={24}>
-                <FlatList
-                  data={page.articles}
-                  keyExtractor={article => article.id}
-                  renderItem={article => (
-                    <Card.CompactResponsive
-                      className={styles.articleCard}
-                      title={article.title}
-                      imageData={imgix(article.media[0]?.url ?? '', {
-                        xs: imgix.presets.md('1:1')
-                      })}
-                      href='/article/[year]/[month]/[slug]'
-                      as={'/'+article.slug}
-                      aspectRatioDesktop={3/2}
-                      date={formatDateAbriviated(article.publishDate)}
-                    />
-                  )}
-                  ItemSeparatorComponent={<Card.Spacer/>}
-                />
-                {/* <ActivityIndicator.ProgressiveLoader
-                  onVisible={() => console.log('implement progressive load')}
-                /> */}
+                <Grid.Row 
+                  cols={['1fr', '1fr']}
+                  spacing={styleHelpers.spacing(3)}
+                >
+
+                  {page.articles.map(article => (
+                    <Grid.Col 
+                      key={article.id}
+                      xs={2} 
+                      lg={1}
+                    >
+                      <Card2.Stacked
+                        tag={article.category ? hyphenatedToCapitalized(article.category) : undefined}
+                        className={styles.articleCard}
+                        title={article.title}
+                        imageData={imgix(article.media[0]?.url ?? '', {
+                          xs: imgix.presets.md('16:9')
+                        })}
+                        href='/article/[year]/[month]/[slug]'
+                        as={'/'+article.slug}
+                        date={formatDateAbriviated(article.publishDate)}
+                        aspectRatio={16/9}
+                        description={extractTextFromHTML(article.abstract ?? '')}
+                      />
+                    </Grid.Col>
+                  ))}
+                
+                  {/* <ActivityIndicator.ProgressiveLoader
+                    onVisible={() => console.log('implement progressive load')}
+                  /> */}
+                </Grid.Row>
               </Grid.Col>
 
             </Grid.Row>

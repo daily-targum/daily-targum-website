@@ -42,12 +42,15 @@ function Article({
         >
           <Grid.Col xs={3} xl={1}>
             <Semantic role='main' skipNavContent pritable>
-              <Link 
-                className={classNames.category}
-                href={`/section/${article.category.toLowerCase()}`}
-              >
-                {hyphenatedToCapitalized(article.category)}
-              </Link>
+              {article.category ? (
+                <Link 
+                  className={classNames.category}
+                  href={`/section/${article.category.toLowerCase()}`}
+                >
+                  {hyphenatedToCapitalized(article.category)}
+                </Link>
+              ) : null}
+
               <Semantic role='article'>
                 <header>
                   <Text 

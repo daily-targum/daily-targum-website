@@ -18,6 +18,12 @@ const section = css.resolve`
       margin: 0 0 ${styleHelpers.spacing(4)};
     }
   }
+
+  @media ${styleHelpers.printMediaQuery('xs', 'md')} {
+    * {
+      margin: 0 0 ${styleHelpers.spacing(4)};
+    }
+  }
 `;
 
 const description = css.resolve`
@@ -32,6 +38,10 @@ const description = css.resolve`
   @media ${styleHelpers.mediaQuery('xs', 'md')} {
     padding: ${styleHelpers.spacing(2)};
   }
+
+  @media ${styleHelpers.printMediaQuery('xs', 'md')} {
+    padding: ${styleHelpers.spacing(2)};
+  }
 `;
 
 const centerHorizontally = css.resolve`
@@ -41,9 +51,16 @@ const centerHorizontally = css.resolve`
   }
 `;
 
+const hideButton = css.resolve`
+  * {
+    ${styleHelpers.hideButton()}
+  }
+`;
+
 export default buildStyleSheet({
   page,
   section,
   description,
-  centerHorizontally
+  centerHorizontally,
+  hideButton
 });

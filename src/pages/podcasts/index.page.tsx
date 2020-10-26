@@ -4,7 +4,7 @@ import { capitalizedToHypenated } from '../../shared/src/utils';
 import { imgix } from '../../utils';
 import { GetStaticProps } from 'next';
 import { SEOProps } from '../../components/SEO';
-import { Grid, AspectRatioImage, Section, Text, ActivityIndicator, Navbar, Banner, Link } from '../../components';
+import { Grid, AspectRatioImage, Section, Text, ActivityIndicator, Navbar, Banner, Link, Semantic } from '../../components';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from '../../store';
 import { podcastActions } from '../../store/ducks/podcast';
@@ -122,21 +122,23 @@ function Podcasts({
   return (
     <>
       <div className={classNames.page}>
-        <Banner text='Podcasts'/>
+        <Semantic role='main' skipNavContent pritable>
+          <Banner text='Podcasts'/>
 
-        {podcasts.map((podcast, i) => (
-          <Section 
-            classNameInside={classNames.podcastWrap} 
-            key={podcast.items[0].id}
-          >
-            <Section.OffsetPadding>
-              <Podcast 
-                podcast={podcast}
-                reverse={i % 2 === 0}
-              />
-            </Section.OffsetPadding>
-          </Section>
-        ))}
+          {podcasts.map((podcast, i) => (
+            <Section 
+              classNameInside={classNames.podcastWrap} 
+              key={podcast.items[0].id}
+            >
+              <Section.OffsetPadding>
+                <Podcast 
+                  podcast={podcast}
+                  reverse={i % 2 === 0}
+                />
+              </Section.OffsetPadding>
+            </Section>
+          ))}
+        </Semantic>
       </div>
       {StyleSheet}
     </>

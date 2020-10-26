@@ -20,13 +20,40 @@ const column = css.resolve`
 
 const avatar = css.resolve`
   * {
-    ${styleHelpers.centerBackgroundImage()};
+    ${styleHelpers.hideLink()};
     height: 40px;
     width: 40px;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
     margin-right: ${styleHelpers.spacing(2)};
+  }
+
+  @media ${styleHelpers.mediaQuery('xs', 'sm')} {
+    * {
+      display: none;
+    }
+  };
+
+  @media ${styleHelpers.printMediaQuery('xs', 'sm')} {
+    * {
+      display: none;
+    }
+  };
+`;
+
+const initials = css.resolve`
+  * {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    line-height: 40px;
+    text-align: center;
+    background-color: ${styleHelpers.color('text')};
+    color: ${styleHelpers.color('background_light')};
+    font-weight: 600;
   }
 
   @media ${styleHelpers.mediaQuery('xs', 'sm')} {
@@ -125,5 +152,6 @@ export default buildStyleSheet({
   breakSpaces,
   bylineCompact,
   bylineCompactAuthor,
-  bylineCompactDate
+  bylineCompactDate,
+  initials
 });

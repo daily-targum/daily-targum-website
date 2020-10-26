@@ -38,6 +38,7 @@ export * from './Semantic';
 export * from './Search';
 export * from './HighlightText';
 export * from './GlobalCSS';
+export * from './Card2';
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,

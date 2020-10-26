@@ -36,11 +36,39 @@ const podcastBody = css.resolve`
       padding: ${styleHelpers.spacing(4)};
     }
   }
+
+  @media print {
+    * {
+      padding: 0 ${styleHelpers.spacing(4)} 0 0;
+    }
+  }
 `;
 
 
 const imageShadow = css.resolve`
   @media ${styleHelpers.mediaQuery('md')} {
+    *:before {
+      content: ' ';
+      display: block;
+
+      position: absolute;
+      top: 8px;
+      left: 8px;
+
+      height: 100%;
+      width: 100%;
+
+      background: repeating-linear-gradient(
+        to bottom right,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.12) 10px,
+        rgba(255,255,255,0.12) 20px
+      );
+    }
+  }
+
+  @media ${styleHelpers.printMediaQuery('md')} {
     *:before {
       content: ' ';
       display: block;

@@ -5,8 +5,9 @@ import { hyphenatedToCapitalized } from '../../../shared/src/utils';
 import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, HTML, Ad, Sticky, Semantic, Donate, Link } from '../../../components';
 import NotFound from '../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../utils';
-import styles from './[id].module.scss';
 import { theme } from '../../../constants';
+import Styles from './[id].styles';
+const { classNames, StyleSheet } = Styles;
 
 function Article({
   initialArticle,
@@ -43,7 +44,7 @@ function Article({
   
   return (
     <>
-      <Section className={styles.page}>
+      <Section className={classNames.page}>
       
         <Grid.Row 
           spacing={theme.spacing(4)}
@@ -52,18 +53,21 @@ function Article({
         >
           <Grid.Col xs={3} xl={1}>
             <Semantic role='main' skipNavContent pritable>
-              <Link 
-                className={styles.category}
-                href={`/section/${article.category.toLowerCase()}`}
-              >
-                {hyphenatedToCapitalized(article.category)}
-              </Link>
+            {article.category ? (
+                <Link 
+                  className={classNames.category}
+                  href={`/section/${article.category.toLowerCase()}`}
+                >
+                  {hyphenatedToCapitalized(article.category)}
+                </Link>
+              ) : null}
+              
               <Semantic role='article'>
                 <header>
                   <Text 
                     variant='h1' 
                     htmlTag='h1'
-                    className={styles.title}
+                    className={classNames.title}
                   >
                     {article.title}
                   </Text>
@@ -74,8 +78,8 @@ function Article({
                   />
 
                   {article.media[0]?.url ? (
-                    <figure className={styles.fullWidth}>
-                      <Section.OffsetPadding className={styles.photoWrap}>
+                    <figure className={classNames.fullWidth}>
+                      <Section.OffsetPadding className={classNames.photoWrap}>
                         <AspectRatioImage
                           aspectRatio={16 / 9}
                           data={imgix(article.media[0].url, {
@@ -85,16 +89,16 @@ function Article({
                           altText={`${photoDescription} – Photo by ${photoCredit}`}
                         />
                       </Section.OffsetPadding>
-                      <figcaption className={styles.figcaption} aria-hidden={true}>
+                      <figcaption className={classNames.figcaption} aria-hidden={true}>
                         Photo by {photoCredit}
-                        <div className={styles.captionSpacer}/>
+                        <div className={classNames.captionSpacer}/>
                         {photoDescription}
                       </figcaption>
                     </figure>
                   ) : null}
                 </header>
 
-                <Divider className={styles.divider}/>
+                <Divider className={classNames.divider}/>
 
                 <HTML 
                   ads
@@ -144,6 +148,8 @@ function Article({
 
       <Divider/>
       <Newsletter.Section/>
+
+      {StyleSheet}
     </>
   );
 }

@@ -4,7 +4,7 @@ import { actions, GetPodcast } from '../../shared/src/client';
 import { processNextQueryStringParam, imgix } from '../../utils';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { SEOProps } from '../../components/SEO';
-import { Grid, AspectRatioImage, Section, Text, Button, Table, ActivityIndicator } from '../../components';
+import { Grid, AspectRatioImage, Section, Text, Button, Table, ActivityIndicator, Semantic } from '../../components';
 import { useDispatch, useSelector } from '../../store';
 import { podcastActions } from '../../store/ducks/podcast';
 import { videoActions } from '../../store/ducks/video';
@@ -61,92 +61,99 @@ function Podcast({
   return (
     <>
       <div className={classNames.page}>
-        <Section className={classNames.section}>
-          <Section.OffsetPadding>
-            <Grid.Row
-              cols={['250px', '1fr']}
-              spacing={theme.spacing(2)}
-            >
-
-              <Grid.Col 
-                xs={2}
-                md={1}
-              >
-                <AspectRatioImage
-                  data={firstEpisode?.coverArt ? (
-                    imgix(firstEpisode.coverArt, {
-                      xs: imgix.presets.md('1:1'),
-                      md: imgix.presets.sm('1:1')
-                    })
-                  ) : []}
-                  aspectRatio={1}
-                />
-              </Grid.Col>
-
-              <Grid.Col 
-                xs={2}
-                md={1}
-                style={{height: '100%'}}
-              >
-                <div className={classNames.description}>
-                  <Text variant='h1'>{firstEpisode?.show ?? ''}</Text>
-                  <Text.Truncate 
-                    variant='p'
-                    numberOfLines={4}
-                  >
-                    {firstEpisode?.description ?? ''}
-                  </Text.Truncate>
-                  <Button
-                    onClick={() => play()}
-                  >
-                    {(playing && playingThisShow) ? 'Pause' : 'Play'}
-                  </Button>
-                </div>
-              </Grid.Col>
-
-            </Grid.Row>
-            </Section.OffsetPadding>         
-          </Section>
-
+        <Semantic role='main' skipNavContent pritable>
           <Section className={classNames.section}>
             <Section.OffsetPadding>
-              <Table
-                data={[
-                  ['', 'Title', 'Date', 'Duration'],
-                  ...(podcast?.items.map(item => (
-                    [item.id, item.title, dayjs(item.pubDate).format('MMM D, YYYY'), '30:00']
-                  )) ?? [])
-                ]}
-                widths={['50px']}
-                keyExtractor={item => item}
-                style={{width: '100%'}}
-                colDisplay={[,,{xs: false, md: true}]}
-                renderItem={(item, i, j) => {
-                  if(j === 0 && i !== 0) {
-                    return (
-                      <div className={classNames.centerHorizontally}>
-                        {(episodePlayingId === item && playing) ? (
-                          <IoIosPause
-                            onClick={() => dispatch(podcastActions.pause())}
-                            size={24}
-                          />
-                        ) : (
-                          <IoIosPlay
-                            onClick={() => play(item)}
-                            size={24}
-                          />
-                        )}
-                      </div>
-                    )
-                  }
+              <Grid.Row
+                cols={['250px', '1fr']}
+                spacing={theme.spacing(2)}
+              >
 
-                  return (
-                    <span>{item}</span>
-                  );
-                }}
-              />
-            </Section.OffsetPadding>
-        </Section>
+                <Grid.Col 
+                  xs={2}
+                  md={1}
+                >
+                  <AspectRatioImage
+                    data={firstEpisode?.coverArt ? (
+                      imgix(firstEpisode.coverArt, {
+                        xs: imgix.presets.md('1:1'),
+                        md: imgix.presets.sm('1:1')
+                      })
+                    ) : []}
+                    aspectRatio={1}
+                  />
+                </Grid.Col>
+
+                <Grid.Col 
+                  xs={2}
+                  md={1}
+                  style={{height: '100%'}}
+                >
+                  <div className={classNames.description}>
+                    <Text variant='h1'>{firstEpisode?.show ?? ''}</Text>
+                    <Text.Truncate 
+                      variant='p'
+                      numberOfLines={4}
+                    >
+                      {firstEpisode?.description ?? ''}
+                    </Text.Truncate>
+                    <Button
+                      onClick={() => play()}
+                    >
+                      {(playing && playingThisShow) ? 'Pause' : 'Play'}
+                    </Button>
+                  </div>
+                </Grid.Col>
+
+              </Grid.Row>
+              </Section.OffsetPadding>         
+            </Section>
+
+            <Section className={classNames.section}>
+              <Section.OffsetPadding>
+                <Table
+                  data={[
+                    ['', 'Title', 'Date', 'Duration'],
+                    ...(podcast?.items.map(item => (
+                      [item.id, item.title, dayjs(item.pubDate).format('MMM D, YYYY'), '30:00']
+                    )) ?? [])
+                  ]}
+                  widths={['50px']}
+                  keyExtractor={item => item}
+                  style={{width: '100%'}}
+                  colDisplay={[,,{xs: false, md: true}]}
+                  renderItem={(item, i, j) => {
+                    if(j === 0 && i !== 0) {
+                      return (
+                        <div className={classNames.centerHorizontally}>
+                          <button
+                            className={classNames.hideButton}
+                            onClick={() => {
+                              if (episodePlayingId === item && playing) {
+                                dispatch(podcastActions.pause());
+                              } else {
+                                play(item);
+                              }
+                            }}
+                          >
+                            {(episodePlayingId === item && playing) ? (
+                              <IoIosPause size={24}/>
+                            ) : (
+                              <IoIosPlay size={24}/>
+                            )}
+                          </button>
+                        </div>
+                      )
+                    }
+
+                    return (
+                      <span>{item}</span>
+                    );
+                  }}
+                />
+              </Section.OffsetPadding>
+          </Section>
+        </Semantic>
       </div>
       {StyleSheet}
     </>

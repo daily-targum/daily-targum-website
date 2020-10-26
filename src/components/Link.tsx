@@ -2,30 +2,6 @@ import * as React from 'react';
 import DefaultLink from 'next/link';
 import { useRouter } from 'next/router';
 
-const internalPages = [
-  '/article/[year]/[month]/[slug]',
-  '/page/[slug]',
-  '/podcasts/[slug]',
-  '/section/opinions/[subcategory]',
-  '/staff/[slug]',
-  '/videos/[playlist]'
-].map(href => ({
-  href,
-  regex: urlWithParamsToRegex(href)
-}));
-
-function urlWithParamsToRegex(url: string) {
-  const reg = url
-  .split(/\//)
-  .map(part => (
-    /^\[.+\]$/.test(part) ? '[^/]+' : part
-  ))
-  .join('/')
-  .replace(/\/$/, '');
-
-  return new RegExp(`^${reg}$`, 'i');
-}
-
 export function Link({
   href,
   children,
@@ -53,7 +29,6 @@ export function Link({
 }) {
   const router = useRouter();
 
-  let linkAs: string | undefined = undefined;
   const hrefHost = href.match(/(https{0,1}:\/\/|^)([^/]+)/)?.[2];
   
   let isInternal = false;
@@ -66,22 +41,9 @@ export function Link({
     isInternal = /^\//.test(href);
   }
 
-  if (isInternal) {
-    const strippedHref = href.replace(/(https{0,1}:\/\/|^)([^/]+)/, '');
-
-    for(const internal of internalPages) {
-      if (internal.regex.test(strippedHref)) {
-        linkAs = strippedHref;
-        href = internal.href;
-        break;
-      }
-    }
-  }
-
   return isInternal ? (
     <DefaultLink
       href={href}
-      as={linkAs}
     >
       <a
         style={style}
@@ -95,7 +57,7 @@ export function Link({
         onClick={onClickSideEffect ? (
           (e) => {
             if (e.defaultPrevented) {
-              router.push(linkAs ?? href);
+              router.push(href);
             }
             onClickSideEffect();
           }
@@ -119,7 +81,7 @@ export function Link({
       onClick={onClickSideEffect ? (
         (e) => {
           if (e.defaultPrevented) {
-            router.push(linkAs ?? href);
+            router.push(href);
           }
           onClickSideEffect();
         }

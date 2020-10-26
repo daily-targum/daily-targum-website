@@ -55,12 +55,15 @@ function Slide({
             }
           )}
         >
-          <Text 
-            variant='h5'
-            style={{fontWeight: 900}}
-          >
-            {hyphenatedToCapitalized(article.category)}
-          </Text>
+          {article.category ? (
+            <Text 
+              variant='h5'
+              style={{fontWeight: 900}}
+            >
+              {hyphenatedToCapitalized(article.category)}
+            </Text>
+          ) : null}
+          
           <Text.Truncate
             variant='h3' 
             numberOfLines={2} 

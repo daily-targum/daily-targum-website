@@ -47,7 +47,6 @@ const col = css.resolve`
 
 const icon = css.resolve`
   * {
-    margin-right: ${styleHelpers.spacing(2)};
     cursor: pointer;
     color: ${styleHelpers.color('text')};
   }
@@ -93,6 +92,13 @@ const progressBarProgress = css.resolve`
   }
 `;
 
+const hideButton = css.resolve`
+  * {
+    ${styleHelpers.hideButton()}
+    margin-right: ${styleHelpers.spacing(2)};
+  }
+`;
+
 export default buildStyleSheet({
   spacer,
   section,
@@ -104,5 +110,6 @@ export default buildStyleSheet({
   coverImage,
   centerHorizontally,
   progressBar,
-  progressBarProgress
+  progressBarProgress,
+  hideButton
 });

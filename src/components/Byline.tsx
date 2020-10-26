@@ -9,6 +9,10 @@ import { AspectRatioImage } from './AspectRatioView';
 import Styles from './Byline.styles';
 const { classNames, StyleSheet } = Styles;
 
+function getInitials(name: string) {
+  return name.replace(/^(the)\s+/ig, '').split(' ').map(n => n[0] ?? '').join('');
+}
+
 function Authors({
   publishDate,
   authors
@@ -25,7 +29,7 @@ function Authors({
   return (
     <>
       <div className={classNames.row}>
-        {authors.map(author => author.headshot ? (
+        {authors.map(author => (
           <Link 
             key={author.id}
             href={`/staff/${author.slug}`}
@@ -33,16 +37,22 @@ function Authors({
             label={`More articles by ${author.displayName}`}
             tabIndex={-1}
           >
-            <AspectRatioImage
-              aspectRatio={1}
-              className={classNames.avatar}
-              data={imgix(author.headshot, {
-                xs: imgix.presets.xs('1:1')
-              })}
-              altText={`Author headshot for ${author.displayName}`}
-            />
+            {author.headshot ? (
+              <AspectRatioImage
+                aspectRatio={1}
+                className={classNames.avatar}
+                data={imgix(author.headshot, {
+                  xs: imgix.presets.xs('1:1')
+                })}
+                altText={`Author headshot for ${author.displayName}`}
+              />
+            ): (
+              <div className={classNames.initials}>
+                {getInitials(author.displayName)}
+              </div>
+            )}
           </Link>
-        ) : null)}
+        ))}
 
         <div className={classNames.column}>
           <address className={classNames.authors}>

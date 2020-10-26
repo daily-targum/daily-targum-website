@@ -66,29 +66,48 @@ export function PodcastPlayerBar() {
           {/* Desktop */}
           <Grid.Col xs={0} md={6}>
             <div className={classNames.row}>
-              <MdReplay10
-                size={28}
-                className={classNames.icon}
+              <button 
                 onClick={() => skip(-10)}
-              />
-              {playState !== 'play' ? (
-                <IoIosPlay
+                className={classNames.hideButton}
+              >
+                <MdReplay10
                   size={28}
-                  onClick={play}
                   className={classNames.icon}
                 />
-              ) : (
-                <IoIosPause
-                  size={28}
-                  onClick={pause}
-                  className={classNames.icon}
-                />
-              )}
-              <MdForward10
-                size={28}
-                className={classNames.icon}
+              </button>
+
+              <button 
+                onClick={() => {
+                  if (playState !== 'play') {
+                    play();
+                  } else {
+                    pause();
+                  }
+                }}
+                className={classNames.hideButton}
+              >
+                {playState !== 'play' ? (
+                  <IoIosPlay
+                    size={28}
+                    className={classNames.icon}
+                  />
+                ) : (
+                  <IoIosPause
+                    size={28}
+                    className={classNames.icon}
+                  />
+                )}
+              </button>
+
+              <button 
                 onClick={() => skip(10)}
-              />
+                className={classNames.hideButton}
+              >
+                <MdForward10
+                  size={28}
+                  className={classNames.icon}
+                />
+              </button>
             </div>
           </Grid.Col>
 
@@ -133,29 +152,48 @@ export function PodcastPlayerBar() {
           
           <Grid.Col xs={8} md={0} style={{alignItems: 'center'}}>
             <div className={classNames.row}>
-              <MdReplay10
-                size={28}
-                className={classNames.icon}
+              <button 
                 onClick={() => skip(-10)}
-              />
-              {playState !== 'play' ? (
-                <IoIosPlay
+                className={classNames.hideButton}
+              >
+                <MdReplay10
                   size={28}
-                  onClick={play}
                   className={classNames.icon}
                 />
-              ) : (
-                <IoIosPause
-                  size={28}
-                  onClick={pause}
-                  className={classNames.icon}
-                />
-              )}
-              <MdForward10
-                size={28}
-                className={classNames.icon}
+              </button>
+
+              <button 
+                onClick={() => {
+                  if (playState !== 'play') {
+                    play();
+                  } else {
+                    pause();
+                  }
+                }}
+                className={classNames.hideButton}
+              >
+                {playState !== 'play' ? (
+                  <IoIosPlay
+                    size={28}
+                    className={classNames.icon}
+                  />
+                ) : (
+                  <IoIosPause
+                    size={28}
+                    className={classNames.icon}
+                  />
+                )}
+              </button>
+
+              <button 
                 onClick={() => skip(10)}
-              />
+                className={classNames.hideButton}
+              >
+                <MdForward10
+                  size={28}
+                  className={classNames.icon}
+                />
+              </button>
             </div>
           </Grid.Col>
 
