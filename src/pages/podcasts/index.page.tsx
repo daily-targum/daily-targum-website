@@ -125,7 +125,10 @@ function Podcasts({
         <Banner text='Podcasts'/>
 
         {podcasts.map((podcast, i) => (
-          <Section classNameInside={classNames.podcastWrap}>
+          <Section 
+            classNameInside={classNames.podcastWrap} 
+            key={podcast.items[0].id}
+          >
             <Section.OffsetPadding>
               <Podcast 
                 podcast={podcast}
