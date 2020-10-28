@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { useScrollock } from '../utils';
 import { IoMdClose } from 'react-icons/io';
 import { ReactChildren } from '../types';
 import styles from './Modal.module.scss';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
+import ScrollLock from 'react-scrolllock';
 
 export function Modal({
   open = false,
@@ -17,12 +17,10 @@ export function Modal({
   children: ReactChildren
   overflow?: string
 }) {
-  const { toggleScrollock } = useScrollock();
   const ref = React.useRef<HTMLDivElement>(null);
 
+  // reset scroll within modal
   React.useEffect(() => {
-    console.log(open);
-    toggleScrollock(open);
     if (ref.current && !open) {
       ref.current.scrollTop = 0;
     }
@@ -42,38 +40,41 @@ export function Modal({
   }, [open]);
 
   return (
-    <FocusTrap active={open}>
-      <div 
-        className={cn(
-          styles.backdrop,
-          {
-            [styles.hide]: !open
-          }
-        )}
-        onClick={handleClose}
-      >
-        {open ? (
-          <button
-            aria-label='Close modal'
-            data-tooltip-position='left'
-            onClick={handleClose}
-            className={styles.closeIcon}
-          >
-            <IoMdClose size={30}/>
-          </button>
-        ) : null}
-
-        <div
-          ref={ref}
-          className={styles.modal}
-          style={{
-            overflow
-          }}
-          onClick={e => e.stopPropagation()}
+    <>
+      <ScrollLock isActive={open}/>
+      <FocusTrap active={open}>
+        <div 
+          className={cn(
+            styles.backdrop,
+            {
+              [styles.hide]: !open
+            }
+          )}
+          onClick={handleClose}
         >
-          {children}
+          {open ? (
+            <button
+              aria-label='Close modal'
+              data-tooltip-position='left'
+              onClick={handleClose}
+              className={styles.closeIcon}
+            >
+              <IoMdClose size={30}/>
+            </button>
+          ) : null}
+
+          <div
+            ref={ref}
+            className={styles.modal}
+            style={{
+              overflow
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            {children}
+          </div>
         </div>
-      </div>
-    </FocusTrap>
+      </FocusTrap>
+    </>
   );
 }

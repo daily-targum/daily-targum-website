@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AppProps } from 'next/app';
-import { Navbar, Footer, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO, SkipNav, AccessibilityFix, GlobalCSS } from '../components';
+import { Navbar, Footer, ScrollFix, Grid, PodcastPlayerBar, Video, Page, Analytics, SEO, SkipNav, AccessibilityFix, GlobalCSS } from '../components';
 import { Provider as ReduxProvider } from '../store';
 import '../styles/global.scss';
 import Head from 'next/head';
@@ -48,6 +48,7 @@ function App({
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"/>
         )}
       </Head>
+      <ScrollFix/>
       <SEO {...seo}/>
       <ReduxProvider>
         <Grid.Provider>

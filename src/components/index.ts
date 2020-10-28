@@ -39,6 +39,7 @@ export * from './Search';
 export * from './HighlightText';
 export * from './GlobalCSS';
 export * from './Card2';
+export * from './ScrollFix';
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,

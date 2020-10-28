@@ -3,6 +3,7 @@ import Grid from './Grid/web';
 import Section from './Section';
 import Logo from './Logo';
 import Search from './Search';
+import ScrollLock from 'react-scrolllock';
 import Link from './Link';
 // @ts-ignore
 import NextNprogress from './NextNProgress';
@@ -10,7 +11,6 @@ import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from '../store';
 import { navigationActions } from '../store/ducks/navigation';
 import { searchActions } from '../store/ducks/search';
-import { useScrollock } from '../utils';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import { Twirl as Hamburger } from 'hamburger-react';
@@ -77,11 +77,11 @@ function MobileMenu() {
   const dispatch = useDispatch();
   const isAmp = useAmp();
 
-  const { toggleScrollock } = useScrollock();
+  // const { toggleScrollock } = useScrollock();
 
-  React.useEffect(() => {
-    toggleScrollock(isVisible);
-  }, [isVisible]);
+  // React.useEffect(() => {
+  //   toggleScrollock(isVisible);
+  // }, [isVisible]);
 
   React.useEffect(() => {
     if (isVisible) {
@@ -139,48 +139,51 @@ function MobileMenu() {
       </style>
     </>
   ) : (
-    <Grid.Display
-      xs={true} 
-      lg={false}
-    >    
-      <div
-        className={cn(
-          classNames.mobileMenu,
-          {
-            [classNames.fadeIn]: isVisible,
-            [classNames.fadeOut]: !isVisible
-          }
-        )}
-      >
-        <Search.PreviewBackdrop/>
+    <>
+      <ScrollLock isActive={isVisible}/>
+      <Grid.Display
+        xs={true} 
+        lg={false}
+      >    
+        <div
+          className={cn(
+            classNames.mobileMenu,
+            {
+              [classNames.fadeIn]: isVisible,
+              [classNames.fadeOut]: !isVisible
+            }
+          )}
+        >
+          <Search.PreviewBackdrop/>
 
-        <Search.Input
-          enabled={isVisible}
-          size={2.7}
-          className={classNames.search}
-          onSubmit={() => {
-            dispatch(searchActions.setFocused(false));
-            dispatch(navigationActions.closeMobileMenu());
-            router.push('/search', undefined, { shallow: true });
-          }}
-          maxItems={10}
-        />
+          <Search.Input
+            enabled={isVisible}
+            size={2.7}
+            className={classNames.search}
+            onSubmit={() => {
+              dispatch(searchActions.setFocused(false));
+              dispatch(navigationActions.closeMobileMenu());
+              router.push('/search', undefined, { shallow: true });
+            }}
+            maxItems={10}
+          />
 
-        {navbarLinks.map(link => (
-          <Link 
-            key={link.href}
-            href={link.href}
-            className={cn(classNames.mobileLink, {
-              [classNames.linkActive]: (link.href === router.asPath)
-            })}
-            label={link.ariaLabel}
-            onClickSideEffect={() => dispatch(navigationActions.closeMobileMenu())}
-          >
-            <span>{link.title}</span>
-          </Link>
-        ))}
-      </div>
-    </Grid.Display>
+          {navbarLinks.map(link => (
+            <Link 
+              key={link.href}
+              href={link.href}
+              className={cn(classNames.mobileLink, {
+                [classNames.linkActive]: (link.href === router.asPath)
+              })}
+              label={link.ariaLabel}
+              onClickSideEffect={() => dispatch(navigationActions.closeMobileMenu())}
+            >
+              <span>{link.title}</span>
+            </Link>
+          ))}
+        </div>
+      </Grid.Display>
+    </>
   );
 }
 
