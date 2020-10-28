@@ -30,7 +30,7 @@ function Authors({
     <>
       <div className={classNames.row}>
         <aside 
-          className={classNames.row}
+          className={classNames.aside}
           aria-hidden={true}
         >
           {authors.map(author => (

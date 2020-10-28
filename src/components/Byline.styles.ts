@@ -9,6 +9,13 @@ const row = css.resolve`
   }
 `;
 
+const aside = css.resolve`
+  * {
+    ${styleHelpers.flex('row')};
+    align-items: center;
+  }
+`;
+
 
 const column = css.resolve`
   * {
@@ -153,5 +160,6 @@ export default buildStyleSheet({
   bylineCompact,
   bylineCompactAuthor,
   bylineCompactDate,
-  initials
+  initials,
+  aside
 });
