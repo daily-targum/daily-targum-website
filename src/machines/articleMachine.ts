@@ -90,8 +90,9 @@ export function useArticles({
   category,
   subcategory
 }: UseArticle): {
-  articles: CompactArticle[]
-  loadMore: () => any
+  articles: CompactArticle[];
+  loadMore: () => any;
+  loading: boolean
 } {
   const [state, send] = useMachine(articleMachine);
 
@@ -178,6 +179,7 @@ export function useArticles({
 
   return {
     loadMore,
-    articles
+    articles,
+    loading: state.value === 'loading'
   };
 }

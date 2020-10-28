@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text, Semantic } from '../../components';
+import { Section, Grid, LoadMoreButton, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text, Semantic } from '../../components';
 import { imgix } from '../../utils';
 import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
@@ -23,6 +23,7 @@ function Category({
   const { 
     selectedArticles, 
     loadMore, 
+    loading,
     outOfContent,
     selectedTag,
     setSelectedTag
@@ -154,9 +155,10 @@ function Category({
       </Semantic>
       
       {!outOfContent ? (
-        <ActivityIndicator.ProgressiveLoader 
+        <LoadMoreButton
           key={selectedTag}
-          onVisible={loadMore}
+          handleLoad={loadMore}
+          loading={loading}
         />
       ) : (
         <Text style={{textAlign: 'center', display: 'block'}}>

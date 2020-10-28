@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
 import { formatDateAbriviated } from '../../shared/src/utils';
-import { Section, Grid, ActivityIndicator, Card, Banner, SEOProps, Ad, Semantic } from '../../components';
+import { Section, Grid, ActivityIndicator, Card, Banner, SEOProps, Ad, Semantic, LoadMoreButton } from '../../components';
 import { imgix } from '../../utils';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../machines';
@@ -13,7 +13,7 @@ function Category({
 }: { 
   initialArticles: GetArticles
 }) {
-  const { articles, loadMore } = useArticles({ 
+  const { articles, loadMore, loading } = useArticles({ 
     initialArticles,
     category: 'inside-beat'
   });
@@ -99,10 +99,10 @@ function Category({
         </Grid.Row>
       </Semantic>
 
-      <ActivityIndicator.ProgressiveLoader 
-        onVisible={loadMore}
+      <LoadMoreButton
+        handleLoad={loadMore}
+        loading={loading}
       />
-
     </Section>
   );
 }

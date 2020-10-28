@@ -279,9 +279,14 @@ export function useSports({
     selectedArticles = state.context.articles ?? initialArticles;
   }
 
+  const loading = ['all.loading', 'tagSelected.loading'].some(
+    state.matches
+  );
+
   return {
     selectedArticles,
     loadMore,
+    loading,
     outOfContent,
     selectedTag: state.context.selectedTag ?? null,
     setSelectedTag: (val: string | null) => {

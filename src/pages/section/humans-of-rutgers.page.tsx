@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { actions, GetHoru } from '../../shared/src/client';
 import NotFound from '../404.page';
-import { Carousel, Section, Grid, AspectRatioImage, ActivityIndicator, Banner, Modal, Text, SEOProps, HTML, Ad, ResetTabIndex, Semantic } from '../../components';
+import { Carousel, Section, Grid, AspectRatioImage, LoadMoreButton, Banner, Modal, Text, SEOProps, HTML, Ad, ResetTabIndex, Semantic } from '../../components';
 import { imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 import { GrStackOverflow } from 'react-icons/gr';
@@ -107,8 +107,9 @@ function Category({
         </Semantic>
 
         {horu.nextToken ? (
-          <ActivityIndicator.ProgressiveLoader 
-            onVisible={loadMore}
+          <LoadMoreButton
+            handleLoad={loadMore}
+            loading={isLoading}
           />
         ) : null}
 

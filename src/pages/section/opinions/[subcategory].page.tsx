@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Divider, Ad, Sticky, Semantic, Donate } from '../../../components';
+import { Section, Text, Grid, Card2, LoadMoreButton, ActivityIndicator, SEOProps, Divider, Ad, Sticky, Semantic, Donate } from '../../../components';
 import { actions, GetArticlesBySubcategory } from '../../../shared/src/client';
-import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { processNextQueryStringParam, imgix } from '../../../utils';
+import { formatDateAbriviated, hyphenatedToCapitalized, extractTextFromHTML } from '../../../shared/src/utils';
+import { processNextQueryStringParam, imgix, styleHelpers } from '../../../utils';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../../machines';
@@ -17,7 +17,7 @@ function Author({
   initialArticles: GetArticlesBySubcategory | null
   subcategory: string
 }) {
-  const { articles, loadMore } = useArticles({
+  const { articles, loadMore, loading } = useArticles({
     initialArticles,
     subcategory
   });
@@ -46,29 +46,41 @@ function Author({
 
             <Divider className={styles.divider}/>
           
-            <FlatList
-              data={articles}
-              keyExtractor={article => article.id}
-              renderItem={article => (
-                <Card.CompactResponsive
-                  className={styles.articleCard}
-                  title={article.title}
-                  imageData={imgix(article.media[0]?.url ?? '', {
-                    xs: imgix.presets.md('1:1')
-                  })}
-                  href='/article/[year]/[month]/[slug]'
-                  as={'/'+article.slug}
-                  aspectRatioDesktop={3 / 2}
-                  date={formatDateAbriviated(article.publishDate)}
-                  altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
-                />
-              )}
-              ItemSeparatorComponent={<Card.Spacer/>}
-            />
+            <Grid.Row 
+              cols={['1fr', '1fr']}
+              spacing={styleHelpers.spacing(3)}
+            >
+
+              {articles.map(article => (
+                <Grid.Col 
+                  key={article.id}
+                  xs={2} 
+                  lg={1}
+                >
+                  <Card2.Stacked
+                    className={styles.articleCard}
+                    title={article.title}
+                    imageData={imgix(article.media[0]?.url ?? '', {
+                      xs: imgix.presets.md('16:9')
+                    })}
+                    href='/article/[year]/[month]/[slug]'
+                    as={'/'+article.slug}
+                    date={formatDateAbriviated(article.publishDate)}
+                    aspectRatio={16/9}
+                    description={extractTextFromHTML(article.abstract ?? '')}
+                  />
+                </Grid.Col>
+              ))}
+            
+              {/* <ActivityIndicator.ProgressiveLoader
+                onVisible={() => console.log('implement progressive load')}
+              /> */}
+            </Grid.Row>
           </Semantic>
           
-          <ActivityIndicator.ProgressiveLoader
-            onVisible={loadMore}
+          <LoadMoreButton
+            handleLoad={loadMore}
+            loading={loading}
           />
         </Grid.Col>
 

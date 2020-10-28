@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { actions, GetArticles } from '../../shared/src/client';
-import { Section, Grid, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad, Semantic } from '../../components';
+import { Section, Grid, LoadMoreButton, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad, Semantic } from '../../components';
 import { imgix } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
@@ -13,7 +13,7 @@ function News({
 }: { 
   initialArticles: GetArticles
 }) {
-  const { articles, loadMore } = useArticles({ 
+  const { articles, loadMore, loading } = useArticles({ 
     initialArticles,
     category: 'News'
   });
@@ -88,8 +88,9 @@ function News({
         </Grid.Row>
       </Semantic>
 
-      <ActivityIndicator.ProgressiveLoader 
-        onVisible={loadMore}
+      <LoadMoreButton
+        handleLoad={loadMore}
+        loading={loading}
       />
       
     </Section>

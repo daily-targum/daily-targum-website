@@ -40,6 +40,7 @@ export * from './HighlightText';
 export * from './GlobalCSS';
 export * from './Card2';
 export * from './ScrollFix';
+export * from './LoadMoreButton';
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,
