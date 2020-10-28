@@ -29,30 +29,35 @@ function Authors({
   return (
     <>
       <div className={classNames.row}>
-        {authors.map(author => (
-          <Link 
-            key={author.id}
-            href={`/staff/${author.slug}`}
-            className={classNames.avatar}
-            label={`More articles by ${author.displayName}`}
-            tabIndex={-1}
-          >
-            {author.headshot ? (
-              <AspectRatioImage
-                aspectRatio={1}
-                className={classNames.avatar}
-                data={imgix(author.headshot, {
-                  xs: imgix.presets.xs('1:1')
-                })}
-                altText={`Author headshot for ${author.displayName}`}
-              />
-            ): (
-              <div className={classNames.initials}>
-                {getInitials(author.displayName)}
-              </div>
-            )}
-          </Link>
-        ))}
+        <aside 
+          className={classNames.row}
+          aria-hidden={true}
+        >
+          {authors.map(author => (
+            <Link 
+              key={author.id}
+              href={`/staff/${author.slug}`}
+              className={classNames.avatar}
+              label={`More articles by ${author.displayName}`}
+              tabIndex={-1}
+            >
+              {author.headshot ? (
+                <AspectRatioImage
+                  aspectRatio={1}
+                  className={classNames.avatar}
+                  data={imgix(author.headshot, {
+                    xs: imgix.presets.xs('1:1')
+                  })}
+                  altText={`Author headshot for ${author.displayName}`}
+                />
+              ): (
+                <div className={classNames.initials}>
+                  {getInitials(author.displayName)}
+                </div >
+              )}
+            </Link>
+          ))}
+        </aside>
 
         <div className={classNames.column}>
           <address className={classNames.authors}>
