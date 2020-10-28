@@ -5,16 +5,16 @@ const HEIGHT = '60px';
 
 const navbarWrap = css.resolve`
   * {
-    position: sticky;
+    position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
+    transition: background-color linear 300ms;
   }
 `;
 
 const navbar = css.resolve`
   * {
-    position: sticky;
     background-color: ${styleHelpers.color('navbar')};
     backdrop-filter: saturate(180%) blur(10px);
     border-bottom-style: solid;
@@ -22,6 +22,12 @@ const navbar = css.resolve`
     border-bottom-color: ${styleHelpers.color('divider')};
     height: ${HEIGHT};
     overflow: visible;
+  }
+`;
+
+const opaque = css.resolve`
+  * {
+    background-color: ${styleHelpers.color('surface')};
   }
 `;
 
@@ -84,7 +90,7 @@ const link = css.resolve`
     border-top-width: 2px;
     border-color: transparent;
     border-style: solid;
-    transition: border-bottom-color theme.timing(1), color theme.timing(1);
+    transition: border-bottom-color ${styleHelpers.timing(1)}, color ${styleHelpers.timing(1)};
   }
 
   *:hover {
@@ -129,7 +135,7 @@ const mobileMenu = css.resolve`
     margin-top: ${HEIGHT};
     z-index: -1;
     align-items: flex-start;
-    border-left: 1px solid ${styleHelpers.color('divider')};;
+    border-left: 1px solid ${styleHelpers.color('divider')};
   }
 `;
 
@@ -165,6 +171,12 @@ const search = css.resolve`
   }
 `;
 
+const containScroll = css.resolve`
+  * {
+    overscroll-behavior: contain;
+  }
+`;
+
 
 export default buildStyleSheet({
   navbarWrap,
@@ -181,5 +193,7 @@ export default buildStyleSheet({
   fadeOut,
   fadeIn,
   icon,
-  search
+  search,
+  containScroll,
+  opaque
 });

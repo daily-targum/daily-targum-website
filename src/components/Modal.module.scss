@@ -12,6 +12,7 @@
   backdrop-filter: blur(40px) contrast(20%);
   opacity: 1;
   transition: opacity theme.timing(0.5);
+  overscroll-behavior: contain;
 }
 
 .closeIcon {
@@ -21,7 +22,7 @@
   right: theme.spacing(2);
   cursor: pointer;
   z-index: 2001;
-  background-color: rgba(0,0,0,0.2);
+  background-color: #fff;
   height: 36px;
   width: 36px;
   display: flex;
@@ -29,20 +30,7 @@
   justify-content: center;
   border-radius: 50%;
   backdrop-filter: invert(100%) blur(50px) saturate(0%);
-  color: #fff;
-  mix-blend-mode: difference;
-}
-
-// Safari compatability
-@media not all and (min-resolution:.001dpcm) { 
-  @supports (-webkit-appearance:none) and (stroke-color:transparent) {
-    .closeIcon {
-      background-color: theme.color('text');
-      color: theme.color('background_light');
-      mix-blend-mode: unset;
-      backdrop-filter: none;
-    }
-  }
+  color: #000;
 }
 
 .modal {
@@ -51,6 +39,7 @@
   max-height: 100%;
   max-width: 100%;
   width: calc(750px + 30vw);
+  overflow: auto;
 }
 
 .hide {

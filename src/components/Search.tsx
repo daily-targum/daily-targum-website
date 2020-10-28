@@ -3,6 +3,7 @@ import Text from './Text';
 import Link from './Link';
 import { FocusControl } from './ResetTabIndex';
 import HighlightText from './HighlightText';
+import ScrollLock from './ScrollLock';
 import Divider from './Divider';
 import { FiSearch } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
@@ -381,6 +382,7 @@ function PreviewBackdrop({
 
   return (focused && (hits !== null) && !hijacked) ? (
     <>
+      <ScrollLock/>
       <div 
         className={classNames.backdrop}
         onClick={() => {

@@ -3,7 +3,6 @@ import Grid from './Grid/web';
 import Section from './Section';
 import Logo from './Logo';
 import Search from './Search';
-import ScrollLock from 'react-scrolllock';
 import Link from './Link';
 // @ts-ignore
 import NextNprogress from './NextNProgress';
@@ -15,8 +14,13 @@ import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import { Twirl as Hamburger } from 'hamburger-react';
 import { useAmp } from 'next/amp';
+import dynamic from 'next/dynamic';
 import Styles from './Navbar.styles';
 const { classNames, StyleSheet } = Styles;
+
+export const ScrollLock = dynamic(() => import("./ScrollLock"), {
+  ssr: false,
+});
 
 export const NAVBAR_HEIGHT = 60;
 
@@ -140,7 +144,7 @@ function MobileMenu() {
     </>
   ) : (
     <>
-      <ScrollLock isActive={isVisible}/>
+      <ScrollLock active={isVisible}/>
       <Grid.Display
         xs={true} 
         lg={false}
@@ -207,13 +211,19 @@ export function Navbar() {
         <div 
           className={cn(
             classNames.navbarWrap,
+            'fixed-element',
             {
-              ['dark-mode']: darkNavbar
+              ['dark-mode']: darkNavbar,
             }
           )}
         >
           <Section 
-            className={classNames.navbar}
+            className={cn(
+              classNames.navbar,
+              {
+                [classNames.opaque]: mobileMenuVisible
+              }
+            )}
             styleInside={{
               overflow: 'visible'
             }}
@@ -225,7 +235,14 @@ export function Navbar() {
                 style={{ flex: 1 }}
               >
                 <div className={classNames.inner}>
-                  <Link href='/' label='Go to homepage' tooltipPosition='none'>
+                  <Link 
+                    href='/' 
+                    label='Go to homepage' 
+                    tooltipPosition='none'
+                    onClickSideEffect={() => {
+                      dispatch(navigationActions.closeMobileMenu());
+                    }}
+                  >
                     <Logo className={classNames.logo}/>
                   </Link>
                   
@@ -271,7 +288,14 @@ export function Navbar() {
                     }}
                   />
 
-                  <Link href='/' label='Go to homepage' tooltipPosition='none'>
+                  <Link 
+                    href='/' 
+                    label='Go to homepage' 
+                    tooltipPosition='none'
+                    onClickSideEffect={() => {
+                      dispatch(navigationActions.closeMobileMenu());
+                    }}
+                  >
                     <Logo className={classNames.logo}/>
                   </Link>
 
@@ -299,6 +323,11 @@ export function Navbar() {
           <MobileMenu/>
         </div>
       </FocusTrap>
+      <div
+        style={{
+          height: NAVBAR_HEIGHT
+        }}
+      />
       {StyleSheet}
     </>
   );

@@ -45,3 +45,7 @@ export * from './LoadMoreButton';
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,
 });
+
+export const ScrollLock = dynamic(() => import("./ScrollLock"), {
+  ssr: false,
+});

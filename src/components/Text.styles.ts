@@ -102,6 +102,7 @@ const p = css.resolve`
     line-height: 1.8em;
     margin-bottom: ${styleHelpers.spacing(2)};
     font-weight: normal;
+    word-wrap: break-word;
   }
 `;  
 

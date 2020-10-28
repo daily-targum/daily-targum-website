@@ -6,7 +6,6 @@ import { imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 import { GrStackOverflow } from 'react-icons/gr';
 import { theme } from '../../constants';
-import { TouchScrollable } from 'react-scrolllock';
 import Styles from './humans-of-rutgers.styles';
 const { classNames, StyleSheet } = Styles;
 
@@ -154,16 +153,14 @@ function Category({
             md={10}
             style={{alignSelf: 'stretch'}}
           >
-            <TouchScrollable>
-              <article className={classNames.body}>
-                <Text variant='h1'>{selectedPost?.title}</Text>
-                {selectedPost?.quote ? (
-                  <HTML
-                    html={selectedPost.quote}
-                  />
-                ) : null}
-              </article>
-            </TouchScrollable>
+            <article className={classNames.body}>
+              <Text variant='h1'>{selectedPost?.title}</Text>
+              {selectedPost?.quote ? (
+                <HTML
+                  html={selectedPost.quote}
+                />
+              ) : null}
+            </article>
           </Grid.Col>
 
         </Grid.Row>

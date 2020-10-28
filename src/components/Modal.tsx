@@ -4,7 +4,11 @@ import { ReactChildren } from '../types';
 import styles from './Modal.module.scss';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
-import ScrollLock from 'react-scrolllock';
+import dynamic from 'next/dynamic';
+
+export const ScrollLock = dynamic(() => import("./ScrollLock"), {
+  ssr: false,
+});
 
 export function Modal({
   open = false,
@@ -41,7 +45,7 @@ export function Modal({
 
   return (
     <>
-      <ScrollLock isActive={open}/>
+      <ScrollLock active={open}/>
       <FocusTrap active={open}>
         <div 
           className={cn(
