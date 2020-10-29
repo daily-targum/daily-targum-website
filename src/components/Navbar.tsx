@@ -51,10 +51,10 @@ const navbarLinks: {
     title: 'Videos',
     href: '/videos'
   },
-  {
-    title: 'Podcasts',
-    href: '/podcasts'
-  },
+  // {
+  //   title: 'Podcasts',
+  //   href: '/podcasts'
+  // },
   // {
   //   title: 'Photos',
   //   href: '/photos'
