@@ -5,20 +5,33 @@ const { classNames, StyleSheet } = Styles;
 
 export function Divider({
   className,
-  style
+  style,
+  vertical = false
 }: {
-  className?: string
-  style?: React.CSSProperties
+  className?: string;
+  style?: React.CSSProperties;
+  vertical?: boolean;
 }) {
   return (
     <>
-      <hr 
-        className={cn(
-          classNames.divider, 
-          className
-        )}
-        style={style}
-      />
+      {vertical ? (
+        <div
+          className={cn(
+            classNames.dividerVertical, 
+            className
+          )}
+          style={style}
+          aria-label='Vertical separator'
+        />
+      ) : (
+        <hr 
+          className={cn(
+            classNames.divider, 
+            className
+          )}
+          style={style}
+        />
+      )}
       {StyleSheet}
     </>
   );

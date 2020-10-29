@@ -10,7 +10,9 @@ export default {
 };
 
 const Template: Story<ComponentProps<typeof Banner>> = (args) => (
-  <Banner {...args} />
+  <div style={{minWidth: 750}}>
+    <Banner {...args} />
+  </div>
 );
 
 export const Basic = Template.bind({});

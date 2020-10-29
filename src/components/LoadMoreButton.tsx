@@ -36,6 +36,8 @@ export function LoadMoreButton({
         ref={ref}
       >
         <Button 
+          disabled={loading}
+          cursor={loading ? 'wait' : undefined}
           onClick={handleLoad}
           style={{
             backgroundColor: styleHelpers.color('primary_main'),
@@ -49,7 +51,7 @@ export function LoadMoreButton({
               Loading
               &nbsp;
               <ActivityIndicator.Spinner 
-                className='dark-mode'
+                className='force-dark-mode'
                 size={20}
               />
             </>
@@ -68,3 +70,5 @@ export function LoadMoreButton({
     </>
   )
 }
+
+export default LoadMoreButton;

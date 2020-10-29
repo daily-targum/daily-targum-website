@@ -56,6 +56,7 @@ function Author({
                   key={article.id}
                   xs={2} 
                   lg={1}
+                  style={{height: '100%'}}
                 >
                   <Card2.Stacked
                     className={styles.articleCard}

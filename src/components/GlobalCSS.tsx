@@ -4,6 +4,10 @@ export function GlobalCSS() {
   return (
     <style jsx global>
       {`
+        .force-dark-mode {  
+          ${styleHelpers.darkTheme()}
+        }
+
         *:focus .showOnFocus {
           opacity: 1;
         }

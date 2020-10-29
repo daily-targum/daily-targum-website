@@ -9,11 +9,19 @@ export default {
   title: 'Byline'
 };
 
-const AuthorsTemplate: Story<ComponentProps<typeof Byline.Authors>> = (args) => (
+const Template: Story<ComponentProps<typeof Byline.Authors>> = (args) => (
   <Byline.Authors {...args} />
 );
 
-export const Article = AuthorsTemplate.bind({});
-Article.args = {
+export const WithAuthorPicture = Template.bind({});
+WithAuthorPicture.args = {
   authors: ARTICLE.authors
+};
+
+export const WithoutAuthorPicture = Template.bind({});
+WithoutAuthorPicture.args = {
+  authors: ARTICLE.authors.map(author => ({
+    ...author,
+    headshot: undefined
+  }))
 };

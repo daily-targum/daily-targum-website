@@ -31,6 +31,7 @@ export default ({ children }) => {
       <style jsx>
         {`
           div {
+            display: inline-block;
             ${vars}
           }
         `}

@@ -43,3 +43,12 @@ SquareImage.args = {
   },
   src: 'https://dailytargum.imgix.net/images/25606a48-1fb9-4395-86f9-050df31eca7c.jpg?ar=1:1&auto=compress&crop=faces,entropy&fit=crop&fm=webp&width=200'
 };
+
+export const RectangleImage = ImageTemplate.bind({});
+RectangleImage.args = {
+  aspectRatio: 2,
+  style: {
+    width: 200
+  },
+  src: 'https://dailytargum.imgix.net/images/25606a48-1fb9-4395-86f9-050df31eca7c.jpg?ar=1:1&auto=compress&crop=faces,entropy&fit=crop&fm=webp&width=200'
+};

@@ -5,20 +5,23 @@ const clickable = css.resolve`
   * {
     ${styleHelpers.hideButton()}
     ${styleHelpers.hideLink()}
+    flex: 1;
   }
 `;
 
 
 const stackedCard = css.resolve`
   * {
-    ${styleHelpers.color("divider")}
+    ${styleHelpers.flex("column")}
   }
 `;
 
 
 const stackedCardBody = css.resolve`
   * {
+    flex: 1;
     padding: ${styleHelpers.spacing(2.5, 2)};
+    background-color: ${styleHelpers.color('surface')};
   }
 `;
 

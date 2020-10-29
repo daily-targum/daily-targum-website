@@ -9,7 +9,6 @@ const button = css.resolve`
     padding: ${styleHelpers.spacing(2, 8)};
     background-color: ${styleHelpers.color("accent_main")};
     border-radius: ${styleHelpers.roundness(1)};
-    cursor: pointer;
     color: ${styleHelpers.color("accent_contrastText")};
     font-size: 1.3rem;
   }

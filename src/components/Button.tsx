@@ -9,13 +9,17 @@ export function Button({
   onClick,
   href,
   className,
-  style
+  style,
+  disabled = false,
+  cursor
 }: {
-  children: ReactChildren<string>
+  children: ReactChildren<string>;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any;
   href?: string;
-  className?: string
-  style?: React.CSSProperties
+  className?: string;
+  style?: React.CSSProperties;
+  disabled?: boolean;
+  cursor?: string
 }) {
   return (
     <>
@@ -27,6 +31,7 @@ export function Button({
             classNames.button
           ]. join(' ')} 
           style={{
+            cursor: cursor ?? (disabled ? 'not-allowed' : 'pointer'),
             ...style
           }}
         >
@@ -34,11 +39,13 @@ export function Button({
         </Link>
       ) : (
         <button 
+          disabled={disabled}
           className={[
             className,
             classNames.button
           ]. join(' ')} 
           style={{
+            cursor: cursor ?? (disabled ? 'not-allowed' : 'pointer'),
             ...style
           }}
           onClick={onClick}
