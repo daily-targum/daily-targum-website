@@ -33,7 +33,7 @@ export function Link({
   
   let isInternal = false;
 
-  if (hrefHost && /dailytargum.com$/i.test(hrefHost)) {
+  if (hrefHost && /^(staging\.|)dailytargum.com$/i.test(hrefHost)) {
     isInternal = true;
   } 
   
