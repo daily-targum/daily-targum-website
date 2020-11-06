@@ -9,13 +9,13 @@ export default class MyDocument extends Document {
           <link 
             rel="alternate" 
             type="application/rss+xml" 
-            title="Daily Targum RSS Feed all articles" 
+            title="Daily Targum RSS Feed" 
             href="https://feeds.dailytargum.com/rss" 
           />
           <link 
             rel="alternate" 
             type="application/atom+xml" 
-            title="Daily Targum Atom Feed all articles" 
+            title="Daily Targum Atom Feed" 
             href="https://feeds.dailytargum.com/atom" 
           />
 
