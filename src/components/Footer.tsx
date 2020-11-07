@@ -77,6 +77,10 @@ const links = {
     {
       title: 'YouTube',
       href: 'https://www.youtube.com/user/TargumMultimedia'
+    },
+    {
+      title: 'RSS',
+      href: 'https://feeds.dailytargum.com/rss'
     }
   ]
 }
