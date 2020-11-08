@@ -2,11 +2,13 @@ import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../../shared/src/utils';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, Donate, Link } from '../../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, AdSense, Sticky, Semantic, Link } from '../../../../components';
 
 import NotFound from '../../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../../utils';
 import { useRouter } from 'next/router';
+
+// import { AiFillFacebook, AiFillTwitterSquare, AiFillPrinter } from 'react-icons/ai';
 
 import { theme } from '../../../../constants';
 import Styles from './[slug].styles';
@@ -36,10 +38,20 @@ function Article({
       <Section className={classNames.page}>
       
         <Grid.Row 
-          spacing={theme.spacing(4)}
-          cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
+          spacing={theme.spacing(3)}
+          cols={[ '1fr', '1px', 'minmax(auto, 75ch)', '1px', '1fr' ]}
           disableGridOnPrit
         >
+          <Grid.Col xs={1}>
+            {/* <AiFillFacebook size={50}/>
+            <AiFillTwitterSquare size={50}/>
+            <AiFillPrinter size={50}/> */}
+          </Grid.Col>
+
+          <Grid.Col xs={0} md={1} style={{height: '100%', overflow: 'hidden'}}>
+            <Divider.Vertical/>
+          </Grid.Col>
+
           <Grid.Col xs={3} xl={1}>
             <Semantic role='main' skipNavContent pritable>
               {article.category ? (
@@ -100,7 +112,8 @@ function Article({
 
           <Grid.Col xs={0} xl={1} style={{height: '100%'}}>
             <Sticky>
-              <Semantic role='aside'>
+              <AdSense type='sidebar'/>
+              {/* <Semantic role='aside'>
                 <Ad 
                   type='rectange' 
                   style={{ marginBottom: '1rem' }} 
@@ -111,7 +124,7 @@ function Article({
                     <Donate.SidebarCard/>
                   )}
                 />
-              </Semantic>
+              </Semantic> */}
             </Sticky>
           </Grid.Col>
 
