@@ -67,6 +67,15 @@ const category = css.resolve`
   }
 `;
 
+const shareLink = css.resolve`
+  * {
+    margin-bottom: ${styleHelpers.spacing(1.5)};
+    color: ${styleHelpers.color('text')};
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`
+
 
 export default buildStyleSheet({
   page,
@@ -76,5 +85,6 @@ export default buildStyleSheet({
   fullWidth,
   figcaption,
   captionSpacer,
-  category
+  category,
+  shareLink
 });

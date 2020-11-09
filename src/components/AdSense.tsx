@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { nextUtils } from '../utils';
+import { ReactChildren } from '../types';
 import Styles from './Ad.styles';
 const { classNames, StyleSheet } = Styles;
 
@@ -19,7 +20,7 @@ const AdBase = React.memo(({
   height
 }: AdBaseProps) => {
   React.useEffect(() => {
-    if(window) {
+    if(window && !nextUtils.envIs(['development'])) {
       // @ts-ignore
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     }
@@ -43,6 +44,8 @@ const AdBase = React.memo(({
       }}
       data-ad-client={adClient}
       data-ad-slot="1207418447"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
     />
   )
 }, () => true);
@@ -58,17 +61,39 @@ const presets = {
 function AdSense({
   type,
   className,
-  style
+  style,
+  fallback
 }: {
   type: keyof typeof presets;
   className?: string;
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
+  fallback?: ReactChildren
 }) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [adBlocked, setAdBocked] = React.useState(false);
+
+  const fallbackDefined = typeof fallback !== 'undefined';
+
+  React.useEffect(() => {
+    if (!adBlocked && fallbackDefined) {
+      const id = setInterval(() => {
+        if (ref.current && ref.current.clientHeight === 0) {
+          setAdBocked(true);
+        }
+      }, 100);
+  
+      return () => {
+        clearInterval(id);
+      }
+    }
+  }, [adBlocked, fallbackDefined]);
+
   if (presets[type]) {
     const preset = presets[type];
     return (
       <>
         <div 
+          ref={ref}
           className={className}
           style={style}
         >
@@ -78,6 +103,7 @@ function AdSense({
             adSlot={preset.adSlot}
           />
         </div>
+        {adBlocked ? fallback : null}
         {StyleSheet}
       </>
     );

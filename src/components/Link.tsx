@@ -15,7 +15,7 @@ export function Link({
   tooltipPosition,
   onClickSideEffect
 }: {
-  href: string
+  href?: string
   children: React.ReactNode
   style?: React.CSSProperties
   className?: string
@@ -29,7 +29,7 @@ export function Link({
 }) {
   const router = useRouter();
 
-  const hrefHost = href.match(/(https{0,1}:\/\/|^)([^/]+)/)?.[2];
+  const hrefHost = href?.match(/(https{0,1}:\/\/|^)([^/]+)/)?.[2] ?? '';
   
   let isInternal = false;
 
@@ -37,11 +37,11 @@ export function Link({
     isInternal = true;
   } 
   
-  else {
-    isInternal = /^\//.test(href);
+  else if(href) {
+    isInternal = /^(\/|#)/.test(href);
   }
 
-  return isInternal ? (
+  return (isInternal && href) ? (
     <DefaultLink
       href={href}
     >
@@ -80,7 +80,7 @@ export function Link({
       data-tooltip-position={tooltipPosition}
       onClick={onClickSideEffect ? (
         (e) => {
-          if (e.defaultPrevented) {
+          if (e.defaultPrevented && href) {
             router.push(href);
           }
           onClickSideEffect();
