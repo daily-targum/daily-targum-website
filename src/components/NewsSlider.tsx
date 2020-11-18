@@ -4,7 +4,7 @@ import { formatDateAbriviated, hyphenatedToCapitalized } from '../shared/src/uti
 import { Section, Text, AspectRatioImage } from '../components';
 import Link from './Link';
 import { imgix } from '../utils';
-import { Swipeable } from 'react-swipeable'
+import { useSwipeable } from 'react-swipeable'
 import styles from './NewsSlider.module.scss';
 import cn from 'classnames';
 
@@ -126,13 +126,17 @@ export function NewsSlider({
     return () => {
       clearTimeout(id);
     }
-  }, [index, incrementSlide, resetTimer])
+  }, [index, incrementSlide, resetTimer]);
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => incrementSlide(1),
+    onSwipedRight: () => incrementSlide(-1)
+  });
 
   return (
-    <Swipeable 
+    <div 
       style={{position: 'relative'}}
-      onSwipedLeft={() => incrementSlide(1)}
-      onSwipedRight={() => incrementSlide(-1)}
+      {...handlers}
     >
       <div 
         className={cn(
@@ -169,7 +173,7 @@ export function NewsSlider({
           />
         ))}
       </div>
-    </Swipeable>
+    </div>
   );
 }
 
