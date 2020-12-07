@@ -14,6 +14,7 @@ import Styles from './[slug].styles';
 const { classNames, StyleSheet } = Styles;
 
 
+
 function Article({
   article 
 }: {
@@ -55,6 +56,7 @@ function Article({
                 <Text variant='h3'>Share</Text>
                 
                 <Link
+                  popup
                   className={classNames.shareLink}
                   href={`https://www.facebook.com/sharer/sharer.php?${queryString.stringify({ u: articlePath+router.asPath, quote: article.abstract })}`}
                 >
