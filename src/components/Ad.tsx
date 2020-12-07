@@ -52,7 +52,7 @@ const presets: {
     adUnit: "isb_super-leaderboard_970x90",
     sizes: [ [300, 75], [970, 90] ],
     sizeMapping: [
-      { viewport: [1350, 768], sizes: [[970, 90]] },
+      { viewport: [1020, 768], sizes: [[970, 90]] },
       { viewport: [0, 0], sizes: [[300, 75]] },
     ]
   },
