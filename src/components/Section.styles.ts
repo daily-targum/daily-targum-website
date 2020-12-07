@@ -33,14 +33,14 @@ const inside = css.resolve`
 
 
 const offsetPadding = css.resolve`
-  @media ${styleHelpers.mediaQuery('xs', 'xl')} {
+  @media ${styleHelpers.mediaQuery('xs', 'md')} {
     * {
       margin-right: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);
       margin-left: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);
     }
   }
 
-  @media ${styleHelpers.printMediaQuery('xs', 'xl')} {
+  @media ${styleHelpers.printMediaQuery('xs', 'md')} {
     * {
       margin-right: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);
       margin-left: calc((${styleHelpers.spacing(1.25)} + 1vw) * -1);

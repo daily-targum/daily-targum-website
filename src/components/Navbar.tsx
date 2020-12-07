@@ -324,9 +324,7 @@ export function Navbar() {
         </div>
       </FocusTrap>
       <div
-        style={{
-          height: NAVBAR_HEIGHT
-        }}
+        className={classNames.navbarSpacer}
       />
       {StyleSheet}
     </>
