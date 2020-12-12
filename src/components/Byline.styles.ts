@@ -42,7 +42,7 @@ const avatar = css.resolve`
     }
   };
 
-  @media ${styleHelpers.printMediaQuery('xs', 'sm')} {
+  @media print {
     * {
       display: none;
     }

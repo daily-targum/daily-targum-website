@@ -46,6 +46,10 @@ export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,
 });
 
+export const AdSense = dynamic(() => import("./AdSense"), {
+  ssr: false,
+});
+
 export const ScrollLock = dynamic(() => import("./ScrollLock"), {
   ssr: false,
 });

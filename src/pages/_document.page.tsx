@@ -41,6 +41,7 @@ export default class MyDocument extends Document {
           <link rel="dns-prefetch" href="https://dailytargum.imgix.net/"/>
 
           <script async src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.js"/>
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"/>
         </Head>
 
         <body>

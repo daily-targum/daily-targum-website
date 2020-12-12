@@ -2,15 +2,17 @@ import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { actions, GetArticle } from '../../../../shared/src/client';
 import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../../shared/src/utils';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, HTML, Ad, Sticky, Semantic, Donate, Link } from '../../../../components';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, Donate, HTML, AdSense, Sticky, Semantic, Link } from '../../../../components';
 
 import NotFound from '../../../404.page';
 import { imgix, processNextQueryStringParam } from '../../../../utils';
 import { useRouter } from 'next/router';
+import queryString from 'query-string';
 
 import { theme } from '../../../../constants';
 import Styles from './[slug].styles';
 const { classNames, StyleSheet } = Styles;
+
 
 
 function Article({
@@ -30,17 +32,57 @@ function Article({
 
   const photoCredit = article.media[0]?.credits;
   const photoDescription = extractTextFromHTML(article.media[0]?.description ?? '');
+
+  const articlePath = `https://dailytargum.com${router.asPath}`;
   
   return (
     <>
       <Section className={classNames.page}>
       
         <Grid.Row 
-          spacing={theme.spacing(4)}
-          cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
+          spacing={theme.spacing(3)}
+          cols={[ '1fr', '1px', 'minmax(auto, 75ch)', '1px', 'minmax(250px, 1fr)' ]}
           disableGridOnPrit
         >
-          <Grid.Col xs={3} xl={1}>
+          <Grid.Col xs={0} xl={1} style={{height: '100%'}}>
+            <Sticky>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start'
+                }}
+              >
+                <Text variant='h3'>Share</Text>
+                
+                <Link
+                  popup
+                  className={classNames.shareLink}
+                  href={`https://www.facebook.com/sharer/sharer.php?${queryString.stringify({ u: articlePath+router.asPath, quote: article.abstract })}`}
+                >
+                  Facebook
+                </Link>
+                <Link
+                  className={classNames.shareLink}
+                  href={`https://twitter.com/intent/tweet?${queryString.stringify({ url: articlePath, text: article.abstract })}`}
+                >
+                  Twitter
+                </Link>
+                <Link 
+                  className={classNames.shareLink}
+                  onClickSideEffect={() => window.print()}
+                >
+                  Print
+                </Link>
+              </div>
+            </Sticky>
+          </Grid.Col>
+
+          <Grid.Col xs={0} xl={1} style={{height: '100%', overflow: 'hidden'}}>
+            <Divider.Vertical/>
+          </Grid.Col>
+
+          <Grid.Col xs={5} md={3} xl={1}>
             <Semantic role='main' skipNavContent pritable>
               {article.category ? (
                 <Link 
@@ -98,39 +140,20 @@ function Article({
             <Divider.Vertical/>
           </Grid.Col>
 
-          <Grid.Col xs={0} xl={1} style={{height: '100%'}}>
+          <Grid.Col xs={0} md={1} style={{height: '100%'}}>
             <Sticky>
-              <Semantic role='aside'>
-                <Ad 
-                  type='rectange' 
-                  style={{ marginBottom: '1rem' }} 
-                />
-                <Ad 
-                  type='skyscraper' 
-                  fallback={(
-                    <Donate.SidebarCard/>
-                  )}
-                />
-              </Semantic>
+              <AdSense 
+                type='sidebar'
+                fallback={(
+                  <Donate.SidebarCard/>
+                )}
+              />
             </Sticky>
           </Grid.Col>
 
         </Grid.Row>
 
       </Section>
-
-      {/* <Divider/>
-      <Section className={classes.page}>
-        <Grid.Row 
-          spacing={spacing(4)}
-          cols={['165px', '1fr', '165px']}
-        >
-          <Grid.Col xs={3} md={0} lg={1}></Grid.Col>
-          <Grid.Col>
-            <Text variant='h2'>Comments</Text>
-          </Grid.Col>
-        </Grid.Row>
-      </Section> */}
 
       <Divider/>
       <Newsletter.Section/>

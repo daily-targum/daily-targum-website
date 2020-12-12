@@ -114,6 +114,8 @@ jobs:
     needs: setup-linux
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Checkout submodules
         run: |
           git submodule sync --recursive
