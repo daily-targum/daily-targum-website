@@ -132,7 +132,7 @@ export function Footer() {
           </div>
 
           <div className={classNames.copyrightRow}>
-            <Text className={classNames.copyright}>Copyright © 2020 Targum Publishing Company. All rights reserved.</Text>
+            <Text className={classNames.copyright}>Copyright © {(new Date()).getFullYear()} Targum Publishing Company. All rights reserved.</Text>
             <div className={classNames.themeSelectWrap}>
               <ThemeSelector/>
             </div>

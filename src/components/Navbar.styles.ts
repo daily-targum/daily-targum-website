@@ -35,6 +35,12 @@ const navbarSpacer = css.resolve`
   * {
     height: ${HEIGHT};
   }
+
+  @media print {
+    * {
+      display: none;
+    }
+  }
 `;
 
 const inner = css.resolve`

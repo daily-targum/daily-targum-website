@@ -42,11 +42,13 @@ export function ThemeSelector() {
       </select>
       <style jsx global>
         {`
-          :root,
-          body,
-          body,
-          #next-app {
-            ${theme === 'dark' ? styleHelpers.darkTheme() : ''}
+          @media only screen {
+            :root,
+            body,
+            body,
+            #next-app {
+              ${theme === 'dark' ? styleHelpers.darkTheme() : ''}
+            }
           }
 
           @media only screen and (prefers-color-scheme: dark) {

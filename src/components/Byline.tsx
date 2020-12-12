@@ -15,10 +15,12 @@ function getInitials(name: string) {
 
 function Authors({
   publishDate,
-  authors
+  authors,
+  compact = false
 }: {
-  authors: Author[]
-  publishDate: number
+  authors: Author[];
+  publishDate: number;
+  compact?: boolean
 }) {
   const authorsExceptLast = authors.slice(0);
   let last: Author | undefined;
@@ -29,35 +31,37 @@ function Authors({
   return (
     <>
       <div className={classNames.row}>
-        <aside 
-          className={classNames.aside}
-          aria-hidden={true}
-        >
-          {authors.map(author => (
-            <Link 
-              key={author.id}
-              href={`/staff/${author.slug}`}
-              className={classNames.avatar}
-              label={`More articles by ${author.displayName}`}
-              tabIndex={-1}
-            >
-              {author.headshot ? (
-                <AspectRatioImage
-                  aspectRatio={1}
-                  className={classNames.avatar}
-                  data={imgix(author.headshot, {
-                    xs: imgix.presets.xs('1:1')
-                  })}
-                  altText={`Author headshot for ${author.displayName}`}
-                />
-              ): (
-                <div className={classNames.initials}>
-                  {getInitials(author.displayName)}
-                </div >
-              )}
-            </Link>
-          ))}
-        </aside>
+        {compact ? null : (
+          <aside 
+            className={classNames.aside}
+            aria-hidden={true}
+          >
+            {authors.map(author => (
+              <Link 
+                key={author.id}
+                href={`/staff/${author.slug}`}
+                className={classNames.avatar}
+                label={`More articles by ${author.displayName}`}
+                tabIndex={-1}
+              >
+                {author.headshot ? (
+                  <AspectRatioImage
+                    aspectRatio={1}
+                    className={classNames.avatar}
+                    data={imgix(author.headshot, {
+                      xs: imgix.presets.xs('1:1')
+                    })}
+                    altText={`Author headshot for ${author.displayName}`}
+                  />
+                ): (
+                  <div className={classNames.initials}>
+                    {getInitials(author.displayName)}
+                  </div >
+                )}
+              </Link>
+            ))}
+          </aside>
+        )}
 
         <div className={classNames.column}>
           <address className={classNames.authors}>
@@ -88,7 +92,13 @@ function Authors({
               </>
             ) : null}
           </address>
-          <Text className={classNames.date} htmlTag='time' noPadding>{formatDate(publishDate)}</Text>
+          <Text 
+            className={classNames.date} 
+            htmlTag='time' 
+            noPadding
+          >
+            {compact ? formatDateAbriviated(publishDate) : formatDate(publishDate)}
+          </Text>
         </div>
 
       </div>

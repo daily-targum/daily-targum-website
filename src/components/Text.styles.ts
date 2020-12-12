@@ -15,19 +15,17 @@ const blockquote = css.resolve`
     font-style: italic;
     font-size: 1.2rem;
     line-height: lineHeight('paragraph');
-    color: var(--colors-textMuted);
-    border-left: 3px solid var(--colors-text);
-    padding-left: theme.spacing(3);
-    margin: theme.spacing(4, 0);
+    color: ${styleHelpers.color('textMuted')};
+    border-left: 3px solid v${styleHelpers.color('text')};
+    padding-left: ${styleHelpers.spacing(3)};
+    margin: ${styleHelpers.spacing(4, 0)};
   }
-
   @media ${styleHelpers.mediaQuery('md')} {
     * {
       max-width: 75%;
       margin: ${styleHelpers.spacing(6)} auto;
     }
   }
-
   @media ${styleHelpers.printMediaQuery('md')} {
     * {
       max-width: 75%;
@@ -98,7 +96,7 @@ const h6 = css.resolve`
 
 const p = css.resolve`
   * {
-    font-size: 1rem;
+    font-size: 1.05rem;
     line-height: 1.8em;
     margin-bottom: ${styleHelpers.spacing(2)};
     font-weight: normal;
