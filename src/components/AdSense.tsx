@@ -21,8 +21,10 @@ const AdBase = React.memo(({
 }: AdBaseProps) => {
   React.useEffect(() => {
     if(window && !nextUtils.envIs(['development'])) {
-      // @ts-ignore
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      setTimeout(() => {
+        // @ts-ignore
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }, 1000);
     }
   }, []);
 
