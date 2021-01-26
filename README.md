@@ -131,6 +131,10 @@ The following environment variables are required.
 AWS_APPSYNC_URL=
 AWS_APPSYNC_REGION=
 AWS_APPSYNC_API_KEY=
+
+# Contentful
+CONTENTFUL_SPACE=
+CONTENTFUL_ACCESS_TOKEN_DRAFTS=
 ```
 
 Adding environment variables requires changing the following files:
