@@ -6,7 +6,7 @@ import { imgix } from '../../utils';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../machines';
 import styles from './inside-beat.module.scss';
-import { theme } from '../../constants';
+import { theme, next } from '../../constants';
 
 function Category({ 
   initialArticles
@@ -127,7 +127,7 @@ export async function getStaticProps() {
       initialArticles: initialArticles ?? null,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   }
 };
 

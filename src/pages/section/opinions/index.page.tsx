@@ -5,7 +5,7 @@ import { Section, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage,
 import { imgix } from '../../../utils';
 import { GetStaticProps } from 'next';
 import styles from './index.module.scss';
-import { theme } from '../../../constants';
+import { theme, next } from '../../../constants';
 
 function Column({
   title,
@@ -153,7 +153,7 @@ export const getStaticProps: GetStaticProps = async () => {
       initSection: initSection ?? null,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   };
 };
 

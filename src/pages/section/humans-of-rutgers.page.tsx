@@ -5,7 +5,7 @@ import { Carousel, Section, Grid, AspectRatioImage, LoadMoreButton, Banner, Moda
 import { imgix } from '../../utils';
 import { photoModalMachine, useMachine } from '../../machines';
 import { GrStackOverflow } from 'react-icons/gr';
-import { theme } from '../../constants';
+import { theme, next } from '../../constants';
 import Styles from './humans-of-rutgers.styles';
 const { classNames, StyleSheet } = Styles;
 
@@ -190,7 +190,7 @@ export async function getStaticProps() {
       initHoru: initHoru ?? null,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   }
 };
 

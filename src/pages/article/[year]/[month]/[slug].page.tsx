@@ -9,7 +9,7 @@ import { imgix, processNextQueryStringParam } from '../../../../utils';
 import { useRouter } from 'next/router';
 import queryString from 'query-string';
 
-import { theme } from '../../../../constants';
+import { theme, next } from '../../../../constants';
 import Styles from './[slug].styles';
 const { classNames, StyleSheet } = Styles;
 
@@ -178,7 +178,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   if (!article) {
     return {
       props: {},
-      revalidate: 60 // seconds
+      revalidate: next.staticPropsRevalidateSeconds
     };
   }
 
@@ -215,7 +215,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       article: article ?? null,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   };
 };
 

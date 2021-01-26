@@ -5,7 +5,7 @@ import { imgix } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../machines';
-import { theme } from '../../constants';
+import { theme, next } from '../../constants';
 import styles from './news.module.scss';
 
 function News({ 
@@ -117,7 +117,7 @@ export async function getStaticProps() {
       initialArticles: initialArticles ?? null,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   }
 };
 

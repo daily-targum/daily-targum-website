@@ -9,7 +9,7 @@ import { actions } from '../../shared/src/client';
 import { formatDateAbriviated, secondsToTimeCode } from '../../shared/src/utils';
 import { IoMdPause, IoMdPlay } from 'react-icons/io';
 import styles from './index.module.scss';
-import { theme } from '../../constants';
+import { theme, next } from '../../constants';
 import cn from 'classnames';
 
 function Overlay({
@@ -176,7 +176,7 @@ export const getStaticProps = async () => {
       playlists,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   }
 };
 

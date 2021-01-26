@@ -7,6 +7,7 @@ import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyp
 import { imgix } from '../utils';
 import styles from './index.module.scss';
 import { theme } from '../constants';
+import { next } from '../constants/next';
 
 interface Section {
   id: string,
@@ -193,7 +194,7 @@ export async function getStaticProps() {
       homepage,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   }
 };
 

@@ -7,7 +7,7 @@ import { processNextQueryStringParam, imgix, styleHelpers } from '../../utils';
 import NotFound from '../404.page';
 import { useRouter } from 'next/router';
 import styles from './[slug].module.scss';
-import { theme } from '../../constants';
+import { theme, next } from '../../constants';
 
 function Author({
   page
@@ -135,7 +135,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: { 
       page: page ?? null
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   };
 };
 

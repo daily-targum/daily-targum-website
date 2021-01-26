@@ -7,7 +7,7 @@ import { processNextQueryStringParam, imgix, styleHelpers } from '../../../utils
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../../machines';
-import { theme } from '../../../constants';
+import { theme, next } from '../../../constants';
 import styles from './[subcategory].module.scss';
 
 function Author({
@@ -134,7 +134,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       subcategory,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   };
 };
 

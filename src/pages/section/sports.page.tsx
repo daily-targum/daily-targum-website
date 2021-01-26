@@ -6,7 +6,7 @@ import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
 import { useSports } from '../../machines';
 import styles from './sports.module.scss';
-import { theme } from '../../constants';
+import { theme, next } from '../../constants';
 
 
 function Category({ 
@@ -189,7 +189,7 @@ export async function getStaticProps() {
       initialArticles: initialArticles ?? null,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   };
 };
 

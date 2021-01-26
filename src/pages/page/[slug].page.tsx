@@ -6,6 +6,7 @@ import NotFound from '../404.page';
 import { processNextQueryStringParam, styleHelpers } from '../../utils';
 import { useRouter } from 'next/router';
 import Styles from './page.style';
+import { next } from '../../constants/next';
 const { classNames, StyleSheet } = Styles;
 
 function Page({
@@ -81,7 +82,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       page: page ?? null,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   }
 };
 

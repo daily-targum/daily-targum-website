@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { videoActions } from '../../store/ducks/video';
 import { useDispatch } from '../../store';
 import styles from './[playlist].module.scss';
-import { theme } from '../../constants';
+import { theme, next } from '../../constants';
 
 function Author({
   initialVideos
@@ -119,7 +119,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       slug,
       seo
     },
-    revalidate: 60 // seconds
+    revalidate: next.staticPropsRevalidateSeconds
   };
 };
 
