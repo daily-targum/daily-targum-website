@@ -157,7 +157,7 @@ jobs:
           vercel-org-id: ${{ secrets.ORG_ID }}  #Required
           vercel-project-id: ${{ secrets.PROJECT_ID }} #Required
           alias-domains: |
-            beta.dailytargum.com
+            staging.dailytargum.com
   lighthouse-check:
     name: Auddit - Lighthouse
     runs-on: ubuntu-latest
@@ -170,7 +170,7 @@ jobs:
         continue-on-error: true
         with:
           accessToken: ${{ secrets.GITHUB_TOKEN }} #Optional 
-          urls: 'https://beta.dailytargum.com/,https://beta.dailytargum.com/section/news,https://beta.dailytargum.com/section/sports,https://beta.dailytargum.com/section/opinions,https://beta.dailytargum.com/section/inside-beat,https://beta.dailytargum.com/page/privacy-policy,https://beta.dailytargum.com/videos,https://beta.dailytargum.com/section/humans-of-rutgers'
+          urls: 'https://staging.dailytargum.com/,https://staging.dailytargum.com/section/news,https://staging.dailytargum.com/section/sports,https://staging.dailytargum.com/section/opinions,https://staging.dailytargum.com/section/inside-beat,https://staging.dailytargum.com/page/privacy-policy,https://staging.dailytargum.com/videos,https://staging.dailytargum.com/section/humans-of-rutgers'
           commentUrl: https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments
           outputDirectory: ./report
       - name: Upload results as an artifact
