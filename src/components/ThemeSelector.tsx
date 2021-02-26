@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styleHelpers, nextUtils } from '../utils';
-import { hyphenatedToCapitalized } from '../shared/src/utils';
+import { hyphenatedToCapitalized } from '../utils';
 import { useAmp } from 'next/amp';
 
 const themes = [

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createMachine, assign } from 'xstate';
 import { useMachine } from '@xstate/react';
-import { CompactArticle } from '../shared/src/client';
+import { CompactArticle } from '../aws';
 
 // type MachineState =
 //   | { value: 'dehydrated'; context: MachineContext }
@@ -195,7 +195,7 @@ export function useSports({
     if (parentState === 'all' || parentState === 'tagSelected') {
 
       async function load() {
-        const { actions } = await import('../shared/src/client');
+        const { actions } = await import('../aws');
 
         if (selectedTag) {
           const lastArticle = state.context.subcategories?.[selectedTag]?.slice(-1)[0];

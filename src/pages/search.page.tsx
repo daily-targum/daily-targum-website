@@ -1,17 +1,13 @@
-import * as React from 'react';
 import { NextPageContext } from 'next';
-import { actions, SearchHits } from '../shared/src/client';
-import { SEOProps, Section, Text, Divider, Link, AspectRatioImage, Semantic, Search, FlatList, HighlightText, Byline } from '../components';
-
-import { imgix, processNextQueryStringParam } from '../utils';
-import { extractTextFromHTML } from '../shared/src/utils';
 import { useRouter } from 'next/router';
+import queryString from 'query-string';
+import * as React from 'react';
+import { AspectRatioImage, Byline, Divider, FlatList, HighlightText, Link, Search, Section, Semantic, SEOProps, Text } from '../components';
+import { actions, SearchHits } from '../aws';
 import { useDispatch, useSelector } from '../store';
 import { searchActions } from '../store/ducks/search';
-import queryString from 'query-string';
-
+import { extractTextFromHTML, imgix, processNextQueryStringParam } from '../utils';
 import styles from './search.module.scss';
-
 
 function SearchPage({
   initialQuery,

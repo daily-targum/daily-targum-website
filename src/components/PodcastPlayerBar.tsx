@@ -4,7 +4,7 @@ import Grid from './Grid/web';
 import Text from './Text';
 import { IoIosPlay, IoIosPause } from 'react-icons/io';
 import { MdForward10, MdReplay10 } from 'react-icons/md';
-import { clamp, secondsToTimeCode } from '../shared/src/utils';
+import { clamp, secondsToTimeCode } from '../utils';
 import { useSelector, useDispatch } from '../store';
 import { podcastActions } from '../store/ducks/podcast';
 import Styles from './PodcastPlayerBar.styles';

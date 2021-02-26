@@ -1,29 +1,22 @@
-import * as React from 'react';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { actions, GetArticle } from '../../../../shared/src/client';
-import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../../shared/src/utils';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, ActivityIndicator, Donate, HTML, AdSense, Sticky, Semantic, Link } from '../../../../components';
-
-import NotFound from '../../../404.page';
-import { imgix, processNextQueryStringParam, styleHelpers } from '../../../../utils';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
-
+import * as React from 'react';
+import { AiFillPrinter } from 'react-icons/ai';
 import {
-  TwitterShareButton,
-  TwitterIcon,
-  FacebookShareButton,
-  FacebookIcon,
-  EmailShareButton,
-  EmailIcon,
-  LinkedinShareButton,
-  LinkedinIcon,
-  RedditShareButton,
-  RedditIcon
+  EmailIcon, EmailShareButton, FacebookIcon, FacebookShareButton,
+  LinkedinIcon, LinkedinShareButton,
+  RedditIcon, RedditShareButton, TwitterIcon, TwitterShareButton
 } from "react-share";
-import { AiFillPrinter } from 'react-icons/ai'
-
-import { theme, next } from '../../../../constants';
+import { actions, GetArticle } from '../../../../aws';
+import { ActivityIndicator, AdSense, AspectRatioImage, Byline, Divider, Donate, Grid, HTML, Link, Newsletter, Section, Semantic, SEOProps, Sticky, Text } from '../../../../components';
+import { imgix, processNextQueryStringParam, styleHelpers, hyphenatedToCapitalized, extractTextFromHTML } from '../../../../utils';
+import NotFound from '../../../404.page';
 import Styles from './[slug].styles';
+import { next, theme } from '../../../../constants'
+
+
+
+
 const { classNames, StyleSheet } = Styles;
 
 

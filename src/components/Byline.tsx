@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Text from './Text';
-import { formatDate, formatDateAbriviated } from '../shared/src/utils';
-import { Author } from '../shared/src/client';
+import { formatDate, formatDateAbriviated } from '../utils';
+import { Author } from '../aws';
 import { imgix } from '../utils';
 import Link from './Link';
 import { AspectRatioImage } from './AspectRatioView';

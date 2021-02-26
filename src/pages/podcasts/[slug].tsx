@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { hyphenatedToCapitalized } from '../../shared/src/utils';
-import { actions, GetPodcast } from '../../shared/src/client';
+import { hyphenatedToCapitalized } from '../../utils';
+import { actions, GetPodcast } from '../../aws';
 import { processNextQueryStringParam, imgix } from '../../utils';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { SEOProps } from '../../components/SEO';

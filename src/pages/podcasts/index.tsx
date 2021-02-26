@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { actions, GetPodcast } from '../../shared/src/client';
-import { capitalizedToHypenated } from '../../shared/src/utils';
-import { imgix } from '../../utils';
+import { actions, GetPodcast } from '../../aws';
+import { imgix, capitalizedToHypenated } from '../../utils';
 import { GetStaticProps } from 'next';
 import { SEOProps } from '../../components/SEO';
 import { Grid, AspectRatioImage, Section, Text, ActivityIndicator, Navbar, Banner, Link, Semantic } from '../../components';

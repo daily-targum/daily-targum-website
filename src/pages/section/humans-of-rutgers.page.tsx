@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { actions, GetHoru } from '../../shared/src/client';
+import { actions, GetHoru } from '../../aws';
 import NotFound from '../404.page';
 import { Carousel, Section, Grid, AspectRatioImage, LoadMoreButton, Banner, Modal, Text, SEOProps, HTML, Ad, ResetTabIndex, Semantic } from '../../components';
 import { imgix } from '../../utils';
@@ -27,7 +27,7 @@ function Category({
     if(!horu.nextToken || isLoading) return;
     setIsLoading(true);
 
-    const { actions: clientActions } = await import('../../shared/src/client');
+    const { actions: clientActions } = await import('../../aws');
 
     const res = await clientActions.getHoru({
       limit: 50,

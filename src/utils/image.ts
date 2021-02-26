@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 import { BreakPoints } from '../components/Grid/types';
 import { breakPoints } from '../components/Grid/config';
-import { ObjectKeys } from '../shared/src/utils';
+import { ObjectKeys } from '../utils';
 
 type ImgixOptions = {
   ar?: string

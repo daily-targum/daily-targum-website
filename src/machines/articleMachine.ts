@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createMachine, assign } from '@xstate/fsm';
-import { GetArticles, GetArticlesBySubcategory, CompactArticle } from '../shared/src/client';
+import { GetArticles, GetArticlesBySubcategory, CompactArticle } from '../aws';
 import { useMachine } from '@xstate/react/lib/fsm';
 
 type MachineState =
@@ -116,7 +116,7 @@ export function useArticles({
     if (state.value === 'loading' && lastArticle) {
 
       async function load() {
-        const { actions } = await import('../shared/src/client');
+        const { actions } = await import('../aws');
 
         if (category) {
           actions.getArticles({

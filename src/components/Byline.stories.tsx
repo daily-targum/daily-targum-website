@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import { ARTICLE } from '../shared/src/client/actions/__mocks__/articles';
+import { ARTICLE } from '../aws/actions/__mocks__/articles';
 
 import Byline from './Byline';
 

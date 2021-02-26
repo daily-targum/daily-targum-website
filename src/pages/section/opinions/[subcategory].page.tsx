@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Section, Text, Grid, Card2, LoadMoreButton, ActivityIndicator, SEOProps, Divider, Ad, Sticky, Semantic, Donate } from '../../../components';
-import { actions, GetArticlesBySubcategory } from '../../../shared/src/client';
-import { formatDateAbriviated, hyphenatedToCapitalized, extractTextFromHTML } from '../../../shared/src/utils';
-import { processNextQueryStringParam, imgix, styleHelpers } from '../../../utils';
+import { actions, GetArticlesBySubcategory } from '../../../aws';
+import { processNextQueryStringParam, imgix, styleHelpers, formatDateAbriviated, hyphenatedToCapitalized, extractTextFromHTML } from '../../../utils';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../../machines';

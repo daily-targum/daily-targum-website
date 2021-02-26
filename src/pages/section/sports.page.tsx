@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { actions, GetArticles } from '../../shared/src/client';
+import { actions, GetArticles } from '../../aws';
 import { Section, Grid, LoadMoreButton, ActivityIndicator, Card, CardCols, Banner, TagBar, Divider, SEOProps, Text, Semantic } from '../../components';
-import { imgix } from '../../utils';
-import { formatDateAbriviated, chopArray } from '../../shared/src/utils';
+import { imgix, formatDateAbriviated, chopArray } from '../../utils';
 import { useRouter } from 'next/router';
 import { useSports } from '../../machines';
 import styles from './sports.module.scss';

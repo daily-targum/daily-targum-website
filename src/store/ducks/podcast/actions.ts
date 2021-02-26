@@ -1,5 +1,5 @@
 import types, { State } from './types';
-import { clamp } from '../../../shared/src/utils';
+import { clamp } from '../../../utils';
 
 let privateState: {
   intervalId?: number
@@ -87,7 +87,7 @@ export function skip(num: number) {
 export function loadPodcast(id: string) {
   return async (dispatch: any, getState: () => { podcast: State }) => {
 
-    const { getPodcast } = await import('../../../shared/src/client');
+    const { getPodcast } = await import('../../../aws');
     const { Howl } = await import('howler');
 
     const state = getState();

@@ -1,5 +1,6 @@
 // import { Theme } from '../types';
 import * as React from 'react';
+import { ObjectKeys } from './array'
 
 function aspectRatioFullHeight(aspectRatio: number) {
   return {
@@ -282,12 +283,6 @@ export const styleHelpers = {
   accessibilityOutline,
   timing,
   centerBackgroundImage
-}
-
-
-
-export function ObjectKeys<T>(obj: T): (keyof T)[] {
-  return Object.keys(obj as any) as (keyof T)[];
 }
 
 type Styles<T, S> = {

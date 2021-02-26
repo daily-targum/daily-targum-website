@@ -1,5 +1,5 @@
 import types, { State } from './types';
-import { SearchHits } from '../../../shared/src/client';
+import { SearchHits } from '../../../aws';
 
 export function setQuery(query: string) {
   return {
@@ -28,7 +28,7 @@ export function search() {
       type: types.SEARCH_LOADING
     });
 
-    const { search } = await import('../../../shared/src/client');
+    const { search } = await import('../../../aws');
     const { query } = getState().search;
     const res = await search({ query });
 
