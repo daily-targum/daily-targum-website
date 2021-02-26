@@ -5,21 +5,23 @@ const HEIGHT = 55;
 
 const spacer = css.resolve`
   * {
-    ${styleHelpers.lockHeight(HEIGHT)};
+    min-height: ${HEIGHT}px;
+    min-height: calc(env(safe-area-inset-bottom) + ${HEIGHT}px)
   }
 `;
 
 const section = css.resolve`
   * {
-    ${styleHelpers.lockHeight(HEIGHT)};
+    min-height: ${HEIGHT}px;
     position: fixed;
     right: 0;
     bottom: 0;
     left: 0;
     justify-content: center;
     border-top: 1px solid ${styleHelpers.color('divider')};
-    background-color: ${styleHelpers.color('navbar')};;
+    background-color: ${styleHelpers.color('navbar')};
     backdrop-filter: saturate(180%) blur(10px);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 `;
 
@@ -57,6 +59,13 @@ const time = css.resolve`
     padding: ${styleHelpers.spacing(0, 2)};
     text-align: center;
   min-width: 80px;
+  }
+`;
+
+const loading = css.resolve`
+  * {
+    width: 100%;
+    text-align: center;
   }
 `;
 
@@ -111,5 +120,6 @@ export default buildStyleSheet({
   centerHorizontally,
   progressBar,
   progressBarProgress,
-  hideButton
+  hideButton,
+  loading
 });

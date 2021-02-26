@@ -27,6 +27,7 @@ const persistentPlayerWrap = css.resolve`
     z-index: 1000;
     position: fixed;
     bottom: 10px;
+    bottom: calc(env(safe-area-inset-bottom) + 10px);
     right: 10px;
     box-shadow: 0px 2px 11px #0000004d;
   }
@@ -37,8 +38,8 @@ const closeIcon = css.resolve`
   * {
     ${styleHelpers.hideButton()}
     position: absolute;
-    top: theme.spacing(1);
-    right: theme.spacing(1);
+    top: ${styleHelpers.spacing(1)};
+    right: ${styleHelpers.spacing(1)};
     z-index: 1001;
     cursor: pointer;
     color: #fff;
@@ -78,7 +79,7 @@ const videoOverlay = css.resolve`
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity theme.timing(0.5);
+    transition: opacity ${styleHelpers.timing(0.5)};
     width: 100%;
     ${styleHelpers.hideButton()};
     cursor: pointer;

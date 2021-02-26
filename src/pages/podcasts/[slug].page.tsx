@@ -44,7 +44,10 @@ function Podcast({
     } else if (!playingThisShow && firstEpisode !== undefined) {
       await dispatch(podcastActions.loadPodcast(show, firstEpisode.id));
     }
-    dispatch(podcastActions.play());
+    setTimeout(
+      () => dispatch(podcastActions.play()),
+      1000
+    )
   }
 
   if (router.isFallback) {

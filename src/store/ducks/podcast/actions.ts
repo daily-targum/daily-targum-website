@@ -1,9 +1,12 @@
 import types, { State } from './types';
 import { clamp } from '../../../utils';
+import { videoActions } from '../video'
 
 let privateState: {
+  id?: number
   intervalId?: number
 } = {
+  id: undefined,
   intervalId: undefined
 };
 
@@ -14,6 +17,9 @@ export function play() {
       return;
     }
 
+    dispatch(videoActions.setPlayState('stop'));
+    dispatch(videoActions.setPersist(false));
+
     dispatch({
       type: types.SET_PLAY_STATE,
       payload: 'play'
@@ -21,7 +27,7 @@ export function play() {
 
     dispatch(setPersist(true));
 
-    state.podcast.player?.play();
+    privateState.id = state.podcast.player?.play(privateState.id);
 
     function updatePosition() {
       if(!state.podcast.player) {
@@ -50,7 +56,7 @@ export function pause() {
     clearInterval(privateState.intervalId);
 
     const state = getState();
-    state.podcast.player?.pause();
+    state.podcast.player?.pause(privateState.id);
 
     dispatch({
       type: types.SET_PLAY_STATE,
@@ -78,6 +84,15 @@ export function skip(num: number) {
 
     if(newPos < state.podcast.duration) {
       dispatch(play());
+    }
+  }
+}
+
+function syncPlayback() {
+  return async (dispatch: any, getState: () => { podcast: State }) => {
+    const state = getState()
+    if (state.podcast.playState === 'play') {
+      dispatch(play())
     }
   }
 }
@@ -110,6 +125,7 @@ export function loadPodcast(show: string, id: string) {
 
     const howl = new Howl({
       src: [podcast.audioFile],
+      html5: true,
       onplay: () => {
         dispatch({
           type: types.SET_PLAY_STATE,
@@ -147,9 +163,9 @@ export function loadPodcast(show: string, id: string) {
           type: types.SET_POSITION,
           payload: 0
         });
-      }
+        dispatch(syncPlayback());
+      },
     });
-    state.podcast.player?.unload();
 
     dispatch({
       type: types.SET_PLAYER,

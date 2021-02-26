@@ -16592,6 +16592,11 @@ universalify@^1.0.0:
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-1.0.0.tgz#b61a1da173e8435b2fe3c67d29b9adf8594bd16d"
   integrity sha512-rb6X1W158d7pRQBg5gkR8uPaSfiids68LTJQYOtEUhoJUWBdaQHsuT/EUduxXYxcrt4r5PJ4fuHW1MHT6p0qug==
 
+unmute-ios-audio@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/unmute-ios-audio/-/unmute-ios-audio-3.3.0.tgz#94c0dd466175fa158defe11a36e9671a8735b9be"
+  integrity sha512-MmoCOrsS2gn3wLT2tT+hF56Q4V4kksIKn2LHrwAtX6umzQwQHDWSh1slMzH+0WuxTZ62s3w8/wsfIII1FQ7ACg==
+
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"

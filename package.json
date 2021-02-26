@@ -110,6 +110,7 @@
     "styled-components": "5.2.1",
     "styled-jsx-plugin-postcss": "4.0.0",
     "styled-jsx-plugin-sass": "^1.0.0",
+    "unmute-ios-audio": "^3.3.0",
     "xss": "^1.0.8",
     "xstate": "4.15.1",
     "yarn": "^1.22.10"
