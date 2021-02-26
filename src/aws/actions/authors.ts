@@ -13,17 +13,21 @@ export interface GetAuthorPage {
 }
 
 export async function getAuthorBySlug({
-  slug
+  slug,
+  lastEvaluatedKey = '',
+  lastPublishDate = 0
 }: {
-  slug: string
+  slug: string,
+  lastEvaluatedKey?: string
+  lastPublishDate?: number
 }): Promise<GetAuthorPage | undefined> {
   let res: any;
   
   try {
     res = await client.query({
       query: gql`
-        query getAuthorBySlug($slug: String!) {
-          getAuthorBySlug(slug: $slug){
+        query getAuthorBySlug($slug: String! ${lastEvaluatedKey ? ', $lastEvaluatedKey: String!, $lastPublishDate: Int!' : ''}) {
+          getAuthorBySlug(slug: $slug ${lastEvaluatedKey ? ', lastEvaluatedKey: $lastEvaluatedKey, lastPublishDate: $lastPublishDate' : ''}){
             articles {
               abstract
               id
@@ -48,7 +52,9 @@ export async function getAuthorBySlug({
       `,
       fetchPolicy: 'no-cache',
       variables: {
-        slug
+        slug,
+        lastEvaluatedKey,
+        lastPublishDate
       }
     });
   } catch(e) {

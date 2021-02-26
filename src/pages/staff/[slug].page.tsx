@@ -8,13 +8,24 @@ import NotFound from '../404.page';
 import { useRouter } from 'next/router';
 import styles from './[slug].module.scss';
 import { theme, next } from '../../constants';
+import { useAuthorPage } from '../../machines';
 
 function Author({
-  page
+  page: initialPage,
+  slug
 }: {
   page: GetAuthorPage | null
+  slug: string
 }) {
   const router = useRouter();
+  
+  const { 
+    page, 
+    // loadMore, loading, outOfContent 
+  } = useAuthorPage({
+    initialPage,
+    slug
+  })
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen/>;
@@ -71,6 +82,7 @@ function Author({
                       xs={2} 
                       lg={1}
                       style={{height: '100%'}}
+                      className={article.id}
                     >
                       <Card2.Stacked
                         tag={article.category ? hyphenatedToCapitalized(article.category) : undefined}
@@ -87,10 +99,15 @@ function Author({
                       />
                     </Grid.Col>
                   ))}
-                
-                  {/* <ActivityIndicator.ProgressiveLoader
-                    onVisible={() => console.log('implement progressive load')}
-                  /> */}
+
+                  {/* {!outOfContent ? (
+                    <Grid.Col xs={2}>
+                      <LoadMoreButton
+                        handleLoad={loadMore}
+                        loading={loading}
+                      />
+                    </Grid.Col>
+                  ) : null} */}
                 </Grid.Row>
               </Grid.Col>
 
@@ -125,15 +142,17 @@ function Author({
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
+  const slug = processNextQueryStringParam(ctx.params?.slug, '')
   const page = await actions.getAuthorBySlug({
-    slug: processNextQueryStringParam(ctx.params?.slug, '')
+    slug
   });
 
   // TODO: add seo
 
   return {
     props: { 
-      page: page ?? null
+      page: page ?? null,
+      slug
     },
     revalidate: next.staticPropsRevalidateSeconds
   };

@@ -1,5 +1,18 @@
-import StickyBox from "react-sticky-box";
 import { ReactChildren } from '../types';
+import { styleHelpers, buildStyleSheet } from '../utils'
+import css from 'styled-jsx/css';
+import { NAVBAR_HEIGHT } from './Navbar'
+
+const stickyBox = css.resolve`
+  * {
+    ${styleHelpers.stickySidebar(NAVBAR_HEIGHT)}
+  }
+`;
+
+
+const { classNames, StyleSheet } = buildStyleSheet({
+  stickyBox
+});
 
 export function Sticky({
   children
@@ -7,8 +20,11 @@ export function Sticky({
   children: ReactChildren
 }) {
   return (
-    <StickyBox offsetTop={82}>
-      {children}
-    </StickyBox>
+    <>
+      <div className={classNames.stickyBox}>
+        {children}
+      </div>
+      {StyleSheet}
+    </>
   );
 }

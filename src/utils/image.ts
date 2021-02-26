@@ -18,7 +18,7 @@ type ImgixOptions = {
 const imgixDefaultOptions: ImgixOptions = {
   auto: 'compress',
   fit: 'crop',
-  crop: 'faces,entropy',
+  crop: 'faces',
   // allows us to prefer different formats
   // based on device size (mobile/desktop)
   formats: ['webp', 'jpg']
