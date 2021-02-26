@@ -3,10 +3,8 @@ import { clamp } from '../../../utils';
 
 let privateState: {
   intervalId?: number
-  id?: number
 } = {
-  intervalId: undefined,
-  id: undefined
+  intervalId: undefined
 };
 
 export function play() {
@@ -23,13 +21,13 @@ export function play() {
 
     dispatch(setPersist(true));
 
-    privateState.id = state.podcast.player?.play(privateState.id);
+    state.podcast.player?.play();
 
     function updatePosition() {
       if(!state.podcast.player) {
         return;
       }
-      let position = state.podcast.player.seek(undefined, privateState.id);
+      let position = state.podcast.player.seek(undefined);
       if (typeof position !== 'number') {
         position = 0;
       }
@@ -52,7 +50,7 @@ export function pause() {
     clearInterval(privateState.intervalId);
 
     const state = getState();
-    state.podcast.player?.pause(privateState.id);
+    state.podcast.player?.pause();
 
     dispatch({
       type: types.SET_PLAY_STATE,
@@ -84,7 +82,7 @@ export function skip(num: number) {
   }
 }
 
-export function loadPodcast(id: string) {
+export function loadPodcast(show: string, id: string) {
   return async (dispatch: any, getState: () => { podcast: State }) => {
 
     const { getPodcast } = await import('../../../aws');
@@ -100,7 +98,7 @@ export function loadPodcast(id: string) {
 
     const podcast = (
       await getPodcast({
-        show: 'Targum Tea',
+        show,
         limit: 5
       })
     ).items.filter(episode => episode.id === id)[0];
@@ -131,7 +129,6 @@ export function loadPodcast(id: string) {
         });
       },
       onend: () => {
-        clearInterval(privateState.intervalId);
         dispatch({
           type: types.SET_PLAY_STATE,
           payload: 'stop'

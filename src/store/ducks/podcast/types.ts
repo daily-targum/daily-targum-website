@@ -8,6 +8,7 @@ export default {
   SET_PLAYER: 'SET_PLAYER',
   SET_EPISODE: 'SET_EPISODE',
   SET_PERSIST: 'SET_PERSIST',
+  RESET: 'RESET',
 }
 
 export interface State {

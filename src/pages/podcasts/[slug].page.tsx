@@ -17,9 +17,11 @@ import Styles from './[slug].styles';
 const { classNames, StyleSheet } = Styles;
 
 function Podcast({
-  podcast
+  podcast,
+  show
 } : {
   podcast: GetPodcast | undefined
+  show: string
 }) {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -38,16 +40,11 @@ function Podcast({
 
   async function play(id?: string) {
     if (id && id !== episodePlayingId) {
-      await dispatch(podcastActions.loadPodcast(id));
+      await dispatch(podcastActions.loadPodcast(show, id));
     } else if (!playingThisShow && firstEpisode !== undefined) {
-      await dispatch(podcastActions.loadPodcast(firstEpisode.id));
+      await dispatch(podcastActions.loadPodcast(show, firstEpisode.id));
     }
-
-    if (playing) {
-      dispatch(podcastActions.pause());
-    } else {
-      dispatch(podcastActions.play());
-    }
+    dispatch(podcastActions.play());
   }
 
   if (router.isFallback) {
@@ -113,9 +110,9 @@ function Podcast({
               <Section.OffsetPadding>
                 <Table
                   data={[
-                    ['', 'Title', 'Date', 'Duration'],
+                    ['', 'Title', 'Date'],
                     ...(podcast?.items.map(item => (
-                      [item.id, item.title, dayjs(item.pubDate).format('MMM D, YYYY'), '30:00']
+                      [item.id, item.title, dayjs(item.pubDate).format('MMM D, YYYY')]
                     )) ?? [])
                   ]}
                   widths={['50px']}
@@ -184,6 +181,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: { 
       podcast,
+      show,
       seo
     }
   };

@@ -51,10 +51,10 @@ const navbarLinks: {
     title: 'Videos',
     href: '/videos'
   },
-  // {
-  //   title: 'Podcasts',
-  //   href: '/podcasts'
-  // },
+  {
+    title: 'Podcasts',
+    href: '/podcasts'
+  },
   // {
   //   title: 'Photos',
   //   href: '/photos'
@@ -64,10 +64,6 @@ const navbarLinks: {
     href: '/section/humans-of-rutgers',
     ariaLabel: 'Humans of Rutgers'
   },
-  // {
-  //   title: 'Podcasts',
-  //   href: '/podcasts/targum-tea'
-  // },
   {
     title: 'About',
     href: '/page/about'

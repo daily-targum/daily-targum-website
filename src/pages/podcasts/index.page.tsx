@@ -21,6 +21,8 @@ function CoverImage({
   const isSelected = useSelector(s => s.podcast.episode?.id) === firstEpisodeId;
   const isPlaying = useSelector(s => s.podcast.playState) === 'play';
 
+  const show = podcast.items[0]?.show
+
   return (
     <AspectRatioImage
       data={imgix(podcast.items[0].coverArt, {
@@ -33,7 +35,7 @@ function CoverImage({
       className={classNames.imageShadow}
       Overlay={(
         <div className={classNames.imageOverlay}>
-          {isPlaying ? (
+          {(isSelected && isPlaying) ? (
             <button 
               className={classNames.playButtonWrap}
               onClick={async () => {
@@ -46,8 +48,8 @@ function CoverImage({
             <button 
               className={classNames.playButtonWrap}
               onClick={async () => {
-                if (!isSelected) {
-                  await dispatch(podcastActions.loadPodcast(firstEpisodeId));
+                if (!isSelected && show) {
+                  await dispatch(podcastActions.loadPodcast(show, firstEpisodeId));
                 }
                 dispatch(podcastActions.play());
               }}
@@ -146,7 +148,8 @@ function Podcasts({
 
 export const getStaticProps: GetStaticProps = async () => {
   const podcastSlugs = [
-    'Targum Tea'
+    'Targum Tea',
+    'Keeping Score'
   ];
 
   const podcasts = await Promise.all(podcastSlugs.map(show => (

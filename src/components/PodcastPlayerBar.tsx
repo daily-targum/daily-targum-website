@@ -38,6 +38,8 @@ export function PodcastPlayerBar() {
   const episode = useSelector(s => s.podcast.episode);
   const persist = useSelector(s => s.podcast.persist);
 
+  const loading = playState === 'play' && duration < 1;
+
   const visible = episode && persist;
 
   function play() {
@@ -113,15 +115,21 @@ export function PodcastPlayerBar() {
 
           <Grid.Col xs={0} md={12}>
             <div className={classNames.row}>
-              <span
-                className={classNames.time}
-              >{secondsToTimeCode(position)}</span>
-              <ProgressBar
-                progress={clamp(0, 100 * position / duration, 100)}
-              />
-              <span
-                className={classNames.time}
-              >{secondsToTimeCode(duration)}</span>
+              {!loading ? (
+                <>
+                  <span
+                    className={classNames.time}
+                  >{secondsToTimeCode(position)}</span>
+                  <ProgressBar
+                    progress={clamp(0, 100 * position / duration, 100)}
+                  />
+                  <span
+                    className={classNames.time}
+                  >{secondsToTimeCode(duration)}</span>
+                </>
+              ) : (
+                <span style={{width: '100%', textAlign: 'center'}}>Loading...</span>
+              )}
             </div>
           </Grid.Col>
 
@@ -135,7 +143,7 @@ export function PodcastPlayerBar() {
               />
               <div className={classNames.col}>
                 <Text>{episode?.show || ''}</Text>
-                <Text>{episode?.title || ''}</Text>
+                <Text.Truncate numberOfLines={1}>{episode?.title || ''}</Text.Truncate>
               </div>
             </div>
           </Grid.Col>
