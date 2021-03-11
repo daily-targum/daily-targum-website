@@ -7,6 +7,12 @@
   margin: theme.spacing(2, 0);
 }
 
+.sectionFooter {
+  @include styleHelpers.flex('row');
+  justify-content: flex-end;
+  margin: theme.spacing(4, 0);
+}
+
 .moreInLink {
   @include styleHelpers.flex('row');
   text-decoration: none;

@@ -110,24 +110,11 @@ function Header({
             >
               More in {title}
             </Text>
-          </Grid.Display>
 
-          {/* Mobile */}
-          <Grid.Display xs={true} md={false}>
-            <Text 
-              variant='h4' 
-              className={styles.moreInLinkText}
-              noPadding
-              label={`More in ${title}`}
-              tooltipPosition='left'
-            >
-              More
-            </Text>
+            <RiArrowRightLine
+              size={22}
+            />
           </Grid.Display>
-          
-          <RiArrowRightLine
-            size={22}
-          />
         </Link>
       ): (
         <div 
@@ -149,6 +136,41 @@ function Header({
       
     </div>
   );
+}
+
+CardCols.Footer = Footer
+function Footer({
+  title,
+  href,
+} : {
+  title: string
+  href?: string
+}) {
+  return (
+    <div className={styles.sectionFooter}>
+      {/* Mobile */}
+      <Grid.Display xs={true} md={false}>
+        <Link 
+          href={href}
+          className={styles.moreInLink}
+        >
+          <Text 
+            variant='h4' 
+            className={styles.moreInLinkText}
+            noPadding
+            label={`More in ${title}`}
+            tooltipPosition='left'
+          >
+            More in {title}
+          </Text>
+
+          <RiArrowRightLine
+            size={22}
+          />
+        </Link>
+      </Grid.Display>
+    </div>
+  )
 }
 
 export default CardCols;
