@@ -30,7 +30,7 @@ function Gallery({
     <div className={styles.section}>
       <CardCols.Header
         title={title}
-        onClick={() => handleOpen(0)}
+        // onClick={() => handleOpen(0)}
       />
 
       <Grid.Row 

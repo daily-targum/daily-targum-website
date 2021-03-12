@@ -5,6 +5,7 @@ import { ReactChild } from '../types';
 import { RiArrowRightLine } from 'react-icons/ri';
 import Link from './Link';
 import styles from './CardRow.module.scss';
+import { theme } from '../constants'
 
 function getColSizes(numOfItems: number, numOfCols: number): {
   xs?: number
@@ -83,57 +84,24 @@ CardCols.Header = Header;
 function Header({
   title,
   href,
-  onClick,
 } : {
   title: string
   href?: string
-  onClick?: () => any
 }) {
   return (
     <div className={styles.sectionHeader}>
-      <Text 
-        variant='h3' 
-        noPadding
-      >{title}</Text>
-
-      {href ? (
-        <Link 
-          href={href}
-          className={styles.moreInLink}
+      <Link 
+        href={href}
+        className={styles.moreInLink}
+        style={{ color: theme.colors.text }}
+      >
+        <Text 
+          variant='h3' 
+          noPadding
         >
-          {/* Desktop */}
-          <Grid.Display xs={false} md={true}>
-            <Text 
-              variant='h4' 
-              className={styles.moreInLinkText}
-              noPadding
-            >
-              More in {title}
-            </Text>
-
-            <RiArrowRightLine
-              size={22}
-            />
-          </Grid.Display>
-        </Link>
-      ): (
-        <div 
-          className={styles.moreInLink}
-          onClick={onClick}
-        >
-          <Text 
-            variant='h4' 
-            className={styles.moreInLinkText}
-            noPadding
-          >
-            More in {title}
-          </Text>
-          <RiArrowRightLine
-            size={22}
-          />
-        </div>
-      )}
-      
+          {title}
+        </Text>
+      </Link>
     </div>
   );
 }
@@ -148,27 +116,24 @@ function Footer({
 }) {
   return (
     <div className={styles.sectionFooter}>
-      {/* Mobile */}
-      <Grid.Display xs={true} md={false}>
-        <Link 
-          href={href}
-          className={styles.moreInLink}
+      <Link 
+        href={href}
+        className={styles.moreInLink}
+      >
+        <Text 
+          variant='h4' 
+          className={styles.moreInLinkText}
+          noPadding
+          label={`More in ${title}`}
+          tooltipPosition='left'
         >
-          <Text 
-            variant='h4' 
-            className={styles.moreInLinkText}
-            noPadding
-            label={`More in ${title}`}
-            tooltipPosition='left'
-          >
-            More in {title}
-          </Text>
+          More in {title}
+        </Text>
 
-          <RiArrowRightLine
-            size={22}
-          />
-        </Link>
-      </Grid.Display>
+        <RiArrowRightLine
+          size={22}
+        />
+      </Link>
     </div>
   )
 }
