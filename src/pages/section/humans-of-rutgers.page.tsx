@@ -85,7 +85,7 @@ function Category({
                     data-tooltip-position='none'
                   >
                     <MemoizedAspectRatioImage
-                      data={imgix(item.media[0].url, {
+                      data={imgix(item.media[0], {
                         xs: imgix.presets.md('1:1')
                       })}
                       aspectRatio={1}
@@ -133,11 +133,11 @@ function Category({
               id={state.context.itemId + state.value}
               data={selectedPost?.media ?? []}
               className={classNames.carousel}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item}
               renderItem={item => (
                 <AspectRatioImage
                   aspectRatio={1/1}
-                  data={imgix(item.url, {
+                  data={imgix(item, {
                     xs: imgix.presets.md('1:1'),
                     md: imgix.presets.lg('1:1')
                   })}
@@ -182,7 +182,7 @@ export async function getStaticProps() {
 
   const firstPost = initHoru?.items?.[0];
   if (firstPost) {
-    seo.imageSrc = firstPost.media?.[0].url;
+    seo.imageSrc = firstPost.media?.[0];
   }
 
   return {
