@@ -5,6 +5,7 @@ import { ReactChild } from '../types';
 import { RiArrowRightLine } from 'react-icons/ri';
 import Link from './Link';
 import styles from './CardRow.module.scss';
+import { theme } from '../constants'
 
 function getColSizes(numOfItems: number, numOfCols: number): {
   xs?: number
@@ -83,72 +84,58 @@ CardCols.Header = Header;
 function Header({
   title,
   href,
-  onClick,
 } : {
   title: string
   href?: string
-  onClick?: () => any
 }) {
   return (
     <div className={styles.sectionHeader}>
-      <Text 
-        variant='h3' 
-        noPadding
-      >{title}</Text>
-
-      {href ? (
-        <Link 
-          href={href}
-          className={styles.moreInLink}
+      <Link 
+        href={href}
+        className={styles.moreInLink}
+        style={{ color: theme.colors.text }}
+      >
+        <Text 
+          variant='h3' 
+          noPadding
         >
-          {/* Desktop */}
-          <Grid.Display xs={false} md={true}>
-            <Text 
-              variant='h4' 
-              className={styles.moreInLinkText}
-              noPadding
-            >
-              More in {title}
-            </Text>
-          </Grid.Display>
-
-          {/* Mobile */}
-          <Grid.Display xs={true} md={false}>
-            <Text 
-              variant='h4' 
-              className={styles.moreInLinkText}
-              noPadding
-              label={`More in ${title}`}
-              tooltipPosition='left'
-            >
-              More
-            </Text>
-          </Grid.Display>
-          
-          <RiArrowRightLine
-            size={22}
-          />
-        </Link>
-      ): (
-        <div 
-          className={styles.moreInLink}
-          onClick={onClick}
-        >
-          <Text 
-            variant='h4' 
-            className={styles.moreInLinkText}
-            noPadding
-          >
-            More in {title}
-          </Text>
-          <RiArrowRightLine
-            size={22}
-          />
-        </div>
-      )}
-      
+          {title}
+        </Text>
+      </Link>
     </div>
   );
+}
+
+CardCols.Footer = Footer
+function Footer({
+  title,
+  href,
+} : {
+  title: string
+  href?: string
+}) {
+  return (
+    <div className={styles.sectionFooter}>
+      <Link 
+        href={href}
+        className={styles.moreInLink}
+      >
+        <Text 
+          variant='h4' 
+          className={styles.moreInLinkText}
+          noPadding
+          label={`More in ${title}`}
+          tooltipPosition='left'
+        >
+          More in {title}
+        </Text>
+
+        <RiArrowRightLine
+          size={22}
+        />
+      </Link>
+    </div>
+  )
 }
 
 export default CardCols;

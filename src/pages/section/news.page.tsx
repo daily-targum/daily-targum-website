@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { actions, GetArticles } from '../../shared/src/client';
+import { actions, GetArticles, getHoru } from '../../shared/src/client';
 import { Section, Grid, LoadMoreButton, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad, Semantic } from '../../components';
 import { imgix } from '../../utils';
 import { formatDateAbriviated } from '../../shared/src/utils';
@@ -17,6 +17,12 @@ function News({
     initialArticles,
     category: 'News'
   });
+
+  React.useEffect(() => {
+    console.log('fetching')
+    getHoru({limit: 1})
+    .catch(e => console.log(e))
+  }, [])
 
   const router = useRouter();
 

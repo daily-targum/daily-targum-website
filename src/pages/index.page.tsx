@@ -89,6 +89,11 @@ function NewsRow({
           }}
         </CardCols>
       </Grid.Row>
+
+      <CardCols.Footer
+        title={title}
+        href={`/section/${id}`}
+      />
     </div>
   );
 }

@@ -16,12 +16,6 @@ type Link = {
   href: string;
 }
 
-function alphabetically(a: Link, b: Link){
-  if(a.title < b.title) { return -1; }
-  if(a.title > b.title) { return 1; }
-  return 0;
-}
-
 const links = {
   Company: [
     {
@@ -31,6 +25,10 @@ const links = {
     {
       title: 'Donate',
       href: 'https://www.paypal.com/us/fundraiser/charity/1499274'
+    },
+    {
+      title: 'Alumni',
+      href: '/page/alumni'
     },
     {
       title: 'Privacy Policy',
@@ -97,7 +95,7 @@ export function Footer() {
                 <div className={classNames.linkCol}>
                   <Text variant='h4' className={classNames.title}>{linkSet}</Text>
                   <div role="list" className={classNames.fakeUl}>
-                    {links[linkSet].sort(alphabetically).map(l => (
+                    {links[linkSet].map(l => (
                       <Link
                         key={l.href}
                         className={classNames.link}
