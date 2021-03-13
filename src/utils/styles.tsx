@@ -288,7 +288,7 @@ type Styles<T, S> = {
 }
 
 export function buildStyleSheet<T>(
-  styles: Styles<T, { className: string; styles: string }>
+  styles: Styles<T, { className: string; styles: JSX.Element }>
 ): {
   classNames: Styles<T, string>;
   StyleSheet: JSX.Element;
