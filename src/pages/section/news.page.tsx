@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { actions, GetArticles, getHoru } from '../../shared/src/client';
-import { Section, Grid, LoadMoreButton, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad, Semantic } from '../../components';
-import { imgix } from '../../utils';
-import { formatDateAbriviated } from '../../shared/src/utils';
 import { useRouter } from 'next/router';
+import * as React from 'react';
+import { ActivityIndicator, Ad, Banner, Card, CardCols, Grid, LoadMoreButton, Section, Semantic, SEOProps } from '../../components';
+import { next, theme } from '../../constants';
 import { useArticles } from '../../machines';
-import { theme, next } from '../../constants';
+import { actions, GetArticles } from '../../shared/src/client';
+import { formatDateAbriviated } from '../../shared/src/utils';
+import { imgix } from '../../utils';
 import styles from './news.module.scss';
 
 function News({ 
@@ -17,12 +17,6 @@ function News({
     initialArticles,
     category: 'News'
   });
-
-  React.useEffect(() => {
-    console.log('fetching')
-    getHoru({limit: 1})
-    .catch(e => console.log(e))
-  }, [])
 
   const router = useRouter();
 
