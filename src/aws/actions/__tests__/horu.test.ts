@@ -12,14 +12,8 @@ describe("horu", () => {
       items: expect.arrayContaining([expect.objectContaining({
         id: expect.stringMatching(regex.id),
         title: expect.any(String),
-        slug: expect.any(String),
-        media: expect.arrayContaining([expect.objectContaining({
-          __typename: "Media",
-          id: expect.stringMatching(regex.id),
-          // @ts-ignore
-          title: expect.anyOrNull(String),
-          url: expect.any(String)
-        })]),
+        // slug: expect.any(String),
+        media: expect.arrayContaining([expect.any(String)]),
         // @ts-ignore
         // altText: expect.any(String),
         quote: expect.any(String),

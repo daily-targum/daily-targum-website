@@ -16,7 +16,7 @@ function News({
     initialArticles,
     category: 'News'
   });
-
+ 
   const router = useRouter();
 
   if (router.isFallback) {
