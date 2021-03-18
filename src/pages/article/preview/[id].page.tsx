@@ -1,13 +1,118 @@
 import * as React from 'react';
 import { NextPageContext } from 'next';
 import { GetArticle, getArticlePreview } from '../../../shared/src/client';
-import { hyphenatedToCapitalized } from '../../../shared/src/utils';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, HTML, Ad, Sticky, Semantic, Donate, Link } from '../../../components';
+import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../shared/src/utils';
+import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, HTML, AdSense, Sticky, Semantic, Donate, Link } from '../../../components';
 import NotFound from '../../404.page';
-import { imgix, processNextQueryStringParam } from '../../../utils';
+import { imgix, processNextQueryStringParam, styleHelpers } from '../../../utils';
 import { theme } from '../../../constants';
+import { useRouter } from 'next/router';
+
+import {
+  TwitterShareButton,
+  TwitterIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  EmailShareButton,
+  EmailIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  RedditShareButton,
+  RedditIcon
+} from "react-share";
+import { AiFillPrinter } from 'react-icons/ai'
+
 import Styles from './[id].styles';
 const { classNames, StyleSheet } = Styles;
+
+function ShareSidebar({
+  article
+}: {
+  article: GetArticle
+}) {
+  const router = useRouter();
+
+  const articlePath = `https://dailytargum.com${router.asPath}`;
+
+  return (
+    <div className={classNames.shareSidebar}>
+      <Text variant='h3'>Share</Text>
+      <div className={classNames.shareIcons}>
+        <FacebookShareButton
+          url={articlePath}
+          title={article.title}
+          quote={article.abstract ?? undefined}
+          className={classNames.shareIcon}
+        >
+          <FacebookIcon
+            size={42}
+            round
+            iconFillColor={styleHelpers.color('background_main')}
+            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+          />
+        </FacebookShareButton>
+
+        <TwitterShareButton
+          url={articlePath}
+          title={article.abstract ?? undefined}
+          className={classNames.shareIcon}
+        >
+          <TwitterIcon
+            size={42}
+            round
+            iconFillColor={styleHelpers.color('background_main')}
+            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+          />
+        </TwitterShareButton>
+
+        <RedditShareButton
+          url={articlePath}
+          title={article.title}
+          className={classNames.shareIcon}
+        >
+          <RedditIcon
+            size={42}
+            round
+            iconFillColor={styleHelpers.color('background_main')}
+            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+          />
+        </RedditShareButton>
+
+        <LinkedinShareButton
+          url={articlePath}
+          title={article.title}
+          className={classNames.shareIcon}
+        >
+          <LinkedinIcon
+            size={42}
+            round
+            iconFillColor={styleHelpers.color('background_main')}
+            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+          />
+        </LinkedinShareButton>
+
+        <EmailShareButton
+          url={articlePath}
+          subject={article.title}
+          body={article.abstract ?? undefined}
+          className={classNames.shareIcon}
+        >
+          <EmailIcon
+            size={42}
+            round
+            iconFillColor={styleHelpers.color('background_main')}
+            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+          />
+        </EmailShareButton>
+
+        <div className={classNames.printIcon}>
+          <AiFillPrinter style={{ fill: styleHelpers.color('background_main') }} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 
 function Article({
   initialArticle,
@@ -16,7 +121,7 @@ function Article({
   initialArticle: GetArticle | null,
   articleId: string
 }) {
-  const [ article, setArticle ] = React.useState<GetArticle | null>(initialArticle);
+  const [article, setArticle] = React.useState<GetArticle | null>(initialArticle);
 
   React.useEffect(() => {
     async function refresh() {
@@ -26,54 +131,64 @@ function Article({
             id: processNextQueryStringParam(articleId)
           })
         );
-      } catch(err) {
+      } catch (err) {
         setArticle(null);
       }
     }
-    window.addEventListener("focus", refresh); 
+    window.addEventListener("focus", refresh);
     return () => window.removeEventListener("focus", refresh);
-  }, [articleId]);
+  }, [articleId]);;
 
-
-  if(!article) {
-    return <NotFound/>;
+  if (!article) {
+    return <NotFound />;
   }
 
   const photoCredit = article.media[0]?.credits;
-  const photoDescription = article.media[0]?.description ?? '';
-  
+  const photoDescription = extractTextFromHTML(article.media[0]?.description ?? '');
+
+
   return (
     <>
       <Section className={classNames.page}>
-      
-        <Grid.Row 
-          spacing={theme.spacing(4)}
-          cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
+
+        <Grid.Row
+          spacing={theme.spacing(3)}
+          cols={['1fr', '1px', 'minmax(auto, 65ch)', '1px', '1fr']}
           disableGridOnPrit
         >
-          <Grid.Col xs={3} xl={1}>
+          <Grid.Col xs={5} xl={1} style={{ height: '100%' }}>
+            <Sticky>
+              <ShareSidebar article={article} />
+            </Sticky>
+          </Grid.Col>
+
+          <Grid.Col xs={0} xl={1} style={{ height: '100%', overflow: 'hidden' }}>
+            <Divider.Vertical />
+          </Grid.Col>
+
+          <Grid.Col xs={5} md={3} xl={1}>
             <Semantic role='main' skipNavContent pritable>
-            {article.category ? (
-                <Link 
+              {article.category ? (
+                <Link
                   className={classNames.category}
                   href={`/section/${article.category.toLowerCase()}`}
                 >
                   {hyphenatedToCapitalized(article.category)}
                 </Link>
               ) : null}
-              
+
               <Semantic role='article'>
                 <header>
-                  <Text 
-                    variant='h1' 
+                  <Text
+                    variant='h1'
                     htmlTag='h1'
                     className={classNames.title}
                   >
                     {article.title}
                   </Text>
-                  
-                  <Byline.Authors 
-                    authors={article.authors ?? []}
+
+                  <Byline.Authors
+                    authors={article.authors}
                     publishDate={article.publishDate}
                   />
 
@@ -91,41 +206,36 @@ function Article({
                       </Section.OffsetPadding>
                       <figcaption className={classNames.figcaption} aria-hidden={true}>
                         Photo by {photoCredit}
-                        <div className={classNames.captionSpacer}/>
+                        <div className={classNames.captionSpacer} />
                         {photoDescription}
                       </figcaption>
                     </figure>
                   ) : null}
                 </header>
 
-                <Divider className={classNames.divider}/>
+                <Divider className={classNames.divider} />
 
-                <HTML 
-                  ads
-                  html={article.body} 
-                />
+                <HTML html={article.body} />
               </Semantic>
             </Semantic>
+
+            <Grid.Display xs={true} md={false}>
+              <ShareSidebar article={article} />
+            </Grid.Display>
           </Grid.Col>
 
-          <Grid.Col xs={0} md={1} style={{height: '100%', overflow: 'hidden'}}>
-            <Divider.Vertical/>
+          <Grid.Col xs={0} md={1} style={{ height: '100%', overflow: 'hidden' }}>
+            <Divider.Vertical />
           </Grid.Col>
 
-          <Grid.Col xs={0} xl={1} style={{height: '100%'}}>
+          <Grid.Col xs={0} md={1} style={{ height: '100%' }}>
             <Sticky>
-              <Semantic role='aside'>
-                <Ad 
-                  type='rectange' 
-                  style={{ marginBottom: '1rem' }} 
-                />
-                <Ad 
-                  type='skyscraper' 
-                  fallback={(
-                    <Donate.SidebarCard/>
-                  )}
-                />
-              </Semantic>
+              <AdSense
+                type='sidebar'
+                fallback={(
+                  <Donate.SidebarCard />
+                )}
+              />
             </Sticky>
           </Grid.Col>
 
@@ -133,21 +243,8 @@ function Article({
 
       </Section>
 
-      {/* <Divider/>
-      <Section className={classes.page}>
-        <Grid.Row 
-          spacing={spacing(4)}
-          cols={['165px', '1fr', '165px']}
-        >
-          <Grid.Col xs={3} md={0} lg={1}></Grid.Col>
-          <Grid.Col>
-            <Text variant='h2'>Comments</Text>
-          </Grid.Col>
-        </Grid.Row>
-      </Section> */}
-
-      <Divider/>
-      <Newsletter.Section/>
+      <Divider />
+      <Newsletter.Section />
 
       {StyleSheet}
     </>
@@ -160,7 +257,7 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
     article = await getArticlePreview({
       id: processNextQueryStringParam(ctx.query.id)
     });
-  } catch(e) {}
+  } catch (e) { }
 
   const keywords = [
     ...(article?.tags ?? []),
@@ -182,7 +279,7 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
     seo.imageSrc = article.media[0].url;
   }
 
-  return { 
+  return {
     initialArticle: article,
     articleId: processNextQueryStringParam(ctx.query.id),
     seo

@@ -96,7 +96,7 @@ const h6 = css.resolve`
 
 const p = css.resolve`
   * {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     line-height: 1.8em;
     margin-bottom: ${styleHelpers.spacing(2)};
     font-weight: normal;
