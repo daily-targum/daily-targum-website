@@ -100,6 +100,9 @@ const printIcon = css.resolve`
     align-items: center;
     justify-content: center;
     font-size: 1.4rem;
+    border: none;
+    padding: 0;
+    cursor: pointer;
   }
 `
 

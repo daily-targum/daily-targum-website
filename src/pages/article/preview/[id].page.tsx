@@ -41,7 +41,6 @@ function ShareSidebar({
         <FacebookShareButton
           url={articlePath}
           title={article.title}
-          quote={article.abstract ?? undefined}
           className={classNames.shareIcon}
         >
           <FacebookIcon
@@ -105,9 +104,9 @@ function ShareSidebar({
           />
         </EmailShareButton>
 
-        <div className={classNames.printIcon}>
+        <button className={classNames.printIcon} onClick={() => window.print()}>
           <AiFillPrinter style={{ fill: styleHelpers.color('background_main') }} />
-        </div>
+        </button>
       </div>
     </div>
   )
