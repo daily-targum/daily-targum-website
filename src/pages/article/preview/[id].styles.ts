@@ -67,6 +67,45 @@ const category = css.resolve`
   }
 `;
 
+const shareSidebar = css.resolve`
+  * {
+    display: flex;
+    flex-direction: column;
+  }
+`
+
+const shareIcons = css.resolve`
+  * {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: ${styleHelpers.spacing(0, -0.25)}; 
+  }
+`
+
+const shareIcon = css.resolve`
+  * {
+    margin: ${styleHelpers.spacing(0.5)};
+  }
+`
+
+const printIcon = css.resolve`
+  * {
+    margin: ${styleHelpers.spacing(0.5)};
+    height: 41px;
+    width: 41px;
+    border-radius: 50%;
+    background-color: ${styleHelpers.color('textMuted')};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+`
+
 
 export default buildStyleSheet({
   page,
@@ -76,5 +115,9 @@ export default buildStyleSheet({
   fullWidth,
   figcaption,
   captionSpacer,
-  category
+  category,
+  shareIcon,
+  shareIcons,
+  printIcon,
+  shareSidebar
 });

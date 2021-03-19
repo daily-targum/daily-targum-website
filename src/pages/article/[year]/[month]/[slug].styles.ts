@@ -67,11 +67,41 @@ const category = css.resolve`
   }
 `;
 
-const shareLink = css.resolve`
+const shareSidebar = css.resolve`
   * {
-    margin-bottom: ${styleHelpers.spacing(1.5)};
-    color: ${styleHelpers.color('text')};
-    text-decoration: underline;
+    display: flex;
+    flex-direction: column;
+  }
+`
+
+const shareIcons = css.resolve`
+  * {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: ${styleHelpers.spacing(0, -0.25)}; 
+  }
+`
+
+const shareIcon = css.resolve`
+  * {
+    margin: ${styleHelpers.spacing(0.5)};
+  }
+`
+
+const printIcon = css.resolve`
+  * {
+    margin: ${styleHelpers.spacing(0.5)};
+    height: 41px;
+    width: 41px;
+    border-radius: 50%;
+    background-color: ${styleHelpers.color('textMuted')};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    border: none;
+    padding: 0;
     cursor: pointer;
   }
 `
@@ -86,5 +116,8 @@ export default buildStyleSheet({
   figcaption,
   captionSpacer,
   category,
-  shareLink
+  shareIcon,
+  shareIcons,
+  printIcon,
+  shareSidebar
 });
