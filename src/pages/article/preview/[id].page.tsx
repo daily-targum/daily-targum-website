@@ -53,7 +53,7 @@ function ShareSidebar({
 
         <TwitterShareButton
           url={articlePath}
-          title={article.abstract ?? undefined}
+          title={article.title ?? undefined}
           className={classNames.shareIcon}
         >
           <TwitterIcon
