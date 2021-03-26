@@ -76,12 +76,13 @@ export function SEO({
       {canonical ? <link rel="canonical" href={canonical}/> : null}
 
       {/* Twitter */}
-      <meta name="twitter:card" content="summary"/>
+      <meta name="twitter:card" content="summary_large_image"/>
       <meta name="twitter:site" content={twitterHandle} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:creator" content={twitterHandle} />
       <meta name="twitter:image" content={imgix.nonResponsive(imageSrc, imgix.presets.twitter()).src} />
+      <meta property="twitter:image:alt" content={imageAlt} />
 
       {/* Facebook */}
       <meta property="og:title" content={title || BASE.siteName} />
@@ -89,7 +90,8 @@ export function SEO({
       <meta property="og:url" content={host+pathname} />
       <meta property="og:site_name" content={BASE.siteName} />
       <meta property="og:image" content={imgix.nonResponsive(imageSrc, imgix.presets.facebook()).src} />
-      <meta property="og:image:height" content='630' />
+      <meta property="og:image:alt" content={imageAlt} />
+      <meta property="og:image:height" content='640' />
       <meta property="og:image:width" content='1200' />
       <meta property="fb:image:alt" content={imageAlt} />
       <meta property="og:description" content={description} />

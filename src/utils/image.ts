@@ -62,8 +62,8 @@ const presets = {
   }),
   twitter: () => ({
     ...imgixDefaultOptions,
-    height: '120',
-    width: '120'
+    height: '400',
+    width: '600'
   })
 };
 imgix.presets = presets;

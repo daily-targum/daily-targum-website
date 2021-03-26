@@ -278,7 +278,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   }
 
   if (article?.media[0]) {
-    seo.imageSrc = article.media[0].url;
+    const media = article.media[0]
+    seo.imageSrc = media.url;
+    seo.imageAlt = `${media.description} – Photo by ${media.credits}`
   }
 
   if (pathname !== preferedSlug) {
