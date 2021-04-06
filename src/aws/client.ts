@@ -9,7 +9,6 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from "apollo-link-context";
 
-
 export const previewClient = createClient({
   host: 'preview.contentful.com',
   space: secrets.CONTENTFUL_SPACE,

@@ -85,7 +85,7 @@
     "howler": "2.2.1",
     "html-react-parser": "0.14.3",
     "husky": "4.3.5",
-    "next": "10.0.8",
+    "next": "10.0.9",
     "nprogress": "^0.2.0",
     "pino": "6.8.0",
     "preact": "10.5.12",
@@ -105,12 +105,15 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "sass": "1.30.0",
+    "soundjs": "^1.0.1",
     "storybook": "6.1.11",
     "styled-components": "5.2.1",
     "styled-jsx": "^3.4.4",
     "styled-jsx-plugin-postcss": "4.0.0",
     "styled-jsx-plugin-sass": "^1.0.0",
+    "unlock-audio-context": "^0.2.5",
     "unmute-ios-audio": "^3.3.0",
+    "web-audio-touch-unlock": "^1.0.1",
     "xss": "^1.0.8",
     "xstate": "4.16.2",
     "yarn": "^1.22.10"
@@ -126,6 +129,5 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "yarn lint && yarn typescript && yarn coverage"
     }
-  },
-  "sideEffects": false
+  }
 }
