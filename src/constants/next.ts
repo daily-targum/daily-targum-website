@@ -1,3 +1,3 @@
 export const next = {
-  staticPropsRevalidateSeconds: 60 * 5 // 5 minutes
+  staticPropsRevalidateSeconds: 7 * 24 * 60 * 60 // 1 week
 }
