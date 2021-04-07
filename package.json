@@ -6,7 +6,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "postinstall": "yarn --cwd src/shared/ install --pure-lockfile --ignore-scripts",
     "start": "next",
     "test": "jest --watchAll=true",
     "typescript": "tsc --noEmit",
