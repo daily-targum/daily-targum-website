@@ -3,6 +3,8 @@ name: Deploy
 on:
   repository_dispatch:
     types: [deploy]
+  schedule:
+    - cron:  '0 1 * * *' # daily at 1am
 
 jobs:
   deploy-vercel:
