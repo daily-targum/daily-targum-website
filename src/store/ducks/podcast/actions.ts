@@ -1,18 +1,17 @@
 import types, { State } from './types';
 import { clamp } from '../../../utils';
 import { videoActions } from '../video'
-import { Howl } from 'howler';
-import webAudioTouchUnlock from 'web-audio-touch-unlock';
-import soundjs from 'soundjs'
+// import { Howl } from 'howler';
+// import webAudioTouchUnlock from 'web-audio-touch-unlock';
+// import soundjs from 'soundjs'
 
-if (typeof window !== 'undefined') {
-  // @ts-ignore
-  var context = new (window.AudioContext || window.webkitAudioContext)();
-  webAudioTouchUnlock(context)
-  .then(function (unlocked) {
-    alert(unlocked)
-  })
-}
+// if (typeof window !== 'undefined') {
+//   // @ts-ignore
+//   var context = new (window.AudioContext || window.webkitAudioContext)();
+//   webAudioTouchUnlock(context)
+//   .then(function (unlocked) {
+//   })
+// }
 
 let privateState: {
   id?: number
@@ -100,14 +99,14 @@ export function skip(num: number) {
   }
 }
 
-function syncPlayback() {
-  return async (dispatch: any, getState: () => { podcast: State }) => {
-    const state = getState()
-    if (state.podcast.playState === 'play') {
-      dispatch(play())
-    }
-  }
-}
+// function syncPlayback() {
+//   return async (dispatch: any, getState: () => { podcast: State }) => {
+//     const state = getState()
+//     if (state.podcast.playState === 'play') {
+//       dispatch(play())
+//     }
+//   }
+// }
 
 export function loadPodcast(show: string, id: string) {
   return async (dispatch: any, getState: () => { podcast: State }) => {
@@ -135,11 +134,11 @@ export function loadPodcast(show: string, id: string) {
       payload: podcast
     });
     
-    const audioContext = new AudioContext()
-    const file = new Audio(podcast.audioFile)
-    const track = audioContext.createMediaElementSource(file)
+    // const audioContext = new AudioContext()
+    // const file = new Audio(podcast.audioFile)
+    // const track = audioContext.createMediaElementSource(file)
 
-    file.play()
+    // file.play()
 
     // const howl = new Howl({
     //   src: [podcast.audioFile],
@@ -189,14 +188,14 @@ export function loadPodcast(show: string, id: string) {
     //   }
     // });
 
-    if (typeof window !== 'undefined') {
-      try {
-        // @ts-ignore
-        window.navigator.mediaSession.setActionHandler('play', () => howl.play());
-        // @ts-ignore
-        window.navigator.mediaSession.setActionHandler('pause', () => howl.pause());
-      } catch(e) {}
-    }
+    // if (typeof window !== 'undefined') {
+    //   try {
+    //     // @ts-ignore
+    //     window.navigator.mediaSession.setActionHandler('play', () => howl.play());
+    //     // @ts-ignore
+    //     window.navigator.mediaSession.setActionHandler('pause', () => howl.pause());
+    //   } catch(e) {}
+    // }
 
     // dispatch({
     //   type: types.SET_PLAYER,
