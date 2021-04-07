@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { actions, GetArticles, CompactArticle } from '../../../shared/src/client';
-import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../shared/src/utils';
+import { actions, GetArticles, CompactArticle } from '../../../aws';
+import { formatDateAbriviated, hyphenatedToCapitalized } from '../../../utils';
 import { Section, Text, Divider, CardCols, Card, Grid, Banner, AspectRatioImage, SEOProps, Carousel, Link, Ad, SkipNav, Semantic } from '../../../components';
 import { imgix } from '../../../utils';
 import { GetStaticProps } from 'next';

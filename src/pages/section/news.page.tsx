@@ -1,11 +1,10 @@
-import { useRouter } from 'next/router';
 import * as React from 'react';
-import { ActivityIndicator, Ad, Banner, Card, CardCols, Grid, LoadMoreButton, Section, Semantic, SEOProps } from '../../components';
+import { actions, GetArticles } from '../../aws';
+import { Section, Grid, LoadMoreButton, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad, Semantic } from '../../components';
+import { imgix, formatDateAbriviated } from '../../utils';
+import { useRouter } from 'next/router';
 import { next, theme } from '../../constants';
 import { useArticles } from '../../machines';
-import { actions, GetArticles } from '../../shared/src/client';
-import { formatDateAbriviated } from '../../shared/src/utils';
-import { imgix } from '../../utils';
 import styles from './news.module.scss';
 
 function News({ 
@@ -17,7 +16,7 @@ function News({
     initialArticles,
     category: 'News'
   });
-
+ 
   const router = useRouter();
 
   if (router.isFallback) {

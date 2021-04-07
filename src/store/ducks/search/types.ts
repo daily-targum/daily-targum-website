@@ -1,4 +1,4 @@
-import { SearchHits } from '../../../shared/src/client';
+import { SearchHits } from '../../../aws';
 
 export default {
   SEARCH_UPDATE_QUERY: 'SEARCH_UPDATE_QUERY',

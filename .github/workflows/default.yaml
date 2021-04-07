@@ -12,22 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Checkout submodules
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive
       - uses: actions/cache@v1
         id: cache
         with:
           path: node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-      - uses: actions/cache@v1
-        id: submodule-cache
-        with:
-          path: src/shared/node_modules
-          key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
       - name: Yarn Install
-        if: steps.cache.outputs.cache-hit != 'true' || steps.submodule-cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
   test-lint:
     name: Test - Lint
@@ -35,20 +26,11 @@ jobs:
     needs: setup-linux
     steps:
       - uses: actions/checkout@v2
-      - name: Checkout submodules
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive
       - uses: actions/cache@v1
         id: cache
         with:
           path: node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-      - uses: actions/cache@v1
-        id: submodule-cache
-        with:
-          path: src/shared/node_modules
-          key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
       - name: Lint
         run: yarn lint
   test-typecheck:
@@ -57,20 +39,11 @@ jobs:
     needs: setup-linux
     steps:
       - uses: actions/checkout@v2
-      - name: Checkout submodules
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive
       - uses: actions/cache@v1
         id: cache
         with:
           path: node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-      - uses: actions/cache@v1
-        id: submodule-cache
-        with:
-          path: src/shared/node_modules
-          key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
       - name: Type Check
         run: yarn typescript
   test-jest:
@@ -79,20 +52,11 @@ jobs:
     needs: setup-linux
     steps:
       - uses: actions/checkout@v2
-      - name: Checkout submodules
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive
       - uses: actions/cache@v1
         id: cache
         with:
           path: node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-      - uses: actions/cache@v1
-        id: submodule-cache
-        with:
-          path: src/shared/node_modules
-          key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
       - name: Test
         run: yarn coverage
         env:
@@ -114,20 +78,13 @@ jobs:
     needs: setup-linux
     steps:
       - uses: actions/checkout@v2
-      - name: Checkout submodules
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive
+        with:
+          fetch-depth: 0
       - uses: actions/cache@v1
         id: cache
         with:
           path: node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-      - uses: actions/cache@v1
-        id: submodule-cache
-        with:
-          path: src/shared/node_modules
-          key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
       - name: Test
         run: yarn chromatic --project-token $CHROMATIC_TOKEN --exit-zero-on-changes
         env:
@@ -138,20 +95,11 @@ jobs:
     needs: setup-linux
     steps:
       - uses: actions/checkout@v2
-      - name: Checkout submodules
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive
       - uses: actions/cache@v1
         id: cache
         with:
           path: node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-      - uses: actions/cache@v1
-        id: submodule-cache
-        with:
-          path: src/shared/node_modules
-          key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
       - uses: amondnet/vercel-action@v19
         id: vercel
         with:
@@ -161,7 +109,6 @@ jobs:
           vercel-project-id: ${{ secrets.PROJECT_ID }} #Required
           alias-domains: |
             staging.dailytargum.com
-            staging-dailytargum.now.sh
   lighthouse-check:
     name: Auddit - Lighthouse
     runs-on: ubuntu-latest
@@ -192,20 +139,11 @@ jobs:
     needs: setup-linux
     steps:
       - uses: actions/checkout@v2
-      - name: Checkout submodules
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive
       - uses: actions/cache@v1
         id: cache
         with:
           path: node_modules
           key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-      - uses: actions/cache@v1
-        id: submodule-cache
-        with:
-          path: src/shared/node_modules
-          key: v1-${{ runner.os }}-${{ hashFiles('src/shared/yarn.lock') }}
       - name: Yarn Analyze
         run: yarn analyze
         env:

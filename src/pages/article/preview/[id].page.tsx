@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NextPageContext } from 'next';
-import { GetArticle, getArticlePreview } from '../../../shared/src/client';
-import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../shared/src/utils';
+import { GetArticle, getArticlePreview } from '../../../aws';
+import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../utils';
 import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, HTML, AdSense, Sticky, Semantic, Donate, Link } from '../../../components';
 import NotFound from '../../404.page';
 import { imgix, processNextQueryStringParam, styleHelpers } from '../../../utils';

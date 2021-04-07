@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GetStaticProps } from 'next';
 import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, Semantic, Divider, Donate } from '../../components';
-import { getPage, GetPage } from '../../shared/src/client';
+import { getPage, GetPage } from '../../aws';
 import NotFound from '../404.page';
 import { processNextQueryStringParam, styleHelpers } from '../../utils';
 import { useRouter } from 'next/router';

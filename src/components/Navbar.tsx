@@ -64,10 +64,6 @@ const navbarLinks: {
     href: '/section/humans-of-rutgers',
     ariaLabel: 'Humans of Rutgers'
   },
-  // {
-  //   title: 'Podcasts',
-  //   href: '/podcasts/targum-tea'
-  // },
   {
     title: 'About',
     href: '/page/about'

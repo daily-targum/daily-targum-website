@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { actions, GetPodcast } from '../../shared/src/client';
-import { capitalizedToHypenated } from '../../shared/src/utils';
-import { imgix } from '../../utils';
+import { actions, GetPodcast } from '../../aws';
+import { imgix, capitalizedToHypenated } from '../../utils';
 import { GetStaticProps } from 'next';
 import { SEOProps } from '../../components/SEO';
 import { Grid, AspectRatioImage, Section, Text, ActivityIndicator, Navbar, Banner, Link, Semantic } from '../../components';
@@ -22,6 +21,8 @@ function CoverImage({
   const isSelected = useSelector(s => s.podcast.episode?.id) === firstEpisodeId;
   const isPlaying = useSelector(s => s.podcast.playState) === 'play';
 
+  const show = podcast.items[0]?.show
+
   return (
     <AspectRatioImage
       data={imgix(podcast.items[0].coverArt, {
@@ -34,7 +35,7 @@ function CoverImage({
       className={classNames.imageShadow}
       Overlay={(
         <div className={classNames.imageOverlay}>
-          {isPlaying ? (
+          {(isSelected && isPlaying) ? (
             <button 
               className={classNames.playButtonWrap}
               onClick={async () => {
@@ -47,8 +48,8 @@ function CoverImage({
             <button 
               className={classNames.playButtonWrap}
               onClick={async () => {
-                if (!isSelected) {
-                  await dispatch(podcastActions.loadPodcast(firstEpisodeId));
+                if (!isSelected && show) {
+                  await dispatch(podcastActions.loadPodcast(show, firstEpisodeId));
                 }
                 dispatch(podcastActions.play());
               }}
@@ -147,7 +148,8 @@ function Podcasts({
 
 export const getStaticProps: GetStaticProps = async () => {
   const podcastSlugs = [
-    'Targum Tea'
+    'Targum Tea',
+    'Keeping Score'
   ];
 
   const podcasts = await Promise.all(podcastSlugs.map(show => (

@@ -1,5 +1,5 @@
-// import { Theme } from '../types';
 import * as React from 'react';
+import { ObjectKeys } from './array'
 
 function aspectRatioFullHeight(aspectRatio: number) {
   return {
@@ -7,15 +7,6 @@ function aspectRatioFullHeight(aspectRatio: number) {
     paddingTop: `${100 / aspectRatio}%`
   } as const;
 }
-
-// function aspectRatioFullWidth(aspectRatio?: number) {
-//   return typeof aspectRatio === 'number' ? {
-//     width: '100%',
-//     paddingTop: `${100 / aspectRatio}%`
-//   } : {
-    
-//   } as const;
-// }
 
 function aspectRatioFullWidth(aspectRatio: number) {
   return `
@@ -133,6 +124,13 @@ function absoluteFill() {
     right: 0;
     bottom: 0;
     left: 0;
+  `;
+}
+
+function stickySidebar(navbarHeight: number) {
+  return `
+    position: sticky;
+    top: calc(${spacing(1.25)} + 1vw + ${navbarHeight}px)
   `;
 }
 
@@ -281,13 +279,8 @@ export const styleHelpers = {
   unstyle,
   accessibilityOutline,
   timing,
-  centerBackgroundImage
-}
-
-
-
-export function ObjectKeys<T>(obj: T): (keyof T)[] {
-  return Object.keys(obj as any) as (keyof T)[];
+  centerBackgroundImage,
+  stickySidebar
 }
 
 type Styles<T, S> = {
@@ -295,7 +288,7 @@ type Styles<T, S> = {
 }
 
 export function buildStyleSheet<T>(
-  styles: Styles<T, { className: string; styles: string }>
+  styles: Styles<T, { className: string; styles: JSX.Element }>
 ): {
   classNames: Styles<T, string>;
   StyleSheet: JSX.Element;

@@ -5,7 +5,7 @@ import Text from './Text';
 import Button from './Button';
 import Image from './Image';
 import { imgix } from '../utils';
-import { formatDate } from '../shared/src/utils';
+import { formatDate } from '../utils';
 import { IoMdClose, IoMdPlay } from 'react-icons/io';
 import Styles from './Video.styles';
 const { classNames, StyleSheet } = Styles;

@@ -1,5 +1,5 @@
 import { Howl } from 'howler';
-import { Podcast } from '../../../shared/src/client';
+import { Podcast } from '../../../aws';
 
 export default {
   SET_PLAY_STATE: 'SET_PLAY_STATE',
@@ -8,6 +8,7 @@ export default {
   SET_PLAYER: 'SET_PLAYER',
   SET_EPISODE: 'SET_EPISODE',
   SET_PERSIST: 'SET_PERSIST',
+  RESET: 'RESET',
 }
 
 export interface State {

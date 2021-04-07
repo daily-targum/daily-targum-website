@@ -50,22 +50,11 @@ Founded in 1869, The Daily Targum is the second oldest and among the largest col
 
 ## 📦 Download and Setup
 
-1. Clone repo with submodules
-
-    ```bash
-    git clone --recurse-submodules
-
-    # or if you already cloned the repo
-    # you can sync the submodules by running
-    git submodule sync --recursive
-    git submodule update --init --recursive
-    ```
+1. Clone repo
 
 2. Install dependencies
 
     ```bash
-    # this command will automatically
-    # install dependencies for submodules
     yarn
     ```
 
@@ -142,9 +131,6 @@ Adding environment variables requires changing the following files:
 * This repo
   * `.env.example`
   * `.github/workflows/*`
-* Submodule
-  * `src/shared/__mocks__/expo-constants.ts`
-  * `src/shared/.github/workflows/*`
 * Local
   * `.env` (on your local machine)
 

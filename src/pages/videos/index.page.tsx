@@ -3,10 +3,9 @@ import { Video, Section, CardCols, Card, Grid, Divider, Text, Navbar, SEOProps, 
 import { useSelector, useDispatch } from '../../store';
 import { videoActions } from '../../store/ducks/video';
 import { podcastActions } from '../../store/ducks/podcast';
-import { imgix } from '../../utils';
+import { imgix, formatDateAbriviated, secondsToTimeCode } from '../../utils';
 import { InferGetStaticPropsType } from 'next';
-import { actions } from '../../shared/src/client';
-import { formatDateAbriviated, secondsToTimeCode } from '../../shared/src/utils';
+import { actions } from '../../aws';
 import { IoMdPause, IoMdPlay } from 'react-icons/io';
 import styles from './index.module.scss';
 import { theme, next } from '../../constants';

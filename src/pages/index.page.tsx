@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { actions, GetHomepage, CompactArticle } from '../shared/src/client';
-import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps, Ad, Semantic
-  // Text, Image, Link 
-} from '../components';
-import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../shared/src/utils';
+import { actions, GetHomepage, CompactArticle } from '../aws';
+import { Section, Divider, NewsSlider, Newsletter, Card, CardCols, Grid, SEOProps, Ad, Semantic } from '../components';
+import { formatDateAbriviated, chopArray, camelCaseToCapitalized, camelCaseToHyphenated } from '../utils';
 import { imgix } from '../utils';
 import styles from './index.module.scss';
 import { theme } from '../constants';
@@ -141,45 +139,6 @@ function Home({
 
       <Divider/>
       <Newsletter.Section/>
-
-      {/* <Divider/>
-      <Section style={styles.appSection}>
-        <Grid.Row>
-          <Grid.Col xs={24} md={12} style={styles.getTheApp}>
-            <Text variant='h1'>Get the App</Text>
-            <div style={styles.appStoreRow}>
-
-              <Link href='https://apps.apple.com/us/app/daily-targum/id486306039'>
-                <img
-                  style={styles.appStoreBadge}
-                  src='/app-store-badge.svg'
-                  loading='lazy'
-                />
-              </Link>
-
-              <Link href='https://play.google.com/store/apps/details?id=com.dailytargum.dailytargum'>
-                <img
-                  style={styles.appStoreBadge}
-                  src='/google-play-badge.png'
-                  loading='lazy'
-                />  
-              </Link>
-
-            </div>
-          </Grid.Col>
-
-          <Grid.Col xs={24} md={12} style={{alignItems: 'center'}}>
-            <Image
-              style={styles.appScreenShot}
-              data={imgix('https://dailytargum.imgix.net/images/app-framed.png', {
-                xs: imgix.presets.md(),
-                lg: imgix.presets.lg()
-              })}
-            />
-          </Grid.Col>
-        </Grid.Row>
-      </Section> */}
-
     </div>
   );
 }

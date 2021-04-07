@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Navbar, Semantic, Sticky, Ad, Divider, Donate } from '../../components';
-import { actions, GetPlaylist } from '../../shared/src/client';
-import { formatDateAbriviated } from '../../shared/src/utils';
-import { processNextQueryStringParam, imgix } from '../../utils';
+import { actions, GetPlaylist } from '../../aws';
+import { processNextQueryStringParam, imgix, formatDateAbriviated } from '../../utils';
 import NotFound from '../404.page';
 import { useRouter } from 'next/router';
 import { videoActions } from '../../store/ducks/video';

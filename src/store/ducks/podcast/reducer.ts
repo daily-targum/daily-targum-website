@@ -7,7 +7,7 @@ const initialState: State = {
   persist: false
 };
 
-export default function reducer(state = initialState, action: any) {
+export default function reducer(state = initialState, action: any): State {
   switch (action.type) {
     case types.SET_PLAY_STATE: 
       return {
@@ -37,6 +37,10 @@ export default function reducer(state = initialState, action: any) {
     case types.SET_EPISODE: 
       return {
         ...state,
+        playState: 'stop',
+        position: 0,
+        duration: 0,
+        persist: false,
         episode: action.payload
       }
     default:

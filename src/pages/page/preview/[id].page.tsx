@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NextPageContext } from 'next';
 import { Section, ActivityIndicator, HTML, SEOProps, Grid, Ad, Sticky, Semantic, Divider, Donate } from '../../../components';
-import { getPagePreview, GetPage } from '../../../shared/src/client';
+import { getPagePreview, GetPage } from '../../../aws';
 import NotFound from '../../404.page';
 import { useRouter } from 'next/router';
 import { processNextQueryStringParam } from '../../../utils';

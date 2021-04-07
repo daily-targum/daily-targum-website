@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { actions, GetArticles } from '../../shared/src/client';
-import { formatDateAbriviated } from '../../shared/src/utils';
+import { actions, GetArticles } from '../../aws';
 import { Section, Grid, ActivityIndicator, Card, Banner, SEOProps, Ad, Semantic, LoadMoreButton } from '../../components';
-import { imgix } from '../../utils';
+import { imgix, formatDateAbriviated } from '../../utils';
 import { useRouter } from 'next/router';
 import { useArticles } from '../../machines';
 import styles from './inside-beat.module.scss';

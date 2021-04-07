@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import * as types from './types';
 import { Context, defaultContextValue } from './context';
 import { computeBreakpoints, getBreakpoint } from './utils';
-import { ObjectKeys } from '../../shared/src/utils';
-import { styleHelpers } from '../../utils';
+import { styleHelpers, ObjectKeys } from '../../utils';
 import * as contextExports from './context';
 import cn from 'classnames';
 

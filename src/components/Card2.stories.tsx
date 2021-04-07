@@ -1,8 +1,8 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import { ARTICLE } from '../shared/src/client/actions/__mocks__/articles';
+import { ARTICLE } from '../aws/actions/__mocks__/articles';
 import { imgix } from '../utils';
-import { formatDateAbriviated, extractTextFromHTML } from '../shared/src/utils';
+import { formatDateAbriviated, extractTextFromHTML } from '../utils';
 
 import Card from './Card2';
 

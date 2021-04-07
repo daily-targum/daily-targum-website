@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CardCols, Card, Grid, Section, FlatList, ActivityIndicator, Modal, Carousel, Text, Image, SEOProps } from '../components';
-import { chopArray, choppedArrayRunningCount } from '../shared/src/utils';
-import { actions, GetImageGalleries, GalleryImage } from '../shared/src/client';
+import { chopArray, choppedArrayRunningCount } from '../utils';
+import { actions, GetImageGalleries, GalleryImage } from '../aws';
 import { imgix } from '../utils';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';

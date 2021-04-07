@@ -4,10 +4,11 @@ import Grid from './Grid/web';
 import Text from './Text';
 import { IoIosPlay, IoIosPause } from 'react-icons/io';
 import { MdForward10, MdReplay10 } from 'react-icons/md';
-import { clamp, secondsToTimeCode } from '../shared/src/utils';
+import { clamp, secondsToTimeCode } from '../utils';
 import { useSelector, useDispatch } from '../store';
 import { podcastActions } from '../store/ducks/podcast';
 import Styles from './PodcastPlayerBar.styles';
+import unmuteAudio from 'unmute-ios-audio'
 const { classNames, StyleSheet } = Styles;
 
 function ProgressBar({
@@ -38,7 +39,15 @@ export function PodcastPlayerBar() {
   const episode = useSelector(s => s.podcast.episode);
   const persist = useSelector(s => s.podcast.persist);
 
+  const loading = playState === 'play' && duration < 1;
+
   const visible = episode && persist;
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      unmuteAudio();
+    }
+  }, [])
 
   function play() {
     dispatch(podcastActions.play());
@@ -113,15 +122,21 @@ export function PodcastPlayerBar() {
 
           <Grid.Col xs={0} md={12}>
             <div className={classNames.row}>
-              <span
-                className={classNames.time}
-              >{secondsToTimeCode(position)}</span>
-              <ProgressBar
-                progress={clamp(0, 100 * position / duration, 100)}
-              />
-              <span
-                className={classNames.time}
-              >{secondsToTimeCode(duration)}</span>
+              {!loading ? (
+                <>
+                  <span
+                    className={classNames.time}
+                  >{secondsToTimeCode(position)}</span>
+                  <ProgressBar
+                    progress={clamp(0, 100 * position / duration, 100)}
+                  />
+                  <span
+                    className={classNames.time}
+                  >{secondsToTimeCode(duration)}</span>
+                </>
+              ) : (
+                <span className={classNames.loading}>Loading...</span>
+              )}
             </div>
           </Grid.Col>
 
@@ -135,7 +150,7 @@ export function PodcastPlayerBar() {
               />
               <div className={classNames.col}>
                 <Text>{episode?.show || ''}</Text>
-                <Text>{episode?.title || ''}</Text>
+                <Text.Truncate numberOfLines={1}>{episode?.title || ''}</Text.Truncate>
               </div>
             </div>
           </Grid.Col>
@@ -145,7 +160,7 @@ export function PodcastPlayerBar() {
             <div className={classNames.row}>
               <div className={classNames.col}>
                 <Text>{episode?.show || ''}</Text>
-                <Text>{episode?.title || ''}</Text>
+                <Text.Truncate numberOfLines={1}>{episode?.title || ''}</Text.Truncate>
               </div>
             </div>
           </Grid.Col>
@@ -199,9 +214,13 @@ export function PodcastPlayerBar() {
 
           <Grid.Col xs={8} md={0} style={{alignItems: 'flex-end'}}>
             <div className={classNames.row}>
-              <span className={classNames.time} >
-                {secondsToTimeCode(position)} / {secondsToTimeCode(duration)}
-              </span>
+              {loading? (
+                <span className={classNames.loading}>Loading...</span>
+              ) : (
+                <span className={classNames.time}>
+                  {secondsToTimeCode(position)} / {secondsToTimeCode(duration)}
+                </span>
+              )}
             </div>
           </Grid.Col>
 

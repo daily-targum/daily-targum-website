@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { CompactArticle } from '../shared/src/client';
-import { formatDateAbriviated, hyphenatedToCapitalized } from '../shared/src/utils';
+import { CompactArticle } from '../aws';
+import { formatDateAbriviated, hyphenatedToCapitalized } from '../utils';
 import { Section, Text, AspectRatioImage } from '../components';
 import Link from './Link';
 import { imgix } from '../utils';

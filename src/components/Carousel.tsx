@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ReactChildren } from '../types';
-import { clamp } from '../shared/src/utils';
+import { clamp } from '../utils';
 import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
 import styles from './Carousel.module.scss';
 import cn from 'classnames';

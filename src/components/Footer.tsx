@@ -6,7 +6,7 @@ import Text from './Text';
 import Link from './Link';
 import Divider from './Divider';
 import Image from './Image';
-import { ObjectKeys } from '../shared/src/utils';
+import { ObjectKeys } from '../utils';
 
 import Styles from './Footer.styles';
 const { classNames, StyleSheet } = Styles;

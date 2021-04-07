@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
 
-export function ScrollFix() {
+export function ScrollFix() {  
   const router = useRouter();
   const path = router.asPath.replace(/\?.*/, '');
 
