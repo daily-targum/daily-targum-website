@@ -6,8 +6,10 @@ const env = (process.env.ENV || 'development') as Env;
 export function processNextQueryStringParam(str: string | string[] | undefined | null, fallbackValue = '') {
   if(typeof str === 'object' && str !== null) {
     return str[0] ?? fallbackValue;
+  } else if (typeof str === 'string') {
+    return str
   } else {
-    return str ?? fallbackValue;
+    return fallbackValue;
   }
 }
 

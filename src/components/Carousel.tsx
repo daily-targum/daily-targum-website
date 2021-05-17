@@ -200,11 +200,11 @@ export function Carousel<T>({
         ref={internalRef}
         onScroll={() => {
           if (!div) return;
-          clearTimeout(scrollTimeout.current);
+          window.clearTimeout(scrollTimeout.current);
 
           const crntIndex = Math.round(div.scrollLeft / width);
 
-          scrollTimeout.current = setTimeout(() => {
+          scrollTimeout.current = window.setTimeout(() => {
             if (crntIndex !== index) {
               setIndex(crntIndex);
               onChange(crntIndex);

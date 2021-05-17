@@ -33,11 +33,11 @@ export function NextNProgress({
   
     let timeout: number;
     function routeChangeEnd() {
-      clearTimeout(timeout);
+      window.clearTimeout(timeout);
       if (!isChanging.current) {
         return;
       }
-      timeout = setTimeout(() => {
+      timeout = window.setTimeout(() => {
         NProgress.done(true);
       }, stopDelayMs);
       isChanging.current = false;

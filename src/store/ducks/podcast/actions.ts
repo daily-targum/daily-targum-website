@@ -56,8 +56,8 @@ export function play() {
     }
 
     updatePosition();
-    clearInterval(privateState.intervalId); // Clean Up
-    privateState.intervalId = setInterval(updatePosition, 100);
+    window.clearInterval(privateState.intervalId); // Clean Up
+    privateState.intervalId = window.setInterval(updatePosition, 100);
   }
 }
 
@@ -117,7 +117,7 @@ export function loadPodcast(show: string, id: string) {
     const state = getState();
 
     // Clean Up
-    clearInterval(privateState.intervalId);
+    window.clearInterval(privateState.intervalId);
     if (state.podcast.player) {
       state.podcast.player.unload();
     }

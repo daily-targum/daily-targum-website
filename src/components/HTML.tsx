@@ -5,6 +5,7 @@ import Text, { variants } from './Text';
 import Link from './Link';
 import Divider from './Divider';
 import dynamic from 'next/dynamic';
+import { Element } from "domhandler/lib/node"
 
 const ADTAG = 'ad';
 
@@ -13,11 +14,14 @@ export const Ad = dynamic(() => import("./Ad"), {
 });
 
 const options: HTMLReactParserOptions = {
-  replace: ({ type, name, children, attribs }) => {
+  replace: (domNode: any) => {
+    // Defining domNode as any then chaning it to Elemnt is a hack
+    // See https://github.com/remarkablemark/html-react-parser/issues/221#issuecomment-771600574
+    const { type, name, children, attribs } = domNode as Element
+      
     if (type === 'tag' && name) {
-
       // 10 or more - becomes a divider
-      if ( !/^h/.test(name) && children?.length === 1 && /^(_|-|–){15,}$/.test(children[0].data) ) {
+      if ( !/^h/.test(name) && children?.length === 1 && /^(_|-|–){15,}$/.test((children[0] as any).data) ) {
         return (
           <Divider/>
         )
@@ -28,7 +32,7 @@ const options: HTMLReactParserOptions = {
           <Text variant={name} htmlTag={name}>{children ? domToReact(children, options) : null}</Text>
         );
       }
-  
+
       if (name === 'a') {
         return (
           <Link href={attribs?.href ?? ''}>
@@ -75,8 +79,7 @@ const options: HTMLReactParserOptions = {
           />
         )
       }
-
-    } 
+    }
   }
 };
 

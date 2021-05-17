@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ObjectKeys } from './array'
+import { ReactChildren } from '../types'
 
 function aspectRatioFullHeight(aspectRatio: number) {
   return {
@@ -288,7 +289,7 @@ type Styles<T, S> = {
 }
 
 export function buildStyleSheet<T>(
-  styles: Styles<T, { className: string; styles: JSX.Element }>
+  styles: Styles<T, { className: string; styles: ReactChildren }>
 ): {
   classNames: Styles<T, string>;
   StyleSheet: JSX.Element;

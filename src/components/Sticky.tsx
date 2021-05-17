@@ -1,6 +1,6 @@
 import { ReactChildren } from '../types';
 import { styleHelpers, buildStyleSheet } from '../utils'
-import { css } from 'styled-jsx/css';
+import css from 'styled-jsx/css';
 import { NAVBAR_HEIGHT } from './Navbar'
 
 const stickyBox = css.resolve`
