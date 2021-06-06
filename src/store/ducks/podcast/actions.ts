@@ -1,39 +1,37 @@
-import types, { State } from './types';
-import { clamp } from '../../../utils';
-import { videoActions } from '../video'
-// import { Howl } from 'howler';
-// import webAudioTouchUnlock from 'web-audio-touch-unlock';
-// import soundjs from 'soundjs'
+import types, { State } from "./types";
+import { clamp } from "../../../utils";
+import { videoActions } from "../video";
+// import { Howl } from "howler";
+// import webAudioTouchUnlock from "web-audio-touch-unlock";
+// import soundjs from "soundjs";
 
-// if (typeof window !== 'undefined') {
-//   // @ts-ignore
-//   var context = new (window.AudioContext || window.webkitAudioContext)();
-//   webAudioTouchUnlock(context)
-//   .then(function (unlocked) {
-//   })
-// }
+if (typeof window !== "undefined") {
+  // @ts-ignore
+  var context = new (window.AudioContext || window.webkitAudioContext)();
+  // webAudioTouchUnlock(context).then(function (unlocked) {});
+}
 
 let privateState: {
-  id?: number
-  intervalId?: number
+  id?: number;
+  intervalId?: number;
 } = {
   id: undefined,
-  intervalId: undefined
+  intervalId: undefined,
 };
 
 export function play() {
   return (dispatch: any, getState: () => { podcast: State }) => {
     const state = getState();
-    if (state.podcast.playState === 'play') {
+    if (state.podcast.playState === "play") {
       return;
     }
 
-    dispatch(videoActions.setPlayState('stop'));
+    dispatch(videoActions.setPlayState("stop"));
     dispatch(videoActions.setPersist(false));
 
     dispatch({
       type: types.SET_PLAY_STATE,
-      payload: 'play'
+      payload: "play",
     });
 
     dispatch(setPersist(true));
@@ -41,24 +39,24 @@ export function play() {
     privateState.id = state.podcast.player?.play(privateState.id);
 
     function updatePosition() {
-      if(!state.podcast.player) {
+      if (!state.podcast.player) {
         return;
       }
       let position = state.podcast.player.seek(undefined);
-      if (typeof position !== 'number') {
+      if (typeof position !== "number") {
         position = 0;
       }
 
       dispatch({
         type: types.SET_POSITION,
-        payload: position
+        payload: position,
       });
     }
 
     updatePosition();
     window.clearInterval(privateState.intervalId); // Clean Up
     privateState.intervalId = window.setInterval(updatePosition, 100);
-  }
+  };
 }
 
 export function pause() {
@@ -71,48 +69,46 @@ export function pause() {
 
     dispatch({
       type: types.SET_PLAY_STATE,
-      playState: 'pause'
+      playState: "pause",
     });
-  }
+  };
 }
 
 export function skip(num: number) {
   return (dispatch: any, getState: () => { podcast: State }) => {
     const state = getState();
 
-    if(!state.podcast.player) {
+    if (!state.podcast.player) {
       return;
     }
 
     let newPos = clamp(0, state.podcast.position + num, state.podcast.duration);
     state.podcast.player.seek(newPos);
-    
+
     dispatch({
       type: types.SET_POSITION,
-      payload: newPos
+      payload: newPos,
     });
 
-
-    if(newPos < state.podcast.duration) {
+    if (newPos < state.podcast.duration) {
       dispatch(play());
     }
-  }
+  };
 }
 
-// function syncPlayback() {
-//   return async (dispatch: any, getState: () => { podcast: State }) => {
-//     const state = getState()
-//     if (state.podcast.playState === 'play') {
-//       dispatch(play())
-//     }
-//   }
-// }
+function syncPlayback() {
+  return async (dispatch: any, getState: () => { podcast: State }) => {
+    const state = getState();
+    if (state.podcast.playState === "play") {
+      dispatch(play());
+    }
+  };
+}
 
 export function loadPodcast(show: string, id: string) {
   return async (dispatch: any, getState: () => { podcast: State }) => {
-
-    const { getPodcast } = await import('../../../aws');
-    // const { Howl } = await import('howler');
+    const { getPodcast } = await import("../../../aws");
+    const { Howl } = await import("howler");
 
     const state = getState();
 
@@ -125,91 +121,94 @@ export function loadPodcast(show: string, id: string) {
     const podcast = (
       await getPodcast({
         show,
-        limit: 5
+        limit: 5,
       })
-    ).items.filter(episode => episode.id === id)[0];
+    ).items.filter((episode) => episode.id === id)[0];
 
     dispatch({
       type: types.SET_EPISODE,
-      payload: podcast
+      payload: podcast,
     });
-    
-    // const audioContext = new AudioContext()
-    // const file = new Audio(podcast.audioFile)
-    // const track = audioContext.createMediaElementSource(file)
 
-    // file.play()
+    // const audioContext = new AudioContext();
+    const file = new Audio(podcast.audioFile);
+    // const track = audioContext.createMediaElementSource(file);
 
-    // const howl = new Howl({
-    //   src: [podcast.audioFile],
-    //   html5: true,
-    //   autoplay: true,
-    //   onplay: () => {
-    //     dispatch({
-    //       type: types.SET_PLAY_STATE,
-    //       payload: 'play'
-    //     });
-    //   },
-    //   onpause: () => {
-    //     dispatch({
-    //       type: types.SET_PLAY_STATE,
-    //       payload: 'pause'
-    //     });
-    //   },
-    //   onstop: () => {
-    //     dispatch({
-    //       type: types.SET_PLAY_STATE,
-    //       payload: 'stop'
-    //     });
-    //   },
-    //   onend: () => {
-    //     dispatch({
-    //       type: types.SET_PLAY_STATE,
-    //       payload: 'stop'
-    //     });
-    //     dispatch({
-    //       type: types.SET_DURATION,
-    //       payload: howl.duration() ?? 0
-    //     });
-    //   },
-    //   onload: () => {
-    //     dispatch({
-    //       type: types.SET_DURATION,
-    //       payload: howl.duration() ?? 0
-    //     });
-    //     dispatch({
-    //       type: types.SET_POSITION,
-    //       payload: 0
-    //     });
-    //     dispatch(syncPlayback());
-    //   },
-    //   onunlock: () => {
-    //     alert('unlock')
-    //   }
-    // });
+    file.play();
 
-    // if (typeof window !== 'undefined') {
-    //   try {
-    //     // @ts-ignore
-    //     window.navigator.mediaSession.setActionHandler('play', () => howl.play());
-    //     // @ts-ignore
-    //     window.navigator.mediaSession.setActionHandler('pause', () => howl.pause());
-    //   } catch(e) {}
-    // }
+    const howl = new Howl({
+      src: [podcast.audioFile],
+      html5: true,
+      autoplay: true,
+      onplay: () => {
+        dispatch({
+          type: types.SET_PLAY_STATE,
+          payload: "play",
+        });
+      },
+      onpause: () => {
+        dispatch({
+          type: types.SET_PLAY_STATE,
+          payload: "pause",
+        });
+      },
+      onstop: () => {
+        dispatch({
+          type: types.SET_PLAY_STATE,
+          payload: "stop",
+        });
+      },
+      onend: () => {
+        dispatch({
+          type: types.SET_PLAY_STATE,
+          payload: "stop",
+        });
+        dispatch({
+          type: types.SET_DURATION,
+          payload: howl.duration() ?? 0,
+        });
+      },
+      onload: () => {
+        dispatch({
+          type: types.SET_DURATION,
+          payload: howl.duration() ?? 0,
+        });
+        dispatch({
+          type: types.SET_POSITION,
+          payload: 0,
+        });
+        dispatch(syncPlayback());
+      },
+      onunlock: () => {
+        alert("unlock");
+      },
+    });
 
-    // dispatch({
-    //   type: types.SET_PLAYER,
-    //   payload: howl
-    // });
+    if (typeof window !== "undefined") {
+      try {
+        // @ts-ignore
+        window.navigator.mediaSession.setActionHandler("play", () =>
+          howl.play()
+        );
+        // @ts-ignore
+        window.navigator.mediaSession.setActionHandler("pause", () =>
+          howl.pause()
+        );
+      } catch (e) {}
+    }
+
+    dispatch({
+      type: types.SET_PLAYER,
+      payload: howl,
+    });
 
     dispatch(setPersist(true));
-    
-  }
+  };
 }
 
 export function setPersist(persist: boolean) {
   return {
     type: types.SET_PERSIST,
-    payload: persist
-  }
+    payload: persist,
+  };
 }
