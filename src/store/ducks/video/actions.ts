@@ -1,39 +1,38 @@
-import types from './types';
-import { podcastActions } from '../podcast';
+import types from "./types";
+import { podcastActions } from "../podcast";
 
-export function setPlayState(playState: 'stop' | 'pause' | 'play') {
+export function setPlayState(playState: "stop" | "pause" | "play") {
   return async (dispatch: any) => {
-
-    if (playState === 'play') {
+    if (playState === "play") {
       dispatch(podcastActions.pause());
       dispatch(podcastActions.setPersist(false));
     }
 
     dispatch({
       type: types.VIDEO_SET_PLAY_STATE,
-      payload: playState
+      payload: playState,
     });
-  }
+  };
 }
 
 export function setDuration(duration: number) {
   return {
     type: types.VIDEO_SET_DURATION,
-    payload: duration
+    payload: duration,
   };
 }
 
 export function setPosition(position: number) {
   return {
     type: types.VIDEO_SET_POSITION,
-    payload: position
+    payload: position,
   };
 }
 
 export function setPersist(persist: boolean) {
   return {
     type: types.VIDEO_SET_PERSIST,
-    payload: persist
+    payload: persist,
   };
 }
 
@@ -42,13 +41,13 @@ export function loadVideo({
   title,
   description,
   thumbnail,
-  createdAt
+  createdAt,
 }: {
-  src: string
-  title: string
-  description: string
-  thumbnail: string
-  createdAt: number
+  src: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  createdAt: number;
 }) {
   return {
     type: types.VIDEO_SET_VIDEO,
@@ -57,7 +56,7 @@ export function loadVideo({
       title,
       description,
       thumbnail,
-      createdAt
-    }
+      createdAt,
+    },
   };
 }

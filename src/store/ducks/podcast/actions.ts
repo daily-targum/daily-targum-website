@@ -2,13 +2,13 @@ import types, { State } from "./types";
 import { clamp } from "../../../utils";
 import { videoActions } from "../video";
 // import { Howl } from "howler";
-// import webAudioTouchUnlock from "web-audio-touch-unlock";
+import webAudioTouchUnlock from "web-audio-touch-unlock";
 // import soundjs from "soundjs";
 
 if (typeof window !== "undefined") {
   // @ts-ignore
   var context = new (window.AudioContext || window.webkitAudioContext)();
-  // webAudioTouchUnlock(context).then(function (unlocked) {});
+  webAudioTouchUnlock(context).then(function () {});
 }
 
 let privateState: {
@@ -26,6 +26,8 @@ export function play() {
       return;
     }
 
+    console.log(state);
+
     dispatch(videoActions.setPlayState("stop"));
     dispatch(videoActions.setPersist(false));
 
@@ -36,7 +38,11 @@ export function play() {
 
     dispatch(setPersist(true));
 
-    privateState.id = state.podcast.player?.play(privateState.id);
+    console.log(state);
+    privateState.id = state.podcast.player?.play(
+      privateState.id === null ? undefined : privateState.id
+    );
+    console.log(privateState.id);
 
     function updatePosition() {
       if (!state.podcast.player) {
@@ -123,23 +129,26 @@ export function loadPodcast(show: string, id: string) {
         show,
         limit: 5,
       })
-    ).items.filter((episode) => episode.id === id)[0];
+    ).items.filter((episode) => episode.id === id);
+    console.log(podcast);
 
     dispatch({
       type: types.SET_EPISODE,
-      payload: podcast,
+      payload: podcast[0],
     });
 
     // const audioContext = new AudioContext();
-    const file = new Audio(podcast.audioFile);
+    // const file = new Audio(podcast.audioFile);
     // const track = audioContext.createMediaElementSource(file);
 
-    file.play();
+    //file.play();
 
     const howl = new Howl({
-      src: [podcast.audioFile],
+      src: [podcast[0].audioFile],
       html5: true,
-      autoplay: true,
+      mute: false,
+      autoplay: false,
+
       onplay: () => {
         dispatch({
           type: types.SET_PLAY_STATE,
@@ -180,7 +189,7 @@ export function loadPodcast(show: string, id: string) {
         dispatch(syncPlayback());
       },
       onunlock: () => {
-        alert("unlock");
+        // alert("unlock");
       },
     });
 
