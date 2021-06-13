@@ -26,14 +26,14 @@ function ShareSidebar({
   article: GetArticle
 }) {
   const router = useRouter();
-  
+
   const articlePath = `https://dailytargum.com${router.asPath}`;
 
   return (
     <div className={classNames.shareSidebar}>
       <Text variant='h3'>Share</Text>
       <div className={classNames.shareIcons}>
-      <FacebookShareButton
+        <FacebookShareButton
           url={articlePath}
           title={article.title}
           className={classNames.shareIcon}
@@ -138,7 +138,7 @@ function Article({
         >
           <Grid.Col xs={5} xl={1} style={{ height: '100%' }}>
             <Sticky>
-              <ShareSidebar article={article}/>
+              <ShareSidebar article={article} />
             </Sticky>
           </Grid.Col>
 
@@ -166,7 +166,16 @@ function Article({
                   >
                     {article.title}
                   </Text>
-
+                  {article.heading ? (
+                    <div>
+                      {/* <Divider className={classNames.divider} /> */}
+                      <Text
+                        variant='p'
+                        htmlTag='p'
+                        className={classNames.heading}
+                      >
+                        {article.heading}
+                      </Text></div>) : null}
                   <Byline.Authors
                     authors={article.authors}
                     publishDate={article.publishDate}
@@ -198,9 +207,9 @@ function Article({
                 <HTML html={article.body} />
               </Semantic>
             </Semantic>
-            
-            <Grid.Display xs={true} md={false}>            
-              <ShareSidebar article={article}/>
+
+            <Grid.Display xs={true} md={false}>
+              <ShareSidebar article={article} />
             </Grid.Display>
           </Grid.Col>
 
@@ -249,7 +258,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       revalidate: next.staticPropsRevalidateSeconds
     };
   }
-
+  //console.log(article);
   const pathname = `/article/${year}/${month}/${slug}`;
   const preferedSlug = `/${article.slug}`;
 
