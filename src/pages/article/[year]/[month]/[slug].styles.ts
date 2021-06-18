@@ -17,8 +17,10 @@ const title = css.resolve`
 
 const heading = css.resolve`
   * {
-    font-size: 1.3rem;
-    padding: ${styleHelpers.spacing(0.5, 0)};
+    font-size: 1.2rem;
+    padding: ${styleHelpers.spacing(1, 0)};
+    font-style: italic;
+    font-weight: bold;
   }
 `;
 
