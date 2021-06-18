@@ -119,3 +119,6 @@ dist
 # MacOS
 .DS_Store
 .vercel
+
+#vscode
+.vscode

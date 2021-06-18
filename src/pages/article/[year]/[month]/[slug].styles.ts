@@ -15,6 +15,14 @@ const title = css.resolve`
   }
 `;
 
+const heading = css.resolve`
+  * {
+    font-size: 1.2rem;
+    padding: ${styleHelpers.spacing(1, 0)};
+    font-style: italic;
+  }
+`;
+
 
 const photoWrap = css.resolve`
   * {
@@ -119,5 +127,6 @@ export default buildStyleSheet({
   shareIcon,
   shareIcons,
   printIcon,
-  shareSidebar
+  shareSidebar,
+  heading
 });
