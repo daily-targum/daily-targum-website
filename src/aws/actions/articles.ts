@@ -35,6 +35,7 @@ export type Article<M = Media> = {
   subcategory: string;
   tags: string[] | null;
   title: string;
+  heading?: string;
   updatedAt: number;
 }
 
@@ -158,6 +159,7 @@ export async function getArticle({
             tags
             title
             updatedAt
+            heading
           }
         }
       `
@@ -188,6 +190,7 @@ export async function getArticle({
             tags
             title
             updatedAt
+            heading
           }
         }
       `
@@ -198,6 +201,7 @@ export async function getArticle({
       slug
     }
   });
+  //console.log(res);
   return id ? res.data.getArticle : res.data.getArticleBySlug;
 }
 
@@ -233,14 +237,15 @@ export async function getArticlePreview({
       altText: null,
       credits: imgFields?.credits
     }],
-    publishDate: dayjs(res.sys.updatedAt, {utc: true}).valueOf() / 1000,
-    updatedAt: dayjs(res.sys.updatedAt, {utc: true}).valueOf() / 1000,
+    publishDate: dayjs(res.sys.updatedAt, { utc: true }).valueOf() / 1000,
+    updatedAt: dayjs(res.sys.updatedAt, { utc: true }).valueOf() / 1000,
     slug: res.fields.slug,
     body: documentToHtmlString(res.fields.body),
     category: '',
     abstract: '',
     tags: [],
-    subcategory: ''
+    subcategory: '',
+    heading: res.fields.subheading ? res.fields.subheading : ''
   }
 }
 

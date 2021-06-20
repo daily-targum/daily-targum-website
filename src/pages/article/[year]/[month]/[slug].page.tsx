@@ -195,7 +195,16 @@ function Article({
                   <Text variant="h1" htmlTag="h1" className={classNames.title}>
                     {article.title}
                   </Text>
-
+                  {article.heading ? (
+                    <div>
+                      {/* <Divider className={classNames.divider} /> */}
+                      <Text
+                        variant='p'
+                        htmlTag='p'
+                        className={classNames.heading}
+                      >
+                        {article.heading}
+                      </Text></div>) : null}
                   <Byline.Authors
                     authors={article.authors}
                     publishDate={article.publishDate}
@@ -389,7 +398,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       revalidate: next.staticPropsRevalidateSeconds,
     };
   }
-
+  //console.log(article);
   const pathname = `/article/${year}/${month}/${slug}`;
   const preferedSlug = `/${article.slug}`;
 
