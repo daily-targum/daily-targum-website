@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
-import * as types from './types';
-import { Context, defaultContextValue } from './context';
-import { computeBreakpoints, getBreakpoint } from './utils';
-import { styleHelpers, ObjectKeys } from '../../utils';
-import * as contextExports from './context';
-import cn from 'classnames';
+import React, { useContext } from "react";
+import * as types from "./types";
+import { Context, defaultContextValue } from "./context";
+import { computeBreakpoints, getBreakpoint } from "./utils";
+import { styleHelpers, ObjectKeys } from "../../utils";
+import * as contextExports from "./context";
+import cn from "classnames";
 
 export interface ColProps extends Partial<types.BreakPoints<number>> {
-  style?: React.CSSProperties
-  children?: React.ReactNode
-  className?: string
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+  className?: string;
 }
 
 export interface RowProps {
@@ -28,9 +28,9 @@ export interface RowProps {
 }
 
 export interface DisplayProps extends Partial<types.BreakPoints<boolean>> {
-  style?: React.CSSProperties
-  children?: React.ReactNode
-  className?: string
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+  className?: string;
 }
 
 function Col(props: ColProps) {
@@ -38,22 +38,21 @@ function Col(props: ColProps) {
   const { xs, sm, md, lg, xl, xxl, style, children, className } = props;
   const computedBreakpoints = computeBreakpoints({ xs, sm, md, lg, xl, xxl });
 
-  const vars = ObjectKeys(computedBreakpoints).map(breakpoint => (
-    `
+  const vars = ObjectKeys(computedBreakpoints)
+    .map(
+      (breakpoint) =>
+        `
       --gridWidth-${breakpoint}: ${computedBreakpoints[breakpoint]};
-      --gridDisplay-${breakpoint}: ${computedBreakpoints[breakpoint] === 0 ? 'none' : 'flex'};
+      --gridDisplay-${breakpoint}: ${
+          computedBreakpoints[breakpoint] === 0 ? "none" : "flex"
+        };
     `
-  )).join(' ');
+    )
+    .join(" ");
 
   return (
     <>
-      <div 
-        style={style}
-        className={cn(
-          className,
-          'col'
-        )}
-      >
+      <div style={style} className={cn(className, "col")}>
         {children}
       </div>
       <style jsx>
@@ -67,84 +66,84 @@ function Col(props: ColProps) {
             direction: ltr;
           }
 
-          @media ${styleHelpers.mediaQuery('xs', 'sm')} {
+          @media ${styleHelpers.mediaQuery("xs", "sm")} {
             .col {
               display: var(--gridDisplay-xs);
               grid-column-end: span var(--gridWidth-xs);
             }
           }
 
-          @media ${styleHelpers.mediaQuery('sm', 'md')} {
+          @media ${styleHelpers.mediaQuery("sm", "md")} {
             .col {
               display: var(--gridDisplay-sm);
               grid-column-end: span var(--gridWidth-sm);
             }
           }
 
-          @media ${styleHelpers.mediaQuery('md', 'lg')} {
+          @media ${styleHelpers.mediaQuery("md", "lg")} {
             .col {
               display: var(--gridDisplay-md);
               grid-column-end: span var(--gridWidth-md);
             }
           }
 
-          @media ${styleHelpers.mediaQuery('lg', 'xl')} {
+          @media ${styleHelpers.mediaQuery("lg", "xl")} {
             .col {
               display: var(--gridDisplay-lg);
               grid-column-end: span var(--gridWidth-lg);
             }
           }
 
-          @media ${styleHelpers.mediaQuery('xl', 'xxl')} {
+          @media ${styleHelpers.mediaQuery("xl", "xxl")} {
             .col {
               display: var(--gridDisplay-xl);
               grid-column-end: span var(--gridWidth-xl);
             }
           }
 
-          @media ${styleHelpers.mediaQuery('xxl')} {
+          @media ${styleHelpers.mediaQuery("xxl")} {
             .col {
               display: var(--gridDisplay-xxl);
               grid-column-end: span var(--gridWidth-xxl);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('xs', 'sm')} {
+          @media ${styleHelpers.printMediaQuery("xs", "sm")} {
             .col {
               display: var(--gridDisplay-xs);
               grid-column-end: span var(--gridWidth-xs);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('sm', 'md')} {
+          @media ${styleHelpers.printMediaQuery("sm", "md")} {
             .col {
               display: var(--gridDisplay-sm);
               grid-column-end: span var(--gridWidth-sm);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('md', 'lg')} {
+          @media ${styleHelpers.printMediaQuery("md", "lg")} {
             .col {
               display: var(--gridDisplay-md);
               grid-column-end: span var(--gridWidth-md);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('lg', 'xl')} {
+          @media ${styleHelpers.printMediaQuery("lg", "xl")} {
             .col {
               display: var(--gridDisplay-lg);
               grid-column-end: span var(--gridWidth-lg);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('xl', 'xxl')} {
+          @media ${styleHelpers.printMediaQuery("xl", "xxl")} {
             .col {
               display: var(--gridDisplay-xl);
               grid-column-end: span var(--gridWidth-xl);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('xxl')} {
+          @media ${styleHelpers.printMediaQuery("xxl")} {
             .col {
               display: var(--gridDisplay-xxl);
               grid-column-end: span var(--gridWidth-xxl);
@@ -158,45 +157,43 @@ function Col(props: ColProps) {
 
 function Row({
   cols,
-  spacing = 0, 
-  children, 
-  style, 
+  spacing = 0,
+  children,
+  style,
   className,
   dangerouslyReverse = false,
-  disableGridOnPrit = false
+  disableGridOnPrit = false,
 }: RowProps) {
   const context = {
     ...contextExports.defaultContextValue,
-    breakPoint: useContext(Context).breakPoint
+    breakPoint: useContext(Context).breakPoint,
   };
+  //console.log(cols);
+  //console.log(context);
 
-  if (typeof cols === 'number') {
-    cols = Array.from({ length: cols }).map(() => '1fr');
+  if (typeof cols === "number") {
+    cols = Array.from({ length: cols }).map(() => "1fr");
   }
 
-  if (typeof spacing === 'number') {
-    spacing = spacing+'px';
+  if (typeof spacing === "number") {
+    spacing = spacing + "px";
   }
 
   return (
-    <Context.Provider 
+    <Context.Provider
       value={{
-        ...context, 
-        cols: cols || context.cols
+        ...context,
+        cols: cols || context.cols,
       }}
     >
-      <div 
-        className={cn(
-          className,
-          'row',
-          {
-            ['disableGridOnPrit']: disableGridOnPrit
-          }
-        )} 
+      <div
+        className={cn(className, "row", {
+          ["disableGridOnPrit"]: disableGridOnPrit,
+        })}
         style={{
-          gridTemplateColumns: (cols || context.cols).join(' '),
-          direction: dangerouslyReverse ? 'rtl' : undefined,
-          ...style
+          gridTemplateColumns: (cols || context.cols).join(" "),
+          direction: dangerouslyReverse ? "rtl" : undefined,
+          ...style,
         }}
       >
         {children}
@@ -210,7 +207,7 @@ function Row({
             grid-gap: ${spacing};
           }
 
-          @media print { 
+          @media print {
             .disableGridOnPrit {
               display: block;
             }
@@ -221,27 +218,98 @@ function Row({
   );
 }
 
-function Display({
+function Row2({
+  cols,
+  spacing = 0,
   children,
-  className,
   style,
-  ...rest
-}: DisplayProps) {
+  className,
+  dangerouslyReverse = false,
+  disableGridOnPrit = false,
+}: RowProps) {
+  const context = {
+    ...contextExports.defaultContextValue2,
+    breakPoint: useContext(Context).breakPoint,
+  };
+  //console.log(cols);
+  //console.log(context);
+
+  if (typeof cols === "number") {
+    cols = Array.from({ length: cols }).map(() => "1fr");
+  }
+
+  if (typeof spacing === "number") {
+    spacing = spacing + "px";
+  }
+
+  return (
+    <Context.Provider
+      value={{
+        ...context,
+        cols: cols || context.cols,
+      }}
+    >
+      <div
+        className={cn(className, "row", {
+          ["disableGridOnPrit"]: disableGridOnPrit,
+        })}
+        style={{
+          gridTemplateColumns: (cols || context.cols).join(" "),
+          direction: dangerouslyReverse ? "rtl" : undefined,
+          ...style,
+        }}
+      >
+        {children}
+      </div>
+      <style jsx>
+        {`
+          .row {
+            display: grid;
+            flex: 1;
+            align-items: flex-start;
+            grid-gap: ${spacing};
+          }
+
+          @media print {
+            .disableGridOnPrit {
+              display: block;
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery("xs", "sm")} {
+            .row {
+              display: flex;
+              flex-direction: column;
+            }
+          }
+
+          @media ${styleHelpers.mediaQuery("sm", "md")} {
+            .row {
+              display: flex;
+              flex-direction: column;
+            }
+          }
+        `}
+      </style>
+    </Context.Provider>
+  );
+}
+
+function Display({ children, className, style, ...rest }: DisplayProps) {
   const computedBreakpoints = computeBreakpoints(rest);
 
-  const vars = ObjectKeys(computedBreakpoints).map(breakpoint => (
-    `--gridDisplay-${breakpoint}: ${computedBreakpoints[breakpoint] ? 'flex' : 'none'};`
-  )).join(' ');
+  const vars = ObjectKeys(computedBreakpoints)
+    .map(
+      (breakpoint) =>
+        `--gridDisplay-${breakpoint}: ${
+          computedBreakpoints[breakpoint] ? "flex" : "none"
+        };`
+    )
+    .join(" ");
 
   return (
     <>
-      <div
-        className={cn(
-          className,
-          'display'
-        )}
-        style={style}
-      >
+      <div className={cn(className, "display")} style={style}>
         {children}
       </div>
       <style jsx>
@@ -250,73 +318,73 @@ function Display({
             ${vars}
           }
 
-          @media ${styleHelpers.mediaQuery('xs', 'sm')} {
+          @media ${styleHelpers.mediaQuery("xs", "sm")} {
             .display {
               display: var(--gridDisplay-xs);
             }
           }
 
-          @media ${styleHelpers.mediaQuery('sm', 'md')} {
+          @media ${styleHelpers.mediaQuery("sm", "md")} {
             .display {
               display: var(--gridDisplay-sm);
             }
           }
 
-          @media ${styleHelpers.mediaQuery('md', 'lg')} {
+          @media ${styleHelpers.mediaQuery("md", "lg")} {
             .display {
               display: var(--gridDisplay-md);
             }
           }
-          
-          @media ${styleHelpers.mediaQuery('lg', 'xl')} {
+
+          @media ${styleHelpers.mediaQuery("lg", "xl")} {
             .display {
               display: var(--gridDisplay-lg);
             }
           }
 
-          @media ${styleHelpers.mediaQuery('xl', 'xxl')} {
+          @media ${styleHelpers.mediaQuery("xl", "xxl")} {
             .display {
               display: var(--gridDisplay-xl);
             }
           }
 
-          @media ${styleHelpers.mediaQuery('xxl')} {
+          @media ${styleHelpers.mediaQuery("xxl")} {
             .display {
               display: var(--gridDisplay-xxl);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('xs', 'sm')} {
+          @media ${styleHelpers.printMediaQuery("xs", "sm")} {
             .display {
               display: var(--gridDisplay-xs);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('sm', 'md')} {
+          @media ${styleHelpers.printMediaQuery("sm", "md")} {
             .display {
               display: var(--gridDisplay-sm);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('md', 'lg')} {
+          @media ${styleHelpers.printMediaQuery("md", "lg")} {
             .display {
               display: var(--gridDisplay-md);
             }
           }
-          
-          @media ${styleHelpers.printMediaQuery('lg', 'xl')} {
+
+          @media ${styleHelpers.printMediaQuery("lg", "xl")} {
             .display {
               display: var(--gridDisplay-lg);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('xl', 'xxl')} {
+          @media ${styleHelpers.printMediaQuery("xl", "xxl")} {
             .display {
               display: var(--gridDisplay-xl);
             }
           }
 
-          @media ${styleHelpers.printMediaQuery('xxl')} {
+          @media ${styleHelpers.printMediaQuery("xxl")} {
             .display {
               display: var(--gridDisplay-xxl);
             }
@@ -324,24 +392,22 @@ function Display({
         `}
       </style>
     </>
-  )
+  );
 }
 
-function Provider({
-  children
-}: {
-  children: React.ReactNode
-}) {
-  const [ breakPoint, setBreakPoint ] = React.useState(getBreakpoint(process.browser ? window.innerWidth : 0));
+function Provider({ children }: { children: React.ReactNode }) {
+  const [breakPoint, setBreakPoint] = React.useState(
+    getBreakpoint(process.browser ? window.innerWidth : 0)
+  );
 
   React.useEffect(() => {
-    if(process.browser) { 
+    if (process.browser) {
       const onLayout = () => setBreakPoint(getBreakpoint(window.innerWidth));
       onLayout();
-      window.addEventListener('resize', onLayout);
+      window.addEventListener("resize", onLayout);
       return () => {
-        window.removeEventListener('resize', onLayout);
-      }
+        window.removeEventListener("resize", onLayout);
+      };
     }
   }, []);
 
@@ -356,8 +422,9 @@ export const Grid = {
   ...contextExports,
   Col,
   Row,
+  Row2,
   Provider,
-  Display
-}
+  Display,
+};
 
 export default Grid;

@@ -40,9 +40,7 @@ function NewsRow({
   return (
     <div className={styles.newsRow}>
       <CardCols.Header title={title} href={`/section/${id}`} />
-
       <Divider className={styles.divider} />
-
       <Grid.Row spacing={theme.spacing(2.5)}>
         <CardCols items={chopArray(category, [1, 2, 2])}>
           {(item, i) => {
@@ -111,7 +109,6 @@ function NewsRow({
           }}
         </CardCols>
       </Grid.Row>
-
       <CardCols.Footer title={title} href={`/section/${id}`} />
     </div>
   );

@@ -1,39 +1,61 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
-import * as React from 'react';
-import { AiFillPrinter } from 'react-icons/ai';
+import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { AiFillPrinter } from "react-icons/ai";
 import {
-  EmailIcon, EmailShareButton, FacebookIcon, FacebookShareButton,
-  LinkedinIcon, LinkedinShareButton,
-  RedditIcon, RedditShareButton, TwitterIcon, TwitterShareButton
+  EmailIcon,
+  EmailShareButton,
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  RedditIcon,
+  RedditShareButton,
+  TwitterIcon,
+  TwitterShareButton,
 } from "react-share";
-import { actions, GetArticle } from '../../../../aws';
-import { ActivityIndicator, AdSense, AspectRatioImage, Byline, Divider, Donate, Grid, HTML, Link, Newsletter, Section, Semantic, SEOProps, Sticky, Text } from '../../../../components';
-import { imgix, processNextQueryStringParam, styleHelpers, hyphenatedToCapitalized, extractTextFromHTML } from '../../../../utils';
-import NotFound from '../../../404.page';
-import Styles from './[slug].styles';
-import { next, theme } from '../../../../constants'
-
-
-
+import { actions, GetArticle, GetArticles } from "../../../../aws";
+import {
+  ActivityIndicator,
+  AdSense,
+  AspectRatioImage,
+  Byline,
+  Card,
+  Divider,
+  Donate,
+  Grid,
+  HTML,
+  Link,
+  Newsletter,
+  Section,
+  Semantic,
+  SEOProps,
+  Sticky,
+  Text,
+} from "../../../../components";
+import {
+  imgix,
+  processNextQueryStringParam,
+  styleHelpers,
+  hyphenatedToCapitalized,
+  extractTextFromHTML,
+} from "../../../../utils";
+import NotFound from "../../../404.page";
+import Styles from "./[slug].styles";
+import { next, theme } from "../../../../constants";
 
 const { classNames, StyleSheet } = Styles;
 
-
-function ShareSidebar({
-  article
-}: {
-  article: GetArticle
-}) {
+function ShareSidebar({ article }: { article: GetArticle }) {
   const router = useRouter();
-  
+
   const articlePath = `https://dailytargum.com${router.asPath}`;
 
   return (
     <div className={classNames.shareSidebar}>
-      <Text variant='h3'>Share</Text>
+      <Text variant="h3">Share</Text>
       <div className={classNames.shareIcons}>
-      <FacebookShareButton
+        <FacebookShareButton
           url={articlePath}
           title={article.title}
           className={classNames.shareIcon}
@@ -41,8 +63,8 @@ function ShareSidebar({
           <FacebookIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </FacebookShareButton>
 
@@ -54,8 +76,8 @@ function ShareSidebar({
           <TwitterIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </TwitterShareButton>
 
@@ -67,8 +89,8 @@ function ShareSidebar({
           <RedditIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </RedditShareButton>
 
@@ -80,8 +102,8 @@ function ShareSidebar({
           <LinkedinIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </LinkedinShareButton>
 
@@ -94,27 +116,29 @@ function ShareSidebar({
           <EmailIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </EmailShareButton>
 
         <button className={classNames.printIcon} onClick={() => window.print()}>
-          <AiFillPrinter style={{ fill: styleHelpers.color('background_main') }} />
+          <AiFillPrinter
+            style={{ fill: styleHelpers.color("background_main") }}
+          />
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-
 function Article({
-  article
+  article,
+  articles,
 }: {
-  article: GetArticle
+  article: GetArticle;
+  articles: GetArticles;
 }) {
   const router = useRouter();
-
   if (router.isFallback) {
     return <ActivityIndicator.Screen />;
   }
@@ -123,31 +147,40 @@ function Article({
     return <NotFound />;
   }
 
-  const photoCredit = article.media[0]?.credits;
-  const photoDescription = extractTextFromHTML(article.media[0]?.description ?? '');
+  if (!articles) {
+    return <NotFound />;
+  }
+  const apple = articles.items[0].articles[0];
+  const banana = articles.items[0].articles[1];
+  //console.log(articles.items[0]);
 
+  const photoCredit = article.media[0]?.credits;
+  const photoDescription = extractTextFromHTML(
+    article.media[0]?.description ?? ""
+  );
 
   return (
     <>
       <Section className={classNames.page}>
-
         <Grid.Row
           spacing={theme.spacing(3)}
-          cols={['1fr', '1px', 'minmax(auto, 65ch)', '1px', '1fr']}
+          cols={["1fr", "1px", "minmax(auto, 65ch)", "1px", "1fr"]}
           disableGridOnPrit
         >
-          <Grid.Col xs={5} xl={1} style={{ height: '100%' }}>
+          <Grid.Col xs={5} xl={1} style={{ height: "100%" }}>
             <Sticky>
-              <ShareSidebar article={article}/>
+              <ShareSidebar article={article} />
             </Sticky>
           </Grid.Col>
-
-          <Grid.Col xs={0} xl={1} style={{ height: '100%', overflow: 'hidden' }}>
+          <Grid.Col
+            xs={0}
+            xl={1}
+            style={{ height: "100%", overflow: "hidden" }}
+          >
             <Divider.Vertical />
           </Grid.Col>
-
           <Grid.Col xs={5} md={3} xl={1}>
-            <Semantic role='main' skipNavContent pritable>
+            <Semantic role="main" skipNavContent pritable>
               {article.category ? (
                 <Link
                   className={classNames.category}
@@ -157,13 +190,9 @@ function Article({
                 </Link>
               ) : null}
 
-              <Semantic role='article'>
+              <Semantic role="article">
                 <header>
-                  <Text
-                    variant='h1'
-                    htmlTag='h1'
-                    className={classNames.title}
-                  >
+                  <Text variant="h1" htmlTag="h1" className={classNames.title}>
                     {article.title}
                   </Text>
 
@@ -178,13 +207,16 @@ function Article({
                         <AspectRatioImage
                           aspectRatio={16 / 9}
                           data={imgix(article.media[0].url, {
-                            xs: imgix.presets.md('16:9'),
-                            md: imgix.presets.xl('16:9')
+                            xs: imgix.presets.md("16:9"),
+                            md: imgix.presets.xl("16:9"),
                           })}
                           altText={`${photoDescription} – Photo by ${photoCredit}`}
                         />
                       </Section.OffsetPadding>
-                      <figcaption className={classNames.figcaption} aria-hidden={true}>
+                      <figcaption
+                        className={classNames.figcaption}
+                        aria-hidden={true}
+                      >
                         Photo by {photoCredit}
                         <div className={classNames.captionSpacer} />
                         {photoDescription}
@@ -192,78 +224,183 @@ function Article({
                     </figure>
                   ) : null}
                 </header>
-
                 <Divider className={classNames.divider} />
-
                 <HTML html={article.body} />
               </Semantic>
+
+              <Divider className={classNames.divider} />
+
+              <Text
+                style={{ textAlign: "center" }}
+                variant="h3"
+                htmlTag="h3"
+                className={classNames.title}
+              >
+                Related Articles
+              </Text>
+
+              <Grid.Row2 spacing={theme.spacing(10)}>
+                <Grid.Col>
+                  <Card.CompactResponsiveV2
+                    id={apple.id}
+                    style={{}}
+                    title={apple.title}
+                    imageData={imgix(apple.media[0]?.url ?? "", {
+                      xs: imgix.presets.md("1:1"),
+                      md: imgix.presets.md("6:4"),
+                    })}
+                    href="/article/[year]/[month]/[slug]"
+                    as={apple.slug}
+                    aspectRatioMobile={1}
+                    aspectRatioDesktop={6 / 4}
+                    date={"Test"}
+                    author={apple.authors.map((a) => a.displayName).join(", ")}
+                    altText={
+                      apple.media[0]?.altText ??
+                      apple.media[0]?.description ??
+                      undefined
+                    }
+                  />
+
+                  <Card.CompactResponsiveV2
+                    id={banana.id}
+                    style={{}}
+                    title={banana.title}
+                    imageData={imgix(banana.media[0]?.url ?? "", {
+                      xs: imgix.presets.md("1:1"),
+                      md: imgix.presets.md("6:4"),
+                    })}
+                    href="/article/[year]/[month]/[slug]"
+                    as={banana.slug}
+                    aspectRatioMobile={1}
+                    aspectRatioDesktop={6 / 4}
+                    date={"Test"}
+                    author={banana.authors.map((a) => a.displayName).join(", ")}
+                    altText={
+                      banana.media[0]?.altText ??
+                      banana.media[0]?.description ??
+                      undefined
+                    }
+                  />
+                </Grid.Col>
+                <Grid.Col>
+                  <Card.CompactResponsiveV2
+                    id={apple.id}
+                    style={{}}
+                    title={apple.title}
+                    imageData={imgix(apple.media[0]?.url ?? "", {
+                      xs: imgix.presets.md("1:1"),
+                      md: imgix.presets.md("6:4"),
+                    })}
+                    href="/article/[year]/[month]/[slug]"
+                    as={apple.slug}
+                    aspectRatioMobile={1}
+                    aspectRatioDesktop={6 / 4}
+                    date={"Test"}
+                    author={apple.authors.map((a) => a.displayName).join(", ")}
+                    altText={
+                      apple.media[0]?.altText ??
+                      apple.media[0]?.description ??
+                      undefined
+                    }
+                  />
+                  <Card.CompactResponsiveV2
+                    id={apple.id}
+                    style={{}}
+                    title={apple.title}
+                    imageData={imgix(apple.media[0]?.url ?? "", {
+                      xs: imgix.presets.md("1:1"),
+                      md: imgix.presets.md("6:4"),
+                    })}
+                    href="/article/[year]/[month]/[slug]"
+                    as={apple.slug}
+                    aspectRatioMobile={1}
+                    aspectRatioDesktop={6 / 4}
+                    date={"Test"}
+                    author={apple.authors.map((a) => a.displayName).join(", ")}
+                    altText={
+                      apple.media[0]?.altText ??
+                      apple.media[0]?.description ??
+                      undefined
+                    }
+                  />
+                </Grid.Col>
+              </Grid.Row2>
             </Semantic>
-            
-            <Grid.Display xs={true} md={false}>            
-              <ShareSidebar article={article}/>
+
+            <Grid.Display xs={true} md={false}>
+              <ShareSidebar article={article} />
             </Grid.Display>
           </Grid.Col>
-
-          <Grid.Col xs={0} md={1} style={{ height: '100%', overflow: 'hidden' }}>
+          <Grid.Col
+            xs={0}
+            md={1}
+            style={{ height: "100%", overflow: "hidden" }}
+          >
             <Divider.Vertical />
           </Grid.Col>
-
-          <Grid.Col xs={0} md={1} style={{ height: '100%' }}>
+          <Grid.Col xs={0} md={1} style={{ height: "100%" }}>
             <Sticky>
-              <AdSense
-                type='sidebar'
-                fallback={(
-                  <Donate.SidebarCard />
-                )}
-              />
+              <AdSense type="sidebar" fallback={<Donate.SidebarCard />} />
             </Sticky>
           </Grid.Col>
-
         </Grid.Row>
-
       </Section>
-
       <Divider />
       <Newsletter.Section />
-
       {StyleSheet}
     </>
   );
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const year = processNextQueryStringParam(ctx.params?.year, '');
-  const month = processNextQueryStringParam(ctx.params?.month, '');
-  const slug = processNextQueryStringParam(ctx.params?.slug, '');
+  const year = processNextQueryStringParam(ctx.params?.year, "");
+  const month = processNextQueryStringParam(ctx.params?.month, "");
+  const slug = processNextQueryStringParam(ctx.params?.slug, "");
 
   let article = null;
+  let articles = null;
   try {
     article = await actions.getArticle({
-      slug: `article/${year}/${month}/${slug}`
+      slug: `article/${year}/${month}/${slug}`,
     });
-  } catch (e) { }
+    // articles = await actions.getArticles({ category: `${article?.category}` });
+    // console.log(articles);
+  } catch (e) {}
+  try {
+    articles = await actions.getArticles({
+      category: `${article?.category}`,
+      limit: 5,
+    });
+    // articles = await actions.getArticles({ category: `${article?.category}` });
+    console.log(articles.items[0].articles[0]);
+  } catch (e) {}
 
   if (!article) {
     return {
       props: {},
-      revalidate: next.staticPropsRevalidateSeconds
+      revalidate: next.staticPropsRevalidateSeconds,
+    };
+  }
+
+  if (!articles) {
+    return {
+      props: {},
+      revalidate: next.staticPropsRevalidateSeconds,
     };
   }
 
   const pathname = `/article/${year}/${month}/${slug}`;
   const preferedSlug = `/${article.slug}`;
 
-  const keywords = [
-    ...(article.tags ?? []),
-    article.category
-  ].join(', ');
+  const keywords = [...(article.tags ?? []), article.category].join(", ");
 
   let seo: SEOProps = {
     pathname: preferedSlug,
     title: article?.title,
-    type: 'article',
-    author: article?.authors.map(author => author.displayName).join(', '),
-    keywords
+    type: "article",
+    author: article?.authors.map((author) => author.displayName).join(", "),
+    keywords,
   };
 
   if (article?.abstract) {
@@ -271,9 +408,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   }
 
   if (article?.media[0]) {
-    const media = article.media[0]
+    const media = article.media[0];
     seo.imageSrc = media.url;
-    seo.imageAlt = `${media.description} – Photo by ${media.credits}`
+    seo.imageAlt = `${media.description} – Photo by ${media.credits}`;
   }
 
   if (pathname !== preferedSlug) {
@@ -283,19 +420,20 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       article: article ?? null,
-      seo
+      articles: articles ?? null,
+      seo,
     },
-    revalidate: next.staticPropsRevalidateSeconds
+    revalidate: next.staticPropsRevalidateSeconds,
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: true
+    fallback: true,
     // fallback: 'unstable_blocking'
   };
-}
+};
 
 // export const config = { amp: 'hybrid' }
 
