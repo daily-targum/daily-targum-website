@@ -27,6 +27,7 @@ import {
   HTML,
   Link,
   Newsletter,
+  RelatedArticles,
   Section,
   Semantic,
   SEOProps,
@@ -39,6 +40,7 @@ import {
   styleHelpers,
   hyphenatedToCapitalized,
   extractTextFromHTML,
+  //formatDateAbriviated,
 } from "../../../../utils";
 import NotFound from "../../../404.page";
 import Styles from "./[slug].styles";
@@ -150,8 +152,8 @@ function Article({
   if (!articles) {
     return <NotFound />;
   }
-  const apple = articles.items[0].articles[0];
-  const banana = articles.items[0].articles[1];
+  //const apple = articles.items[0].articles[0];
+  //const banana = articles.items[0].articles[1];
   //console.log(articles.items[0]);
 
   const photoCredit = article.media[0]?.credits;
@@ -199,12 +201,14 @@ function Article({
                     <div>
                       {/* <Divider className={classNames.divider} /> */}
                       <Text
-                        variant='p'
-                        htmlTag='p'
+                        variant="p"
+                        htmlTag="p"
                         className={classNames.heading}
                       >
                         {article.heading}
-                      </Text></div>) : null}
+                      </Text>
+                    </div>
+                  ) : null}
                   <Byline.Authors
                     authors={article.authors}
                     publishDate={article.publishDate}
@@ -239,8 +243,13 @@ function Article({
 
               <Divider className={classNames.divider} />
 
-              <Text
-                style={{ textAlign: "center" }}
+              <RelatedArticles
+                articles={articles}
+                classNames={classNames}
+                theme={theme}
+              />
+              {/* <Text
+                style={{}}
                 variant="h3"
                 htmlTag="h3"
                 className={classNames.title}
@@ -262,7 +271,7 @@ function Article({
                     as={apple.slug}
                     aspectRatioMobile={1}
                     aspectRatioDesktop={6 / 4}
-                    date={"Test"}
+                    date={formatDateAbriviated(apple.publishDate)}
                     author={apple.authors.map((a) => a.displayName).join(", ")}
                     altText={
                       apple.media[0]?.altText ??
@@ -283,7 +292,7 @@ function Article({
                     as={banana.slug}
                     aspectRatioMobile={1}
                     aspectRatioDesktop={6 / 4}
-                    date={"Test"}
+                    date={formatDateAbriviated(banana.publishDate)}
                     author={banana.authors.map((a) => a.displayName).join(", ")}
                     altText={
                       banana.media[0]?.altText ??
@@ -305,7 +314,7 @@ function Article({
                     as={apple.slug}
                     aspectRatioMobile={1}
                     aspectRatioDesktop={6 / 4}
-                    date={"Test"}
+                    date={formatDateAbriviated(apple.publishDate)}
                     author={apple.authors.map((a) => a.displayName).join(", ")}
                     altText={
                       apple.media[0]?.altText ??
@@ -325,7 +334,7 @@ function Article({
                     as={apple.slug}
                     aspectRatioMobile={1}
                     aspectRatioDesktop={6 / 4}
-                    date={"Test"}
+                    date={formatDateAbriviated(apple.publishDate)}
                     author={apple.authors.map((a) => a.displayName).join(", ")}
                     altText={
                       apple.media[0]?.altText ??
@@ -334,7 +343,7 @@ function Article({
                     }
                   />
                 </Grid.Col>
-              </Grid.Row2>
+              </Grid.Row2> */}
             </Semantic>
 
             <Grid.Display xs={true} md={false}>
@@ -373,16 +382,12 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     article = await actions.getArticle({
       slug: `article/${year}/${month}/${slug}`,
     });
-    // articles = await actions.getArticles({ category: `${article?.category}` });
-    // console.log(articles);
   } catch (e) {}
   try {
     articles = await actions.getArticles({
       category: `${article?.category}`,
       limit: 5,
     });
-    // articles = await actions.getArticles({ category: `${article?.category}` });
-    console.log(articles.items[0].articles[0]);
   } catch (e) {}
 
   if (!article) {
