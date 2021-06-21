@@ -32,11 +32,10 @@ export function RelatedArticles({
         Related Articles
       </Text>
 
-      <Grid.Row2 spacing={theme.spacing(10)}>
+      <Grid.RowRelated spacing={theme.spacing(10)}>
         <Grid.Col>
-          <Card.CompactResponsiveV2
+          <Card.CompactResponsiveRelated
             id={article1.id}
-            style={{}}
             title={article1.title}
             imageData={imgix(article1.media[0]?.url ?? "", {
               xs: imgix.presets.md("1:1"),
@@ -55,7 +54,7 @@ export function RelatedArticles({
             }
           />
 
-          <Card.CompactResponsiveV2
+          <Card.CompactResponsiveRelated
             id={article2.id}
             style={{}}
             title={article2.title}
@@ -77,7 +76,7 @@ export function RelatedArticles({
           />
         </Grid.Col>
         <Grid.Col>
-          <Card.CompactResponsiveV2
+          <Card.CompactResponsiveRelated
             id={article3.id}
             style={{}}
             title={article3.title}
@@ -97,7 +96,7 @@ export function RelatedArticles({
               undefined
             }
           />
-          <Card.CompactResponsiveV2
+          <Card.CompactResponsiveRelated
             id={article4.id}
             style={{}}
             title={article4.title}
@@ -118,7 +117,7 @@ export function RelatedArticles({
             }
           />
         </Grid.Col>
-      </Grid.Row2>
+      </Grid.RowRelated>
     </>
   );
 }

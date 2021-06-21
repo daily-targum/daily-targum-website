@@ -218,7 +218,7 @@ function Row({
   );
 }
 
-function Row2({
+function RowRelated({
   cols,
   spacing = 0,
   children,
@@ -422,7 +422,7 @@ export const Grid = {
   ...contextExports,
   Col,
   Row,
-  Row2,
+  RowRelated,
   Provider,
   Display,
 };

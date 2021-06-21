@@ -120,7 +120,7 @@ function CardCompact({
   );
 }
 
-function CardCompactResponsiveV2({
+function CardCompactResponsiveRelated({
   title,
   tag,
   imageData,
@@ -132,13 +132,12 @@ function CardCompactResponsiveV2({
   className,
   author,
   altText,
-  style,
   onClick,
 }: CardBaseResponsiveProps) {
   return (
     <Clickable
       href={href}
-      style={style}
+      style={{ marginTop: "10px" }}
       as={as}
       onClick={onClick}
       className={cn(className, styles.compactCardRelated)}
@@ -473,7 +472,10 @@ const comparisonFn = function (prevProps: any, nextProps: any) {
 export const Card = {
   Compact: React.memo(CardCompact, comparisonFn),
   CompactResponsive: React.memo(CardCompactResponsive, comparisonFn),
-  CompactResponsiveV2: React.memo(CardCompactResponsiveV2, comparisonFn),
+  CompactResponsiveRelated: React.memo(
+    CardCompactResponsiveRelated,
+    comparisonFn
+  ),
   Stacked: React.memo(CardStacked, comparisonFn),
   StackedResponsive: React.memo(CardStackedResponsive, comparisonFn),
   Image: React.memo(CardImage, comparisonFn),
