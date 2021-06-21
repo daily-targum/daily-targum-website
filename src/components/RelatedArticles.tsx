@@ -2,29 +2,27 @@ import Card from "./Card";
 import Grid from "./Grid/web";
 import Text from "./Text";
 import { imgix, formatDateAbbreviated } from "../utils";
-import { GetArticles } from "../aws";
-
-/*
-
-To-do:
-1. Fix Component names
-2. Filter out viewing article
-
-*/
+import { GetArticle, GetArticles } from "../aws";
 
 export function RelatedArticles({
+  article,
   articles,
   classNames,
   theme,
 }: {
+  article: GetArticle;
   articles: GetArticles;
   classNames: any;
   theme: any;
 }) {
-  const article1 = articles.items[0].articles[0];
-  const article2 = articles.items[0].articles[1];
-  const article3 = articles.items[0].articles[2];
-  const article4 = articles.items[0].articles[3];
+  const currentArticleID = article.id;
+  const filteredArticles = articles.items[0].articles.filter(
+    (art) => art.id !== currentArticleID
+  );
+  const article1 = filteredArticles[0];
+  const article2 = filteredArticles[1];
+  const article3 = filteredArticles[2];
+  const article4 = filteredArticles[3];
 
   return (
     <>

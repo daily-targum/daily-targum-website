@@ -244,6 +244,7 @@ function Article({
               <Divider className={classNames.divider} />
 
               <RelatedArticles
+                article={article}
                 articles={articles}
                 classNames={classNames}
                 theme={theme}
