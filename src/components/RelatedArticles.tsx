@@ -1,7 +1,7 @@
 import Card from "./Card";
 import Grid from "./Grid/web";
 import Text from "./Text";
-import { imgix, formatDateAbriviated } from "../utils";
+import { imgix, formatDateAbbreviated } from "../utils";
 import { GetArticles } from "../aws";
 
 /*
@@ -45,7 +45,7 @@ export function RelatedArticles({
             as={article1.slug}
             aspectRatioMobile={1}
             aspectRatioDesktop={6 / 4}
-            date={formatDateAbriviated(article1.publishDate)}
+            date={formatDateAbbreviated(article1.publishDate)}
             author={article1.authors.map((a) => a.displayName).join(", ")}
             altText={
               article1.media[0]?.altText ??
@@ -66,7 +66,7 @@ export function RelatedArticles({
             as={article2.slug}
             aspectRatioMobile={1}
             aspectRatioDesktop={6 / 4}
-            date={formatDateAbriviated(article2.publishDate)}
+            date={formatDateAbbreviated(article2.publishDate)}
             author={article2.authors.map((a) => a.displayName).join(", ")}
             altText={
               article2.media[0]?.altText ??
@@ -88,7 +88,7 @@ export function RelatedArticles({
             as={article3.slug}
             aspectRatioMobile={1}
             aspectRatioDesktop={6 / 4}
-            date={formatDateAbriviated(article3.publishDate)}
+            date={formatDateAbbreviated(article3.publishDate)}
             author={article3.authors.map((a) => a.displayName).join(", ")}
             altText={
               article3.media[0]?.altText ??
@@ -108,7 +108,7 @@ export function RelatedArticles({
             as={article4.slug}
             aspectRatioMobile={1}
             aspectRatioDesktop={6 / 4}
-            date={formatDateAbriviated(article4.publishDate)}
+            date={formatDateAbbreviated(article4.publishDate)}
             author={article4.authors.map((a) => a.displayName).join(", ")}
             altText={
               article4.media[0]?.altText ??

@@ -1,110 +1,118 @@
-import * as React from 'react';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { Section, Text, Grid, Card, ActivityIndicator, FlatList, SEOProps, Navbar, Semantic, Sticky, Ad, Divider, Donate } from '../../components';
-import { actions, GetPlaylist } from '../../aws';
-import { processNextQueryStringParam, imgix, formatDateAbriviated } from '../../utils';
-import NotFound from '../404.page';
-import { useRouter } from 'next/router';
-import { videoActions } from '../../store/ducks/video';
-import { useDispatch } from '../../store';
-import styles from './[playlist].module.scss';
-import { theme, next } from '../../constants';
+import * as React from "react";
+import { GetStaticProps, GetStaticPaths } from "next";
+import {
+  Section,
+  Text,
+  Grid,
+  Card,
+  ActivityIndicator,
+  FlatList,
+  SEOProps,
+  Navbar,
+  Semantic,
+  Sticky,
+  Ad,
+  Divider,
+  Donate,
+} from "../../components";
+import { actions, GetPlaylist } from "../../aws";
+import {
+  processNextQueryStringParam,
+  imgix,
+  formatDateAbbreviated,
+} from "../../utils";
+import NotFound from "../404.page";
+import { useRouter } from "next/router";
+import { videoActions } from "../../store/ducks/video";
+import { useDispatch } from "../../store";
+import styles from "./[playlist].module.scss";
+import { theme, next } from "../../constants";
 
-function Author({
-  initialVideos
-}: {
-  initialVideos: GetPlaylist | null
-}) {
+function Author({ initialVideos }: { initialVideos: GetPlaylist | null }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
   Navbar.useDynamicHeader();
 
   if (router.isFallback) {
-    return <ActivityIndicator.Screen/>;
+    return <ActivityIndicator.Screen />;
   }
 
   if (!initialVideos) {
-    return <NotFound/>;
+    return <NotFound />;
   }
 
   return (
     <Section className={styles.page}>
-      <Grid.Row 
+      <Grid.Row
         spacing={theme.spacing(4)}
-        cols={[ '1fr', '1px', 'minmax(auto, 300px)' ]}
+        cols={["1fr", "1px", "minmax(auto, 300px)"]}
         disableGridOnPrit
       >
         <Grid.Col xs={3} md={1}>
-          <Semantic role='main' pritable skipNavContent>
-            <Text variant='h4'>Videos</Text>
-            <Text variant='h1' htmlTag='h1'>{initialVideos.title}</Text>
-            <Divider className={styles.divider}/>
+          <Semantic role="main" pritable skipNavContent>
+            <Text variant="h4">Videos</Text>
+            <Text variant="h1" htmlTag="h1">
+              {initialVideos.title}
+            </Text>
+            <Divider className={styles.divider} />
 
             <FlatList
               data={initialVideos.media}
-              keyExtractor={article => article.id}
-              renderItem={video => (
+              keyExtractor={(article) => article.id}
+              renderItem={(video) => (
                 <Card.Compact
                   className={styles.articleCard}
                   title={video.title}
-                  imageData={imgix(video.thumbnail ?? '', {
-                    xs: imgix.presets.md('16:9')
+                  imageData={imgix(video.thumbnail ?? "", {
+                    xs: imgix.presets.md("16:9"),
                   })}
-                  aspectRatio={16/9}
-                  date={formatDateAbriviated(video.createdAt)}
+                  aspectRatio={16 / 9}
+                  date={formatDateAbbreviated(video.createdAt)}
                   onClick={() => {
-                    dispatch(videoActions.loadVideo({
-                      ...video,
-                      src: video.url
-                    }));
-                    dispatch(videoActions.setPlayState('play'));
-                    router.push('/videos');
+                    dispatch(
+                      videoActions.loadVideo({
+                        ...video,
+                        src: video.url,
+                      })
+                    );
+                    dispatch(videoActions.setPlayState("play"));
+                    router.push("/videos");
                   }}
                 />
               )}
-              ItemSeparatorComponent={<Card.Spacer/>}
+              ItemSeparatorComponent={<Card.Spacer />}
             />
             {/* <ActivityIndicator.ProgressiveLoader
               onVisible={loadMore}
             /> */}
-
           </Semantic>
         </Grid.Col>
 
-        <Grid.Col xs={0} md={1} style={{height: '100%', overflow: 'hidden'}}>
-          <Divider.Vertical/>
+        <Grid.Col xs={0} md={1} style={{ height: "100%", overflow: "hidden" }}>
+          <Divider.Vertical />
         </Grid.Col>
 
-        <Grid.Col xs={0} md={1} style={{height: '100%'}}>
+        <Grid.Col xs={0} md={1} style={{ height: "100%" }}>
           <Sticky>
-            <Ad   
-              type='rectange' 
-              style={{ marginBottom: '1rem' }} 
-            />
-            <Ad 
-              type='skyscraper' 
-              fallback={(
-                <Donate.SidebarCard/>
-              )}
-            />
+            <Ad type="rectange" style={{ marginBottom: "1rem" }} />
+            <Ad type="skyscraper" fallback={<Donate.SidebarCard />} />
           </Sticky>
         </Grid.Col>
-
       </Grid.Row>
     </Section>
   );
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const slug = processNextQueryStringParam(ctx.params?.playlist, '');
+  const slug = processNextQueryStringParam(ctx.params?.playlist, "");
 
   const initialVideos = await actions.getPlaylist({
-    slug
+    slug,
   });
 
   const seo: SEOProps = {
-    title: initialVideos.title
+    title: initialVideos.title,
   };
 
   const firstVideo = initialVideos?.media[0];
@@ -113,20 +121,20 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   }
 
   return {
-    props: { 
+    props: {
       initialVideos: initialVideos ?? null,
       slug,
-      seo
+      seo,
     },
-    revalidate: next.staticPropsRevalidateSeconds
+    revalidate: next.staticPropsRevalidateSeconds,
   };
 };
 
-export const getStaticPaths: GetStaticPaths = async () =>  {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: true
+    fallback: true,
   };
-}
+};
 
 export default Author;

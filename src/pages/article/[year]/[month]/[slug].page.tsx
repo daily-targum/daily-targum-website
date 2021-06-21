@@ -40,7 +40,7 @@ import {
   styleHelpers,
   hyphenatedToCapitalized,
   extractTextFromHTML,
-  //formatDateAbriviated,
+  //formatDateAbbreviated,
 } from "../../../../utils";
 import NotFound from "../../../404.page";
 import Styles from "./[slug].styles";
@@ -271,7 +271,7 @@ function Article({
                     as={apple.slug}
                     aspectRatioMobile={1}
                     aspectRatioDesktop={6 / 4}
-                    date={formatDateAbriviated(apple.publishDate)}
+                    date={formatDateAbbreviated(apple.publishDate)}
                     author={apple.authors.map((a) => a.displayName).join(", ")}
                     altText={
                       apple.media[0]?.altText ??
@@ -292,7 +292,7 @@ function Article({
                     as={banana.slug}
                     aspectRatioMobile={1}
                     aspectRatioDesktop={6 / 4}
-                    date={formatDateAbriviated(banana.publishDate)}
+                    date={formatDateAbbreviated(banana.publishDate)}
                     author={banana.authors.map((a) => a.displayName).join(", ")}
                     altText={
                       banana.media[0]?.altText ??
@@ -314,7 +314,7 @@ function Article({
                     as={apple.slug}
                     aspectRatioMobile={1}
                     aspectRatioDesktop={6 / 4}
-                    date={formatDateAbriviated(apple.publishDate)}
+                    date={formatDateAbbreviated(apple.publishDate)}
                     author={apple.authors.map((a) => a.displayName).join(", ")}
                     altText={
                       apple.media[0]?.altText ??
@@ -334,7 +334,7 @@ function Article({
                     as={apple.slug}
                     aspectRatioMobile={1}
                     aspectRatioDesktop={6 / 4}
-                    date={formatDateAbriviated(apple.publishDate)}
+                    date={formatDateAbbreviated(apple.publishDate)}
                     author={apple.authors.map((a) => a.displayName).join(", ")}
                     altText={
                       apple.media[0]?.altText ??
