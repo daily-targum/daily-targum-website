@@ -152,14 +152,12 @@ function Article({
   if (!articles) {
     return <NotFound />;
   }
-  //const apple = articles.items[0].articles[0];
-  //const banana = articles.items[0].articles[1];
-  //console.log(articles.items[0]);
 
   const photoCredit = article.media[0]?.credits;
   const photoDescription = extractTextFromHTML(
     article.media[0]?.description ?? ""
   );
+  // console.log(article);
 
   return (
     <>
@@ -241,110 +239,12 @@ function Article({
                 <HTML html={article.body} />
               </Semantic>
 
-              <Divider className={classNames.divider} />
-
               <RelatedArticles
                 article={article}
                 articles={articles}
                 classNames={classNames}
                 theme={theme}
               />
-              {/* <Text
-                style={{}}
-                variant="h3"
-                htmlTag="h3"
-                className={classNames.title}
-              >
-                Related Articles
-              </Text>
-
-              <Grid.Row2 spacing={theme.spacing(10)}>
-                <Grid.Col>
-                  <Card.CompactResponsiveV2
-                    id={apple.id}
-                    style={{}}
-                    title={apple.title}
-                    imageData={imgix(apple.media[0]?.url ?? "", {
-                      xs: imgix.presets.md("1:1"),
-                      md: imgix.presets.md("6:4"),
-                    })}
-                    href="/article/[year]/[month]/[slug]"
-                    as={apple.slug}
-                    aspectRatioMobile={1}
-                    aspectRatioDesktop={6 / 4}
-                    date={formatDateAbbreviated(apple.publishDate)}
-                    author={apple.authors.map((a) => a.displayName).join(", ")}
-                    altText={
-                      apple.media[0]?.altText ??
-                      apple.media[0]?.description ??
-                      undefined
-                    }
-                  />
-
-                  <Card.CompactResponsiveV2
-                    id={banana.id}
-                    style={{}}
-                    title={banana.title}
-                    imageData={imgix(banana.media[0]?.url ?? "", {
-                      xs: imgix.presets.md("1:1"),
-                      md: imgix.presets.md("6:4"),
-                    })}
-                    href="/article/[year]/[month]/[slug]"
-                    as={banana.slug}
-                    aspectRatioMobile={1}
-                    aspectRatioDesktop={6 / 4}
-                    date={formatDateAbbreviated(banana.publishDate)}
-                    author={banana.authors.map((a) => a.displayName).join(", ")}
-                    altText={
-                      banana.media[0]?.altText ??
-                      banana.media[0]?.description ??
-                      undefined
-                    }
-                  />
-                </Grid.Col>
-                <Grid.Col>
-                  <Card.CompactResponsiveV2
-                    id={apple.id}
-                    style={{}}
-                    title={apple.title}
-                    imageData={imgix(apple.media[0]?.url ?? "", {
-                      xs: imgix.presets.md("1:1"),
-                      md: imgix.presets.md("6:4"),
-                    })}
-                    href="/article/[year]/[month]/[slug]"
-                    as={apple.slug}
-                    aspectRatioMobile={1}
-                    aspectRatioDesktop={6 / 4}
-                    date={formatDateAbbreviated(apple.publishDate)}
-                    author={apple.authors.map((a) => a.displayName).join(", ")}
-                    altText={
-                      apple.media[0]?.altText ??
-                      apple.media[0]?.description ??
-                      undefined
-                    }
-                  />
-                  <Card.CompactResponsiveV2
-                    id={apple.id}
-                    style={{}}
-                    title={apple.title}
-                    imageData={imgix(apple.media[0]?.url ?? "", {
-                      xs: imgix.presets.md("1:1"),
-                      md: imgix.presets.md("6:4"),
-                    })}
-                    href="/article/[year]/[month]/[slug]"
-                    as={apple.slug}
-                    aspectRatioMobile={1}
-                    aspectRatioDesktop={6 / 4}
-                    date={formatDateAbbreviated(apple.publishDate)}
-                    author={apple.authors.map((a) => a.displayName).join(", ")}
-                    altText={
-                      apple.media[0]?.altText ??
-                      apple.media[0]?.description ??
-                      undefined
-                    }
-                  />
-                </Grid.Col>
-              </Grid.Row2> */}
             </Semantic>
 
             <Grid.Display xs={true} md={false}>
