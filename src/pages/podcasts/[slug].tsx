@@ -1,157 +1,165 @@
-import * as React from 'react';
-import { hyphenatedToCapitalized } from '../../utils';
-import { actions, GetPodcast } from '../../aws';
-import { processNextQueryStringParam, imgix } from '../../utils';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { SEOProps } from '../../components/SEO';
-import { Grid, AspectRatioImage, Section, Text, Button, Table, ActivityIndicator, Semantic } from '../../components';
-import { useDispatch, useSelector } from '../../store';
-import { podcastActions } from '../../store/ducks/podcast';
-import { videoActions } from '../../store/ducks/video';
-import dayjs from 'dayjs';
-import { IoIosPlay, IoIosPause } from 'react-icons/io';
-import { useRouter } from 'next/router';
-import NotFound from '../404.page';
-import { theme } from '../../constants';
-import Styles from './[slug].styles';
+import * as React from "react";
+import { hyphenatedToCapitalized } from "../../utils";
+import { actions, GetPodcast } from "../../aws";
+import { processNextQueryStringParam, imgix } from "../../utils";
+import { GetStaticProps, GetStaticPaths } from "next";
+import { SEOProps } from "../../components/SEO";
+import {
+  Grid,
+  AspectRatioImage,
+  Section,
+  Text,
+  Button,
+  Table,
+  ActivityIndicator,
+  Semantic,
+} from "../../components";
+import { useDispatch, useSelector } from "../../store";
+import { podcastActions } from "../../store/ducks/podcast";
+import { videoActions } from "../../store/ducks/video";
+import dayjs from "dayjs";
+import { IoIosPlay, IoIosPause } from "react-icons/io";
+import { useRouter } from "next/router";
+import NotFound from "../404.page";
+import { theme } from "../../constants";
+import Styles from "./[slug].styles";
 const { classNames, StyleSheet } = Styles;
 
 function Podcast({
   podcast,
-  show
-} : {
-  podcast: GetPodcast | undefined
-  show: string
+  show,
+}: {
+  podcast: GetPodcast | undefined;
+  show: string;
 }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const firstEpisode = podcast?.items[0];
 
-  const playing = useSelector(s => s.podcast.playState === 'play');
-  const playingThisShow = useSelector(s => s.podcast.episode?.show === podcast?.items[0]?.show);
-  const episodePlayingId = useSelector(s => s.podcast.episode?.id);
+  const playing = useSelector((s) => s.podcast.playState === "play");
+  const playingThisShow = useSelector(
+    (s) => s.podcast.episode?.show === podcast?.items[0]?.show
+  );
+  const episodePlayingId = useSelector((s) => s.podcast.episode?.id);
+
+  async function starter() {
+    if (firstEpisode !== undefined) {
+      await dispatch(podcastActions.loadPodcast(show, firstEpisode.id));
+    }
+  }
 
   React.useEffect(() => {
-    dispatch(videoActions.setPlayState('pause'));
+    //dispatch(podcastActions.loadPodcast());
+    starter();
     dispatch(videoActions.setPersist(false));
-    
+
     dispatch(podcastActions.setPersist(true));
   }, []);
 
   async function play(id?: string) {
     if (id && id !== episodePlayingId) {
       await dispatch(podcastActions.loadPodcast(show, id));
+      //console.log(show);
+      //console.log(id);
     } else if (!playingThisShow && firstEpisode !== undefined) {
       await dispatch(podcastActions.loadPodcast(show, firstEpisode.id));
     }
-    setTimeout(
-      () => dispatch(podcastActions.play()),
-      1000
-    )
+    setTimeout(() => dispatch(podcastActions.play()), 1000);
   }
 
+  // const playHandler = () => {
+  //   play();
+  //   dispatch(podcastActions.pause());
+  //   play();
+  // };
+
   if (router.isFallback) {
-    return <ActivityIndicator.Screen/>;
+    return <ActivityIndicator.Screen />;
   }
 
   if (podcast === undefined || podcast.items.length === 0) {
-    return <NotFound/>;
+    return <NotFound />;
   }
-  
+
   return (
     <>
       <div className={classNames.page}>
-        <Semantic role='main' skipNavContent pritable>
+        <Semantic role="main" skipNavContent pritable>
           <Section className={classNames.section}>
             <Section.OffsetPadding>
-              <Grid.Row
-                cols={['250px', '1fr']}
-                spacing={theme.spacing(2)}
-              >
-
-                <Grid.Col 
-                  xs={2}
-                  md={1}
-                >
+              <Grid.Row cols={["250px", "1fr"]} spacing={theme.spacing(2)}>
+                <Grid.Col xs={2} md={1}>
                   <AspectRatioImage
-                    data={firstEpisode?.coverArt ? (
-                      imgix(firstEpisode.coverArt, {
-                        xs: imgix.presets.md('1:1'),
-                        md: imgix.presets.sm('1:1')
-                      })
-                    ) : []}
+                    data={
+                      firstEpisode?.coverArt
+                        ? imgix(firstEpisode.coverArt, {
+                            xs: imgix.presets.md("1:1"),
+                            md: imgix.presets.sm("1:1"),
+                          })
+                        : []
+                    }
                     aspectRatio={1}
                   />
                 </Grid.Col>
 
-                <Grid.Col 
-                  xs={2}
-                  md={1}
-                  style={{height: '100%'}}
-                >
+                <Grid.Col xs={2} md={1} style={{ height: "100%" }}>
                   <div className={classNames.description}>
-                    <Text variant='h1'>{firstEpisode?.show ?? ''}</Text>
-                    <Text.Truncate 
-                      variant='p'
-                      numberOfLines={4}
-                    >
-                      {firstEpisode?.description ?? ''}
+                    <Text variant="h1">{firstEpisode?.show ?? ""}</Text>
+                    <Text.Truncate variant="p" numberOfLines={4}>
+                      {firstEpisode?.description ?? ""}
                     </Text.Truncate>
-                    <Button
-                      onClick={() => play()}
-                    >
-                      {(playing && playingThisShow) ? 'Pause' : 'Play'}
+                    <Button onClick={() => play()} className="bruv">
+                      {playing && playingThisShow ? "Pause" : "Play"}
                     </Button>
                   </div>
                 </Grid.Col>
-
               </Grid.Row>
-              </Section.OffsetPadding>         
-            </Section>
+            </Section.OffsetPadding>
+          </Section>
 
-            <Section className={classNames.section}>
-              <Section.OffsetPadding>
-                <Table
-                  data={[
-                    ['', 'Title', 'Date'],
-                    ...(podcast?.items.map(item => (
-                      [item.id, item.title, dayjs(item.pubDate).format('MMM D, YYYY')]
-                    )) ?? [])
-                  ]}
-                  widths={['50px']}
-                  keyExtractor={item => item}
-                  style={{width: '100%'}}
-                  colDisplay={[,,{xs: false, md: true}]}
-                  renderItem={(item, i, j) => {
-                    if(j === 0 && i !== 0) {
-                      return (
-                        <div className={classNames.centerHorizontally}>
-                          <button
-                            className={classNames.hideButton}
-                            onClick={() => {
-                              if (episodePlayingId === item && playing) {
-                                dispatch(podcastActions.pause());
-                              } else {
-                                play(item);
-                              }
-                            }}
-                          >
-                            {(episodePlayingId === item && playing) ? (
-                              <IoIosPause size={24}/>
-                            ) : (
-                              <IoIosPlay size={24}/>
-                            )}
-                          </button>
-                        </div>
-                      )
-                    }
-
+          <Section className={classNames.section}>
+            <Section.OffsetPadding>
+              <Table
+                data={[
+                  ["", "Title", "Date"],
+                  ...(podcast?.items.map((item) => [
+                    item.id,
+                    item.title,
+                    dayjs(item.pubDate).format("MMM D, YYYY"),
+                  ]) ?? []),
+                ]}
+                widths={["50px"]}
+                keyExtractor={(item) => item}
+                style={{ width: "100%" }}
+                colDisplay={[, , { xs: false, md: true }]}
+                renderItem={(item, i, j) => {
+                  if (j === 0 && i !== 0) {
                     return (
-                      <span>{item}</span>
+                      <div className={classNames.centerHorizontally}>
+                        <button
+                          className={classNames.hideButton}
+                          onClick={() => {
+                            if (episodePlayingId === item && playing) {
+                              dispatch(podcastActions.pause());
+                            } else {
+                              play(item);
+                            }
+                          }}
+                        >
+                          {episodePlayingId === item && playing ? (
+                            <IoIosPause size={24} />
+                          ) : (
+                            <IoIosPlay size={24} />
+                          )}
+                        </button>
+                      </div>
                     );
-                  }}
-                />
-              </Section.OffsetPadding>
+                  }
+
+                  return <span>{item}</span>;
+                }}
+              />
+            </Section.OffsetPadding>
           </Section>
         </Semantic>
       </div>
@@ -161,11 +169,11 @@ function Podcast({
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const slug = processNextQueryStringParam(ctx.params?.slug, '');
+  const slug = processNextQueryStringParam(ctx.params?.slug, "");
   const show = hyphenatedToCapitalized(slug);
 
   const podcast = await actions.getPodcast({
-    show 
+    show,
   });
 
   const episode = podcast?.items[0];
@@ -173,7 +181,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   let seo: SEOProps = {
     pathname: `/podcast/${slug}`,
     title: show,
-    type: 'podcast'
+    type: "podcast",
     // audioFile: episode.audioFile
   };
 
@@ -182,19 +190,19 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   }
 
   return {
-    props: { 
+    props: {
       podcast,
       show,
-      seo
-    }
+      seo,
+    },
   };
 };
 
-export const getStaticPaths: GetStaticPaths = async () =>  {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: true
+    fallback: true,
   };
-}
+};
 
 export default Podcast;

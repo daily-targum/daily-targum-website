@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { ReactChildren, ReactChild } from '../types';
-import { ImageData, Image } from './Image';
-import cn from 'classnames';
-import { useAmp } from 'next/amp';
-import Styles from './AspectRatioView.styles';
+import * as React from "react";
+import { ReactChildren, ReactChild } from "../types";
+import { ImageData, Image } from "./Image";
+import cn from "classnames";
+import { useAmp } from "next/amp";
+import Styles from "./AspectRatioView.styles";
 const { classNames, StyleSheet } = Styles;
 
 export function AspectRatioView({
@@ -13,35 +13,37 @@ export function AspectRatioView({
   classNameInside,
   style,
   styleInside,
-  onClick
+  onClick,
 }: {
-  aspectRatio: number
-  children?: ReactChildren
-  className?: string
-  classNameInside?: string
-  style?: React.CSSProperties
-  styleInside?: React.CSSProperties
-  onClick?: () => any
+  aspectRatio: number;
+  children?: ReactChildren;
+  className?: string;
+  classNameInside?: string;
+  style?: React.CSSProperties;
+  styleInside?: React.CSSProperties;
+  onClick?: () => any;
 }) {
   return (
     <>
-      <div 
+      <div
         style={{
-          ...(aspectRatio ? null : {
-            flex: 1,
-            height: '100%'
-          }),
-          ...style
+          ...(aspectRatio
+            ? null
+            : {
+                flex: 1,
+                height: "100%",
+              }),
+          ...style,
         }}
         className={className}
         onClick={onClick}
       >
-        <div 
+        <div
           className={classNameInside}
           style={{
-            width: '100%',
-            paddingTop: (100 / aspectRatio) + '%',
-            ...styleInside
+            width: "100%",
+            paddingTop: 100 / aspectRatio + "%",
+            ...styleInside,
           }}
         >
           {children}
@@ -62,18 +64,18 @@ export function AspectRatioImage({
   altText,
   Overlay,
   styleInside,
-  classNameInside
+  classNameInside,
 }: {
-  aspectRatio: number
-  data?: ImageData[]
-  src?: string
-  className?: string
-  classNameInside?: string
-  style?: React.CSSProperties
-  styleInside?: React.CSSProperties
-  onClick?: () => any
-  altText?: string
-  Overlay?: ReactChild
+  aspectRatio: number;
+  data?: ImageData[];
+  src?: string;
+  className?: string;
+  classNameInside?: string;
+  style?: React.CSSProperties;
+  styleInside?: React.CSSProperties;
+  onClick?: () => any;
+  altText?: string;
+  Overlay?: ReactChild;
 }) {
   const isAmp = useAmp();
 
@@ -83,8 +85,8 @@ export function AspectRatioImage({
     return (
       <div
         style={{
-          display: 'flex',
-          ...style
+          display: "flex",
+          ...style,
         }}
         className={className}
       >
@@ -94,7 +96,7 @@ export function AspectRatioImage({
           layout="responsive"
           height={1}
           width={aspectRatio}
-          style={{ height: 'auto', width: '100%', ...styleInside }}
+          style={{ height: "auto", width: "100%", ...styleInside }}
           className={classNameInside}
         />
       </div>
@@ -103,33 +105,32 @@ export function AspectRatioImage({
 
   return (
     <>
-      <div 
+      <div
         style={{
-          width: '100%',
-          ...style
+          width: "100%",
+          ...style,
         }}
-        className={cn(
-          className,
-          {
-            [classNames.grow]: aspectRatio === undefined
-          }
-        )}
+        className={cn(className, {
+          [classNames.grow]: aspectRatio === undefined,
+        })}
         onClick={onClick}
       >
         <Image
           styleOutside={{
-            ...((aspectRatio && !isAmp) ? {
-              position: 'relative',
-              minHeight: '100%',
-              width: '100%',
-              paddingTop: (100 / aspectRatio) + '%'
-            } : null),
-            ...styleInside
+            ...(aspectRatio && !isAmp
+              ? {
+                  position: "relative",
+                  minHeight: "100%",
+                  width: "100%",
+                  paddingTop: 100 / aspectRatio + "%",
+                }
+              : null),
+            ...styleInside,
           }}
           classNameOutside={classNameInside}
           className={classNames.image}
           style={{
-            height: '100%'
+            height: "100%",
           }}
           data={data}
           src={src}

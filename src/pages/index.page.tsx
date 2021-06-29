@@ -13,7 +13,7 @@ import {
   Semantic,
 } from "../components";
 import {
-  formatDateAbriviated,
+  formatDateAbbreviated,
   chopArray,
   camelCaseToCapitalized,
   camelCaseToHyphenated,
@@ -40,9 +40,7 @@ function NewsRow({
   return (
     <div className={styles.newsRow}>
       <CardCols.Header title={title} href={`/section/${id}`} />
-
       <Divider className={styles.divider} />
-
       <Grid.Row spacing={theme.spacing(2.5)}>
         <CardCols items={chopArray(category, [1, 2, 2])}>
           {(item, i) => {
@@ -57,7 +55,7 @@ function NewsRow({
                 })}
                 href="/article/[year]/[month]/[slug]"
                 as={item[0].slug}
-                date={formatDateAbriviated(item[0].publishDate)}
+                date={formatDateAbbreviated(item[0].publishDate)}
                 author={item[0].authors.map((a) => a.displayName).join(", ")}
                 altText={
                   item[0].media[0]?.altText ??
@@ -78,7 +76,7 @@ function NewsRow({
                   as={item[0].slug}
                   aspectRatioMobile={1}
                   aspectRatioDesktop={6 / 4}
-                  date={formatDateAbriviated(item[0].publishDate)}
+                  date={formatDateAbbreviated(item[0].publishDate)}
                   author={item[0].authors.map((a) => a.displayName).join(", ")}
                   altText={
                     item[0].media[0]?.altText ??
@@ -98,7 +96,7 @@ function NewsRow({
                   as={item[1].slug}
                   aspectRatioMobile={1}
                   aspectRatioDesktop={6 / 4}
-                  date={formatDateAbriviated(item[1].publishDate)}
+                  date={formatDateAbbreviated(item[1].publishDate)}
                   author={item[1].authors.map((a) => a.displayName).join(", ")}
                   altText={
                     item[1].media[0]?.altText ??
@@ -111,7 +109,6 @@ function NewsRow({
           }}
         </CardCols>
       </Grid.Row>
-
       <CardCols.Footer title={title} href={`/section/${id}`} />
     </div>
   );

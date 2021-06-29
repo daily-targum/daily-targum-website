@@ -1,39 +1,43 @@
-import * as React from 'react';
-import { actions, GetArticles } from '../../aws';
-import { Section, Grid, LoadMoreButton, ActivityIndicator, Card, CardCols, Banner, SEOProps, Ad, Semantic } from '../../components';
-import { imgix, formatDateAbriviated } from '../../utils';
-import { useRouter } from 'next/router';
-import { next, theme } from '../../constants';
-import { useArticles } from '../../machines';
-import styles from './news.module.scss';
+import * as React from "react";
+import { actions, GetArticles } from "../../aws";
+import {
+  Section,
+  Grid,
+  LoadMoreButton,
+  ActivityIndicator,
+  Card,
+  CardCols,
+  Banner,
+  SEOProps,
+  Ad,
+  Semantic,
+} from "../../components";
+import { imgix, formatDateAbbreviated } from "../../utils";
+import { useRouter } from "next/router";
+import { next, theme } from "../../constants";
+import { useArticles } from "../../machines";
+import styles from "./news.module.scss";
 
-function News({ 
-  initialArticles
-}: { 
-  initialArticles: GetArticles
-}) {
-  const { articles, loadMore, loading } = useArticles({ 
+function News({ initialArticles }: { initialArticles: GetArticles }) {
+  const { articles, loadMore, loading } = useArticles({
     initialArticles,
-    category: 'News'
+    category: "News",
   });
- 
+
   const router = useRouter();
 
   if (router.isFallback) {
-    return <ActivityIndicator.Screen/>
+    return <ActivityIndicator.Screen />;
   }
 
   return (
     <Section className={styles.page}>
-      <Semantic role='main' pritable skipNavContent>
-        <Banner text='News' legacy/>
+      <Semantic role="main" pritable skipNavContent>
+        <Banner text="News" legacy />
 
         <Grid.Row spacing={theme.spacing(2.5)}>
-          
-          <CardCols 
-            items={articles.slice(0,2)}
-          >
-            {article => {
+          <CardCols items={articles.slice(0, 2)}>
+            {(article) => {
               if (!article) {
                 return null;
               }
@@ -42,68 +46,67 @@ function News({
                 <Card.ImageResponsive
                   id={article.id}
                   title={article.title}
-                  imageData={imgix(article.media[0]?.url ?? '', {
-                    xs: imgix.presets.sm('1:1'),
-                    md: imgix.presets.lg('16:9')
+                  imageData={imgix(article.media[0]?.url ?? "", {
+                    xs: imgix.presets.sm("1:1"),
+                    md: imgix.presets.lg("16:9"),
                   })}
-                  href='/article/[year]/[month]/[slug]'
-                  as={'/'+article.slug}
-                  date={formatDateAbriviated(article.publishDate)}
+                  href="/article/[year]/[month]/[slug]"
+                  as={"/" + article.slug}
+                  date={formatDateAbbreviated(article.publishDate)}
                   aspectRatioDesktop={16 / 9}
-                  author={article.authors.map(a => a.displayName).join(', ')}
-                  altText={article.media[0]?.altText ?? article.media[0]?.description ?? undefined}
+                  author={article.authors.map((a) => a.displayName).join(", ")}
+                  altText={
+                    article.media[0]?.altText ??
+                    article.media[0]?.description ??
+                    undefined
+                  }
                 />
               );
             }}
           </CardCols>
 
           <Grid.Col xs={24}>
-            <Ad type='banner'/>
+            <Ad type="banner" />
           </Grid.Col>
 
-          {articles.slice(2).map(item => (
-            <Grid.Col 
-              key={item.id}
-              xs={24}
-              md={12}
-              lg={8}
-            >
+          {articles.slice(2).map((item) => (
+            <Grid.Col key={item.id} xs={24} md={12} lg={8}>
               <Card.StackedResponsive
                 id={item.id}
-                imageData={imgix(item.media[0]?.url ?? '', {
-                  xs: imgix.presets.sm('1:1'),
-                  md: imgix.presets.md('16:9')
+                imageData={imgix(item.media[0]?.url ?? "", {
+                  xs: imgix.presets.sm("1:1"),
+                  md: imgix.presets.md("16:9"),
                 })}
                 title={item.title}
-                href='/article/[year]/[month]/[slug]'
-                as={'/'+item.slug}
-                date={formatDateAbriviated(item.publishDate)}
+                href="/article/[year]/[month]/[slug]"
+                as={"/" + item.slug}
+                date={formatDateAbbreviated(item.publishDate)}
                 aspectRatioDesktop={16 / 9}
-                author={item.authors.map(a => a.displayName).join(', ')}
-                altText={item.media[0]?.altText ?? item.media[0]?.description ?? undefined}
+                author={item.authors.map((a) => a.displayName).join(", ")}
+                altText={
+                  item.media[0]?.altText ??
+                  item.media[0]?.description ??
+                  undefined
+                }
               />
             </Grid.Col>
           ))}
         </Grid.Row>
       </Semantic>
 
-      <LoadMoreButton
-        handleLoad={loadMore}
-        loading={loading}
-      />
-      
+      <LoadMoreButton handleLoad={loadMore} loading={loading} />
     </Section>
   );
 }
 
 export async function getStaticProps() {
   const initialArticles = await actions.getArticles({
-    category: 'News',
-    limit: 50
+    category: "News",
+    limit: 50,
   });
 
   const seo: SEOProps = {
-    title: 'News'
+    title: "News",
   };
 
   const firstArticle = initialArticles?.items?.[0].articles?.[0];
@@ -114,10 +117,10 @@ export async function getStaticProps() {
   return {
     props: {
       initialArticles: initialArticles ?? null,
-      seo
+      seo,
     },
-    revalidate: next.staticPropsRevalidateSeconds
-  }
-};
+    revalidate: next.staticPropsRevalidateSeconds,
+  };
+}
 
 export default News;

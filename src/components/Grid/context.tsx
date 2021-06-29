@@ -1,12 +1,18 @@
-import * as React from 'react';
-import { breakPointKeys } from './config';
-import { BreakPoint, Context as ContextType } from './types';
+import * as React from "react";
+import { breakPointKeys } from "./config";
+import { BreakPoint, Context as ContextType } from "./types";
 
 export const defaultContextValue: ContextType = {
-  breakPoint: 'xs', 
-  cols: (new Array(24)).fill('1fr'),
-  spacing: 0
-}
+  breakPoint: "xs",
+  cols: new Array(24).fill("1fr"),
+  spacing: 0,
+};
+
+export const defaultContextValue2: ContextType = {
+  breakPoint: "xs",
+  cols: new Array(2).fill("1fr"),
+  spacing: 0,
+};
 
 export const Context = React.createContext(defaultContextValue);
 
@@ -21,7 +27,11 @@ export function useResponsiveStyles(styles: any) {
 
   let style: any;
   breakPointKeys.forEach((key: BreakPoint) => {
-    if(styles[key] !== undefined && breakPoint !== null && breakPointKeys.indexOf(key) <= breakPointKeys.indexOf(breakPoint)) {
+    if (
+      styles[key] !== undefined &&
+      breakPoint !== null &&
+      breakPointKeys.indexOf(key) <= breakPointKeys.indexOf(breakPoint)
+    ) {
       style = styles[key];
     }
   });
@@ -30,14 +40,16 @@ export function useResponsiveStyles(styles: any) {
 }
 
 // Web and Native
-export function Consumer({ 
-  children 
+export function Consumer({
+  children,
 }: {
-  children: (context: { breakPoint: BreakPoint | null, spacing: number }) => any
+  children: (context: {
+    breakPoint: BreakPoint | null;
+    spacing: number;
+  }) => any;
 }) {
   return children(useGrid());
 }
-
 
 // Web and Native
 export function BreakpointSwitch(styles: any) {
@@ -45,7 +57,11 @@ export function BreakpointSwitch(styles: any) {
 
   let style: any;
   breakPointKeys.forEach((key: BreakPoint) => {
-    if(styles[key] !== undefined && breakPoint !== null && breakPointKeys.indexOf(key) <= breakPointKeys.indexOf(breakPoint)) {
+    if (
+      styles[key] !== undefined &&
+      breakPoint !== null &&
+      breakPointKeys.indexOf(key) <= breakPointKeys.indexOf(breakPoint)
+    ) {
       style = styles[key];
     }
   });

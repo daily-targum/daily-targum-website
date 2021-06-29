@@ -17,7 +17,7 @@
 }
 
 .cardBodyBase {
-  @include styleHelpers.flex('column');
+  @include styleHelpers.flex("column");
   @include styleHelpers.cardBody();
   flex: 1;
   align-items: flex-start;
@@ -27,7 +27,7 @@
 .tag {
   display: flex;
   color: #fff;
-  background-color: theme.color('accent_main');
+  background-color: theme.color("accent_main");
   padding: theme.spacing(0.5, 1);
   margin-bottom: theme.spacing(1);
 }
@@ -37,7 +37,7 @@
 }
 
 .byline {
-  color: theme.color('textMuted');
+  color: theme.color("textMuted");
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -56,11 +56,15 @@
   padding-bottom: theme.spacing(2.5);
 }
 
-
 // Compact Card
 .compactCard {
   @extend .cardBase;
-  @include styleHelpers.flex('row');
+  @include styleHelpers.flex("row");
+}
+
+.compactCardRelated {
+  @extend .cardBase;
+  @include styleHelpers.flex("column");
 }
 
 .compactCardImage {
@@ -68,15 +72,25 @@
   @include styleHelpers.lockWidth(40%);
 }
 
+.compactCardImageV2 {
+  @extend .cardBaseImage;
+  // @include styleHelpers.lockWidth(70%);
+  // 327 x 218
+}
+
 .compactCardBody {
   @extend .cardBodyBase;
 }
 
+.compactCardBodyRelated {
+  @extend .cardBodyBase;
+  //@include styleHelpers.lockWidth(60%);
+}
 
 // Stacked Card
 .stackedCard {
   @extend .cardBase;
-  @include styleHelpers.flex('column');
+  @include styleHelpers.flex("column");
   height: 100%;
 }
 
@@ -85,20 +99,19 @@
 }
 
 .stackedCardBody {
-  @include styleHelpers.flex('column');
+  @include styleHelpers.flex("column");
   @include styleHelpers.cardBody();
   align-items: flex-start;
   overflow: hidden;
 }
 
-
 // Stacked Card Responsive
 .stackedCardResponsive {
   @extend .cardBase;
-  @include styleHelpers.flex('column');
+  @include styleHelpers.flex("column");
   height: 100%;
 
-  @include theme.mediaQuery('xs', 'md') {
+  @include theme.mediaQuery("xs", "md") {
     flex-direction: row;
   }
 }
@@ -109,7 +122,7 @@
   @include styleHelpers.card();
   border: none;
   height: 100%;
-  @include styleHelpers.flex('column');
+  @include styleHelpers.flex("column");
   align-items: flex-end;
   position: relative;
   @include styleHelpers.centerBackgroundImage();
@@ -117,7 +130,7 @@
 }
 
 .imageCardTitleWrap {
-  @include styleHelpers.flex('column');
+  @include styleHelpers.flex("column");
   justify-content: flex-end;
   @include styleHelpers.absoluteFill();
   padding: theme.spacing(2);
