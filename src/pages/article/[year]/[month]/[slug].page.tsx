@@ -240,7 +240,7 @@ function Article({
               </Semantic>
 
               <RelatedArticles
-                article={article}
+                currentArticle={article}
                 articles={articles}
                 classNames={classNames}
                 theme={theme}

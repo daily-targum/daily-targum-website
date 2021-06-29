@@ -5,18 +5,26 @@ import Divider from "./Divider";
 import { imgix, formatDateAbbreviated } from "../utils";
 import { GetArticle, GetArticles } from "../aws";
 
+/*
+
+The RelatedArticles component fetches articles from the same category as the article
+currently being viewed. The design is a 2x2 grid that turns into a single column flexbox
+when viewed on mobile or smaller sized displays.
+
+*/
+
 export function RelatedArticles({
-  article,
+  currentArticle,
   articles,
   classNames,
   theme,
 }: {
-  article: GetArticle;
+  currentArticle: GetArticle;
   articles: GetArticles;
   classNames: any;
   theme: any;
 }) {
-  const currentArticleID = article.id;
+  const currentArticleID = currentArticle.id;
   const filteredArticles = articles.items[0].articles.filter(
     (art) => art.id !== currentArticleID
   );
