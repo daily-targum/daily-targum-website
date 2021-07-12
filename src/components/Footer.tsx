@@ -96,7 +96,7 @@ export function Footer() {
             </div>
             <div className={classNames.footerText}>
               <Text>
-                Independent student newspaper serving the Rutgers community
+                Independent student news source serving the Rutgers community
                 since 1869.
               </Text>
             </div>
