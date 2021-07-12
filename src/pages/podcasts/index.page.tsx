@@ -67,6 +67,8 @@ type Links = {
   soundcloud: string;
 };
 
+// PodcastLinks is the component that generates the links to the respective podcast platforms
+// like Facebook, Spotify, YouTube, and SoundCloud.
 function PodcastLinks({ show }: { show: string }) {
   const shows: { [key: string]: Links } = {
     "Targum Tea": {
@@ -91,7 +93,8 @@ function PodcastLinks({ show }: { show: string }) {
   return (
     <div>
       <SocialIcon
-        bgColor={styleHelpers.color("textMuted")}
+        //bgColor={styleHelpers.color("textMuted")}
+        //fgColor="white"
         className={classNames.podcastIcon}
         url={shows[show].facebook}
         network="facebook"
@@ -99,7 +102,8 @@ function PodcastLinks({ show }: { show: string }) {
         rel="noopener noreferrer"
       />
       <SocialIcon
-        bgColor={styleHelpers.color("textMuted")}
+        //bgColor={styleHelpers.color("textMuted")}
+        //fgColor="white"
         className={classNames.podcastIcon}
         url={shows[show].spotify}
         network="spotify"
@@ -107,7 +111,8 @@ function PodcastLinks({ show }: { show: string }) {
         rel="noopener noreferrer"
       />
       <SocialIcon
-        bgColor={styleHelpers.color("textMuted")}
+        //bgColor={styleHelpers.color("textMuted")}
+        //fgColor="white"
         className={classNames.podcastIcon}
         url={shows[show].youtube}
         network="youtube"
@@ -115,7 +120,8 @@ function PodcastLinks({ show }: { show: string }) {
         rel="noopener noreferrer"
       />
       <SocialIcon
-        bgColor={styleHelpers.color("textMuted")}
+        //bgColor={styleHelpers.color("textMuted")}
+        //fgColor="white"
         className={classNames.podcastIcon}
         url={shows[show].soundcloud}
         network="soundcloud"
