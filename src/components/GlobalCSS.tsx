@@ -80,13 +80,11 @@ function Vars() {
           ${styleHelpers.darkTheme()}
         }
 
-        /*
         @media only screen {
           .dark-mode {
             ${styleHelpers.darkTheme()}
           }
         }
-        */
 
         html,
         body {

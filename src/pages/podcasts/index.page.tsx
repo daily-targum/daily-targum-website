@@ -1,5 +1,5 @@
 import * as React from "react";
-import { actions, GetPodcast } from "../../aws";
+import { actions, Podcast } from "../../aws";
 import { imgix /* capitalizedToHypenated */ } from "../../utils";
 import { GetStaticProps } from "next";
 import { SEOProps } from "../../components/SEO";
@@ -9,7 +9,7 @@ import {
   Section,
   Text,
   ActivityIndicator,
-  Navbar,
+  //Navbar,
   Banner,
   // Link,
   Semantic,
@@ -23,7 +23,7 @@ import { useRouter } from "next/router";
 import Styles from "./index.styles";
 const { classNames, StyleSheet } = Styles;
 
-function CoverImage({ podcast }: { podcast: GetPodcast }) {
+function CoverImage({ podcast }: { podcast: Podcast }) {
   // const dispatch = useDispatch();
   // const firstEpisodeId = podcast.items[0].id;
   // const firstEpisode = podcast.items[0];
@@ -48,7 +48,7 @@ function CoverImage({ podcast }: { podcast: GetPodcast }) {
 
   return (
     <AspectRatioImage
-      data={imgix(podcast.items[0].coverArt, {
+      data={imgix(podcast.coverArt, {
         xs: {
           ...imgix.presets.lg("1:1"),
           crop: undefined,
@@ -71,11 +71,11 @@ type Links = {
 // like Facebook, Spotify, YouTube, and SoundCloud.
 function PodcastLinks({ show }: { show: string }) {
   const shows: { [key: string]: Links } = {
-    "Targum Tea": {
+    "Targum Tea Podcast": {
       facebook:
         "https://www.facebook.com/watch/thedailytargum/?ref=page_internal",
       spotify:
-        "https://open.spotify.com/show/0G2kjrKYzIZGROoMRoOksa?si=AxDVrjIQTri-wQ58ONneNA&dl_branch=1",
+        "https://open.spotify.com/playlist/6O74QKPd2XY6zmGuw1LO3T?si=6e9e6977f0e84e24",
       youtube:
         "https://www.youtube.com/playlist?list=PLqfNtg9bFcY0cjO1pUz27w3nafVjdoyVE",
       soundcloud: "https://soundcloud.com/dailytargum",
@@ -84,7 +84,7 @@ function PodcastLinks({ show }: { show: string }) {
       facebook:
         "https://www.facebook.com/watch/thedailytargum/?ref=page_internal",
       spotify:
-        "https://open.spotify.com/show/0G2kjrKYzIZGROoMRoOksa?si=AxDVrjIQTri-wQ58ONneNA&dl_branch=1",
+        "https://open.spotify.com/playlist/4MVciSzq31RCvxMHe1S3Cg?si=a453a0447de94448",
       youtube:
         "https://www.youtube.com/playlist?list=PLqfNtg9bFcY0cjO1pUz27w3nafVjdoyVE",
       soundcloud: "https://soundcloud.com/dailytargum",
@@ -92,6 +92,9 @@ function PodcastLinks({ show }: { show: string }) {
   };
   return (
     <div>
+      <div>
+        <Text variant="h3">Available to listen on these platforms</Text>
+      </div>
       <SocialIcon
         //bgColor={styleHelpers.color("textMuted")}
         //fgColor="white"
@@ -132,11 +135,11 @@ function PodcastLinks({ show }: { show: string }) {
   );
 }
 
-function Podcast({
+function PodcastComponent({
   podcast,
   reverse = false,
 }: {
-  podcast: GetPodcast;
+  podcast: Podcast;
   reverse?: boolean;
 }) {
   return reverse ? (
@@ -145,11 +148,11 @@ function Podcast({
         <CoverImage podcast={podcast} />
       </Grid.Col>
       <Grid.Col xs={2} md={1} className={classNames.podcastBody}>
-        <Text variant="h1">{podcast.items[0].show}</Text>
+        <Text variant="h1">{podcast.title}</Text>
         <Text.Truncate variant="p" numberOfLines={5}>
-          {podcast.items[0].description}
+          {podcast.description}
         </Text.Truncate>
-        <PodcastLinks show={podcast.items[0].show} />
+        <PodcastLinks show={podcast.title} />
       </Grid.Col>
       <Grid.Col xs={0} md={1}>
         <CoverImage podcast={podcast} />
@@ -161,19 +164,20 @@ function Podcast({
         <CoverImage podcast={podcast} />
       </Grid.Col>
       <Grid.Col xs={2} md={1} className={classNames.podcastBody}>
-        <Text variant="h1">{podcast.items[0].show}</Text>
+        <Text variant="h1">{podcast.title}</Text>
         <Text.Truncate variant="p" numberOfLines={5}>
-          {podcast.items[0].description}
+          {podcast.description}
         </Text.Truncate>
-        <PodcastLinks show={podcast.items[0].show} />
+        <PodcastLinks show={podcast.title} />
       </Grid.Col>
     </Grid.Row>
   );
 }
 
-function Podcasts({ podcasts }: { podcasts: GetPodcast[] }) {
+function Podcasts({ podcasts }: { podcasts: Podcast[] }) {
+  // console.log(podcasts);
   const router = useRouter();
-  Navbar.useDynamicHeader();
+  // Navbar.useDynamicHeader();
 
   if (router.isFallback) {
     return <ActivityIndicator.Screen />;
@@ -186,12 +190,9 @@ function Podcasts({ podcasts }: { podcasts: GetPodcast[] }) {
           <Banner text="Podcasts" />
 
           {podcasts.map((podcast, i) => (
-            <Section
-              classNameInside={classNames.podcastWrap}
-              key={podcast.items[0].id}
-            >
+            <Section classNameInside={classNames.podcastWrap} key={podcast.id}>
               <Section.OffsetPadding>
-                <Podcast podcast={podcast} reverse={i % 2 === 0} />
+                <PodcastComponent podcast={podcast} reverse={i % 2 === 0} />
               </Section.OffsetPadding>
             </Section>
           ))}
@@ -203,7 +204,7 @@ function Podcasts({ podcasts }: { podcasts: GetPodcast[] }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const podcastSlugs = ["Targum Tea", "Keeping Score"];
+  const podcastSlugs = ["Main"];
 
   const podcasts = await Promise.all(
     podcastSlugs.map((show) => actions.getPodcast({ show }))
@@ -215,7 +216,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      podcasts: podcasts ?? [],
+      podcasts: podcasts[0].items ?? [],
       seo,
     },
   };
