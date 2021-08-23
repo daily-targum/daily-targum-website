@@ -1,13 +1,9 @@
-import * as React from 'react';
-import { styleHelpers, nextUtils } from '../utils';
-import { hyphenatedToCapitalized } from '../utils';
-import { useAmp } from 'next/amp';
+import * as React from "react";
+import { styleHelpers, nextUtils } from "../utils";
+import { hyphenatedToCapitalized } from "../utils";
+import { useAmp } from "next/amp";
 
-const themes = [
-  'light',
-  'dark',
-  'system'
-];
+const themes = ["light", "dark", "system"];
 
 export function ThemeSelector() {
   const [theme, setTheme] = React.useState<string | null>(null);
@@ -27,16 +23,13 @@ export function ThemeSelector() {
 
   return isAmp ? null : (
     <>
-      <select 
+      <select
         value={theme ?? themes[0]}
-        onChange={e => setTheme(e.target.value)}
+        onChange={(e) => setTheme(e.target.value)}
       >
-        {themes.map(theme => (
-          <option 
-            key={theme} 
-            value={theme}
-          >
-            {hyphenatedToCapitalized(theme)} Theme 
+        {themes.map((theme) => (
+          <option key={theme} value={theme}>
+            {hyphenatedToCapitalized(theme)} Theme
           </option>
         ))}
       </select>
@@ -47,7 +40,7 @@ export function ThemeSelector() {
             body,
             body,
             #next-app {
-              ${theme === 'dark' ? styleHelpers.darkTheme() : ''}
+              ${theme === "dark" ? styleHelpers.darkTheme() : ""}
             }
           }
 
@@ -55,13 +48,13 @@ export function ThemeSelector() {
             :root,
             body,
             #next-app {
-              ${theme === 'system' ? styleHelpers.darkTheme() : ''}
+              ${theme === "system" ? styleHelpers.darkTheme() : ""}
             }
           }
         `}
       </style>
     </>
-  )
+  );
 }
 
 export default ThemeSelector;

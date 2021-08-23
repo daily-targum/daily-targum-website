@@ -2,8 +2,8 @@
 @use 'styleHelpers';
 
 .page {
-  @include styleHelpers.flex('column');
-  background-color: theme.color('background_light');
+  @include styleHelpers.flex("column");
+  background-color: theme.color("background_light");
   min-height: 100%;
 }
 

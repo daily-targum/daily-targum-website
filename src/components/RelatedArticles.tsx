@@ -42,8 +42,8 @@ export function RelatedArticles({
         Related Articles
       </Text>
 
-      <Grid.RowRelated spacing={theme.spacing(10)}>
-        <Grid.Col>
+      <Grid.RowRelated cols={2} spacing={theme.spacing(10)}>
+        <Grid.Col style={{ maxWidth: "100%" }}>
           <Card.CompactResponsiveRelated
             id={filteredArticles[0].id}
             title={filteredArticles[0].title}
@@ -89,7 +89,7 @@ export function RelatedArticles({
             }
           />
         </Grid.Col>
-        <Grid.Col>
+        <Grid.Col style={{ maxWidth: "100%" }}>
           <Card.CompactResponsiveRelated
             id={filteredArticles[2].id}
             style={{}}

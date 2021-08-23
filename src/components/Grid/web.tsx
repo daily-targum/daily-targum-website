@@ -5,6 +5,7 @@ import { computeBreakpoints, getBreakpoint } from "./utils";
 import { styleHelpers, ObjectKeys } from "../../utils";
 import * as contextExports from "./context";
 import cn from "classnames";
+// import { normalizeConfig } from "next/dist/next-server/server/config-shared";
 
 export interface ColProps extends Partial<types.BreakPoints<number>> {
   style?: React.CSSProperties;
@@ -235,7 +236,7 @@ function RowRelated({
   //console.log(context);
 
   if (typeof cols === "number") {
-    cols = Array.from({ length: cols }).map(() => "1fr");
+    cols = Array.from({ length: cols }).map(() => "minmax(0, 1fr)");
   }
 
   if (typeof spacing === "number") {
@@ -255,6 +256,7 @@ function RowRelated({
         })}
         style={{
           gridTemplateColumns: (cols || context.cols).join(" "),
+          columnGap: "10px",
           direction: dangerouslyReverse ? "rtl" : undefined,
           ...style,
         }}
@@ -266,8 +268,9 @@ function RowRelated({
           .row {
             display: grid;
             flex: 1;
-            align-items: flex-start;
-            grid-gap: ${spacing};
+            align-items: center;
+            justify-items: space-between;
+            justify-content: space-between;
           }
 
           @media print {

@@ -1,21 +1,21 @@
-import * as React from 'react';
-import Grid from './Grid/web';
-import Section from './Section';
-import Logo from './Logo';
-import Search from './Search';
-import Link from './Link';
+import * as React from "react";
+import Grid from "./Grid/web";
+import Section from "./Section";
+import Logo from "./Logo";
+import Search from "./Search";
+import Link from "./Link";
 // @ts-ignore
-import NextNprogress from './NextNProgress';
-import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from '../store';
-import { navigationActions } from '../store/ducks/navigation';
-import { searchActions } from '../store/ducks/search';
-import cn from 'classnames';
-import FocusTrap from 'focus-trap-react';
-import { Twirl as Hamburger } from 'hamburger-react';
-import { useAmp } from 'next/amp';
-import dynamic from 'next/dynamic';
-import Styles from './Navbar.styles';
+import NextNprogress from "./NextNProgress";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "../store";
+import { navigationActions } from "../store/ducks/navigation";
+import { searchActions } from "../store/ducks/search";
+import cn from "classnames";
+import FocusTrap from "focus-trap-react";
+import { Twirl as Hamburger } from "hamburger-react";
+import { useAmp } from "next/amp";
+import dynamic from "next/dynamic";
+import Styles from "./Navbar.styles";
 const { classNames, StyleSheet } = Styles;
 
 export const ScrollLock = dynamic(() => import("./ScrollLock"), {
@@ -24,55 +24,54 @@ export const ScrollLock = dynamic(() => import("./ScrollLock"), {
 
 export const NAVBAR_HEIGHT = 60;
 
-
 const navbarLinks: {
-  title: string
-  href: string
-  mobileOnly?: boolean
-  ariaLabel?: string
+  title: string;
+  href: string;
+  mobileOnly?: boolean;
+  ariaLabel?: string;
 }[] = [
   {
-    title: 'News',
-    href: '/section/news'
+    title: "News",
+    href: "/section/news",
   },
   {
-    title: 'Sports',
-    href: '/section/sports'
+    title: "Sports",
+    href: "/section/sports",
   },
   {
-    title: 'Opinions',
-    href: '/section/opinions'
+    title: "Opinions",
+    href: "/section/opinions",
   },
   {
-    title: 'Inside Beat',
-    href: '/section/inside-beat'
+    title: "Inside Beat",
+    href: "/section/inside-beat",
   },
   {
-    title: 'Videos',
-    href: '/videos'
+    title: "Videos",
+    href: "/videos",
   },
-  // {
-  //   title: 'Podcasts',
-  //   href: '/podcasts'
-  // },
+  {
+    title: "Podcasts",
+    href: "/podcasts",
+  },
   // {
   //   title: 'Photos',
   //   href: '/photos'
   // },
   {
-    title: 'HoRU',
-    href: '/section/humans-of-rutgers',
-    ariaLabel: 'Humans of Rutgers'
+    title: "HoRU",
+    href: "/section/humans-of-rutgers",
+    ariaLabel: "Humans of Rutgers",
   },
   {
-    title: 'About',
-    href: '/page/about'
-  }
-]
+    title: "About",
+    href: "/page/about",
+  },
+];
 
 function MobileMenu() {
-  const isVisible = useSelector(s => s.navigation.mobileMenuVisible);
-  const searchFocused = useSelector(s => s.search.focused);
+  const isVisible = useSelector((s) => s.navigation.mobileMenuVisible);
+  const searchFocused = useSelector((s) => s.search.focused);
   const router = useRouter();
   const dispatch = useDispatch();
   const isAmp = useAmp();
@@ -94,37 +93,37 @@ function MobileMenu() {
       if (event.keyCode === 27 && isVisible) {
         if (searchFocused) {
           dispatch(searchActions.setFocused(false));
-        }
-
-        else {
+        } else {
           dispatch(navigationActions.closeMobileMenu());
         }
       }
     };
-    window.addEventListener('keydown', handleEsc);
+    window.addEventListener("keydown", handleEsc);
 
     return () => {
-      window.removeEventListener('keydown', handleEsc);
+      window.removeEventListener("keydown", handleEsc);
     };
   }, [isVisible, searchFocused]);
 
   return isAmp ? (
     <>
-      <amp-sidebar 
-        id="sidebar1" 
-        layout="nodisplay" 
+      <amp-sidebar
+        id="sidebar1"
+        layout="nodisplay"
         side="right"
         className={classNames.mobileMenu}
       >
-        {navbarLinks.map(link => (
-          <Link 
+        {navbarLinks.map((link) => (
+          <Link
             key={link.href}
             href={link.href}
             className={cn(classNames.mobileLink, {
-              [classNames.linkActive]: (link.href === router.asPath)
+              [classNames.linkActive]: link.href === router.asPath,
             })}
             label={link.ariaLabel}
-            onClickSideEffect={() => dispatch(navigationActions.closeMobileMenu())}
+            onClickSideEffect={() =>
+              dispatch(navigationActions.closeMobileMenu())
+            }
           >
             <span>{link.title}</span>
           </Link>
@@ -140,21 +139,15 @@ function MobileMenu() {
     </>
   ) : (
     <>
-      <ScrollLock active={isVisible}/>
-      <Grid.Display
-        xs={true} 
-        lg={false}
-      >    
+      <ScrollLock active={isVisible} />
+      <Grid.Display xs={true} lg={false}>
         <div
-          className={cn(
-            classNames.mobileMenu,
-            {
-              [classNames.fadeIn]: isVisible,
-              [classNames.fadeOut]: !isVisible
-            }
-          )}
+          className={cn(classNames.mobileMenu, {
+            [classNames.fadeIn]: isVisible,
+            [classNames.fadeOut]: !isVisible,
+          })}
         >
-          <Search.PreviewBackdrop/>
+          <Search.PreviewBackdrop />
 
           <Search.Input
             enabled={isVisible}
@@ -163,20 +156,22 @@ function MobileMenu() {
             onSubmit={() => {
               dispatch(searchActions.setFocused(false));
               dispatch(navigationActions.closeMobileMenu());
-              router.push('/search', undefined, { shallow: true });
+              router.push("/search", undefined, { shallow: true });
             }}
             maxItems={10}
           />
 
-          {navbarLinks.map(link => (
-            <Link 
+          {navbarLinks.map((link) => (
+            <Link
               key={link.href}
               href={link.href}
               className={cn(classNames.mobileLink, {
-                [classNames.linkActive]: (link.href === router.asPath)
+                [classNames.linkActive]: link.href === router.asPath,
               })}
               label={link.ariaLabel}
-              onClickSideEffect={() => dispatch(navigationActions.closeMobileMenu())}
+              onClickSideEffect={() =>
+                dispatch(navigationActions.closeMobileMenu())
+              }
             >
               <span>{link.title}</span>
             </Link>
@@ -188,140 +183,127 @@ function MobileMenu() {
 }
 
 export function Navbar() {
-  const darkNavbar = useSelector(s => s.navigation.darkNavbar);
+  const darkNavbar = useSelector((s) => s.navigation.darkNavbar);
   const router = useRouter();
   const dispatch = useDispatch();
-  const mobileMenuVisible = useSelector(s => s.navigation.mobileMenuVisible);
-  const searchHijacked = useSelector(s => s.search.hijacked);
+  const mobileMenuVisible = useSelector((s) => s.navigation.mobileMenuVisible);
+  const searchHijacked = useSelector((s) => s.search.hijacked);
   const isAmp = useAmp();
 
   return (
     <>
       <NextNprogress
         options={{
-          showSpinner: false
+          showSpinner: false,
         }}
       />
 
       <FocusTrap active={mobileMenuVisible}>
-        <div 
-          className={cn(
-            classNames.navbarWrap,
-            'fixed-element',
-            {
-              ['dark-mode']: darkNavbar,
-            }
-          )}
+        <div
+          className={cn(classNames.navbarWrap, "fixed-element", {
+            ["dark-mode"]: darkNavbar,
+          })}
         >
-          <Section 
-            className={cn(
-              classNames.navbar,
-              {
-                [classNames.opaque]: mobileMenuVisible
-              }
-            )}
+          <Section
+            className={cn(classNames.navbar, {
+              [classNames.opaque]: mobileMenuVisible,
+            })}
             styleInside={{
-              overflow: 'visible'
+              overflow: "visible",
             }}
           >
             <nav>
-              <Grid.Display
-                xs={false}
-                lg={true} 
-                style={{ flex: 1 }}
-              >
+              <Grid.Display xs={false} lg={true} style={{ flex: 1 }}>
                 <div className={classNames.inner}>
-                  <Link 
-                    href='/' 
-                    label='Go to homepage' 
-                    tooltipPosition='none'
+                  <Link
+                    href="/"
+                    label="Go to homepage"
+                    tooltipPosition="none"
                     onClickSideEffect={() => {
                       dispatch(navigationActions.closeMobileMenu());
                     }}
                   >
-                    <Logo className={classNames.logo}/>
+                    <Logo className={classNames.logo} />
                   </Link>
-                  
+
                   <div className={classNames.links}>
-                    {navbarLinks.filter(l => !l.mobileOnly).map(link => (
-                      <Link 
-                        key={link.href}
-                        href={link.href}
-                        label={link.ariaLabel}
-                        className={cn(
-                          classNames.link,
-                          {
-                            [classNames.linkActive]: link.href === router.asPath
-                          }
-                        )}
-                      >
-                        <span>{link.title}</span>
-                      </Link>
-                    ))}
+                    {navbarLinks
+                      .filter((l) => !l.mobileOnly)
+                      .map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          label={link.ariaLabel}
+                          className={cn(classNames.link, {
+                            [classNames.linkActive]:
+                              link.href === router.asPath,
+                          })}
+                        >
+                          <span>{link.title}</span>
+                        </Link>
+                      ))}
                   </div>
 
-                  <Search.PreviewBackdrop/>
+                  <Search.PreviewBackdrop />
 
-                  <Search.Input 
+                  <Search.Input
                     width={175}
                     size={2.1}
-                    enabled={(!mobileMenuVisible) && !searchHijacked}
+                    enabled={!mobileMenuVisible && !searchHijacked}
                     onSubmit={() => {
-                      router.push('/search', undefined, { shallow: true });
+                      router.push("/search", undefined, { shallow: true });
                     }}
                   />
                 </div>
               </Grid.Display>
 
-              <Grid.Display
-                xs={true}
-                lg={false}
-              >
+              <Grid.Display xs={true} lg={false}>
                 <div className={classNames.inner}>
                   <Search.PreviewBackdrop
                     style={{
-                      height: NAVBAR_HEIGHT
+                      height: NAVBAR_HEIGHT,
                     }}
                   />
 
-                  <Link 
-                    href='/' 
-                    label='Go to homepage' 
-                    tooltipPosition='none'
+                  <Link
+                    href="/"
+                    label="Go to homepage"
+                    tooltipPosition="none"
                     onClickSideEffect={() => {
                       dispatch(navigationActions.closeMobileMenu());
                     }}
                   >
-                    <Logo className={classNames.logo}/>
+                    <Logo className={classNames.logo} />
                   </Link>
 
                   {isAmp ? (
                     // @ts-ignore
                     <button on="tap:sidebar1.toggle">
-                      <Hamburger/>
+                      <Hamburger />
                     </button>
                   ) : (
-                    <Hamburger 
-                      label={`${mobileMenuVisible ? 'Close' : 'Open'} navigation menu`}
-                      color='var(--colors-text)'
+                    <Hamburger
+                      label={`${
+                        mobileMenuVisible ? "Close" : "Open"
+                      } navigation menu`}
+                      color="var(--colors-text)"
                       duration={0.3}
                       hideOutline={false}
                       toggled={mobileMenuVisible}
-                      toggle={() => dispatch(navigationActions.toggleMobileMenu())}
+                      toggle={() =>
+                        dispatch(navigationActions.toggleMobileMenu())
+                      }
                     />
                   )}
-                  
                 </div>
               </Grid.Display>
-            </nav>        
+            </nav>
           </Section>
 
-          <MobileMenu/>
+          <MobileMenu />
         </div>
       </FocusTrap>
-      <div
-        className={classNames.navbarSpacer}
-      />
+      <div className={classNames.navbarSpacer} />
       {StyleSheet}
     </>
   );
