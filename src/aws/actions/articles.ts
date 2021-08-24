@@ -1,27 +1,26 @@
-import { client, previewClient } from '../client';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import { client, previewClient } from "../client";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
-import gql from 'graphql-tag';
-
+import gql from "graphql-tag";
 
 type Media = {
-  id: string
-  title: string | null
-  url: string
-  description: string
-  altText: string | null
-  credits: string
-}
+  id: string;
+  title: string | null;
+  url: string;
+  description: string;
+  altText: string | null;
+  credits: string;
+};
 
-type CompactMedia = Pick<Media, 'url' | 'altText' | 'description'>;
+type CompactMedia = Pick<Media, "url" | "altText" | "description">;
 
 export type Author = {
-  id: string
-  displayName: string
-  slug: string
-  headshot?: string
-}
+  id: string;
+  displayName: string;
+  slug: string;
+  headshot?: string;
+};
 
 export type Article<M = Media> = {
   abstract: string | null;
@@ -37,39 +36,59 @@ export type Article<M = Media> = {
   title: string;
   heading?: string;
   updatedAt: number;
-}
+};
 
 /**
  * CompactArticle is used for pages that give an overview
  * of lots of articles and don't need the body of the article
  */
-export type CompactArticle = Pick<Article<CompactMedia>, 'authors' | 'category' | 'id' | 'media' | 'publishDate' | 'slug' | 'subcategory' | 'tags' | 'title' | 'abstract'>;
+export type CompactArticle = Pick<
+  Article<CompactMedia>,
+  | "authors"
+  | "category"
+  | "id"
+  | "media"
+  | "publishDate"
+  | "slug"
+  | "subcategory"
+  | "tags"
+  | "title"
+  | "abstract"
+>;
 
 export interface GetArticles {
-  columnists: Author[]
-  subcategories: string[]
+  columnists: Author[];
+  subcategories: string[];
   items: {
-    name: string
-    articles: CompactArticle[]
-  }[]
+    name: string;
+    articles: CompactArticle[];
+  }[];
   nextToken: string;
 }
 
 export async function getArticles({
   category,
   limit = 50,
-  lastEvaluatedKey = '',
-  lastPublishDate = 0
+  lastEvaluatedKey = "",
+  lastPublishDate = 0,
 }: {
-  category: string
-  limit?: number
-  lastEvaluatedKey?: string
-  lastPublishDate?: number
+  category: string;
+  limit?: number;
+  lastEvaluatedKey?: string;
+  lastPublishDate?: number;
 }): Promise<GetArticles> {
   const res: any = await client.query({
     query: gql`
-      query getArticles($category: String!, $limit: Int! ${lastEvaluatedKey ? ', $lastEvaluatedKey: String!, $lastPublishDate: Int!' : ''}) {
-        getArticles(category: $category, limit: $limit ${lastEvaluatedKey ? ', lastEvaluatedKey: $lastEvaluatedKey, lastPublishDate: $lastPublishDate' : ''}){
+      query getArticles($category: String!, $limit: Int! ${
+        lastEvaluatedKey
+          ? ", $lastEvaluatedKey: String!, $lastPublishDate: Int!"
+          : ""
+      }) {
+        getArticles(category: $category, limit: $limit ${
+          lastEvaluatedKey
+            ? ", lastEvaluatedKey: $lastEvaluatedKey, lastPublishDate: $lastPublishDate"
+            : ""
+        }){
           columnists {
             displayName
             headshot
@@ -101,18 +120,82 @@ export async function getArticles({
         }
       }
     `,
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache",
     variables: {
       category,
       limit,
       lastEvaluatedKey,
-      lastPublishDate
-    }
+      lastPublishDate,
+    },
   });
   return res.data.getArticles;
 }
 
-
+export async function getArticlesByTag({
+  category,
+  tagArray,
+  limit = 50,
+}: //lastEvaluatedKey = '',
+//lastPublishDate = 0
+{
+  category: string;
+  tagArray: string[];
+  limit?: number;
+  //lastEvaluatedKey?: string
+  //lastPublishDate?: number
+}): Promise<GetArticles> {
+  const res: any = await client.query({
+    query: gql`
+      query getArticlesByTag(
+        $category: String!
+        $limit: Int!
+        $tagArray: [String!]!
+      ) {
+        getArticlesByTag(
+          category: $category
+          limit: $limit
+          tagArray: $tagArray
+        ) {
+          columnists {
+            displayName
+            headshot
+            id
+            slug
+          }
+          items {
+            articles {
+              authors {
+                displayName
+              }
+              category
+              abstract
+              id
+              media {
+                altText
+                description
+                url
+              }
+              publishDate
+              slug
+              subcategory
+              tags
+              title
+            }
+            name
+          }
+          subcategories
+        }
+      }
+    `,
+    fetchPolicy: "no-cache",
+    variables: {
+      category,
+      tagArray,
+      limit,
+    },
+  });
+  return res.data.getArticlesByTag;
+}
 
 export interface GetArtcileById {
   id: string;
@@ -126,97 +209,96 @@ export interface GetArtcileBySlug {
 
 export type GetArticle = Article;
 
-
 export async function getArticle({
   id,
-  slug
+  slug,
 }: GetArtcileById | GetArtcileBySlug): Promise<Article> {
   const res: any = await client.query({
-    query: id ? (
-      // Get article by id
-      gql`
-        query getArticle($id: ID!) {
-          getArticle(id: $id) {
-            abstract
-            authors {
+    query: id
+      ? // Get article by id
+        gql`
+          query getArticle($id: ID!) {
+            getArticle(id: $id) {
+              abstract
+              authors {
+                id
+                displayName
+                slug
+                headshot
+              }
+              body
+              category
               id
-              displayName
+              media {
+                altText
+                credits
+                description
+                url
+              }
+              publishDate
               slug
-              headshot
+              subcategory
+              tags
+              title
+              updatedAt
+              heading
             }
-            body
-            category
-            id
-            media {
-              altText
-              credits
-              description
-              url
-            }
-            publishDate
-            slug
-            subcategory
-            tags
-            title
-            updatedAt
-            heading
           }
-        }
-      `
-    ) : (
-      // Get artcile by slug
-      gql`
-        query getArticleBySlug($slug: String!) {
-          getArticleBySlug(slug: $slug) {
-            abstract
-            authors {
+        `
+      : // Get artcile by slug
+        gql`
+          query getArticleBySlug($slug: String!) {
+            getArticleBySlug(slug: $slug) {
+              abstract
+              authors {
+                id
+                displayName
+                slug
+                headshot
+              }
+              body
+              category
               id
-              displayName
+              media {
+                altText
+                credits
+                description
+                url
+              }
+              publishDate
               slug
-              headshot
+              subcategory
+              tags
+              title
+              updatedAt
+              heading
             }
-            body
-            category
-            id
-            media {
-              altText
-              credits
-              description
-              url
-            }
-            publishDate
-            slug
-            subcategory
-            tags
-            title
-            updatedAt
-            heading
           }
-        }
-      `
-    ),
-    fetchPolicy: 'no-cache',
+        `,
+    fetchPolicy: "no-cache",
     variables: {
       id,
-      slug
-    }
+      slug,
+    },
   });
   //console.log(res);
   return id ? res.data.getArticle : res.data.getArticleBySlug;
 }
 
 export async function getArticlePreview({
-  id
+  id,
 }: {
-  id: string
+  id: string;
 }): Promise<GetArticle> {
   const res: any = await previewClient.getEntry(id);
 
-  const { documentToHtmlString } = await import('@contentful/rich-text-html-renderer');
+  const { documentToHtmlString } = await import(
+    "@contentful/rich-text-html-renderer"
+  );
 
   const imgFields = res.fields.image?.fields;
 
-  let img = '';
+  let img = "";
   if (imgFields && imgFields.file) {
     img = JSON.parse(imgFields.file).url;
   }
@@ -227,26 +309,28 @@ export async function getArticlePreview({
     authors: res.fields.authors?.map((a: any) => ({
       id: a.sys.id,
       displayName: a.fields.displayName,
-      slug: '',
+      slug: "",
     })),
-    media: [{
-      id: res.fields.image?.sys.id ?? '',
-      url: img ?? '',
-      title: imgFields?.title,
-      description: imgFields?.caption,
-      altText: null,
-      credits: imgFields?.credits
-    }],
+    media: [
+      {
+        id: res.fields.image?.sys.id ?? "",
+        url: img ?? "",
+        title: imgFields?.title,
+        description: imgFields?.caption,
+        altText: null,
+        credits: imgFields?.credits,
+      },
+    ],
     publishDate: dayjs(res.sys.updatedAt, { utc: true }).valueOf() / 1000,
     updatedAt: dayjs(res.sys.updatedAt, { utc: true }).valueOf() / 1000,
     slug: res.fields.slug,
     body: documentToHtmlString(res.fields.body),
-    category: '',
-    abstract: '',
+    category: "",
+    abstract: "",
     tags: [],
-    subcategory: '',
-    heading: res.fields.subheading ? res.fields.subheading : ''
-  }
+    subcategory: "",
+    heading: res.fields.subheading ? res.fields.subheading : "",
+  };
 }
 
 export interface GetHomepage {
@@ -263,7 +347,7 @@ export async function getHomepage(): Promise<GetHomepage> {
   const res: any = await client.query({
     query: gql`
       query {
-        getHomepage(device: 0){
+        getHomepage(device: 0) {
           high {
             authors {
               displayName
@@ -331,7 +415,7 @@ export async function getHomepage(): Promise<GetHomepage> {
             subcategory
             tags
             title
-          } 
+          }
           news {
             authors {
               displayName
@@ -348,35 +432,42 @@ export async function getHomepage(): Promise<GetHomepage> {
             subcategory
             tags
             title
-          } 
+          }
         }
       }
     `,
-    fetchPolicy: 'no-cache',
-    variables: {}
+    fetchPolicy: "no-cache",
+    variables: {},
   });
 
   return res.data.getHomepage;
 }
-
 
 export type GetArticlesBySubcategory = CompactArticle[];
 
 export async function getArticlesBySubcategory({
   subcategory,
   limit = 50,
-  lastEvaluatedKey = '',
-  lastPublishDate = 0
+  lastEvaluatedKey = "",
+  lastPublishDate = 0,
 }: {
-  subcategory: string
-  limit?: number
-  lastEvaluatedKey?: string
-  lastPublishDate?: number
+  subcategory: string;
+  limit?: number;
+  lastEvaluatedKey?: string;
+  lastPublishDate?: number;
 }): Promise<GetArticlesBySubcategory> {
   const res: any = await client.query({
     query: gql`
-      query getArticles($subcategory: String!, $limit: Int! ${lastEvaluatedKey ? ', $lastEvaluatedKey: String!, $lastPublishDate: Int!' : ''}) {
-        getArticlesBySubcategory(subcategory: $subcategory, limit: $limit ${lastEvaluatedKey ? ', lastEvaluatedKey: $lastEvaluatedKey, lastPublishDate: $lastPublishDate' : ''}){
+      query getArticles($subcategory: String!, $limit: Int! ${
+        lastEvaluatedKey
+          ? ", $lastEvaluatedKey: String!, $lastPublishDate: Int!"
+          : ""
+      }) {
+        getArticlesBySubcategory(subcategory: $subcategory, limit: $limit ${
+          lastEvaluatedKey
+            ? ", lastEvaluatedKey: $lastEvaluatedKey, lastPublishDate: $lastPublishDate"
+            : ""
+        }){
           authors {
             displayName
           }
@@ -395,13 +486,13 @@ export async function getArticlesBySubcategory({
         }
       }
     `,
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache",
     variables: {
       subcategory,
       limit,
       lastEvaluatedKey,
-      lastPublishDate
-    }
+      lastPublishDate,
+    },
   });
   return res.data.getArticlesBySubcategory;
 }
