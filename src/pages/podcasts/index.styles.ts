@@ -1,6 +1,5 @@
-import css from 'styled-jsx/css';
-import { styleHelpers, buildStyleSheet } from '../../utils';
-
+import css from "styled-jsx/css";
+import { styleHelpers, buildStyleSheet } from "../../utils";
 
 const page = css.resolve`
   * {
@@ -31,7 +30,7 @@ const podcastBody = css.resolve`
     padding: 0 calc(1vw + ${styleHelpers.spacing(4)});
   }
 
-  @media ${styleHelpers.mediaQuery('xs', 'md')} {
+  @media ${styleHelpers.mediaQuery("xs", "md")} {
     * {
       padding: ${styleHelpers.spacing(4)};
     }
@@ -44,11 +43,16 @@ const podcastBody = css.resolve`
   }
 `;
 
+const podcastIcon = css.resolve`
+  width: 42px;
+  height: 42px;
+  margin: ${styleHelpers.spacing(0.8)};
+`;
 
 const imageShadow = css.resolve`
-  @media ${styleHelpers.mediaQuery('md')} {
+  @media ${styleHelpers.mediaQuery("md")} {
     *:before {
-      content: ' ';
+      content: " ";
       display: block;
 
       position: absolute;
@@ -62,15 +66,15 @@ const imageShadow = css.resolve`
         to bottom right,
         transparent,
         transparent 10px,
-        rgba(255,255,255,0.12) 10px,
-        rgba(255,255,255,0.12) 20px
+        rgba(255, 255, 255, 0.12) 10px,
+        rgba(255, 255, 255, 0.12) 20px
       );
     }
   }
 
-  @media ${styleHelpers.printMediaQuery('md')} {
+  @media ${styleHelpers.printMediaQuery("md")} {
     *:before {
-      content: ' ';
+      content: " ";
       display: block;
 
       position: absolute;
@@ -84,13 +88,12 @@ const imageShadow = css.resolve`
         to bottom right,
         transparent,
         transparent 10px,
-        rgba(255,255,255,0.12) 10px,
-        rgba(255,255,255,0.12) 20px
+        rgba(255, 255, 255, 0.12) 10px,
+        rgba(255, 255, 255, 0.12) 20px
       );
     }
   }
 `;
-
 
 const imageOverlay = css.resolve`
   * {
@@ -111,13 +114,13 @@ const playButtonWrap = css.resolve`
   }
 `;
 
-
 export default buildStyleSheet({
   page,
   podcastWrap,
+  podcastIcon,
   imageShadow,
   darkSection,
   podcastBody,
   imageOverlay,
-  playButtonWrap
+  playButtonWrap,
 });
