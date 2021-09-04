@@ -61,7 +61,6 @@ function CoverImage({ podcast }: { podcast: Podcast }) {
 }
 
 type Links = {
-  facebook: string;
   spotify: string;
   youtube: string;
   soundcloud: string;
@@ -72,8 +71,6 @@ type Links = {
 function PodcastLinks({ show }: { show: string }) {
   const shows: { [key: string]: Links } = {
     "Targum Tea Podcast": {
-      facebook:
-        "https://www.facebook.com/watch/thedailytargum/?ref=page_internal",
       spotify:
         "https://open.spotify.com/playlist/6O74QKPd2XY6zmGuw1LO3T?si=6e9e6977f0e84e24",
       youtube:
@@ -81,8 +78,6 @@ function PodcastLinks({ show }: { show: string }) {
       soundcloud: "https://soundcloud.com/dailytargum",
     },
     "Keeping Score": {
-      facebook:
-        "https://www.facebook.com/watch/thedailytargum/?ref=page_internal",
       spotify:
         "https://open.spotify.com/playlist/4MVciSzq31RCvxMHe1S3Cg?si=a453a0447de94448",
       youtube:
@@ -92,18 +87,9 @@ function PodcastLinks({ show }: { show: string }) {
   };
   return (
     <div>
-      <div>
+      <div style={{ marginBottom: "10px" }}>
         <Text variant="h3">Available to listen on these platforms</Text>
       </div>
-      <SocialIcon
-        //bgColor={styleHelpers.color("textMuted")}
-        //fgColor="white"
-        className={classNames.podcastIcon}
-        url={shows[show].facebook}
-        network="facebook"
-        target="_blank"
-        rel="noopener noreferrer"
-      />
       <SocialIcon
         //bgColor={styleHelpers.color("textMuted")}
         //fgColor="white"
@@ -149,9 +135,7 @@ function PodcastComponent({
       </Grid.Col>
       <Grid.Col xs={2} md={1} className={classNames.podcastBody}>
         <Text variant="h1">{podcast.title}</Text>
-        <Text.Truncate variant="p" numberOfLines={5}>
-          {podcast.description}
-        </Text.Truncate>
+        <Text variant="p">{podcast.description}</Text>
         <PodcastLinks show={podcast.title} />
       </Grid.Col>
       <Grid.Col xs={0} md={1}>
@@ -165,9 +149,7 @@ function PodcastComponent({
       </Grid.Col>
       <Grid.Col xs={2} md={1} className={classNames.podcastBody}>
         <Text variant="h1">{podcast.title}</Text>
-        <Text.Truncate variant="p" numberOfLines={5}>
-          {podcast.description}
-        </Text.Truncate>
+        <Text variant="p">{podcast.description}</Text>
         <PodcastLinks show={podcast.title} />
       </Grid.Col>
     </Grid.Row>
