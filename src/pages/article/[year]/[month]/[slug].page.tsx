@@ -283,13 +283,16 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     article = await actions.getArticle({
       slug: `article/${year}/${month}/${slug}`,
     });
-    console.log(article);
+    //console.log(article);
   } catch (e) {}
   try {
-    articles = await actions.getArticles({
+    //console.log(article?.tags?.slice(0, 4));
+    articles = await actions.getArticlesByTag({
       category: `${article?.category}`,
-      limit: 5,
+      tagArray: article?.tags?.slice(0, 4) ?? [""],
+      limit: 10,
     });
+    //console.log(articles.items[0].articles);
   } catch (e) {}
 
   if (!article) {
