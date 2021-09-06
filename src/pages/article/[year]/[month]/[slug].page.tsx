@@ -286,7 +286,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     //console.log(article);
   } catch (e) {}
   try {
-    //console.log(article?.tags.slice(0, 4));
+    //console.log(article?.tags?.slice(0, 4));
     articles = await actions.getArticlesByTag({
       category: `${article?.category}`,
       tagArray: article?.tags?.slice(0, 4) ?? [""],
