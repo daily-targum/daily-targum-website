@@ -8,6 +8,8 @@ export * from "./Footer";
 export * from "./Divider";
 export * from "./Text";
 export * from "./NewsSlider";
+export * from "./ImageSlider";
+export * from "./ArticleImage";
 export * from "./Newsletter";
 export * from "./Button";
 export * from "./Byline";

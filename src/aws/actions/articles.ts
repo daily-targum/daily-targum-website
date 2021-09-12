@@ -4,7 +4,7 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 import gql from "graphql-tag";
 
-type Media = {
+export type Media = {
   id: string;
   title: string | null;
   url: string;
@@ -13,7 +13,7 @@ type Media = {
   credits: string;
 };
 
-type CompactMedia = Pick<Media, "url" | "altText" | "description">;
+export type CompactMedia = Pick<Media, "url" | "altText" | "description">;
 
 export type Author = {
   id: string;

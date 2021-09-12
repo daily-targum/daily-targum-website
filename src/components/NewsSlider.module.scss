@@ -11,7 +11,12 @@
   background-color: #000;
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid theme.color('divider');
+  border-bottom: 1px solid theme.color("divider");
+}
+
+.imageSlider {
+  @extend .slider;
+  height: calc(10vw + 250px);
 }
 
 .dots {
@@ -44,13 +49,13 @@
 .slide {
   @include styleHelpers.hideLink();
   @include styleHelpers.absoluteFill();
-  @include styleHelpers.flex('column');
+  @include styleHelpers.flex("column");
   justify-content: flex-end;
   transition: opacity theme.timing(10);
 
   &:focus img {
     outline-offset: -5px;
-    outline-color: theme.color('accent_main');
+    outline-color: theme.color("accent_main");
     outline-color: -webkit-focus-ring-color;
     outline-width: 2px;
     outline-style: solid;
@@ -68,18 +73,18 @@
 }
 
 .slideCardTitleWrap {
-  @include styleHelpers.flex('column');
+  @include styleHelpers.flex("column");
   position: relative;
   margin-bottom: theme.spacing(3);
   padding: theme.spacing(2);
   width: 100%;
-  border-left: 4px solid theme.color('accent_main');
+  border-left: 4px solid theme.color("accent_main");
   max-width: 600px;
   transition: opacity theme.timing(3);
 }
 
 .byline {
-  color: theme.color('textMuted');
+  color: theme.color("textMuted");
 }
 
 .author {

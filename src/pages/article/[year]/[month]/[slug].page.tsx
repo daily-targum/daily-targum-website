@@ -33,6 +33,8 @@ import {
   SEOProps,
   Sticky,
   Text,
+  ImageSlider,
+  ArticleImage,
 } from "../../../../components";
 import {
   imgix,
@@ -213,29 +215,11 @@ function Article({
                   />
 
                   {article.media[0]?.url ? (
-                    <figure className={classNames.fullWidth}>
-                      <Section.OffsetPadding className={classNames.photoWrap}>
-                        <AspectRatioImage
-                          aspectRatio={16 / 9}
-                          data={imgix(article.media[0].url, {
-                            xs: imgix.presets.md("16:9"),
-                            md: imgix.presets.xl("16:9"),
-                          })}
-                          altText={`${photoDescription} – Photo by ${photoCredit}`}
-                        />
-                      </Section.OffsetPadding>
-                      <figcaption
-                        className={classNames.figcaption}
-                        aria-hidden={true}
-                      >
-                        Photo by {photoCredit}
-                        <div className={classNames.captionSpacer} />
-                        {photoDescription}
-                      </figcaption>
-                    </figure>
+                    <ArticleImage article={article} classNames={classNames} />
                   ) : null}
                 </header>
                 <Divider className={classNames.divider} />
+
                 <HTML html={article.body} />
               </Semantic>
 
@@ -283,7 +267,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     article = await actions.getArticle({
       slug: `article/${year}/${month}/${slug}`,
     });
-    //console.log(article);
+    console.log(article);
   } catch (e) {}
   try {
     //console.log(article?.tags?.slice(0, 4));
