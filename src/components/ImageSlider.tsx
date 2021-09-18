@@ -1,16 +1,48 @@
 import * as React from "react";
-import { CompactArticle, CompactMedia, GetArticle, Media } from "../aws";
+import { Media } from "../aws";
 //import { formatDateAbbreviated, hyphenatedToCapitalized } from "../utils";
-import { Section, Text, AspectRatioImage } from "../components";
+import { AspectRatioImage, Section, Text } from "../components";
 import Link from "./Link";
 import { imgix } from "../utils";
 import { useSwipeable } from "react-swipeable";
 import styles from "./NewsSlider.module.scss";
 import cn from "classnames";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+
+// function Shower({
+//   media,
+//   hide,
+//   style,
+//   className,
+//   classNames,
+// }: {
+//   media: Media | undefined;
+//   hide: boolean;
+//   style?: React.CSSProperties;
+//   className?: string;
+//   classNames: any;
+// }) {
+//   return (
+//     <Link
+//       style={style}
+//       className={cn(className, styles.slide, {
+//         [styles.hide]: hide,
+//       })}
+//       tabIndex={hide ? -1 : undefined}
+//       ariaHidden={hide}
+//     >
+//       <figure className={classNames.fullWidth}>
+//         <figcaption>{media?.description}</figcaption>
+//       </figure>
+//     </Link>
+//   );
+// }
 
 function Slide({
   media,
   className,
+  //classNames,
   hide,
   style,
   load,
@@ -18,6 +50,7 @@ function Slide({
   media: Media | undefined;
   //article: CompactArticle;
   className?: string;
+  classNames: any;
   hide: boolean;
   style?: React.CSSProperties;
   load: boolean;
@@ -38,42 +71,45 @@ function Slide({
           load
             ? imgix(media?.url ?? "", {
                 xs: imgix.presets.md("16:9"),
-                //sm: imgix.presets.md("16:9"),
+                sm: imgix.presets.md("16:9"),
                 md: imgix.presets.xl("16:9"),
-                //lg: imgix.presets.xl("16:9"),
+                lg: imgix.presets.xl("16:9"),
               })
             : []
         }
         className={styles.slideImage}
       />
+      <div className={styles.articleSlideCardImageOverlay} />
 
-      {/* <Section>
+      <Section>
         <div
-          className={cn(styles.slideCardTitleWrap, {
+          className={cn(styles.imageSlideCardTitleWrap, {
             [styles.hide]: hide,
           })}
         >
-          <Text.Truncate
-            variant="h3"
-            numberOfLines={2}
-            style={{ fontWeight: 400 }}
+          <Text
+            variant="p"
+            //numberOfLines={2}
+            style={{ fontWeight: 500, fontSize: "1rem", lineHeight: "95%" }}
           >
             {media?.description}
-          </Text.Truncate>
+          </Text>
         </div>
-      </Section> */}
+      </Section>
     </Link>
   );
 }
 
 export function ImageSlider({
   mediaArray,
+  classNames,
 }: {
   mediaArray: (Media | undefined)[];
+  classNames: any;
 }) {
   const [index, setIndex] = React.useState(0);
   const [loaded, setLoaded] = React.useState([true]);
-  const [resetTimer, setResetTimer] = React.useState(0);
+  //const [resetTimer, setResetTimer] = React.useState(0);
   console.log(mediaArray);
 
   // Lazy load images
@@ -97,20 +133,20 @@ export function ImageSlider({
       } else {
         setIndex(updatedIndex);
       }
-      console.log(mediaArray[index]);
+      //console.log(mediaArray[index]);
     },
     [index, mediaArray.length]
   );
 
-  React.useEffect(() => {
-    const id = setTimeout(() => {
-      incrementSlide(1);
-    }, 10 * 1000);
+  // React.useEffect(() => {
+  //   const id = setTimeout(() => {
+  //     incrementSlide(1);
+  //   }, 10 * 1000);
 
-    return () => {
-      clearTimeout(id);
-    };
-  }, [index, incrementSlide, resetTimer]);
+  //   return () => {
+  //     clearTimeout(id);
+  //   };
+  // }, [index, incrementSlide, resetTimer]);
 
   const handlers = useSwipeable({
     onSwipedLeft: () => incrementSlide(1),
@@ -121,21 +157,34 @@ export function ImageSlider({
     <div style={{ position: "relative" }} {...handlers}>
       <div
         className={cn("force-dark-mode", styles.imageSlider)}
-        onMouseEnter={() => setResetTimer((num) => num + 1)}
+        //onMouseEnter={() => setResetTimer((num) => num + 1)}
       >
         {mediaArray.map((a, i) => (
-          <Slide
-            key={a?.url}
-            media={a}
-            hide={i !== index}
-            className={cn({
-              [styles.hide]: i !== index,
-            })}
-            load={loaded[i]}
-          />
+          <>
+            {console.log(a)}
+
+            <Slide
+              key={a?.url}
+              media={a}
+              hide={i !== index}
+              className={cn({
+                [styles.hide]: i !== index,
+              })}
+              classNames={classNames}
+              load={loaded[i]}
+            />
+            {/* <Shower
+              key={a?.id}
+              media={a}
+              hide={i !== index}
+              className={cn({
+                [styles.hide]: i !== index,
+              })}
+              classNames={classNames}
+            /> */}
+          </>
         ))}
       </div>
-
       <div className={styles.dots}>
         {mediaArray.map((a, i) => (
           <button
@@ -148,6 +197,20 @@ export function ImageSlider({
           />
         ))}
       </div>
+      <ArrowBackIosRoundedIcon
+        sx={{ color: "white" }}
+        fontSize="large"
+        className={styles.arrowLeft}
+        onClick={() => incrementSlide(1)}
+        //className={styles.arrowLeft}
+      />
+      <ArrowForwardIosRoundedIcon
+        sx={{ color: "white" }}
+        fontSize="large"
+        className={styles.arrowRight}
+        onClick={() => incrementSlide(-1)}
+        //className={styles.arrowRight}
+      />
     </div>
   );
 }

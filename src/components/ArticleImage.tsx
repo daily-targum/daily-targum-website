@@ -13,7 +13,6 @@ export function ArticleImage({
   const photoDescription = extractTextFromHTML(
     article.media[0]?.description ?? ""
   );
-  const test = article.media.length == 1;
   return article?.media?.length == 1 ? (
     <figure className={classNames.fullWidth}>
       <Section.OffsetPadding className={classNames.photoWrap}>
@@ -33,6 +32,6 @@ export function ArticleImage({
       </figcaption>
     </figure>
   ) : (
-    <ImageSlider mediaArray={article.media} />
+    <ImageSlider classNames={classNames} mediaArray={article.media} />
   );
 }

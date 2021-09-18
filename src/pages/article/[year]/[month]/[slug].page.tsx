@@ -18,7 +18,7 @@ import { actions, GetArticle, GetArticles } from "../../../../aws";
 import {
   ActivityIndicator,
   AdSense,
-  AspectRatioImage,
+  //AspectRatioImage,
   Byline,
   //Card,
   Divider,
@@ -33,15 +33,15 @@ import {
   SEOProps,
   Sticky,
   Text,
-  ImageSlider,
+  //ImageSlider,
   ArticleImage,
 } from "../../../../components";
 import {
-  imgix,
+  //imgix,
   processNextQueryStringParam,
   styleHelpers,
   hyphenatedToCapitalized,
-  extractTextFromHTML,
+  //extractTextFromHTML,
   //formatDateAbbreviated,
 } from "../../../../utils";
 import NotFound from "../../../404.page";
@@ -155,10 +155,10 @@ function Article({
     return <NotFound />;
   }
 
-  const photoCredit = article.media[0]?.credits;
-  const photoDescription = extractTextFromHTML(
-    article.media[0]?.description ?? ""
-  );
+  // const photoCredit = article.media[0]?.credits;
+  // const photoDescription = extractTextFromHTML(
+  //   article.media[0]?.description ?? ""
+  // );
   // console.log(article);
 
   return (

@@ -67,6 +67,9 @@
     "webpack-bundle-analyzer": "4.4.2"
   },
   "dependencies": {
+    "@emotion/react": "^11.4.1",
+    "@mui/icons-material": "^5.0.0",
+    "@mui/material": "^5.0.0",
     "@reach/skip-nav": "0.15.0",
     "@sentry/browser": "6.4.0",
     "@sentry/integrations": "6.4.0",
