@@ -112,7 +112,7 @@
 
 .articleSlideCardImageOverlay {
   @include styleHelpers.absoluteFill();
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), transparent);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), transparent);
 }
 
 .slideCardTitleWrap {

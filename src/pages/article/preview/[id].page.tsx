@@ -1,12 +1,31 @@
-import * as React from 'react';
-import { NextPageContext } from 'next';
-import { GetArticle, getArticlePreview } from '../../../aws';
-import { hyphenatedToCapitalized, extractTextFromHTML } from '../../../utils';
-import { SEOProps, Section, Grid, Text, Newsletter, Divider, Byline, AspectRatioImage, HTML, AdSense, Sticky, Semantic, Donate, Link } from '../../../components';
-import NotFound from '../../404.page';
-import { imgix, processNextQueryStringParam, styleHelpers } from '../../../utils';
-import { theme } from '../../../constants';
-import { useRouter } from 'next/router';
+import * as React from "react";
+import { NextPageContext } from "next";
+import { GetArticle, getArticlePreview } from "../../../aws";
+import { hyphenatedToCapitalized, extractTextFromHTML } from "../../../utils";
+import {
+  SEOProps,
+  Section,
+  Grid,
+  Text,
+  Newsletter,
+  Divider,
+  Byline,
+  AspectRatioImage,
+  HTML,
+  AdSense,
+  Sticky,
+  Semantic,
+  Donate,
+  Link,
+} from "../../../components";
+import NotFound from "../../404.page";
+import {
+  imgix,
+  processNextQueryStringParam,
+  styleHelpers,
+} from "../../../utils";
+import { theme } from "../../../constants";
+import { useRouter } from "next/router";
 
 import {
   TwitterShareButton,
@@ -18,25 +37,21 @@ import {
   LinkedinShareButton,
   LinkedinIcon,
   RedditShareButton,
-  RedditIcon
+  RedditIcon,
 } from "react-share";
-import { AiFillPrinter } from 'react-icons/ai'
+import { AiFillPrinter } from "react-icons/ai";
 
-import Styles from './[id].styles';
+import Styles from "./[id].styles";
 const { classNames, StyleSheet } = Styles;
 
-function ShareSidebar({
-  article
-}: {
-  article: GetArticle
-}) {
+function ShareSidebar({ article }: { article: GetArticle }) {
   const router = useRouter();
 
   const articlePath = `https://dailytargum.com${router.asPath}`;
 
   return (
     <div className={classNames.shareSidebar}>
-      <Text variant='h3'>Share</Text>
+      <Text variant="h3">Share</Text>
       <div className={classNames.shareIcons}>
         <FacebookShareButton
           url={articlePath}
@@ -46,8 +61,8 @@ function ShareSidebar({
           <FacebookIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </FacebookShareButton>
 
@@ -59,8 +74,8 @@ function ShareSidebar({
           <TwitterIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </TwitterShareButton>
 
@@ -72,8 +87,8 @@ function ShareSidebar({
           <RedditIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </RedditShareButton>
 
@@ -85,8 +100,8 @@ function ShareSidebar({
           <LinkedinIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </LinkedinShareButton>
 
@@ -99,35 +114,38 @@ function ShareSidebar({
           <EmailIcon
             size={42}
             round
-            iconFillColor={styleHelpers.color('background_main')}
-            bgStyle={{ fill: styleHelpers.color('textMuted') }}
+            iconFillColor={styleHelpers.color("background_main")}
+            bgStyle={{ fill: styleHelpers.color("textMuted") }}
           />
         </EmailShareButton>
 
         <button className={classNames.printIcon} onClick={() => window.print()}>
-          <AiFillPrinter style={{ fill: styleHelpers.color('background_main') }} />
+          <AiFillPrinter
+            style={{ fill: styleHelpers.color("background_main") }}
+          />
         </button>
       </div>
     </div>
-  )
+  );
 }
-
 
 function Article({
   initialArticle,
-  articleId
+  articleId,
 }: {
-  initialArticle: GetArticle | null,
-  articleId: string
+  initialArticle: GetArticle | null;
+  articleId: string;
 }) {
-  const [article, setArticle] = React.useState<GetArticle | null>(initialArticle);
+  const [article, setArticle] = React.useState<GetArticle | null>(
+    initialArticle
+  );
 
   React.useEffect(() => {
     async function refresh() {
       try {
         setArticle(
           await getArticlePreview({
-            id: processNextQueryStringParam(articleId)
+            id: processNextQueryStringParam(articleId),
           })
         );
       } catch (err) {
@@ -136,37 +154,42 @@ function Article({
     }
     window.addEventListener("focus", refresh);
     return () => window.removeEventListener("focus", refresh);
-  }, [articleId]);;
+  }, [articleId]);
 
   if (!article) {
     return <NotFound />;
   }
+  console.log(article);
 
   const photoCredit = article.media[0]?.credits;
-  const photoDescription = extractTextFromHTML(article.media[0]?.description ?? '');
-
+  const photoDescription = extractTextFromHTML(
+    article.media[0]?.description ?? ""
+  );
 
   return (
     <>
       <Section className={classNames.page}>
-
         <Grid.Row
           spacing={theme.spacing(3)}
-          cols={['1fr', '1px', 'minmax(auto, 65ch)', '1px', '1fr']}
+          cols={["1fr", "1px", "minmax(auto, 65ch)", "1px", "1fr"]}
           disableGridOnPrit
         >
-          <Grid.Col xs={5} xl={1} style={{ height: '100%' }}>
+          <Grid.Col xs={5} xl={1} style={{ height: "100%" }}>
             <Sticky>
               <ShareSidebar article={article} />
             </Sticky>
           </Grid.Col>
 
-          <Grid.Col xs={0} xl={1} style={{ height: '100%', overflow: 'hidden' }}>
+          <Grid.Col
+            xs={0}
+            xl={1}
+            style={{ height: "100%", overflow: "hidden" }}
+          >
             <Divider.Vertical />
           </Grid.Col>
 
           <Grid.Col xs={5} md={3} xl={1}>
-            <Semantic role='main' skipNavContent pritable>
+            <Semantic role="main" skipNavContent pritable>
               {article.category ? (
                 <Link
                   className={classNames.category}
@@ -176,13 +199,9 @@ function Article({
                 </Link>
               ) : null}
 
-              <Semantic role='article'>
+              <Semantic role="article">
                 <header>
-                  <Text
-                    variant='h1'
-                    htmlTag='h1'
-                    className={classNames.title}
-                  >
+                  <Text variant="h1" htmlTag="h1" className={classNames.title}>
                     {article.title}
                   </Text>
 
@@ -197,13 +216,16 @@ function Article({
                         <AspectRatioImage
                           aspectRatio={16 / 9}
                           data={imgix(article.media[0].url, {
-                            xs: imgix.presets.md('16:9'),
-                            md: imgix.presets.xl('16:9')
+                            xs: imgix.presets.md("16:9"),
+                            md: imgix.presets.xl("16:9"),
                           })}
                           altText={`${photoDescription} – Photo by ${photoCredit}`}
                         />
                       </Section.OffsetPadding>
-                      <figcaption className={classNames.figcaption} aria-hidden={true}>
+                      <figcaption
+                        className={classNames.figcaption}
+                        aria-hidden={true}
+                      >
                         Photo by {photoCredit}
                         <div className={classNames.captionSpacer} />
                         {photoDescription}
@@ -223,23 +245,20 @@ function Article({
             </Grid.Display>
           </Grid.Col>
 
-          <Grid.Col xs={0} md={1} style={{ height: '100%', overflow: 'hidden' }}>
+          <Grid.Col
+            xs={0}
+            md={1}
+            style={{ height: "100%", overflow: "hidden" }}
+          >
             <Divider.Vertical />
           </Grid.Col>
 
-          <Grid.Col xs={0} md={1} style={{ height: '100%' }}>
+          <Grid.Col xs={0} md={1} style={{ height: "100%" }}>
             <Sticky>
-              <AdSense
-                type='sidebar'
-                fallback={(
-                  <Donate.SidebarCard />
-                )}
-              />
+              <AdSense type="sidebar" fallback={<Donate.SidebarCard />} />
             </Sticky>
           </Grid.Col>
-
         </Grid.Row>
-
       </Section>
 
       <Divider />
@@ -254,20 +273,17 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
   let article = null;
   try {
     article = await getArticlePreview({
-      id: processNextQueryStringParam(ctx.query.id)
+      id: processNextQueryStringParam(ctx.query.id),
     });
-  } catch (e) { }
+  } catch (e) {}
 
-  const keywords = [
-    ...(article?.tags ?? []),
-    article?.category
-  ].join(', ');
+  const keywords = [...(article?.tags ?? []), article?.category].join(", ");
 
   let seo: SEOProps = {
     title: article?.title,
-    type: 'article',
-    author: article?.authors?.map(author => author.displayName).join(', '),
-    keywords
+    type: "article",
+    author: article?.authors?.map((author) => author.displayName).join(", "),
+    keywords,
   };
 
   if (article?.abstract) {
@@ -275,15 +291,15 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
   }
 
   if (article?.media[0]) {
-    const media = article.media[0]
+    const media = article.media[0];
     seo.imageSrc = media.url;
-    seo.imageAlt = `${media.description} – Photo by ${media.credits}`
+    seo.imageAlt = `${media.description} – Photo by ${media.credits}`;
   }
 
   return {
     initialArticle: article,
     articleId: processNextQueryStringParam(ctx.query.id),
-    seo
+    seo,
   };
 };
 

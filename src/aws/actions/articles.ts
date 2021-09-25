@@ -28,7 +28,7 @@ export type Article<M = Media> = {
   body: string;
   category?: string;
   id: string;
-  media: (M | undefined)[];
+  media: M[];
   publishDate: number;
   slug: string;
   subcategory: string;
