@@ -1,7 +1,9 @@
 import * as React from "react";
 import { NextPageContext } from "next";
 import { GetArticle, getArticlePreview } from "../../../aws";
-import { hyphenatedToCapitalized, extractTextFromHTML } from "../../../utils";
+import {
+  hyphenatedToCapitalized /*extractTextFromHTML*/,
+} from "../../../utils";
 import {
   SEOProps,
   Section,
