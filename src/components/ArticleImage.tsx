@@ -9,6 +9,7 @@ export function ArticleImage({
   classNames?: any;
   article: GetArticle;
 }) {
+  //console.log(article);
   const photoCredit = article.media[0]?.credits;
   const photoDescription = extractTextFromHTML(
     article.media[0]?.description ?? ""

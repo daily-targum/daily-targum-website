@@ -10,7 +10,8 @@ import {
   Newsletter,
   Divider,
   Byline,
-  AspectRatioImage,
+  //AspectRatioImage,
+  ArticleImage,
   HTML,
   AdSense,
   Sticky,
@@ -20,7 +21,7 @@ import {
 } from "../../../components";
 import NotFound from "../../404.page";
 import {
-  imgix,
+  //imgix,
   processNextQueryStringParam,
   styleHelpers,
 } from "../../../utils";
@@ -148,7 +149,9 @@ function Article({
             id: processNextQueryStringParam(articleId),
           })
         );
+        //console.log("I am here");
       } catch (err) {
+        //console.log("I am here");
         setArticle(null);
       }
     }
@@ -161,10 +164,10 @@ function Article({
   }
   console.log(article);
 
-  const photoCredit = article.media[0]?.credits;
-  const photoDescription = extractTextFromHTML(
-    article.media[0]?.description ?? ""
-  );
+  //const photoCredit = article.media[0]?.credits;
+  //const photoDescription = extractTextFromHTML(
+  //  article.media[0]?.description ?? ""
+  //);
 
   return (
     <>
@@ -211,6 +214,9 @@ function Article({
                   />
 
                   {article.media[0]?.url ? (
+                    <ArticleImage article={article} classNames={classNames} />
+                  ) : null}
+                  {/* {article.media[0]?.url ? (
                     <figure className={classNames.fullWidth}>
                       <Section.OffsetPadding className={classNames.photoWrap}>
                         <AspectRatioImage
@@ -231,7 +237,7 @@ function Article({
                         {photoDescription}
                       </figcaption>
                     </figure>
-                  ) : null}
+                  ) : null} */}
                 </header>
 
                 <Divider className={classNames.divider} />
@@ -275,7 +281,10 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
     article = await getArticlePreview({
       id: processNextQueryStringParam(ctx.query.id),
     });
-  } catch (e) {}
+    //console.log(`article = ${article}`);
+  } catch (e) {
+    //console.log(e);
+  }
 
   const keywords = [...(article?.tags ?? []), article?.category].join(", ");
 
