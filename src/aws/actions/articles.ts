@@ -4,7 +4,7 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 import gql from "graphql-tag";
 
-type Media = {
+export type Media = {
   id: string;
   title: string | null;
   url: string;
@@ -13,7 +13,7 @@ type Media = {
   credits: string;
 };
 
-type CompactMedia = Pick<Media, "url" | "altText" | "description">;
+export type CompactMedia = Pick<Media, "url" | "altText" | "description">;
 
 export type Author = {
   id: string;
@@ -28,7 +28,7 @@ export type Article<M = Media> = {
   body: string;
   category?: string;
   id: string;
-  media: (M | undefined)[];
+  media: M[];
   publishDate: number;
   slug: string;
   subcategory: string;
@@ -291,12 +291,25 @@ export async function getArticlePreview({
   id: string;
 }): Promise<GetArticle> {
   const res: any = await previewClient.getEntry(id);
+  console.log(res);
 
   const { documentToHtmlString } = await import(
     "@contentful/rich-text-html-renderer"
   );
 
   const imgFields = res.fields.image?.fields;
+  const gallery = res.fields.gallery;
+  let galleryArray = null;
+  if (gallery) {
+    galleryArray = gallery.map((image: any) => ({
+      id: image.sys.id ?? "",
+      url: JSON.parse(image.fields.file).url,
+      title: image.fields.title,
+      description: image.fields.caption,
+      altText: null,
+      credits: "",
+    }));
+  }
 
   let img = "";
   if (imgFields && imgFields.file) {
@@ -311,16 +324,27 @@ export async function getArticlePreview({
       displayName: a.fields.displayName,
       slug: "",
     })),
-    media: [
-      {
-        id: res.fields.image?.sys.id ?? "",
-        url: img ?? "",
-        title: imgFields?.title,
-        description: imgFields?.caption,
-        altText: null,
-        credits: imgFields?.credits,
-      },
-    ],
+    media: gallery
+      ? [
+          {
+            id: res.fields.image?.sys.id ?? "",
+            url: img ?? "",
+            title: imgFields?.title,
+            description: imgFields?.caption,
+            altText: null,
+            credits: imgFields?.credits,
+          },
+        ].concat(galleryArray)
+      : [
+          {
+            id: res.fields.image?.sys.id ?? "",
+            url: img ?? "",
+            title: imgFields?.title,
+            description: imgFields?.caption,
+            altText: null,
+            credits: imgFields?.credits,
+          },
+        ],
     publishDate: dayjs(res.sys.updatedAt, { utc: true }).valueOf() / 1000,
     updatedAt: dayjs(res.sys.updatedAt, { utc: true }).valueOf() / 1000,
     slug: res.fields.slug,

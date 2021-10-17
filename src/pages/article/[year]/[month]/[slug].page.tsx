@@ -18,7 +18,7 @@ import { actions, GetArticle, GetArticles } from "../../../../aws";
 import {
   ActivityIndicator,
   AdSense,
-  AspectRatioImage,
+  //AspectRatioImage,
   Byline,
   //Card,
   Divider,
@@ -33,13 +33,15 @@ import {
   SEOProps,
   Sticky,
   Text,
+  //ImageSlider,
+  ArticleImage,
 } from "../../../../components";
 import {
-  imgix,
+  //imgix,
   processNextQueryStringParam,
   styleHelpers,
   hyphenatedToCapitalized,
-  extractTextFromHTML,
+  //extractTextFromHTML,
   //formatDateAbbreviated,
 } from "../../../../utils";
 import NotFound from "../../../404.page";
@@ -49,6 +51,7 @@ import { next, theme } from "../../../../constants";
 const { classNames, StyleSheet } = Styles;
 
 function ShareSidebar({ article }: { article: GetArticle }) {
+  console.log(article);
   const router = useRouter();
 
   const articlePath = `https://dailytargum.com${router.asPath}`;
@@ -153,10 +156,10 @@ function Article({
     return <NotFound />;
   }
 
-  const photoCredit = article.media[0]?.credits;
-  const photoDescription = extractTextFromHTML(
-    article.media[0]?.description ?? ""
-  );
+  // const photoCredit = article.media[0]?.credits;
+  // const photoDescription = extractTextFromHTML(
+  //   article.media[0]?.description ?? ""
+  // );
   // console.log(article);
 
   return (
@@ -213,29 +216,11 @@ function Article({
                   />
 
                   {article.media[0]?.url ? (
-                    <figure className={classNames.fullWidth}>
-                      <Section.OffsetPadding className={classNames.photoWrap}>
-                        <AspectRatioImage
-                          aspectRatio={16 / 9}
-                          data={imgix(article.media[0].url, {
-                            xs: imgix.presets.md("16:9"),
-                            md: imgix.presets.xl("16:9"),
-                          })}
-                          altText={`${photoDescription} – Photo by ${photoCredit}`}
-                        />
-                      </Section.OffsetPadding>
-                      <figcaption
-                        className={classNames.figcaption}
-                        aria-hidden={true}
-                      >
-                        Photo by {photoCredit}
-                        <div className={classNames.captionSpacer} />
-                        {photoDescription}
-                      </figcaption>
-                    </figure>
+                    <ArticleImage article={article} classNames={classNames} />
                   ) : null}
                 </header>
                 <Divider className={classNames.divider} />
+
                 <HTML html={article.body} />
               </Semantic>
 
@@ -283,7 +268,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     article = await actions.getArticle({
       slug: `article/${year}/${month}/${slug}`,
     });
-    //console.log(article);
+    console.log(article);
   } catch (e) {}
   try {
     //console.log(article?.tags?.slice(0, 4));
