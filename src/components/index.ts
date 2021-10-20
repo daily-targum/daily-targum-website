@@ -44,6 +44,7 @@ export * from "./Card2";
 export * from "./ScrollFix";
 export * from "./LoadMoreButton";
 export * from "./RelatedArticles";
+export * from "./Flytedigita";
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,
