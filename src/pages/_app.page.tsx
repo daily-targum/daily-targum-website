@@ -13,6 +13,7 @@ import {
   SkipNav,
   AccessibilityFix,
   GlobalCSS,
+  //Flytedigita,
 } from "../components";
 import { Provider as ReduxProvider } from "../store";
 import "../styles/global.scss";
@@ -54,10 +55,24 @@ function App({ Component, pageProps, err }: CustomAppProps) {
     <>
       <Head>
         {isAmp ? null : (
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
-          />
+          <>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
+            />
+            <script
+              type="text/javascript"
+              dangerouslySetInnerHTML={{
+                __html: `(function Test (w, d, s, p)
+ { 
+   let f = d.getElementsByTagName(s)[0], j = d.createElement(s);
+    j.id = 'flytedigital'; 
+    j.async = true; 
+    j.src = 'https://digital.flytedesk.com/js/head.js#' + p;
+    f.parentNode.insertBefore(j, f); })(window, document, 'script', '8b83117d-b1ed-4002-8206-2a3de6cc5e32')`,
+              }}
+            />
+          </>
         )}
       </Head>
       <ScrollFix />

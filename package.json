@@ -113,6 +113,7 @@
     "sass": "1.32.13",
     "soundjs": "^1.0.1",
     "storybook": "6.2.9",
+    "styled-components": "^5.3.1",
     "styled-jsx-plugin-postcss": "4.0.1",
     "styled-jsx-plugin-sass": "^1.0.0",
     "unlock-audio-context": "^0.2.5",
