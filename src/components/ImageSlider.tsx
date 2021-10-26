@@ -119,13 +119,13 @@ export function ImageSlider({
           sx={{ color: "white" }}
           fontSize="large"
           className={styles.arrowLeft}
-          onClick={() => incrementSlide(1)}
+          onClick={() => incrementSlide(-1)}
         />
         <ArrowForwardIosRoundedIcon
           sx={{ color: "white" }}
           fontSize="large"
           className={styles.arrowRight}
-          onClick={() => incrementSlide(-1)}
+          onClick={() => incrementSlide(1)}
         />
       </div>
       <div className={styles.dots}>
