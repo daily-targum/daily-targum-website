@@ -1,6 +1,8 @@
 name: Default
 concurrency: Default
 on: 
+  repository_dispatch:
+    types: [default] #adds default endpoint available for testing as well
   push:
     branches:    
       - '*'
