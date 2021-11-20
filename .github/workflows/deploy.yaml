@@ -1,5 +1,7 @@
 name: Deploy 
-
+concurrency:
+  group: Deploy
+  cancel-in-progress: true #Will allow only one deployment at a time
 on:
   repository_dispatch:
     types: [deploy]
