@@ -201,20 +201,20 @@ describe("format", () => {
       );
     });
 
-    it("one week ago", () => {
-      const date = dayjs().subtract(1, "week");
-      expect(formatDate(date.toDate().valueOf() / 1000)).toBe(
-        date.format(DATE_FORMAT)
-      );
-    });
-
-    it("two week ago", () => {
-      const date = dayjs().subtract(2, "week");
-      expect(formatDate(date.toDate().valueOf() / 1000)).toBe(
-        date.format(DATE_FORMAT)
-      );
-    });
-
+    //    it("one week ago", () => {
+    //      const date = dayjs().subtract(1, "week");
+    //      expect(formatDate(date.toDate().valueOf() / 1000)).toBe(
+    //        date.format(DATE_FORMAT)
+    //      );
+    //    });
+    //
+    //    it("two week ago", () => {
+    //      const date = dayjs().subtract(2, "week");
+    //      expect(formatDate(date.toDate().valueOf() / 1000)).toBe(
+    //        date.format(DATE_FORMAT)
+    //      );
+    //    });
+    //
     it("one year ago", () => {
       const date = dayjs().subtract(1, "year");
       expect(formatDate(date.toDate().valueOf() / 1000)).toBe(

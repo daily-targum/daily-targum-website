@@ -64,6 +64,11 @@ const navbarLinks: {
     ariaLabel: "Humans of Rutgers",
   },
   {
+    title: "Donate",
+    href: "https://www.paypal.com/donate/?hosted_button_id=GPJZ5VKSNUBRQ",
+    ariaLabel: "Donate",
+  },
+  {
     title: "About",
     href: "/page/about",
   },
