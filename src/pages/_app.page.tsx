@@ -13,6 +13,7 @@ import {
   SkipNav,
   AccessibilityFix,
   GlobalCSS,
+  Modal2,
   //Flytedigita,
 } from "../components";
 import { Provider as ReduxProvider } from "../store";
@@ -86,6 +87,7 @@ function App({ Component, pageProps, err }: CustomAppProps) {
             <Page>
               <Analytics />
 
+              {<Modal2 header="Donate to the Daily Targum"> </Modal2>}
               <Navbar />
               <Component {...pageProps} err={err} />
               <Footer />

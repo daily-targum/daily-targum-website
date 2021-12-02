@@ -45,6 +45,7 @@ export * from "./ScrollFix";
 export * from "./LoadMoreButton";
 export * from "./RelatedArticles";
 export * from "./Flytedigita";
+export * from "./Modal2";
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,
