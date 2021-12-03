@@ -1,7 +1,7 @@
 .modal {
   display: block;
   position: fixed;
-  z-index: 1;
+  z-index: 2050;
   left: 0;
   height: 100%;
   width: 100%;
@@ -12,12 +12,13 @@
 .modalContent {
   margin: 10% auto;
   border-radius: 10px;
-  width: 50%;
+  width: 80vw;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
   background: var(--colors-navbar);
-  position: relative;
+  top: 0;
+  /*position: relative;
   top: 20%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); */
 }
 
 .modalBody {

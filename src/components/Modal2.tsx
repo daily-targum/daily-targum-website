@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "./Modal2.module.css";
+//import LogoStyles from "./Navbar.styles";
 import { ReactChildren } from "../types";
 import Text from "./Text";
 import { IoMdClose } from "react-icons/io";
+//import Logo from "./Logo";
 
 export const Modal2 = ({
   header,
@@ -17,7 +19,9 @@ export const Modal2 = ({
     <div className={styles.modal}>
       <div className={styles.modalContent}>
         <div className={styles.modalHeader}>
-          <div>Hello world</div>
+          {/* <div>
+            <Logo className={LogoStyles.classNames.logo} />
+          </div> */}
           <button
             aria-label="Close modal"
             data-tooltip-position="left"
