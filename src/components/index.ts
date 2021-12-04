@@ -46,6 +46,8 @@ export * from "./LoadMoreButton";
 export * from "./RelatedArticles";
 export * from "./Flytedigita";
 export * from "./Modal2";
+export * from "./DonateModal";
+export * from "./NewLogo";
 
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,

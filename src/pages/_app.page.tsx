@@ -14,8 +14,9 @@ import {
   AccessibilityFix,
   GlobalCSS,
   Modal2,
-  Text,
-  Button,
+  //Text,
+  //Button,
+  DonateModal,
   //Flytedigita,
 } from "../components";
 import { Provider as ReduxProvider } from "../store";
@@ -90,30 +91,8 @@ function App({ Component, pageProps, err }: CustomAppProps) {
               <Analytics />
 
               {
-                <Modal2 header="Consider Donating">
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text variant="p">
-                      Give back to The Daily Targum and support independent
-                      student journalism this holiday season. Donations are tax
-                      deductible.
-                    </Text>
-                    <br />
-                    <div>
-                      <Button
-                        style={{ alignSelf: "flex-start" }}
-                        href="https://www.paypal.com/donate/?hosted_button_id=GPJZ5VKSNUBRQ"
-                      >
-                        Donate
-                      </Button>
-                    </div>
-                  </div>
+                <Modal2>
+                  <DonateModal />
                 </Modal2>
               }
               <Navbar />
