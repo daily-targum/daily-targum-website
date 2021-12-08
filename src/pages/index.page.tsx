@@ -11,6 +11,7 @@ import {
   SEOProps,
   Ad,
   Semantic,
+  //Modal,
 } from "../components";
 import {
   formatDateAbbreviated,
@@ -119,13 +120,22 @@ function literalArray<T extends string>(array: T[]): T[] {
 }
 
 function Home({ homepage }: { homepage: GetHomepage }) {
+  //const [modalState, setModalState] = React.useState(true);
   return (
     <div className={styles.page}>
       {/* for SEO */}
       <h1 style={{ display: "none" }} aria-hidden={true}>
         The Daily Targum
       </h1>
-
+      {/* <Modal
+        open={modalState}
+        handleClose={() => {
+          setModalState(false);
+        }}
+      >
+        {" "}
+        Hello World{" "}
+      </Modal> */}
       <Semantic role="main" pritable skipNavContent>
         <div
           aria-label="Highlighted articles slide show"
