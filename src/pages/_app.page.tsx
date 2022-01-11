@@ -13,6 +13,10 @@ import {
   SkipNav,
   AccessibilityFix,
   GlobalCSS,
+  Modal2,
+  //Text,
+  //Button,
+  DonateModal,
   //Flytedigita,
 } from "../components";
 import { Provider as ReduxProvider } from "../store";
@@ -86,6 +90,11 @@ function App({ Component, pageProps, err }: CustomAppProps) {
             <Page>
               <Analytics />
 
+              {
+                <Modal2>
+                  <DonateModal />
+                </Modal2>
+              }
               <Navbar />
               <Component {...pageProps} err={err} />
               <Footer />
