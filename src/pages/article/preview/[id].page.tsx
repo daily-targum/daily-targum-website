@@ -164,7 +164,7 @@ function Article({
   if (!article) {
     return <NotFound />;
   }
-  console.log(article);
+  //console.log(article);
 
   //const photoCredit = article.media[0]?.credits;
   //const photoDescription = extractTextFromHTML(

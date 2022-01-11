@@ -51,7 +51,7 @@ import { next, theme } from "../../../../constants";
 const { classNames, StyleSheet } = Styles;
 
 function ShareSidebar({ article }: { article: GetArticle }) {
-  console.log(article);
+  //console.log(article);
   const router = useRouter();
 
   const articlePath = `https://dailytargum.com${router.asPath}`;
