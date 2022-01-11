@@ -16,9 +16,12 @@ export function Logo({
       style={style}
       className={className}
       width="1432px"
-      height={`${295 * +isSmall + 237 * +!isSmall} px`}
+      //height="237px"
+      height={isSmall ? "295 px" : "237 px"}
+      //height={`${295 * +isSmall + 237 * +!isSmall} px`}
       //viewBox="0 0 1432 237"
-      viewBox={`0 0 1432 ${295 * +isSmall + 237 * +!isSmall}`}
+      //viewBox={`0 0 1432 ${295 * +isSmall + 237 * +!isSmall}`}
+      viewBox={isSmall ? "0 0 1432 295" : "0 0 1432 237"}
       version="1.1"
     >
       <g

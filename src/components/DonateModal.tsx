@@ -15,7 +15,7 @@ export const DonateModal = () => {
         </div>
         <Text variant="p">
           Give back to The Daily Targum and support independent student
-          journalism this holiday season. Donations are tax deductible.
+          journalism. Donations are tax deductible.
         </Text>
         <br />
         <div>
