@@ -71,7 +71,7 @@ export function ImageSlider({
       clone[index] = true;
       setLoaded(clone);
     }
-    console.log(loaded);
+    //console.log(loaded);
     const desc = mediaArray[index].description;
     const cred = mediaArray[index].credits;
     setPhotoDescription(desc);
