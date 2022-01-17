@@ -268,7 +268,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     article = await actions.getArticle({
       slug: `article/${year}/${month}/${slug}`,
     });
-    console.log(article);
+    //console.log(article);
   } catch (e) {}
   try {
     //console.log(article?.tags?.slice(0, 4));
