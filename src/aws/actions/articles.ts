@@ -292,7 +292,7 @@ export async function getArticlePreview({
   id: string;
 }): Promise<GetArticle> {
   const res: any = await previewClient.getEntry(id);
-  console.log("getArticlePreview = ", res);
+
 
   const { documentToHtmlString } = await import(
     "@contentful/rich-text-html-renderer"
