@@ -116,6 +116,9 @@ export function HTML({
   media?: Media[];
   classNames?: any;
 }) {
+  //console.log(html);
+  //console.log("embedded = ", embedded);
+
   const clean = xss(html, {
     whiteList: {
       ...xssDefault.whiteList,
@@ -126,8 +129,8 @@ export function HTML({
   });
 
   const computedHtml = parse(ads ? injectAdToHtml(clean) : clean, options);
-  console.log("computedHtml = ", computedHtml);
-  let index = -1;
+  //console.log("computedHtml = ", computedHtml);
+  let index = 0;
 
   return (
     <div>
@@ -140,6 +143,7 @@ export function HTML({
                 photoCredit={media[index].credits}
                 photoDescription={media[index].description}
                 photoURL={media[index].url}
+                key={media[index].url}
               />
             );
           })

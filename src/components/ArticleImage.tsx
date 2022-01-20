@@ -5,16 +5,18 @@ import { extractTextFromHTML } from "../utils";
 export function ArticleImage({
   classNames,
   article,
+  embedded = false,
 }: {
   classNames?: any;
   article: GetArticle;
+  embedded?: boolean;
 }) {
   const photoCredit = article.media[0].credits;
   const photoDescription = extractTextFromHTML(
     article.media[0]?.description ?? ""
   );
   const photoURL = article.media[0].url;
-  return article?.media?.length == 1 ? (
+  return embedded || article?.media?.length == 1 ? (
     <ImageFigure
       classNames={classNames}
       photoCredit={photoCredit}

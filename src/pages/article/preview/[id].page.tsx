@@ -153,7 +153,7 @@ function Article({
         );
         //console.log("I am here");
       } catch (err) {
-        //console.log("I am here");
+        console.error(err);
         setArticle(null);
       }
     }
@@ -161,9 +161,15 @@ function Article({
     return () => window.removeEventListener("focus", refresh);
   }, [articleId]);
 
+  console.log("articleID = ", articleId);
   if (!article) {
+    console.log("i am here");
     return <NotFound />;
   }
+
+  const regex = /<INSERT IMAGE>/g;
+
+  const embedded = article.body.match(regex) ? true : false;
 
   //console.log(article);
 
@@ -217,13 +223,22 @@ function Article({
                   />
 
                   {article.media[0]?.url ? (
-                    <ArticleImage article={article} classNames={classNames} />
+                    <ArticleImage
+                      article={article}
+                      classNames={classNames}
+                      embedded={embedded}
+                    />
                   ) : null}
                 </header>
 
                 <Divider className={classNames.divider} />
 
-                <HTML html={article.body} />
+                <HTML
+                  html={article.body}
+                  embedded={embedded}
+                  media={article.media}
+                  classNames={classNames}
+                />
               </Semantic>
             </Semantic>
 
@@ -258,14 +273,19 @@ function Article({
 
 Article.getInitialProps = async (ctx: NextPageContext) => {
   let article = null;
+  //let embedded = false;
+  //const regex = /<INSERT IMAGE>/g;
+
   try {
     article = await getArticlePreview({
       id: processNextQueryStringParam(ctx.query.id),
     });
-    //console.log(`article = ${article}`);
+    //console.log("article in getInitialProps = ", article);
   } catch (e) {
     //console.log(e);
   }
+
+  console.log("article in getInitialProps = ", article);
 
   const keywords = [...(article?.tags ?? []), article?.category].join(", ");
 
@@ -285,6 +305,13 @@ Article.getInitialProps = async (ctx: NextPageContext) => {
     seo.imageSrc = media.url;
     seo.imageAlt = `${media.description} – Photo by ${media.credits}`;
   }
+
+  // if (article?.body) {
+  //   const found = article.body.match(regex);
+  //   if (found) {
+  //     embedded = true;
+  //   }
+  // }
 
   return {
     initialArticle: article,

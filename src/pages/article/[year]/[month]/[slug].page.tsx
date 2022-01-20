@@ -223,7 +223,11 @@ function Article({
                   />
 
                   {article.media[0]?.url ? (
-                    <ArticleImage article={article} classNames={classNames} />
+                    <ArticleImage
+                      article={article}
+                      classNames={classNames}
+                      embedded={embedded}
+                    />
                   ) : null}
                 </header>
                 <Divider className={classNames.divider} />
