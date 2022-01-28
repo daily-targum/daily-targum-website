@@ -213,6 +213,7 @@ export async function getArticle({
   id,
   slug,
 }: GetArtcileById | GetArtcileBySlug): Promise<Article> {
+  //console.log("the slug = ", slug);
   const res: any = await client.query({
     query: id
       ? // Get article by id
@@ -281,7 +282,7 @@ export async function getArticle({
       slug,
     },
   });
-  //console.log(res);
+  //console.log("getArticle res = ", res.data.getArticleBySlug.media);
   return id ? res.data.getArticle : res.data.getArticleBySlug;
 }
 
@@ -291,15 +292,27 @@ export async function getArticlePreview({
   id: string;
 }): Promise<GetArticle> {
   const res: any = await previewClient.getEntry(id);
-  //console.log(res);
+
 
   const { documentToHtmlString } = await import(
     "@contentful/rich-text-html-renderer"
   );
 
+  const { BLOCKS } = await import("@contentful/rich-text-types");
+
+  const options = {
+    renderNode: {
+      [BLOCKS.EMBEDDED_ENTRY]: () => "<INSERT IMAGE>",
+    },
+  };
+
   const imgFields = res.fields.image?.fields;
   const gallery = res.fields.gallery;
+  const bodyImages = res.fields.bodyImages;
   let galleryArray = null;
+  let mediaArray = null;
+  let bodyImagesArray = null;
+  let bodyImagesMedia = null;
   if (gallery) {
     galleryArray = gallery.map((image: any) => ({
       id: image.sys.id ?? "",
@@ -310,10 +323,50 @@ export async function getArticlePreview({
       credits: "",
     }));
   }
-
   let img = "";
   if (imgFields && imgFields.file) {
     img = JSON.parse(imgFields.file).url;
+  }
+
+  mediaArray = [
+    {
+      id: res.fields.image?.sys.id ?? "",
+      url: img ?? "",
+      title: imgFields?.title,
+      description: imgFields?.caption,
+      altText: null,
+      credits: imgFields?.credits,
+    },
+  ];
+
+  if (bodyImages) {
+    bodyImagesArray = bodyImages.content.filter(
+      (bodyImage: any) => bodyImage.nodeType === "embedded-entry-block"
+    );
+    // console.log(
+    //   "testing = ",
+    //   JSON.parse(bodyImagesArray[0].data.target.fields.file).url
+    // );
+    bodyImagesMedia = bodyImagesArray.map((bodyImage: any) => {
+      let url = "";
+      try {
+        url = JSON.parse(bodyImage.data.target.fields.file).url;
+      } catch (e) {
+        url = bodyImage.data.target.fields.file;
+      }
+      return {
+        id: bodyImage.data.target.sys.id ?? "",
+        url: url,
+        title: bodyImage.data.target.fields.name,
+        description: bodyImage.data.target.fields.caption,
+        altText: null,
+        credits: bodyImage.data.target.fields.credits,
+      };
+    });
+
+    mediaArray = mediaArray.concat(bodyImagesMedia);
+  } else if (gallery) {
+    mediaArray = mediaArray.concat(galleryArray);
   }
 
   return {
@@ -324,31 +377,14 @@ export async function getArticlePreview({
       displayName: a.fields.displayName,
       slug: "",
     })),
-    media: gallery
-      ? [
-          {
-            id: res.fields.image?.sys.id ?? "",
-            url: img ?? "",
-            title: imgFields?.title,
-            description: imgFields?.caption,
-            altText: null,
-            credits: imgFields?.credits,
-          },
-        ].concat(galleryArray)
-      : [
-          {
-            id: res.fields.image?.sys.id ?? "",
-            url: img ?? "",
-            title: imgFields?.title,
-            description: imgFields?.caption,
-            altText: null,
-            credits: imgFields?.credits,
-          },
-        ],
+    media: mediaArray,
     publishDate: dayjs(res.sys.updatedAt, { utc: true }).valueOf() / 1000,
     updatedAt: dayjs(res.sys.updatedAt, { utc: true }).valueOf() / 1000,
     slug: res.fields.slug,
-    body: documentToHtmlString(res.fields.body),
+    body: documentToHtmlString(
+      res.fields.bodyImages ? res.fields.bodyImages : res.fields.body,
+      options
+    ),
     category: "",
     abstract: "",
     tags: [],

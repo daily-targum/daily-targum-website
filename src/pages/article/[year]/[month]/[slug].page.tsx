@@ -139,9 +139,11 @@ function ShareSidebar({ article }: { article: GetArticle }) {
 function Article({
   article,
   articles,
+  embedded,
 }: {
   article: GetArticle;
   articles: GetArticles;
+  embedded: boolean;
 }) {
   const router = useRouter();
   if (router.isFallback) {
@@ -160,7 +162,12 @@ function Article({
   // const photoDescription = extractTextFromHTML(
   //   article.media[0]?.description ?? ""
   // );
-  // console.log(article);
+  //console.log(article);
+  //if (embedded) {
+  //  console.log("Embedded article");
+  //} else {
+  //  console.log("not an embedded article");
+  //}
 
   return (
     <>
@@ -216,12 +223,21 @@ function Article({
                   />
 
                   {article.media[0]?.url ? (
-                    <ArticleImage article={article} classNames={classNames} />
+                    <ArticleImage
+                      article={article}
+                      classNames={classNames}
+                      embedded={embedded}
+                    />
                   ) : null}
                 </header>
                 <Divider className={classNames.divider} />
 
-                <HTML html={article.body} />
+                <HTML
+                  html={article.body}
+                  embedded={embedded}
+                  media={article.media}
+                  classNames={classNames}
+                />
               </Semantic>
 
               <RelatedArticles
@@ -261,9 +277,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const year = processNextQueryStringParam(ctx.params?.year, "");
   const month = processNextQueryStringParam(ctx.params?.month, "");
   const slug = processNextQueryStringParam(ctx.params?.slug, "");
+  const regex = /<INSERT IMAGE>/g;
 
   let article = null;
   let articles = null;
+  let embedded = false;
   try {
     article = await actions.getArticle({
       slug: `article/${year}/${month}/${slug}`,
@@ -321,11 +339,19 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     seo.canonical = preferedSlug;
   }
 
+  if (article?.body) {
+    const found = article.body.match(regex);
+    if (found) {
+      embedded = true;
+    }
+  }
+
   return {
     props: {
       article: article ?? null,
       articles: articles ?? null,
       seo,
+      embedded: embedded,
     },
     revalidate: next.staticPropsRevalidateSeconds,
   };

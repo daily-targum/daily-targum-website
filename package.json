@@ -106,6 +106,7 @@
     "react-redux": "7.2.4",
     "react-share": "^4.4.0",
     "react-social-icons": "^5.5.0",
+    "react-string-replace": "^0.4.4",
     "react-swipeable": "6.1.2",
     "redux": "4.1.0",
     "redux-devtools-extension": "2.13.9",
