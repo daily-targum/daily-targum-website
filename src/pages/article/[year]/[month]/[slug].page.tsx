@@ -162,7 +162,7 @@ function Article({
   // const photoDescription = extractTextFromHTML(
   //   article.media[0]?.description ?? ""
   // );
-  // console.log(article);
+  console.log(article);
   //if (embedded) {
   //  console.log("Embedded article");
   //} else {
