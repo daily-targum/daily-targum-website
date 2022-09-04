@@ -72,6 +72,10 @@ const navbarLinks: {
     title: "About",
     href: "/page/about",
   },
+  {
+    title: "Subscribe",
+    href: "http://eepurl.com/5lVdv",
+  },
 ];
 
 function MobileMenu() {
@@ -231,34 +235,36 @@ export function Navbar() {
                     <Logo className={classNames.logo} />
                   </Link>
 
-                  <div className={classNames.links}>
-                    {navbarLinks
-                      .filter((l) => !l.mobileOnly)
-                      .map((link) => (
-                        <Link
-                          key={link.href}
-                          href={link.href}
-                          label={link.ariaLabel}
-                          className={cn(classNames.link, {
-                            [classNames.linkActive]:
-                              link.href === router.asPath,
-                          })}
-                        >
-                          <span>{link.title}</span>
-                        </Link>
-                      ))}
+                  <div style={{ display: "flex" }}>
+                    <div className={classNames.links}>
+                      {navbarLinks
+                        .filter((l) => !l.mobileOnly)
+                        .map((link) => (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            label={link.ariaLabel}
+                            className={cn(classNames.link, {
+                              [classNames.linkActive]:
+                                link.href === router.asPath,
+                            })}
+                          >
+                            <span>{link.title}</span>
+                          </Link>
+                        ))}
+                    </div>
+
+                    <Search.PreviewBackdrop />
+
+                    <Search.Input
+                      width={175}
+                      size={2.1}
+                      enabled={!mobileMenuVisible && !searchHijacked}
+                      onSubmit={() => {
+                        router.push("/search", undefined, { shallow: true });
+                      }}
+                    />
                   </div>
-
-                  <Search.PreviewBackdrop />
-
-                  <Search.Input
-                    width={175}
-                    size={2.1}
-                    enabled={!mobileMenuVisible && !searchHijacked}
-                    onSubmit={() => {
-                      router.push("/search", undefined, { shallow: true });
-                    }}
-                  />
                 </div>
               </Grid.Display>
 
