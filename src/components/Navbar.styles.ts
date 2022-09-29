@@ -1,7 +1,7 @@
-import css from 'styled-jsx/css';
-import { styleHelpers, buildStyleSheet } from '../utils';
+import css from "styled-jsx/css";
+import { styleHelpers, buildStyleSheet } from "../utils";
 
-const HEIGHT = '60px';
+const HEIGHT = "100px";
 
 const navbarWrap = css.resolve`
   * {
@@ -15,11 +15,11 @@ const navbarWrap = css.resolve`
 
 const navbar = css.resolve`
   * {
-    background-color: ${styleHelpers.color('navbar')};
+    background-color: ${styleHelpers.color("navbar")};
     backdrop-filter: saturate(180%) blur(10px);
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    border-bottom-color: ${styleHelpers.color('divider')};
+    border-bottom-color: ${styleHelpers.color("divider")};
     height: ${HEIGHT};
     overflow: visible;
   }
@@ -27,7 +27,7 @@ const navbar = css.resolve`
 
 const opaque = css.resolve`
   * {
-    background-color: ${styleHelpers.color('surface')};
+    background-color: ${styleHelpers.color("surface")};
   }
 `;
 
@@ -45,7 +45,7 @@ const navbarSpacer = css.resolve`
 
 const inner = css.resolve`
   * {
-    ${styleHelpers.flex('row')};
+    ${styleHelpers.flex("column")};
     flex: 1;
     width: 100%;
     justify-content: space-between;
@@ -54,7 +54,6 @@ const inner = css.resolve`
   }
 `;
 
-
 const noPadding = css.resolve`
   * {
     padding: 0;
@@ -62,33 +61,30 @@ const noPadding = css.resolve`
   }
 `;
 
-
 const logo = css.resolve`
   * {
-    width: 175px;
+    width: 300px;
     height: auto;
     margin-top: 8px;
-    color: ${styleHelpers.color('text')};
+    color: ${styleHelpers.color("text")};
   }
 `;
 
-
 const links = css.resolve`
   * {
-    ${styleHelpers.flex('row')};
+    ${styleHelpers.flex("row")};
     justify-content: flex-end;
     align-items: center;
   }
 `;
 
-
 const link = css.resolve`
   * {
     text-decoration: none;
-    color: ${styleHelpers.color('text')};
+    color: ${styleHelpers.color("text")};
     margin: ${styleHelpers.spacing(0, 1)};
     padding: ${styleHelpers.spacing(1)};
-    height: ${HEIGHT};
+    height: 35px;
     align-items: center;
     display: flex;
     border-width: 0;
@@ -96,55 +92,52 @@ const link = css.resolve`
     border-top-width: 2px;
     border-color: transparent;
     border-style: solid;
-    transition: border-bottom-color ${styleHelpers.timing(1)}, color ${styleHelpers.timing(1)};
+    transition: border-bottom-color ${styleHelpers.timing(1)},
+      color ${styleHelpers.timing(1)};
   }
 
   *:hover {
-    color: ${styleHelpers.color('accent_main')};
-    border-bottom-color: ${styleHelpers.color('accent_main')};
+    color: ${styleHelpers.color("accent_main")};
+    border-bottom-color: ${styleHelpers.color("accent_main")};
   }
 `;
-
 
 const mobileLink = css.resolve`
   * {
     ${styleHelpers.hideLink()};
     font-size: calc(18px + 2vw);
-    color: ${styleHelpers.color('text')};
+    color: ${styleHelpers.color("text")};
     margin-bottom: ${styleHelpers.spacing(3)};
     cursor: pointer;
   }
 
   *:hover {
-    color: ${styleHelpers.color('accent_main')};
-    border-bottom-color: ${styleHelpers.color('accent_main')};
+    color: ${styleHelpers.color("accent_main")};
+    border-bottom-color: ${styleHelpers.color("accent_main")};
   }
 `;
-
 
 const linkActive = css.resolve`
   * {
-    color: ${styleHelpers.color('accent_main')};
-    border-bottom-color: ${styleHelpers.color('accent_main')};
+    color: ${styleHelpers.color("accent_main")};
+    border-bottom-color: ${styleHelpers.color("accent_main")};
   }
 `;
 
-
 const mobileMenu = css.resolve`
   * {
-    ${styleHelpers.flex('column')};
+    ${styleHelpers.flex("column")};
     ${styleHelpers.absoluteFill()};
     max-width: 100vw;
     position: fixed;
-    background-color: ${styleHelpers.color('surface')};
+    background-color: ${styleHelpers.color("surface")};
     padding: ${styleHelpers.spacing(2.5)};
     margin-top: ${HEIGHT};
     z-index: -1;
     align-items: flex-start;
-    border-left: 1px solid ${styleHelpers.color('divider')};
+    border-left: 1px solid ${styleHelpers.color("divider")};
   }
 `;
-
 
 const fadeOut = css.resolve`
   * {
@@ -154,7 +147,6 @@ const fadeOut = css.resolve`
   }
 `;
 
-
 const fadeIn = css.resolve`
   * {
     visibility: visible;
@@ -163,13 +155,11 @@ const fadeIn = css.resolve`
   }
 `;
 
-
 const icon = css.resolve`
   * {
-    color: ${styleHelpers.color('text')};
+    color: ${styleHelpers.color("text")};
   }
 `;
-
 
 const search = css.resolve`
   * {
@@ -182,7 +172,6 @@ const containScroll = css.resolve`
     overscroll-behavior: contain;
   }
 `;
-
 
 export default buildStyleSheet({
   navbarWrap,
@@ -201,5 +190,5 @@ export default buildStyleSheet({
   icon,
   search,
   containScroll,
-  opaque
+  opaque,
 });
