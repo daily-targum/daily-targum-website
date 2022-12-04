@@ -16719,10 +16719,10 @@ react-sizeme@^3.0.1:
     shallowequal "^1.1.0"
     throttle-debounce "^3.0.1"
 
-react-social-icons@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/react-social-icons/-/react-social-icons-5.5.0.tgz#cc5943f8145424b8c1853eaedfb070e645978c9c"
-  integrity sha512-ohSI5UqIRV+Vd34I1ikAT6R3R/pzgy5uAXVXZBMKDsnSv1O7nE5Yp2RXMygbSo84fpljKBqNGVxAU09xz+qKmw==
+react-social-icons@^5.15.0:
+  version "5.15.0"
+  resolved "https://registry.yarnpkg.com/react-social-icons/-/react-social-icons-5.15.0.tgz#6b815aab9eff210e1f6e8a4ca420684aa72c154a"
+  integrity sha512-khfDgUiUwEBe34T6br2+mkXQg3hLVDdviVjexxZoVCsogMgxTy/m8+KlX/j6Wa7P2BPxgZ7yZ2jXw3X06pUUFQ==
   dependencies:
     prop-types "^15.7.2"
 
