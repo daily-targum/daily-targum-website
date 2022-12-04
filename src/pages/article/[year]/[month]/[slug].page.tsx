@@ -171,6 +171,10 @@ function Article({
 
   return (
     <>
+      <script
+        src="https://narrativ-source-public.s3.amazonaws.com/narrativ-player.js"
+        defer
+      ></script>
       <Section className={classNames.page}>
         <Grid.Row
           spacing={theme.spacing(3)}
