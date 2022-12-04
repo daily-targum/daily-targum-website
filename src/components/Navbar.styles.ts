@@ -1,7 +1,7 @@
 import css from "styled-jsx/css";
 import { styleHelpers, buildStyleSheet } from "../utils";
 
-const HEIGHT = "100px";
+const HEIGHT = "125px";
 
 const navbarWrap = css.resolve`
   * {
@@ -63,7 +63,7 @@ const noPadding = css.resolve`
 
 const logo = css.resolve`
   * {
-    width: 300px;
+    width: 425px;
     height: auto;
     margin-top: 8px;
     color: ${styleHelpers.color("text")};
@@ -84,7 +84,7 @@ const link = css.resolve`
     color: ${styleHelpers.color("text")};
     margin: ${styleHelpers.spacing(0, 1)};
     padding: ${styleHelpers.spacing(1)};
-    height: 35px;
+    height: 40px;
     align-items: center;
     display: flex;
     border-width: 0;

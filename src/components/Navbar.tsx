@@ -15,7 +15,9 @@ import FocusTrap from "focus-trap-react";
 import { Twirl as Hamburger } from "hamburger-react";
 import { useAmp } from "next/amp";
 import dynamic from "next/dynamic";
+import { SocialIcon } from "react-social-icons";
 import Styles from "./Navbar.styles";
+import { styleHelpers } from "../utils";
 const { classNames, StyleSheet } = Styles;
 
 export const ScrollLock = dynamic(() => import("./ScrollLock"), {
@@ -75,6 +77,32 @@ const navbarLinks: {
   {
     title: "Subscribe",
     href: "http://eepurl.com/5lVdv",
+  },
+];
+
+const socialMedia: {
+  network: string;
+  url: string;
+}[] = [
+  {
+    network: "facebook",
+    url: "https://www.facebook.com/thedailytargum/",
+  },
+  {
+    network: "instagram",
+    url: "https://www.instagram.com/dailytargum/",
+  },
+  {
+    network: "twitter",
+    url: "https://twitter.com/daily_targum/",
+  },
+  {
+    network: "linkedin",
+    url: "https://www.linkedin.com/company/the-daily-targum-official/",
+  },
+  {
+    network: "youtube",
+    url: "https://www.youtube.com/user/targummultimedia",
   },
 ];
 
@@ -264,6 +292,22 @@ export function Navbar() {
                         router.push("/search", undefined, { shallow: true });
                       }}
                     />
+                    {socialMedia.map((media) => (
+                      <SocialIcon
+                        target="_blank"
+                        key={media.network}
+                        fgColor={styleHelpers.color("navbar")}
+                        bgColor={styleHelpers.color("text")}
+                        network={media.network}
+                        url={media.url}
+                        style={{
+                          marginLeft: "2.5px",
+                          marginRight: "2.5px",
+                          width: "30px",
+                          height: "30px",
+                        }}
+                      />
+                    ))}
                   </div>
                 </div>
               </Grid.Display>
