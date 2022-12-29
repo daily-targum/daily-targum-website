@@ -1,5 +1,6 @@
 import css from "styled-jsx/css";
 import { styleHelpers, buildStyleSheet } from "../utils";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const HEIGHT = "125px";
 
@@ -60,6 +61,13 @@ const noPadding = css.resolve`
     margin: 0;
   }
 `;
+
+const subscribe = css.resolve`
+  * {
+      height: '30px',
+      color: 'red'
+  }
+`
 
 const logo = css.resolve`
   * {
@@ -191,4 +199,5 @@ export default buildStyleSheet({
   search,
   containScroll,
   opaque,
+  subscribe
 });

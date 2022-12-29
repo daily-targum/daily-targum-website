@@ -53,7 +53,7 @@ export * from "./ImageFigure";
 export const Ad = dynamic(() => import("./Ad"), {
   ssr: false,
 });
-
+ 
 export const AdSense = dynamic(() => import("./AdSense"), {
   ssr: false,
 });

@@ -7,6 +7,7 @@ const bannerWrap = css.resolve`
     ${styleHelpers.flex('row')}
     justify-content: center;
     overflow: hidden;
+    width: 85%;
   }
 
   @media print {

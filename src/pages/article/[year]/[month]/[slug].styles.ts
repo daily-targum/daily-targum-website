@@ -85,7 +85,7 @@ const shareSidebar = css.resolve`
 const shareIcons = css.resolve`
   * {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     margin: ${styleHelpers.spacing(0, -0.25)}; 
   }
@@ -99,7 +99,7 @@ const shareIcon = css.resolve`
 
 const printIcon = css.resolve`
   * {
-    margin: ${styleHelpers.spacing(0.5)};
+    margin: ${styleHelpers.spacing(0.65,2.5)};
     height: 41px;
     width: 41px;
     border-radius: 50%;
