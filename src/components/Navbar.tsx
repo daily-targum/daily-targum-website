@@ -17,7 +17,10 @@ import { useAmp } from "next/amp";
 import dynamic from "next/dynamic";
 import { SocialIcon } from "react-social-icons";
 import Styles from "./Navbar.styles";
+import { Button } from 'react-bootstrap';
 import { styleHelpers } from "../utils";
+
+
 const { classNames, StyleSheet } = Styles;
 
 export const ScrollLock = dynamic(() => import("./ScrollLock"), {
@@ -65,19 +68,19 @@ const navbarLinks: {
     href: "/section/humans-of-rutgers",
     ariaLabel: "Humans of Rutgers",
   },
-  {
-    title: "Donate",
-    href: "https://www.paypal.com/donate/?hosted_button_id=GPJZ5VKSNUBRQ",
-    ariaLabel: "Donate",
-  },
+  // {
+  //   title: "Donate",
+  //   href: "https://www.paypal.com/donate/?hosted_button_id=GPJZ5VKSNUBRQ",
+  //   ariaLabel: "Donate",
+  // },
   {
     title: "About",
     href: "/page/about",
   },
-  {
-    title: "Subscribe",
-    href: "http://eepurl.com/5lVdv",
-  },
+  // {
+  //   title: "Subscribe",
+  //   href: "http://eepurl.com/5lVdv",
+  // },
 ];
 
 const socialMedia: {
@@ -105,6 +108,7 @@ const socialMedia: {
     url: "https://www.youtube.com/user/targummultimedia",
   },
 ];
+
 
 function MobileMenu() {
   const isVisible = useSelector((s) => s.navigation.mobileMenuVisible);
@@ -247,6 +251,7 @@ export function Navbar() {
             })}
             styleInside={{
               overflow: "visible",
+            
             }}
           >
             <nav>
@@ -263,7 +268,7 @@ export function Navbar() {
                     <Logo className={classNames.logo} />
                   </Link>
 
-                  <div style={{ display: "flex" }}>
+                  <div style={{ display: "flex"}}>
                     <div className={classNames.links}>
                       {navbarLinks
                         .filter((l) => !l.mobileOnly)
@@ -285,7 +290,7 @@ export function Navbar() {
                     <Search.PreviewBackdrop />
 
                     <Search.Input
-                      width={175}
+                      width={375}
                       size={2.1}
                       enabled={!mobileMenuVisible && !searchHijacked}
                       onSubmit={() => {
@@ -308,6 +313,30 @@ export function Navbar() {
                         }}
                       />
                     ))}
+                    <Search.PreviewBackdrop />
+                   <Button href='http://eepurl.com/5lVdv'
+                    style={{
+                      height: "35px",
+                      background: "#000000",
+                      marginLeft: '5px',
+                      border: 'none',
+                      // float: 'left'
+                    }}
+                   >
+                    Subscribe
+                  </Button>
+
+                  <Button href= "https://www.paypal.com/donate/?hosted_button_id=GPJZ5VKSNUBRQ"
+                    style={{
+                      height: "35px",
+                      background: "#000000",
+                      marginLeft: '5px',
+                      border: 'none',
+                    }}
+                   >
+                    Donate
+                  </Button>
+
                   </div>
                 </div>
               </Grid.Display>

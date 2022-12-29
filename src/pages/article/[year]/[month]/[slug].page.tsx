@@ -174,7 +174,7 @@ function Article({
       <Section className={classNames.page}>
         <Grid.Row
           spacing={theme.spacing(3)}
-          cols={["1fr", "1px", "minmax(auto, 65ch)", "1px", "1fr"]}
+          cols={["0fr", "1px", "minmax(auto, 125ch)", "1px", "1fr"]}
           disableGridOnPrit
         >
           <Grid.Col xs={5} xl={1} style={{ height: "100%" }}>
@@ -261,6 +261,8 @@ function Article({
           </Grid.Col>
           <Grid.Col xs={0} md={1} style={{ height: "100%" }}>
             <Sticky>
+              <AdSense type="sidebar" fallback={<Donate.SidebarCard />} />
+              <div style={{height: "1.75ch"}}> </div>
               <AdSense type="sidebar" fallback={<Donate.SidebarCard />} />
             </Sticky>
           </Grid.Col>
