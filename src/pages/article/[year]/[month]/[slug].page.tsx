@@ -58,7 +58,7 @@ function ShareSidebar({ article }: { article: GetArticle }) {
 
   return (
     <div className={classNames.shareSidebar}>
-      <Text variant="h3">Share</Text>
+      {/* <Text variant="h3">Share</Text> */}
       <div className={classNames.shareIcons}>
         <FacebookShareButton
           url={articlePath}
@@ -174,10 +174,10 @@ function Article({
       <Section className={classNames.page}>
         <Grid.Row
           spacing={theme.spacing(3)}
-          cols={["0fr", "1px", "minmax(auto, 125ch)", "1px", "1fr"]}
+          cols={["minmax(auto, 125ch)", "1px", "1fr"]}
           disableGridOnPrit
         >
-          <Grid.Col xs={5} xl={1} style={{ height: "100%" }}>
+          {/* <Grid.Col xs={5} xl={1} style={{ height: "100%" }}>
             <Sticky>
               <ShareSidebar article={article} />
             </Sticky>
@@ -188,7 +188,7 @@ function Article({
             style={{ height: "100%", overflow: "hidden" }}
           >
             <Divider.Vertical />
-          </Grid.Col>
+          </Grid.Col> */}
           <Grid.Col xs={5} md={3} xl={1}>
             <Semantic role="main" skipNavContent pritable>
               {article.category ? (
@@ -217,11 +217,18 @@ function Article({
                       </Text>
                     </div>
                   ) : null}
+
+                  <div style={{
+                    display:'flex',
+                    justifyContent: 'space-between'
+                  }}>
                   <Byline.Authors
                     authors={article.authors}
                     publishDate={article.publishDate}
                   />
 
+                  <ShareSidebar article={article} />
+                  </div>
                   {article.media[0]?.url ? (
                     <ArticleImage
                       article={article}
@@ -263,7 +270,8 @@ function Article({
             <Sticky>
               <AdSense type="sidebar" fallback={<Donate.SidebarCard />} />
               <div style={{height: "1.75ch"}}> </div>
-              <AdSense type="sidebar" fallback={<Donate.SidebarCard />} />
+              <AdSense type="sidebar"/>
+              
             </Sticky>
           </Grid.Col>
         </Grid.Row>
