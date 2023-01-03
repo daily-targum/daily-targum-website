@@ -78,28 +78,30 @@ const category = css.resolve`
 const shareSidebar = css.resolve`
   * {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
   }
 `
 
 const shareIcons = css.resolve`
   * {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
-    margin: ${styleHelpers.spacing(0, -0.25)}; 
+    margin: ${styleHelpers.spacing(3.5, -1.5)}; 
   }
 `
 
 const shareIcon = css.resolve`
   * {
-    margin: ${styleHelpers.spacing(0.5)};
+    margin: ${styleHelpers.spacing(0.25)};
   }
 `
 
+
 const printIcon = css.resolve`
   * {
-    margin: ${styleHelpers.spacing(0.65,2.5)};
+    margin: ${styleHelpers.spacing(.65,0.5)};
     height: 41px;
     width: 41px;
     border-radius: 50%;
