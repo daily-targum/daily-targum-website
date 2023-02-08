@@ -172,7 +172,7 @@ function Article({
   return (
     <>
       <script
-        src="https://narrativ-source-public.s3.amazonaws.com/narrativ-player.js"
+        src="https://narrativ-source-public.s3.amazonaws.com/source/narrativ-player-targum-v01.js"
         defer
       ></script>
       <Section className={classNames.page}>
