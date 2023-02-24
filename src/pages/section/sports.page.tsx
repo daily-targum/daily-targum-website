@@ -138,7 +138,7 @@ function Category({ initialArticles }: { initialArticles: GetArticles }) {
         <Card.Spacer />
         <TagBar
           // THIS IS A HACK
-          tags={subcategories.sort()}
+          tags={subcategories}
           value={selectedTag}
           onChange={setSelectedTag}
         />
