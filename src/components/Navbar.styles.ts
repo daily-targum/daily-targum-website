@@ -1,6 +1,6 @@
 import css from "styled-jsx/css";
 import { styleHelpers, buildStyleSheet } from "../utils";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const HEIGHT = "125px";
 
@@ -67,7 +67,7 @@ const subscribe = css.resolve`
       height: '30px',
       color: 'red'
   }
-`
+`;
 
 const logo = css.resolve`
   * {
@@ -107,6 +107,38 @@ const link = css.resolve`
   *:hover {
     color: ${styleHelpers.color("accent_main")};
     border-bottom-color: ${styleHelpers.color("accent_main")};
+  }
+`;
+
+const buttons = css.resolve`
+  * {
+    ${styleHelpers.flex("row")};
+    justify-content: flex-end;
+    margin-top: 5px;
+    margin-left: 20px;
+  }
+`;
+
+const button = css.resolve`
+  * {
+    text-decoration: none;
+    color: ${styleHelpers.color("text")};
+    margin: ${styleHelpers.spacing(0, 1)};
+    padding: ${styleHelpers.spacing(1)};
+    height: 40px;
+    align-items: center;
+    display: flex;
+    border-width: 0;
+    border-bottom-width: 2px;
+    border-top-width: 2px;
+    border-color: transparent;
+    border-style: solid;
+    transition: border-bottom-color ${styleHelpers.timing(1)},
+      color ${styleHelpers.timing(1)};
+  }
+
+  *:hover {
+    color: ${styleHelpers.color("accent_main")};
   }
 `;
 
@@ -169,6 +201,23 @@ const icon = css.resolve`
   }
 `;
 
+const mediaIcons = css.resolve`
+  * {
+    display: flex;
+    margin-top: 10px;
+    margin-right: 20px;
+  }
+`;
+
+const mediaIcon = css.resolve`
+  * {
+    margin-left: 2.5px;
+    margin-right: 2.5px;
+    width: 30px;
+    height: 30px;
+  }
+`;
+
 const search = css.resolve`
   * {
     margin-bottom: ${styleHelpers.spacing(3)};
@@ -190,14 +239,18 @@ export default buildStyleSheet({
   logo,
   links,
   link,
+  buttons,
+  button,
   mobileLink,
   linkActive,
   mobileMenu,
   fadeOut,
   fadeIn,
   icon,
+  mediaIcon,
+  mediaIcons,
   search,
   containScroll,
   opaque,
-  subscribe
+  subscribe,
 });

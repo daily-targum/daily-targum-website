@@ -17,9 +17,7 @@ import { useAmp } from "next/amp";
 import dynamic from "next/dynamic";
 import { SocialIcon } from "react-social-icons";
 import Styles from "./Navbar.styles";
-import { Button } from 'react-bootstrap';
 import { styleHelpers } from "../utils";
-
 
 const { classNames, StyleSheet } = Styles;
 
@@ -108,7 +106,6 @@ const socialMedia: {
     url: "https://www.youtube.com/user/targummultimedia",
   },
 ];
-
 
 function MobileMenu() {
   const isVisible = useSelector((s) => s.navigation.mobileMenuVisible);
@@ -251,24 +248,70 @@ export function Navbar() {
             })}
             styleInside={{
               overflow: "visible",
-            
             }}
           >
             <nav>
               <Grid.Display xs={false} lg={true} style={{ flex: 1 }}>
                 <div className={classNames.inner}>
-                  <Link
-                    href="/"
-                    label="Go to homepage"
-                    tooltipPosition="none"
-                    onClickSideEffect={() => {
-                      dispatch(navigationActions.closeMobileMenu());
-                    }}
-                  >
-                    <Logo className={classNames.logo} />
-                  </Link>
+                  <div style={{ display: "flex" }}>
+                    <div className={classNames.mediaIcons}>
+                      {socialMedia.map((media) => (
+                        <SocialIcon
+                          target="_blank"
+                          key={media.network}
+                          fgColor={styleHelpers.color("navbar")}
+                          bgColor={styleHelpers.color("text")}
+                          network={media.network}
+                          url={media.url}
+                          style={{
+                            marginLeft: "2.5px",
+                            marginRight: "2.5px",
+                            width: "30px",
+                            height: "30px",
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <Link
+                      href="/"
+                      label="Go to homepage"
+                      tooltipPosition="none"
+                      onClickSideEffect={() => {
+                        dispatch(navigationActions.closeMobileMenu());
+                      }}
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        alignItems: "center",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
+                      <Logo className={classNames.logo} />
+                    </Link>
+                    <div className={classNames.buttons}>
+                      <Link
+                        href="http://eepurl.com/5lVdv"
+                        className={cn(classNames.button, {
+                          [classNames.linkActive]:
+                            "http://eepurl.com/5lVdv" === router.asPath,
+                        })}
+                      >
+                        <span>Subscribe</span>
+                      </Link>
+                      <Link
+                        href="https://www.paypal.com/donate/?hosted_button_id=GPJZ5VKSNUBRQ"
+                        className={cn(classNames.button, {
+                          [classNames.linkActive]:
+                            "https://www.paypal.com/donate/?hosted_button_id=GPJZ5VKSNUBRQ" ===
+                            router.asPath,
+                        })}
+                      >
+                        <span>Donate</span>
+                      </Link>
+                    </div>
+                  </div>
 
-                  <div style={{ display: "flex"}}>
+                  <div style={{ display: "flex" }}>
                     <div className={classNames.links}>
                       {navbarLinks
                         .filter((l) => !l.mobileOnly)
@@ -297,46 +340,7 @@ export function Navbar() {
                         router.push("/search", undefined, { shallow: true });
                       }}
                     />
-                    {socialMedia.map((media) => (
-                      <SocialIcon
-                        target="_blank"
-                        key={media.network}
-                        fgColor={styleHelpers.color("navbar")}
-                        bgColor={styleHelpers.color("text")}
-                        network={media.network}
-                        url={media.url}
-                        style={{
-                          marginLeft: "2.5px",
-                          marginRight: "2.5px",
-                          width: "30px",
-                          height: "30px",
-                        }}
-                      />
-                    ))}
                     <Search.PreviewBackdrop />
-                   <Button href='http://eepurl.com/5lVdv'
-                    style={{
-                      height: "35px",
-                      background: "#000000",
-                      marginLeft: '5px',
-                      border: 'none',
-                      // float: 'left'
-                    }}
-                   >
-                    Subscribe
-                  </Button>
-
-                  <Button href= "https://www.paypal.com/donate/?hosted_button_id=GPJZ5VKSNUBRQ"
-                    style={{
-                      height: "35px",
-                      background: "#000000",
-                      marginLeft: '5px',
-                      border: 'none',
-                    }}
-                   >
-                    Donate
-                  </Button>
-
                   </div>
                 </div>
               </Grid.Display>
