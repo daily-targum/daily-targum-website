@@ -2,7 +2,10 @@
   "name": "daily-targum-website",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/daily-targum/daily-targum-website",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daily-targum/daily-targum-website.git"
+  },
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -131,5 +134,12 @@
     "not ie 11",
     "not dead",
     "not op_mini all"
-  ]
+  ],
+  "description": "![The Daily Targum App - Banner](https://i.ibb.co/L5TtWGR/github-banner.png)",
+  "bugs": {
+    "url": "https://github.com/daily-targum/daily-targum-website/issues"
+  },
+  "homepage": "https://github.com/daily-targum/daily-targum-website#readme",
+  "keywords": [],
+  "author": ""
 }

@@ -174,7 +174,7 @@ function Article({
       <Section className={classNames.page}>
         <Grid.Row
           spacing={theme.spacing(3)}
-          cols={["minmax(auto, 125ch)", "1px", "1fr"]}
+          cols={["minmax(auto, 115ch)", "1px", "1fr"]}
           disableGridOnPrit
         >
           {/* <Grid.Col xs={5} xl={1} style={{ height: "100%" }}>
@@ -296,7 +296,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     article = await actions.getArticle({
       slug: `article/${year}/${month}/${slug}`,
     });
-    //console.log(article);
   } catch (e) {}
   try {
     //console.log(article?.tags?.slice(0, 4));

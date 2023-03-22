@@ -45,7 +45,7 @@ const AdBase = React.memo(({
         ...style
       }}
       data-ad-client={adClient}
-      data-ad-slot="1207418447"
+      data-ad-slot="8591084445"
       data-ad-format="auto"
       data-full-width-responsive="true"
     />
@@ -56,7 +56,7 @@ const presets = {
   sidebar: {
     height: 300,
     adClient: "ca-pub-5742802668542373",
-    adSlot: "3541862442"
+    adSlot: "8591084445"
   }
 }
 
