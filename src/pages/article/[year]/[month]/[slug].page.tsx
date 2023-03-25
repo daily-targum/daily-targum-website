@@ -146,6 +146,22 @@ function Article({
   embedded: boolean;
 }) {
   const router = useRouter();
+
+  React.useEffect(() => {
+    console.log("i just ran");
+    const script = document.createElement("script");
+
+    script.src =
+      "https://narrativ-source-public.s3.amazonaws.com/source/narrativ-player-targum-v01.js";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [router.asPath]);
+
   if (router.isFallback) {
     return <ActivityIndicator.Screen />;
   }
@@ -157,17 +173,6 @@ function Article({
   if (!articles) {
     return <NotFound />;
   }
-
-  // const photoCredit = article.media[0]?.credits;
-  // const photoDescription = extractTextFromHTML(
-  //   article.media[0]?.description ?? ""
-  // );
-  //console.log(article);
-  //if (embedded) {
-  //  console.log("Embedded article");
-  //} else {
-  //  console.log("not an embedded article");
-  //}
 
   return (
     <>
