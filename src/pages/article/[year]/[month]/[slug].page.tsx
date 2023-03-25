@@ -146,28 +146,6 @@ function Article({
   embedded: boolean;
 }) {
   const router = useRouter();
-  if (router.isFallback) {
-    return <ActivityIndicator.Screen />;
-  }
-
-  if (!article) {
-    return <NotFound />;
-  }
-
-  if (!articles) {
-    return <NotFound />;
-  }
-
-  // const photoCredit = article.media[0]?.credits;
-  // const photoDescription = extractTextFromHTML(
-  //   article.media[0]?.description ?? ""
-  // );
-  //console.log(article);
-  //if (embedded) {
-  //  console.log("Embedded article");
-  //} else {
-  //  console.log("not an embedded article");
-  //}
 
   React.useEffect(() => {
     console.log("i just ran");
@@ -183,6 +161,18 @@ function Article({
       document.body.removeChild(script);
     };
   }, [router.asPath]);
+
+  if (router.isFallback) {
+    return <ActivityIndicator.Screen />;
+  }
+
+  if (!article) {
+    return <NotFound />;
+  }
+
+  if (!articles) {
+    return <NotFound />;
+  }
 
   return (
     <>
