@@ -51,7 +51,8 @@ interface CustomAppProps extends AppProps {
 
 function App({ Component, pageProps, err }: CustomAppProps) {
   const isAmp = useAmp();
-  const seo = pageProps.seo ?? {};
+  //const seo = pageProps.seo ?? {};
+  const seo = {};
 
   return (
     <>
