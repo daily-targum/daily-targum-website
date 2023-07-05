@@ -3,10 +3,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -18,16 +15,18 @@
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
+    "types": ["node", "jest"],
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "incremental": true
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": [
     "**/*.ts",
-    "**/*.tsx", "src/pages/section/[section].tsx.disabled", "src/pages/_document.page.tsx.txt"
+    "**/*.tsx",
+    "src/pages/section/[section].tsx.disabled",
+    "src/pages/_document.page.tsx.txt"
   ]
 }
