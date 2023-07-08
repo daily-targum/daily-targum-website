@@ -36,6 +36,9 @@ module.exports = withBundleAnalyzer(
         path.join(__dirname, "node_modules"),
       ],
     },
+    experimental: {
+      newNextLinkBehavior: false,
+    },
     webpack: (config, options) => {
       config.plugins.push(
         new options.webpack.IgnorePlugin({ resourceRegExp: /\/__tests__\// })
