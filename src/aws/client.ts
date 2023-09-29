@@ -25,7 +25,7 @@ const link = setContext((_, { headers }) => {
     }
   }
 });
-console.log(httpLink)
+
 export const client = new ApolloClient({
   link: link.concat(httpLink),
   cache: new InMemoryCache()

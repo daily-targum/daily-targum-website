@@ -134,8 +134,8 @@ function PodcastComponent({
         <CoverImage podcast={podcast} />
       </Grid.Col>
       <Grid.Col xs={2} md={1} className={classNames.podcastBody}>
-        <Text variant="h1">{"Scarlet Sitdown"}</Text>
-        <Text variant="p">{"The Scarlet Sitdown is a podcast dedicated to having front-and-center interviews with Rutgers athletes and The Daily Targum sports beat writers to cover everything that goes on in Rutgers athletics. Join sports editors Ellis Gordon and Josh Meyers as they converse with special guests to dive into Rutgers sports and other fun topics."}</Text>
+        <Text variant="h1">{podcast.title}</Text>
+        <Text variant="p">{podcast.description}</Text>
         <PodcastLinks show={podcast.title} />
       </Grid.Col>
       <Grid.Col xs={0} md={1}>
