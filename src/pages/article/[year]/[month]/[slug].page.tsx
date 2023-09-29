@@ -146,6 +146,21 @@ function Article({
   embedded: boolean;
 }) {
   const router = useRouter();
+
+  React.useEffect(() => {
+    const script = document.createElement("script");
+
+    script.src =
+      "https://narrativ-source-public.s3.amazonaws.com/source/narrativ-player-targum-v01.js";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [router.asPath]);
+
   if (router.isFallback) {
     return <ActivityIndicator.Screen />;
   }
@@ -158,19 +173,12 @@ function Article({
     return <NotFound />;
   }
 
-  // const photoCredit = article.media[0]?.credits;
-  // const photoDescription = extractTextFromHTML(
-  //   article.media[0]?.description ?? ""
-  // );
-  //console.log(article);
-  //if (embedded) {
-  //  console.log("Embedded article");
-  //} else {
-  //  console.log("not an embedded article");
-  //}
-
   return (
     <>
+      <script
+        src="https://narrativ-source-public.s3.amazonaws.com/source/narrativ-player-targum-v01.js"
+        defer
+      ></script>
       <Section className={classNames.page}>
         <Grid.Row
           spacing={theme.spacing(3)}
@@ -218,16 +226,18 @@ function Article({
                     </div>
                   ) : null}
 
-                  <div style={{
-                    display:'flex',
-                    justifyContent: 'space-between'
-                  }}>
-                  <Byline.Authors
-                    authors={article.authors}
-                    publishDate={article.publishDate}
-                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Byline.Authors
+                      authors={article.authors}
+                      publishDate={article.publishDate}
+                    />
 
-                  <ShareSidebar article={article} />
+                    <ShareSidebar article={article} />
                   </div>
                   {article.media[0]?.url ? (
                     <ArticleImage
@@ -269,9 +279,8 @@ function Article({
           <Grid.Col xs={0} md={1} style={{ height: "100%" }}>
             <Sticky>
               <AdSense type="sidebar" fallback={<Donate.SidebarCard />} />
-              <div style={{height: "1.75ch"}}> </div>
-              <AdSense type="sidebar"/>
-              
+              <div style={{ height: "1.75ch" }}> </div>
+              <AdSense type="sidebar" />
             </Sticky>
           </Grid.Col>
         </Grid.Row>
