@@ -18,7 +18,7 @@ jobs:
           key: v1-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
       - name: Yarn Install
         if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+        run: yarn 
   test-lint:
     name: Test - Lint
     runs-on: ubuntu-latest
