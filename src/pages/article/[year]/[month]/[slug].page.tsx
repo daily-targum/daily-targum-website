@@ -386,4 +386,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 // export const config = { amp: 'hybrid' }
 
+// New push 
 export default Article;
+
