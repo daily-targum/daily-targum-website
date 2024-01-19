@@ -26,10 +26,10 @@ const links = {
       title: "Donate",
       href: "https://www.paypal.com/donate/?hosted_button_id=GPJZ5VKSNUBRQ",
     },
-    {
-      title: "Alumni",
-      href: "/page/alumni",
-    },
+    // {
+    //   title: "Alumni",
+    //   href: "/page/alumni",
+    // },
     {
       title: "Privacy Policy",
       href: "/page/privacy-policy",
