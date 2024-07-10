@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Node GYP
-        run: sudo npm install -g node-gyp --force
+        run: sudo npm install -g node-gyp
       - name: Yarn Install
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
