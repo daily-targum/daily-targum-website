@@ -1,5 +1,5 @@
 ![The Daily Targum App - Banner](https://i.ibb.co/L5TtWGR/github-banner.png)
-
+ 
 <p align="center">
   <a href='https://github.com/daily-targum/daily-targum-website/actions'>
     <img src='https://github.com/daily-targum/daily-targum-website/workflows/Deploy/badge.svg'>
